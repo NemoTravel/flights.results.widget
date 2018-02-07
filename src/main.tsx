@@ -18,19 +18,24 @@ interface Config {
 }
 
 interface ApplicationState {
-	locale: Language;
+	config: Config;
 }
 
-const initialState: ApplicationState = {
+const initalConfig: Config = {
+	rootElement: document.getElementById('root'),
 	locale: Language.English
 };
 
-const rootReducer = (state: ApplicationState = initialState, action: AnyAction): ApplicationState => {
+const initialState: ApplicationState = {
+	config: initalConfig
+};
+
+const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationState => {
 	return state;
 };
 
 export const init = (config: Config) => {
-	const store = createStore<ApplicationState>(rootReducer);
+	const store = createStore<ApplicationState>(rootReducer, { ...initialState, config });
 
 	ReactDOM.render(<Provider store={store}>
 		<Main/>

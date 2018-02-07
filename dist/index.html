@@ -35,9 +35,33 @@
             height: 66px;
             width: 1580px;
         }
+
+        .widget-form {
+            background: #64b5f6;
+        }
+
+        .widget-form:before {
+            display: none;
+        }
+
+        .widget-form-search {
+            max-width: 1580px !important;
+            margin: 0 auto;
+            padding: 15px 0 !important;
+        }
+
+        .widget-form-airports .widget-form-airports__col {
+            padding-left: 0 !important;
+        }
+
+        .widget-form-additionalOptions {
+            display: none !important;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&amp;subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="flights.results.widget.min.css">
+    <link rel="stylesheet" href="http://search.mlsd.ru/flights.search.widget.min.css">
+    <link rel="stylesheet" href="http://search.mlsd.ru/nemo-flights.search.widget.min.css">
 </head>
 <body>
     <header>
@@ -46,12 +70,21 @@
         </div>
     </header>
 
-    <section id="root"></section>
+    <section id="searchFormRoot"></section>
+
+    <section id="searchResultsRoot"></section>
 
     <script src="flights.results.widget.min.js"></script>
+    <script src="http://search.mlsd.ru/flights.search.widget.min.js"></script>
     <script>
+        FlightsSearchWidget.init({
+            nemoURL: 'http://sys.nemo.travel',
+            rootElement: document.getElementById('searchFormRoot'),
+            locale: 'ru'
+        });
+
         FlightsResultsWidget.init({
-            rootElement: document.getElementById('root'),
+            rootElement: document.getElementById('searchResultsRoot'),
             locale: 'ru'
         });
     </script>
