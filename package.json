@@ -1,0 +1,28 @@
+{
+  "name": "@nemo.travel/results-widget",
+  "version": "0.0.1",
+  "description": "Flexible flights search results",
+  "main": "dist/flights.results.widget.min.js",
+  "scripts": {
+    "tslint": "tslint -p ./tslint.json",
+    "server": "node server.js",
+    "build": "npm run tslint && cross-env NODE_ENV=production webpack",
+    "build-dev": "cross-env NODE_ENV=dev webpack",
+    "dev": "run-p build-dev server",
+    "prepublish": "npm run test && npm run build",
+    "test": "npm run tslint",
+    "start": "npm run server"
+  },
+  "pre-commit": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NemoTravel/results.git"
+  },
+  "keywords": [],
+  "author": "Paul Naumov <p.naumov@nemo.travel>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NemoTravel/results/issues"
+  },
+  "homepage": "https://github.com/NemoTravel/results#readme"
+}
