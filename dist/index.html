@@ -80,7 +80,11 @@
         FlightsSearchWidget.init({
             nemoURL: 'http://sys.nemo.travel',
             rootElement: document.getElementById('searchFormRoot'),
-            locale: 'ru'
+            locale: 'ru',
+            defaultArrivalAirport: 'MOW',
+            defaultDepartureAirport: 'RTW',
+            defaultDepartureDate: '2018-02-19',
+            defaultReturnDate: '2018-02-21'
         });
 
         FlightsResultsWidget.init({
