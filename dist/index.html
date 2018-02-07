@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Search form</title>
+    <title>Search Results</title>
     <style>
         * {
             padding: 0;
@@ -20,19 +20,40 @@
         }
 
         body {
-            background-color: #333333;
+            background-color: #63636b;
+        }
+
+        header {
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+        }
+
+        header div {
+            display: flex;
+            align-items: center;
+            height: 66px;
+            width: 1580px;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&amp;subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="flights.results.widget.min.css">
 </head>
 <body>
-<script src="flights.results.widget.min.js"></script>
-<script>
-    FlightsResultsWidget.init({
-        rootElement: document.getElementById('root'),
-        locale: 'ru'
-    });
-</script>
+    <header>
+        <div>
+            <img src="http://sys.nemo.travel/templates/wurst/f2.0/img/nemo.travel.svg" alt="">
+        </div>
+    </header>
+
+    <section id="root"></section>
+
+    <script src="flights.results.widget.min.js"></script>
+    <script>
+        FlightsResultsWidget.init({
+            rootElement: document.getElementById('root'),
+            locale: 'ru'
+        });
+    </script>
 </body>
 </html>
