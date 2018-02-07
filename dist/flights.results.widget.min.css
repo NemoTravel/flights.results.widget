@@ -1,0 +1,15 @@
+.filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 1580px;
+  margin: 0 auto;
+}
+
+.filters-filter:not(:first-of-type) {
+  margin-left: 10px;
+}
+
+.results-wrapper {
+  font-family: 'Roboto', sans-serif;
+}

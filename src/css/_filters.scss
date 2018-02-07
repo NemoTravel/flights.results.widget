@@ -1,0 +1,11 @@
+.filters {
+	display: flex;
+	max-width: 1580px;
+	margin: 0 auto;
+
+	&-filter {
+		&:not(:first-of-type) {
+			margin-left: 10px;
+		}
+	}
+}
