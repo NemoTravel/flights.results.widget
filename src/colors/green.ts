@@ -1,4 +1,6 @@
-export default {
+import { PaletteColorOptions } from 'material-ui/styles/createPalette';
+
+const palette: PaletteColorOptions = {
 	50: '#ffffff',
 	100: '#e1f0ce',
 	200: '#c6e3a3',
@@ -13,5 +15,7 @@ export default {
 	A200: '#88c43d',
 	A400: '#94ca51',
 	A700: '#95d04b',
-	contrastDefaultColor: 'light'
+	contrastText: '#ffffff'
 };
+
+export default palette;

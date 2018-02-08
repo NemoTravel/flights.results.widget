@@ -18,6 +18,8 @@
 		}
 
 		&-stage {
+			width: 140px;
+
 			&__location {
 				color: #505050;
 			}
@@ -29,7 +31,7 @@
 				justify-content: center;
 
 				margin: 0 24px;
-				min-width: 110px;
+				width: 110px;
 				text-align: center;
 
 				&__transfers {
@@ -70,12 +72,6 @@
 				&-wrapper {
 					margin-left: 5px !important;
 				}
-			}
-		}
-
-		&-buy {
-			button {
-				color: #fff;
 			}
 		}
 	}
