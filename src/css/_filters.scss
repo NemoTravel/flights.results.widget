@@ -1,6 +1,8 @@
+@import "variable";
+
 .filters {
 	display: flex;
-	max-width: 1580px;
+	max-width: $common-content-width;
 
 	margin: 0 auto;
 	padding: 15px 0;
