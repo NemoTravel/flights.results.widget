@@ -35,6 +35,7 @@
 }
 
 .flight-summary__left,
+.flight-summary__middle,
 .flight-summary__right {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -44,16 +45,37 @@
   align-items: center;
 }
 
+.flight-summary__middle {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  width: 200px;
+}
+
+.flight-summary__right {
+  width: 250px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
 .flight-summary-logo {
-  margin-right: 100px;
+  width: 180px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .flight-summary-stage {
-  width: 140px;
-}
-
-.flight-summary-stage__location {
-  color: #505050;
+  width: 65px;
+  text-align: center;
 }
 
 .flight-summary-stage-routeInfo {
@@ -75,13 +97,13 @@
   text-align: center;
 }
 
-.flight-summary-stage-routeInfo__transfers {
+.flight-summary-stage-routeInfo__arrow {
   position: relative;
   width: 100%;
   border-bottom: 1px solid #d0d0d0;
 }
 
-.flight-summary-stage-routeInfo__transfers:after {
+.flight-summary-stage-routeInfo__arrow:after {
   content: '';
   position: absolute;
   height: 4px;
@@ -94,16 +116,22 @@
   transform: rotate(135deg);
 }
 
-.flight-summary-stage-routeInfo__transfers,
 .flight-summary-stage-routeInfo__flightTime {
-  color: #505050;
+  position: absolute;
+  padding: 0 5px;
   line-height: 20px;
   font-size: 11px;
+  color: rgba(0, 0, 0, 0.87);
+  background: #fff;
+}
+
+.flight-summary-route {
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .flight-summary-price {
   margin-right: 24px;
-  color: #505050;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .flight-summary-price__amount {
@@ -122,6 +150,11 @@
   margin-left: 5px !important;
 }
 
+.flight-details {
+  border-top: 1px solid #e0e0e0;
+}
+
 .results-wrapper {
   font-family: 'Roboto', sans-serif;
+  color: rgba(0, 0, 0, 0.87);
 }

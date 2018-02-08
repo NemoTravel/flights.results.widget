@@ -8,21 +8,31 @@
 			}
 		}
 
-		&__left, &__right {
+		&__left, &__middle, &__right {
 			display: flex;
 			align-items: center;
 		}
 
+		&__middle {
+			flex-direction: column;
+			justify-content: center;
+			align-items: flex-start;
+			width: 200px;
+		}
+
+		&__right {
+			width: 250px;
+			justify-content: flex-end;
+		}
+
 		&-logo {
-			margin-right: 100px;
+			width: 180px;
+			display: flex;
 		}
 
 		&-stage {
-			width: 140px;
-
-			&__location {
-				color: #505050;
-			}
+			width: 65px;
+			text-align: center;
 
 			&-routeInfo {
 				display: flex;
@@ -34,7 +44,7 @@
 				width: 110px;
 				text-align: center;
 
-				&__transfers {
+				&__arrow {
 					position: relative;
 					width: 100%;
 					border-bottom: 1px solid #d0d0d0;
@@ -52,17 +62,26 @@
 					}
 				}
 
-				&__transfers, &__flightTime {
-					color: #505050;
+				&__flightTime {
+					position: absolute;
+					padding: 0 5px;
+
 					line-height: 20px;
 					font-size: 11px;
+
+					color: rgba(0, 0, 0, 0.87);
+					background: #fff;
 				}
 			}
 		}
 
+		&-route {
+			color: rgba(0, 0, 0, 0.54);
+		}
+
 		&-price {
 			margin-right: 24px;
-			color: #505050;
+			color: rgba(0, 0, 0, 0.54);
 
 			&__amount {
 				display: flex;
@@ -74,5 +93,9 @@
 				}
 			}
 		}
+	}
+
+	&-details {
+		border-top: 1px solid #e0e0e0;
 	}
 }

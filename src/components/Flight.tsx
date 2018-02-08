@@ -8,18 +8,22 @@ class Flight extends React.Component {
 		return <ExpansionPanel className="flight">
 			<ExpansionPanelSummary className="flight-summary">
 				<div className="flight-summary__left">
-					<img className="flight-summary-logo" src="https://sys.nemo.travel/guideStatic/images/carrier/logotype/5601-c9e32e06fc1c499a2f5e994f4273f680.svg"/>
+					<div className="flight-summary-logo">
+						<img className="flight-summary-logo__image" src="https://sys.nemo.travel/guideStatic/images/carrier/logotype/5601-c9e32e06fc1c499a2f5e994f4273f680.svg"/>
+					</div>
 
 					<div className="flight-summary-stage">
 						<div className="flight-summary-stage__time">
 							<Typography variant="headline">08:00</Typography>
 						</div>
 
-						<div className="flight-summary-stage__location">Москва, Домодедово</div>
+						<div className="flight-summary-stage__location">
+							<Typography variant="caption">DME</Typography>
+						</div>
 					</div>
 
 					<div className="flight-summary-stage-routeInfo">
-						<span className="flight-summary-stage-routeInfo__transfers">Прямой рейс</span>
+						<div className="flight-summary-stage-routeInfo__arrow"/>
 						<span className="flight-summary-stage-routeInfo__flightTime">1 ч 30 мин</span>
 					</div>
 
@@ -28,7 +32,19 @@ class Flight extends React.Component {
 							<Typography variant="headline">10:30</Typography>
 						</div>
 
-						<div className="flight-summary-stage__location">Саратов</div>
+						<div className="flight-summary-stage__location">
+							<Typography variant="caption">RTW</Typography>
+						</div>
+					</div>
+				</div>
+
+				<div className="flight-summary__middle">
+					<div className="flight-summary-transfers">
+						прямой
+					</div>
+
+					<div className="flight-summary-route">
+						Москва, Домодедово &mdash; Саратов
 					</div>
 				</div>
 
@@ -49,7 +65,7 @@ class Flight extends React.Component {
 				</div>
 			</ExpansionPanelSummary>
 
-			<ExpansionPanelDetails>
+			<ExpansionPanelDetails className="flight-details">
 				Информация
 			</ExpansionPanelDetails>
 		</ExpansionPanel>;
