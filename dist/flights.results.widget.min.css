@@ -4,10 +4,19 @@
   display: flex;
   max-width: 1580px;
   margin: 0 auto;
+  padding: 15px 0;
 }
 
 .filters-filter:not(:first-of-type) {
   margin-left: 10px;
+}
+
+.filters-filter-popover {
+  margin-top: 5px;
+}
+
+.filters-filter-popover__inner {
+  padding: 10px;
 }
 
 .results-wrapper {

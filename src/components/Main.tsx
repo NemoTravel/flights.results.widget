@@ -1,23 +1,19 @@
 import * as React from 'react';
-import Chip from 'material-ui/Chip';
+import AirlineFilter from './Filters/Airlines';
+import AirportsFilter from './Filters/Airports';
+import TimeFilter from './Filters/Time';
 
 class Main extends React.Component {
-	render() {
+	render(): React.ReactNode {
 		return <div className="results-wrapper">
 			<section className="scenarios">
 
 			</section>
 
 			<section className="filters">
-				<div className="filters-filter">
-					<Chip label="Авиакомпании" onClick={() => {}}/>
-				</div>
-				<div className="filters-filter">
-					<Chip label="Аэропорты" onClick={() => {}}/>
-				</div>
-				<div className="filters-filter">
-					<Chip label="Время" onClick={() => {}}/>
-				</div>
+				<AirlineFilter/>
+				<AirportsFilter/>
+				<TimeFilter/>
 			</section>
 
 			<section className="results">
