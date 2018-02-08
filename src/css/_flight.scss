@@ -1,7 +1,20 @@
 .flight {
 	&-summary {
+		& > div {
+			justify-content: space-between;
+
+			& > :last-child {
+				padding-right: 0;
+			}
+		}
+
+		&__left, &__right {
+			display: flex;
+			align-items: center;
+		}
+
 		&-logo {
-			margin-right: 24px;
+			margin-right: 100px;
 		}
 
 		&-stage {
@@ -41,6 +54,21 @@
 					color: #505050;
 					line-height: 20px;
 					font-size: 11px;
+				}
+			}
+		}
+
+		&-price {
+			margin-right: 24px;
+			color: #505050;
+
+			&__amount {
+				display: flex;
+				align-items: flex-end;
+				justify-content: flex-end;
+
+				&-wrapper {
+					margin-left: 5px !important;
 				}
 			}
 		}

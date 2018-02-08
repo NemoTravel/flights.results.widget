@@ -24,6 +24,100 @@
   margin: 0 auto;
 }
 
+.flight-summary > div {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.flight-summary > div > :last-child {
+  padding-right: 0;
+}
+
+.flight-summary__left,
+.flight-summary__right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.flight-summary-logo {
+  margin-right: 100px;
+}
+
+.flight-summary-stage__location {
+  color: #505050;
+}
+
+.flight-summary-stage-routeInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 24px;
+  min-width: 110px;
+  text-align: center;
+}
+
+.flight-summary-stage-routeInfo__transfers {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.flight-summary-stage-routeInfo__transfers:after {
+  content: '';
+  position: absolute;
+  height: 4px;
+  width: 4px;
+  border-top: 1px solid #d0d0d0;
+  border-left: 1px solid #d0d0d0;
+  bottom: -3px;
+  right: -1px;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.flight-summary-stage-routeInfo__transfers,
+.flight-summary-stage-routeInfo__flightTime {
+  color: #505050;
+  line-height: 20px;
+  font-size: 11px;
+}
+
+.flight-summary-price {
+  margin-right: 24px;
+  color: #505050;
+}
+
+.flight-summary-price__amount {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.flight-summary-price__amount-wrapper {
+  margin-left: 5px !important;
+}
+
 .results-wrapper {
   font-family: 'Roboto', sans-serif;
 }
