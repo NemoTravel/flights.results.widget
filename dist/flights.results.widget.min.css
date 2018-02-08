@@ -118,6 +118,10 @@
   margin-left: 5px !important;
 }
 
+.flight-summary-buy button {
+  color: #fff;
+}
+
 .results-wrapper {
   font-family: 'Roboto', sans-serif;
 }

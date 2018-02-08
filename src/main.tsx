@@ -1,10 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import {AnyAction, createStore} from 'redux';
 import { Provider } from 'react-redux';
+import * as moment from 'moment';
 import 'whatwg-fetch';
 
 import Main from './components/Main';
+import themeObject from './themes/default';
 import './css/main.scss';
 
 enum Language {
@@ -36,8 +39,13 @@ const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationSta
 
 export const init = (config: Config) => {
 	const store = createStore<ApplicationState>(rootReducer, { ...initialState, config });
+	const theme = createMuiTheme(themeObject);
+
+	moment.locale(config.locale);
 
 	ReactDOM.render(<Provider store={store}>
-		<Main/>
+		<MuiThemeProvider theme={theme}>
+			<Main/>
+		</MuiThemeProvider>
 	</Provider>, config.rootElement);
 };
