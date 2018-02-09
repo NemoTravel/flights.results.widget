@@ -2,9 +2,14 @@ import * as React from 'react';
 import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import FlightModel from '../schemas/Flight';
 
-class Flight extends React.Component {
-	render() {
+interface Props {
+	flight: FlightModel;
+}
+
+class Flight extends React.Component<Props> {
+	render(): React.ReactNode {
 		return <ExpansionPanel className="flight">
 			<ExpansionPanelSummary className="flight-summary">
 				<div className="flight-summary__left">

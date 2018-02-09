@@ -7,9 +7,11 @@ import AirportsFilter from './Filters/Airports';
 import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import { ApplicationState } from '../main';
+import FlightModel from '../schemas/Flight';
 
 interface Props {
 	isLoading: boolean;
+	flights: FlightModel[];
 }
 
 class Main extends React.Component<Props> {
@@ -28,10 +30,7 @@ class Main extends React.Component<Props> {
 				</section>
 
 				<section className="results">
-					<Flight/>
-					<Flight/>
-					<Flight/>
-					<Flight/>
+					{this.props.flights.map((flight, index) => <Flight key={index} flight={flight}/>)}
 				</section>
 			</div>;
 	}
@@ -39,7 +38,8 @@ class Main extends React.Component<Props> {
 
 const mapStateToProps = (state: ApplicationState): Props => {
 	return {
-		isLoading: state.isLoading
+		isLoading: state.isLoading,
+		flights: state.flights
 	};
 };
 

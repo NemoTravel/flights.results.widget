@@ -8,9 +8,13 @@ import 'whatwg-fetch';
 
 import Main from './components/Main';
 import themeObject from './themes/default';
-import { START_LOADING, startLoading, STOP_LOADING, stopLoading } from './store/actions';
+import {
+	SET_FLIGHTS, setFlights, SetFlightsAction, START_LOADING, startLoading, STOP_LOADING,
+	stopLoading
+} from './store/actions';
 import './css/main.scss';
 import { parse } from './services/parsers/results';
+import Flight from './schemas/Flight';
 
 enum Language {
 	Russian = 'ru',
@@ -32,6 +36,7 @@ interface Config {
 export interface ApplicationState {
 	isLoading: boolean;
 	config: Config;
+	flights: Flight[];
 }
 
 const initalConfig: Config = {
@@ -41,7 +46,8 @@ const initalConfig: Config = {
 
 const initialState: ApplicationState = {
 	isLoading: false,
-	config: initalConfig
+	config: initalConfig,
+	flights: []
 };
 
 const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationState => {
@@ -51,6 +57,9 @@ const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationSta
 
 		case STOP_LOADING:
 			return { ...state, isLoading: false };
+
+		case SET_FLIGHTS:
+			return { ...state, flights: (action as SetFlightsAction).payload };
 	}
 
 	return state;
@@ -67,7 +76,9 @@ export const init = (config: Config) => {
 		.then((response: Response) => response.json())
 		.then((response: any) => {
 			const flights = parse(response, searchId);
+
 			store.dispatch(stopLoading());
+			store.dispatch(setFlights(flights));
 		});
 
 	moment.locale(config.locale);
