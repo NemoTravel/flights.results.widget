@@ -17,7 +17,7 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
-			width: 200px;
+			width: 320px;
 		}
 
 		&__right {
@@ -28,6 +28,11 @@
 		&-logo {
 			width: 180px;
 			display: flex;
+
+			&__image {
+				max-width: 110px;
+				max-height: 30px;
+			}
 		}
 
 		&-stage {

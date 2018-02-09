@@ -56,7 +56,7 @@
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-  width: 200px;
+  width: 320px;
 }
 
 .flight-summary__right {
@@ -71,6 +71,11 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.flight-summary-logo__image {
+  max-width: 110px;
+  max-height: 30px;
 }
 
 .flight-summary-stage {

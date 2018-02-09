@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.3",
     "@types/moment": "^2.13.0",
+    "@types/moment-duration-format": "^2.2.0",
     "@types/promise-polyfill": "^6.0.0",
     "@types/react": "^16.0.35",
     "@types/react-dom": "^16.0.3",
@@ -60,6 +61,7 @@
     "material-ui": "^1.0.0-beta.32",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.19.2",
+    "moment-duration-format": "^2.2.1",
     "promise-polyfill": "^6.0.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

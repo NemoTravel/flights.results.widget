@@ -4,6 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { AnyAction, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as moment from 'moment';
+// import * as momentDurationFormatSetup from 'moment-duration-format';
 import 'whatwg-fetch';
 
 import Main from './components/Main';
@@ -15,6 +16,8 @@ import {
 import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
+
+// momentDurationFormatSetup(moment);
 
 enum Language {
 	Russian = 'ru',
@@ -66,7 +69,7 @@ const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationSta
 };
 
 export const init = (config: Config) => {
-	const searchId = 215011;
+	const searchId = 215163;
 	const store = createStore<ApplicationState>(rootReducer, { ...initialState, config });
 	const theme = createMuiTheme(themeObject);
 
@@ -76,6 +79,8 @@ export const init = (config: Config) => {
 		.then((response: Response) => response.json())
 		.then((response: any) => {
 			const flights = parse(response, searchId);
+
+			console.log(flights[0]);
 
 			store.dispatch(stopLoading());
 			store.dispatch(setFlights(flights));
