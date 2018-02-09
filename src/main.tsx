@@ -8,6 +8,7 @@ import 'whatwg-fetch';
 
 import Main from './components/Main';
 import themeObject from './themes/default';
+import { START_LOADING, startLoading, STOP_LOADING, stopLoading } from './store/actions';
 import './css/main.scss';
 
 enum Language {
@@ -20,7 +21,8 @@ interface Config {
 	locale: Language;
 }
 
-interface ApplicationState {
+export interface ApplicationState {
+	isLoading: boolean;
 	config: Config;
 }
 
@@ -30,16 +32,33 @@ const initalConfig: Config = {
 };
 
 const initialState: ApplicationState = {
+	isLoading: false,
 	config: initalConfig
 };
 
 const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationState => {
+	switch (action.type) {
+		case START_LOADING:
+			return { ...state, isLoading: true };
+
+		case STOP_LOADING:
+			return { ...state, isLoading: false };
+	}
+
 	return state;
 };
 
 export const init = (config: Config) => {
 	const store = createStore<ApplicationState>(rootReducer, { ...initialState, config });
 	const theme = createMuiTheme(themeObject);
+
+	store.dispatch(startLoading());
+
+	fetch('http://nemo1/?go=orderAPI/get&uri=flight/search/215011')
+		.then((response: Response) => response.json())
+		.then((response: string) => {
+			store.dispatch(stopLoading());
+		});
 
 	moment.locale(config.locale);
 
