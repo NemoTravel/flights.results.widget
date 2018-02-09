@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import {AnyAction, createStore} from 'redux';
+import { AnyAction, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as moment from 'moment';
 import 'whatwg-fetch';
@@ -10,6 +10,7 @@ import Main from './components/Main';
 import themeObject from './themes/default';
 import { START_LOADING, startLoading, STOP_LOADING, stopLoading } from './store/actions';
 import './css/main.scss';
+import { parse } from './services/parsers/results';
 
 enum Language {
 	Russian = 'ru',
@@ -56,7 +57,8 @@ export const init = (config: Config) => {
 
 	fetch('http://nemo1/?go=orderAPI/get&uri=flight/search/215011')
 		.then((response: Response) => response.json())
-		.then((response: string) => {
+		.then((response: any) => {
+			const pool = parse(response);
 			store.dispatch(stopLoading());
 		});
 
