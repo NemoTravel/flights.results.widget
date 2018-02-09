@@ -17,6 +17,13 @@ enum Language {
 	English = 'en'
 }
 
+export enum PassengerType {
+	Adult = 'ADT',
+	Child = 'CLD',
+	Infant = 'INF',
+	InfantWithSeat = 'INS'
+}
+
 interface Config {
 	rootElement: HTMLElement;
 	locale: Language;
@@ -50,15 +57,16 @@ const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationSta
 };
 
 export const init = (config: Config) => {
+	const searchId = 215011;
 	const store = createStore<ApplicationState>(rootReducer, { ...initialState, config });
 	const theme = createMuiTheme(themeObject);
 
 	store.dispatch(startLoading());
 
-	fetch('http://nemo1/?go=orderAPI/get&uri=flight/search/215011')
+	fetch(`http://nemo1/?go=orderAPI/get&uri=flight/search/${searchId}`)
 		.then((response: Response) => response.json())
 		.then((response: any) => {
-			const pool = parse(response);
+			const flights = parse(response, searchId);
 			store.dispatch(stopLoading());
 		});
 
