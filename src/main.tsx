@@ -4,8 +4,8 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { AnyAction, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as moment from 'moment';
-// import * as momentDurationFormatSetup from 'moment-duration-format';
 import 'whatwg-fetch';
+const momentDurationFormatSetup = require('moment-duration-format');
 
 import Main from './components/Main';
 import themeObject from './themes/default';
@@ -16,8 +16,6 @@ import {
 import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
-
-// momentDurationFormatSetup(moment);
 
 enum Language {
 	Russian = 'ru',
@@ -74,6 +72,8 @@ export const init = (config: Config) => {
 	const theme = createMuiTheme(themeObject);
 
 	store.dispatch(startLoading());
+	momentDurationFormatSetup(moment);
+	moment.locale(config.locale);
 
 	fetch(`http://nemo1/?go=orderAPI/get&uri=flight/search/${searchId}`)
 		.then((response: Response) => response.json())
@@ -85,8 +85,6 @@ export const init = (config: Config) => {
 			store.dispatch(stopLoading());
 			store.dispatch(setFlights(flights));
 		});
-
-	moment.locale(config.locale);
 
 	ReactDOM.render(<Provider store={store}>
 		<MuiThemeProvider theme={theme}>

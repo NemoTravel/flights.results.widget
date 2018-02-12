@@ -75,7 +75,7 @@
 
 .flight-summary-logo__image {
   max-width: 110px;
-  max-height: 30px;
+  max-height: 25px;
 }
 
 .flight-summary-stage {
@@ -153,6 +153,13 @@
 
 .flight-summary-price__amount-wrapper {
   margin-left: 5px !important;
+}
+
+.flight-summary-price__amount-wrapper__currency {
+  font-size: 15px;
+  font-weight: 400;
+  margin-left: 5px;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .flight-details {

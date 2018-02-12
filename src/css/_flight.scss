@@ -31,7 +31,7 @@
 
 			&__image {
 				max-width: 110px;
-				max-height: 30px;
+				max-height: 25px;
 			}
 		}
 
@@ -95,6 +95,13 @@
 
 				&-wrapper {
 					margin-left: 5px !important;
+
+					&__currency {
+						font-size: 15px;
+						font-weight: 400;
+						margin-left: 5px;
+						color: rgba(0, 0, 0, 0.54);
+					}
 				}
 			}
 		}
