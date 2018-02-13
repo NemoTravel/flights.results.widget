@@ -5,7 +5,26 @@ import Airline from '../schemas/Airline';
 import Airport from '../schemas/Airport';
 import Segment from '../schemas/Segment';
 
+export interface SelectedAirlinesList {
+	[IATA: string]: boolean;
+}
+
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
+const getFilteredAirlines = (state: ApplicationState): string[] => state.filters.airlines;
+
+export const getVisibleFlights = createSelector(
+	[ getFlights ],
+	(flights: Flight[]): Flight[] => {
+		return [];
+	}
+);
+
+export const getSelectedAirlinesList = createSelector(
+	[ getFilteredAirlines ],
+	(airlinesCodes: string[]): SelectedAirlinesList => {
+		return airlinesCodes.reduce((result: SelectedAirlinesList, code): SelectedAirlinesList => ({ ...result, [code]: true }), {});
+	}
+);
 
 export const getAirlinesList = createSelector(
 	[ getFlights ],

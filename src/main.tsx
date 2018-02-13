@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { AnyAction, createStore } from 'redux';
+import { Action, AnyAction, combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as moment from 'moment';
 import 'whatwg-fetch';
@@ -10,12 +10,14 @@ const momentDurationFormatSetup = require('moment-duration-format');
 import Main from './components/Main';
 import themeObject from './themes/default';
 import {
-	SET_FLIGHTS, setFlights, SetFlightsAction, START_LOADING, startLoading, STOP_LOADING,
+	SET_CONFIG,
+	SET_FLIGHTS, setConfig, SetConfigAction, setFlights, SetFlightsAction, START_LOADING, startLoading, STOP_LOADING,
 	stopLoading
 } from './store/actions';
 import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
+import { FilterAirlinesAction, FILTERS_ADD_AIRLINE, FILTERS_REMOVE_AIRLINE } from './store/filters/actions';
 
 enum Language {
 	Russian = 'ru',
@@ -29,15 +31,20 @@ export enum PassengerType {
 	InfantWithSeat = 'INS'
 }
 
-interface Config {
+export interface Config {
 	rootElement: HTMLElement;
 	locale: Language;
+}
+
+interface FiltersState {
+	airlines: string[];
 }
 
 export interface ApplicationState {
 	isLoading: boolean;
 	config: Config;
 	flights: Flight[];
+	filters: FiltersState;
 }
 
 const initalConfig: Config = {
@@ -45,32 +52,70 @@ const initalConfig: Config = {
 	locale: Language.English
 };
 
-const initialState: ApplicationState = {
-	isLoading: false,
-	config: initalConfig,
-	flights: []
-};
-
-const rootReducer = (state: ApplicationState, action: AnyAction): ApplicationState => {
+const configReducer = (state: Config = initalConfig, action: SetConfigAction): Config => {
 	switch (action.type) {
-		case START_LOADING:
-			return { ...state, isLoading: true };
-
-		case STOP_LOADING:
-			return { ...state, isLoading: false };
-
-		case SET_FLIGHTS:
-			return { ...state, flights: (action as SetFlightsAction).payload };
+		case SET_CONFIG:
+			return action.payload;
 	}
 
 	return state;
 };
 
+const airlinesFilter = (state: string[] = [], action: FilterAirlinesAction): string[] => {
+
+	switch (action.type) {
+		case FILTERS_ADD_AIRLINE:
+			const result: string[] = [ ...state ];
+
+			if (!state.find(code => code === action.payload)) {
+				result.push(action.payload);
+			}
+
+			return result;
+
+		case FILTERS_REMOVE_AIRLINE:
+			return state.filter(code => code !== action.payload);
+	}
+
+	return state;
+};
+
+const loadingReducer = (state: boolean = false, action: Action): boolean => {
+	switch (action.type) {
+		case START_LOADING:
+			return true;
+
+		case STOP_LOADING:
+			return false;
+	}
+
+	return state;
+};
+
+const flightsReducer = (state: Flight[] = [], action: SetFlightsAction): Flight[] => {
+	switch (action.type) {
+		case SET_FLIGHTS:
+			return action.payload;
+	}
+
+	return state;
+};
+
+const rootReducer = combineReducers<ApplicationState>({
+	isLoading: loadingReducer,
+	flights: flightsReducer,
+	filters: combineReducers<FiltersState>({
+		airlines: airlinesFilter
+	}),
+	config: configReducer
+});
+
 export const init = (config: Config) => {
 	const searchId = 215163;
-	const store = createStore<ApplicationState>(rootReducer, { ...initialState, config });
+	const store = createStore<ApplicationState>(rootReducer);
 	const theme = createMuiTheme(themeObject);
 
+	store.dispatch(setConfig(config));
 	store.dispatch(startLoading());
 	momentDurationFormatSetup(moment);
 	moment.locale(config.locale);
@@ -79,8 +124,6 @@ export const init = (config: Config) => {
 		.then((response: Response) => response.json())
 		.then((response: any) => {
 			const flights = parse(response, searchId);
-
-			console.log(flights[0]);
 
 			store.dispatch(stopLoading());
 			store.dispatch(setFlights(flights));
