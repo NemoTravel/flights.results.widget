@@ -1,24 +1,30 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
 import Airline from '../../schemas/Airline';
 import Filter, { Type as FilterType } from '../Filter';
-import { FilterAirlinesAction } from '../../store/filters/actions';
-import { SelectedAirlinesList } from '../../store/selectors';
+import { addAirline, FilterAirlinesAction, removeAirline } from '../../store/filters/actions';
+import { getAirlinesList, getSelectedAirlinesList, SelectedAirlinesList } from '../../store/selectors';
+import { ApplicationState } from '../../main';
+import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
-interface Props {
+interface StateProps {
 	airlines: Airline[];
-	addAirline: (IATA: string) => FilterAirlinesAction;
-	removeAirline: (IATA: string) => FilterAirlinesAction;
 	selectedAirlines: SelectedAirlinesList;
 }
 
-class Airlines extends Filter<Props, any> {
+interface DispatchProps {
+	addAirline: (IATA: string) => FilterAirlinesAction;
+	removeAirline: (IATA: string) => FilterAirlinesAction;
+}
+
+class Airlines extends Filter<StateProps & DispatchProps, any> {
 	protected type = FilterType.Airlines;
 	protected label = 'Авиакомпании';
 
-	constructor(props: Props) {
+	constructor(props: StateProps & DispatchProps) {
 		super(props);
 
 		this.onChange = this.onChange.bind(this);
@@ -60,4 +66,18 @@ class Airlines extends Filter<Props, any> {
 	}
 }
 
-export default Airlines;
+const mapStateToProps = (state: ApplicationState): StateProps => {
+	return {
+		airlines: getAirlinesList(state),
+		selectedAirlines: getSelectedAirlinesList(state)
+	};
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
+	return {
+		addAirline: bindActionCreators(addAirline, dispatch),
+		removeAirline: bindActionCreators(removeAirline, dispatch)
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Airlines);

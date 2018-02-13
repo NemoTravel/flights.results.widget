@@ -8,30 +8,17 @@ import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import { ApplicationState } from '../main';
 import FlightModel from '../schemas/Flight';
-import Airline from '../schemas/Airline';
-import {
-	getAirlinesList, getArrivalAirportsList, getDepartureAirportsList,
-	getSelectedAirlinesList, SelectedAirlinesList
-} from '../store/selectors';
 import Airport from '../schemas/Airport';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
-import { addAirline, removeAirline, FilterAirlinesAction } from '../store/filters/actions';
+import { getArrivalAirportsList, getDepartureAirportsList } from '../store/selectors';
 
 interface StateProps {
 	isLoading: boolean;
-	airlines: Airline[];
 	flights: FlightModel[];
 	departureAirports: Airport[];
 	arrivalAirports: Airport[];
-	selectedAirlines: SelectedAirlinesList;
 }
 
-interface DispatchProps {
-	addAirline: (IATA: string) => FilterAirlinesAction;
-	removeAirline: (IATA: string) => FilterAirlinesAction;
-}
-
-class Main extends React.Component<StateProps & DispatchProps> {
+class Main extends React.Component<StateProps> {
 	render(): React.ReactNode {
 		return this.props.isLoading ?
 			<LinearProgress color="secondary" variant="query"/> :
@@ -41,7 +28,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 				</section>
 
 				<section className="filters">
-					<AirlineFilter airlines={this.props.airlines} addAirline={this.props.addAirline} removeAirline={this.props.removeAirline} selectedAirlines={this.props.selectedAirlines}/>
+					<AirlineFilter/>
 					<AirportsFilter departureAirports={this.props.departureAirports} arrivalAirports={this.props.arrivalAirports}/>
 					<TimeFilter/>
 				</section>
@@ -57,18 +44,9 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		isLoading: state.isLoading,
 		flights: state.flights,
-		airlines: getAirlinesList(state),
-		selectedAirlines: getSelectedAirlinesList(state),
 		departureAirports: getDepartureAirportsList(state),
 		arrivalAirports: getArrivalAirportsList(state)
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
-	return {
-		addAirline: bindActionCreators(addAirline, dispatch),
-		removeAirline: bindActionCreators(removeAirline, dispatch)
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps)(Main);
