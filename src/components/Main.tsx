@@ -9,12 +9,15 @@ import Flight from './Flight';
 import { ApplicationState } from '../main';
 import FlightModel from '../schemas/Flight';
 import Airline from '../schemas/Airline';
-import { getAirlinesList } from '../store/selectors';
+import { getAirlinesList, getArrivalAirportsList, getDepartureAirportsList } from '../store/selectors';
+import Airport from '../schemas/Airport';
 
 interface Props {
 	isLoading: boolean;
 	airlines: Airline[];
 	flights: FlightModel[];
+	departureAirports: Airport[];
+	arrivalAirports: Airport[];
 }
 
 class Main extends React.Component<Props> {
@@ -28,7 +31,7 @@ class Main extends React.Component<Props> {
 
 				<section className="filters">
 					<AirlineFilter airlines={this.props.airlines}/>
-					<AirportsFilter/>
+					<AirportsFilter departureAirports={this.props.departureAirports} arrivalAirports={this.props.arrivalAirports}/>
 					<TimeFilter/>
 				</section>
 
@@ -43,7 +46,9 @@ const mapStateToProps = (state: ApplicationState): Props => {
 	return {
 		isLoading: state.isLoading,
 		flights: state.flights,
-		airlines: getAirlinesList(state)
+		airlines: getAirlinesList(state),
+		departureAirports: getDepartureAirportsList(state),
+		arrivalAirports: getArrivalAirportsList(state)
 	};
 };
 

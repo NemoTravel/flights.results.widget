@@ -1,7 +1,13 @@
 import * as React from 'react';
 import Filter from '../Filter';
+import Airport from '../../schemas/Airport';
 
-class Airports extends Filter<any> {
+interface Props {
+	departureAirports: Airport[];
+	arrivalAirports: Airport[];
+}
+
+class Airports extends Filter<Props> {
 	protected label = 'Аэропорты';
 
 	renderPopover(): React.ReactNode {
