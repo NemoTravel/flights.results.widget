@@ -19,6 +19,10 @@
   padding: 20px 20px 5px;
 }
 
+.filters-filter-popover__inner_airports {
+  padding: 0 0 5px;
+}
+
 .filters-filter-popover-legend {
   margin-bottom: 10px;
 }

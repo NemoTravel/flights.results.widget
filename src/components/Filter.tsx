@@ -2,18 +2,25 @@ import * as React from 'react';
 import Chip from 'material-ui/Chip';
 import Popover from 'material-ui/Popover';
 
-interface State {
+export interface State {
 	element?: HTMLElement;
 	isOpen?: boolean;
 }
 
-abstract class Filter<P> extends React.Component<P, State> {
+export enum Type {
+	Airports = 'airports',
+	Airlines = 'airlines',
+	Time = 'time'
+}
+
+abstract class Filter<P, S> extends React.Component<P, State | S> {
 	state: State = {
 		isOpen: false,
 		element: null
 	};
 
 	protected abstract label: string;
+	protected abstract type: Type;
 
 	constructor(props: any) {
 		super(props);
@@ -48,7 +55,7 @@ abstract class Filter<P> extends React.Component<P, State> {
 			<Chip label={this.label} onClick={this.openPopover}/>
 
 			<Popover
-				className="filters-filter-popover"
+				className={`filters-filter-popover filters-filter-popover_${this.type}`}
 				open={this.state.isOpen}
 				onClose={this.closePopover}
 				anchorReference="anchorEl"
@@ -62,7 +69,7 @@ abstract class Filter<P> extends React.Component<P, State> {
 					horizontal: 'right'
 				}}
 			>
-				<div className="filters-filter-popover__inner">
+				<div className={`filters-filter-popover__inner filters-filter-popover__inner_${this.type}`}>
 					{this.renderPopover()}
 				</div>
 			</Popover>

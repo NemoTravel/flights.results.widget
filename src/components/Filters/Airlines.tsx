@@ -1,20 +1,16 @@
 import * as React from 'react';
-import {
-	FormLabel,
-	FormControl,
-	FormGroup,
-	FormControlLabel
-} from 'material-ui/Form';
+import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
 import Airline from '../../schemas/Airline';
-import Filter from '../Filter';
+import Filter, { Type as FilterType } from '../Filter';
 
 interface Props {
 	airlines: Airline[];
 }
 
-class Airlines extends Filter<Props> {
+class Airlines extends Filter<Props, any> {
+	protected type = FilterType.Airlines;
 	protected label = 'Авиакомпании';
 
 	renderPopover(): React.ReactNode {
