@@ -5,6 +5,7 @@ import SwipeableViews from 'react-swipeable-views';
 
 import Filter, { State as FilterState, Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
+import AirportTab from './Airports/Tab';
 
 interface Props {
 	departureAirports: Airport[];
@@ -54,8 +55,8 @@ class Airports extends Filter<Props, State> {
 			</AppBar>
 
 			<SwipeableViews index={this.state.activeTab} onChangeIndex={this.changeTabFromSwipe}>
-				<div>1</div>
-				<div>2</div>
+				<AirportTab airports={this.props.departureAirports} title="Аэропорты вылета"/>
+				<AirportTab airports={this.props.arrivalAirports} title="Аэропорты прилета"/>
 			</SwipeableViews>
 		</div>;
 	}

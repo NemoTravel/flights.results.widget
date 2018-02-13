@@ -3,6 +3,7 @@ import { ApplicationState } from '../main';
 import Flight from '../schemas/Flight';
 import Airline from '../schemas/Airline';
 import Airport from '../schemas/Airport';
+import Segment from '../schemas/Segment';
 
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
 
@@ -40,20 +41,22 @@ export const getAirlinesList = createSelector(
 	}
 );
 
+const getSegmentAirport = (segment: Segment, type: string): Airport => {
+	return type === 'departure' ? segment.depAirport : segment.arrAirport;
+};
+
 const getAirportsList = (flights: Flight[], type: string): Airport[] => {
 	const airports: Airport[] = [];
 	const airportsMap: { [IATA: string]: any } = {};
 
 	flights.forEach(({ segments }) => {
-		segments.forEach(segment => {
-			const airport = type === 'departure' ? segment.depAirport : segment.arrAirport;
-			const IATA = airport.IATA;
+		const segment = type === 'departure' ? segments[0] : segments[segments.length - 1];
+		const firstSegmentAirport = type === 'departure' ? segment.depAirport : segment.arrAirport;
 
-			if (!airportsMap.hasOwnProperty(IATA)) {
-				airportsMap[IATA] = true;
-				airports.push(airport);
-			}
-		});
+		if (!airportsMap.hasOwnProperty(firstSegmentAirport.IATA)) {
+			airportsMap[firstSegmentAirport.IATA] = true;
+			airports.push(firstSegmentAirport);
+		}
 	});
 
 	return airports.sort((a, b) => {
