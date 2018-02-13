@@ -43,7 +43,7 @@
 		"no-duplicate-switch-case": true,
 		"no-duplicate-variable": true,
 		"no-dynamic-delete": true,
-		"no-empty": true,
+		"no-empty": false,
 		"no-eval": true,
 		"no-implicit-dependencies": true,
 		"no-inferred-empty-object-type": true,

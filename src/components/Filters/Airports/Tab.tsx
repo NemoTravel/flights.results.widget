@@ -10,23 +10,25 @@ interface Props {
 
 class Tab extends React.Component<Props> {
 	render(): React.ReactNode {
-		return <FormControl component="fieldset">
-			<FormLabel className="filters-filter-popover-legend" component="legend">{this.props.title}</FormLabel>
-			<FormGroup>
-				{this.props.airports.map((airport, index) => (
-					<FormControlLabel
-						key={index}
-						control={
-							<Checkbox
-								checked={false}
-								value={airport.IATA}
-							/>
-						}
-						label={airport.name}
-					/>
-				))}
-			</FormGroup>
-		</FormControl>;
+		return <div className="filters-filter-popover-tabsSelector-content__wrapper">
+			<FormControl component="fieldset">
+				<FormLabel className="filters-filter-popover-legend" component="legend">{this.props.title}</FormLabel>
+				<FormGroup>
+					{this.props.airports.map((airport, index) => (
+						<FormControlLabel
+							key={index}
+							control={
+								<Checkbox
+									checked={false}
+									value={airport.IATA}
+								/>
+							}
+							label={airport.name}
+						/>
+					))}
+				</FormGroup>
+			</FormControl>
+		</div>;
 	}
 }
 

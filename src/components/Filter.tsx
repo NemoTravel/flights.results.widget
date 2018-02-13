@@ -42,13 +42,20 @@ abstract class Filter<P, S> extends React.Component<P, State | S> {
 		this.setState({
 			isOpen: !this.state.isOpen
 		} as State);
+
+		this.onPopoverOpen();
 	}
 
 	closePopover(): void {
 		this.setState({
 			isOpen: false
 		} as State);
+
+		this.onPopoverClose();
 	}
+
+	onPopoverOpen(): void {}
+	onPopoverClose(): void {}
 
 	render(): React.ReactNode {
 		return <div className="filters-filter" ref={this.getElement}>
@@ -69,7 +76,7 @@ abstract class Filter<P, S> extends React.Component<P, State | S> {
 					horizontal: 'right'
 				}}
 			>
-				<div className={`filters-filter-popover__inner filters-filter-popover__inner_${this.type}`}>
+				<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
 					{this.renderPopover()}
 				</div>
 			</Popover>

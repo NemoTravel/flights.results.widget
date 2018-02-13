@@ -45,16 +45,22 @@ class Airports extends Filter<Props, State> {
 		} as Partial<State>);
 	}
 
+	onPopoverClose(): void {
+		this.setState({
+			activeTab: 0
+		} as Partial<State>);
+	}
+
 	renderPopover(): React.ReactNode {
-		return <div>
-			<AppBar position="static" color="default">
-				<Tabs value={this.state.activeTab} onChange={this.changeTab} indicatorColor="primary" textColor="primary">
+		return <div className="filters-filter-popover-tabsSelector">
+			<AppBar className="filters-filter-popover-tabsSelector-tabs" position="static" color="default">
+				<Tabs fullWidth={true} value={this.state.activeTab} onChange={this.changeTab} indicatorColor="primary" textColor="primary">
 					<Tab label="Туда" value={0}/>
 					<Tab label="Обратно" value={1}/>
 				</Tabs>
 			</AppBar>
 
-			<SwipeableViews index={this.state.activeTab} onChangeIndex={this.changeTabFromSwipe}>
+			<SwipeableViews className="filters-filter-popover-tabsSelector-content" index={this.state.activeTab} onChangeIndex={this.changeTabFromSwipe}>
 				<AirportTab airports={this.props.departureAirports} title="Аэропорты вылета"/>
 				<AirportTab airports={this.props.arrivalAirports} title="Аэропорты прилета"/>
 			</SwipeableViews>
