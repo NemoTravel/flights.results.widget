@@ -8,9 +8,12 @@ import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import { ApplicationState } from '../main';
 import FlightModel from '../schemas/Flight';
+import Airline from '../schemas/Airline';
+import { getAirlinesList } from '../store/selectors';
 
 interface Props {
 	isLoading: boolean;
+	airlines: Airline[];
 	flights: FlightModel[];
 }
 
@@ -39,7 +42,8 @@ class Main extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState): Props => {
 	return {
 		isLoading: state.isLoading,
-		flights: state.flights
+		flights: state.flights,
+		airlines: getAirlinesList(state)
 	};
 };
 
