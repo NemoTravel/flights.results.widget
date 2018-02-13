@@ -9,7 +9,7 @@ import Flight from './Flight';
 import { ApplicationState } from '../main';
 import FlightModel from '../schemas/Flight';
 import Airport from '../schemas/Airport';
-import { getArrivalAirportsList, getDepartureAirportsList } from '../store/selectors';
+import { getArrivalAirportsList, getDepartureAirportsList, getVisibleFlights } from '../store/selectors';
 
 interface StateProps {
 	isLoading: boolean;
@@ -43,7 +43,7 @@ class Main extends React.Component<StateProps> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		isLoading: state.isLoading,
-		flights: state.flights,
+		flights: getVisibleFlights(state),
 		departureAirports: getDepartureAirportsList(state),
 		arrivalAirports: getArrivalAirportsList(state)
 	};

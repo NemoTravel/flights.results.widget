@@ -12,18 +12,18 @@ export interface SelectedAirlinesList {
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
 const getFilteredAirlines = (state: ApplicationState): string[] => state.filters.airlines;
 
-export const getVisibleFlights = createSelector(
-	[ getFlights ],
-	(flights: Flight[]): Flight[] => {
-		return [];
-	}
-);
-
 export const getSelectedAirlinesList = createSelector(
 	[ getFilteredAirlines ],
 	(airlinesCodes: string[]): SelectedAirlinesList => {
 		return airlinesCodes.reduce((result: SelectedAirlinesList, code): SelectedAirlinesList => ({ ...result, [code]: true }), {});
 	}
+);
+
+export const getVisibleFlights = createSelector(
+	[ getFlights, getSelectedAirlinesList ],
+	(flights: Flight[], selectedAirlines: SelectedAirlinesList): Flight[] => flights.filter(flight => {
+		return !Object.keys(selectedAirlines).length || !!flight.segments.find(segment => segment.airline.IATA in selectedAirlines);
+	})
 );
 
 export const getAirlinesList = createSelector(

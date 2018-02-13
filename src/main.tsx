@@ -1,11 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { Action, AnyAction, combineReducers, createStore } from 'redux';
+import { Action, combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as moment from 'moment';
 import 'whatwg-fetch';
-const momentDurationFormatSetup = require('moment-duration-format');
 
 import Main from './components/Main';
 import themeObject from './themes/default';
@@ -18,6 +17,13 @@ import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
 import { FilterAirlinesAction, FILTERS_ADD_AIRLINE, FILTERS_REMOVE_AIRLINE } from './store/filters/actions';
+
+const momentDurationFormatSetup = require('moment-duration-format');
+
+// if (process.env.NODE_ENV !== 'production') {
+// 	const { whyDidYouUpdate } = require('why-did-you-update');
+// 	whyDidYouUpdate(React);
+// }
 
 enum Language {
 	Russian = 'ru',
@@ -62,10 +68,9 @@ const configReducer = (state: Config = initalConfig, action: SetConfigAction): C
 };
 
 const airlinesFilter = (state: string[] = [], action: FilterAirlinesAction): string[] => {
-
 	switch (action.type) {
 		case FILTERS_ADD_AIRLINE:
-			const result: string[] = [ ...state ];
+			const result: string[] = [...state];
 
 			if (!state.find(code => code === action.payload)) {
 				result.push(action.payload);
