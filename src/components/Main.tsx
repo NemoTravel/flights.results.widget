@@ -27,7 +27,7 @@ class Main extends React.Component<Props> {
 				</section>
 
 				<section className="filters">
-					<AirlineFilter/>
+					<AirlineFilter airlines={this.props.airlines}/>
 					<AirportsFilter/>
 					<TimeFilter/>
 				</section>

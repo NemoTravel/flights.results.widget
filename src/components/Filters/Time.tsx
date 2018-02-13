@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Filter from '../Filter';
 
-class Time extends Filter {
+class Time extends Filter<any> {
 	protected label = 'Время';
 
 	renderPopover(): React.ReactNode {

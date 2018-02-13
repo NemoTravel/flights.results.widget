@@ -7,7 +7,7 @@ interface State {
 	isOpen?: boolean;
 }
 
-abstract class Filter extends React.Component<any, State> {
+abstract class Filter<P> extends React.Component<P, State> {
 	state: State = {
 		isOpen: false,
 		element: null

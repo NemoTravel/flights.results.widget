@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Filter from '../Filter';
 
-class Airports extends Filter {
+class Airports extends Filter<any> {
 	protected label = 'Аэропорты';
 
 	renderPopover(): React.ReactNode {

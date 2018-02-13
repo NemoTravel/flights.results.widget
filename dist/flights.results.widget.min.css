@@ -16,7 +16,11 @@
 }
 
 .filters-filter-popover__inner {
-  padding: 10px;
+  padding: 20px 20px 5px;
+}
+
+.filters-filter-popover-legend {
+  margin-bottom: 10px;
 }
 
 .results {
