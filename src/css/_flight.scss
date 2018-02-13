@@ -1,4 +1,8 @@
 .flight {
+	&_hidden {
+		display: none;
+	}
+
 	&-summary {
 		& > div {
 			justify-content: space-between;

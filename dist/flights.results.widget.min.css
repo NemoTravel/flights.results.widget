@@ -36,6 +36,10 @@
   margin: 0 auto;
 }
 
+.flight_hidden {
+  display: none;
+}
+
 .flight-summary > div {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;

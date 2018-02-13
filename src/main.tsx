@@ -116,7 +116,7 @@ const rootReducer = combineReducers<ApplicationState>({
 });
 
 export const init = (config: Config) => {
-	const searchId = 215163;
+	const searchId = 215646;
 	const store = createStore<ApplicationState>(rootReducer);
 	const theme = createMuiTheme(themeObject);
 
