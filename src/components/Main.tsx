@@ -21,7 +21,7 @@ interface StateProps {
 class Main extends React.Component<StateProps> {
 	render(): React.ReactNode {
 		return this.props.isLoading ?
-			<LinearProgress color="secondary" variant="query"/> :
+			<LinearProgress className="results-loader" color="secondary" variant="query"/> :
 			<div className="results-wrapper">
 				<section className="scenarios">
 

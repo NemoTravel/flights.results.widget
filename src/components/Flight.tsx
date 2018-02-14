@@ -23,12 +23,11 @@ class Flight extends React.Component<Props> {
 
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 
-		return <div className="flight-summary">
+		return <div className="flight">
+			<div className="flight-summary">
 				<div className="flight-summary__left">
 					<div className="flight-summary-logo">
-						{/*<Tooltip title={firstSegment.airline.name} placement="top">*/}
-							<img className="flight-summary-logo__image" src={`http://nemo1${firstSegment.airline.logoIcon}`}/>
-						{/*</Tooltip>*/}
+						<img className="flight-summary-logo__image" src={`http://nemo1${firstSegment.airline.logoIcon}`}/>
 					</div>
 
 					<div className="flight-summary-stage">
@@ -63,7 +62,8 @@ class Flight extends React.Component<Props> {
 						{!isDirect ? flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
 							const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 
-							return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в городе {segment.arrAirport.city.name}</div>;
+							return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в
+								городе {segment.arrAirport.city.name}</div>;
 						}) : null}
 					</div>
 
@@ -88,10 +88,11 @@ class Flight extends React.Component<Props> {
 					</div>
 
 					<div className="flight-summary-buy">
-						<button>Выбрать</button>
+						Выбрать
 					</div>
 				</div>
-			</div>;
+			</div>
+		</div>;
 	}
 }
 

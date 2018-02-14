@@ -2,6 +2,10 @@
 
 .results {
 	max-width: $common-content-width;
-
 	margin: 0 auto;
+
+	&-loader {
+		position: absolute !important;
+		width: 100%;
+	}
 }

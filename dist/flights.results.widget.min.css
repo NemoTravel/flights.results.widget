@@ -36,18 +36,46 @@
   margin: 0 auto;
 }
 
+.results-loader {
+  position: absolute !important;
+  width: 100%;
+}
+
+.flight {
+  background-color: #fff;
+  border-bottom: 1px solid #d7d7d7;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.flight:first-of-type {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.flight:last-of-type {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom: none;
+}
+
 .flight_hidden {
   display: none;
 }
 
-.flight-summary > div {
+.flight-summary {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.flight-summary > div > :last-child {
-  padding-right: 0;
+  min-height: 48px;
+  padding: 12px 24px;
 }
 
 .flight-summary__left,
@@ -99,6 +127,15 @@
   text-align: center;
 }
 
+.flight-summary-stage__time {
+  font-size: 1.5rem;
+}
+
+.flight-summary-stage__location {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 0.75rem;
+}
+
 .flight-summary-stage-routeInfo {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -142,7 +179,6 @@
   padding: 0 5px;
   line-height: 20px;
   font-size: 11px;
-  color: rgba(0, 0, 0, 0.87);
   background: #fff;
 }
 
@@ -168,6 +204,8 @@
 }
 
 .flight-summary-price__amount-wrapper {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 1.5rem;
   margin-left: 5px !important;
 }
 
@@ -178,11 +216,39 @@
   color: rgba(0, 0, 0, 0.54);
 }
 
+.flight-summary-buy {
+  font-size: 15px;
+  line-height: 40px;
+  padding: 0 15px;
+  border-radius: 0;
+  color: #fff;
+  background-color: #88c43d;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(93, 134, 41, 0.5);
+  box-shadow: 0 4px 8px 0 rgba(93, 134, 41, 0.5);
+  -webkit-transition: background .1s ease-in;
+  transition: background .1s ease-in;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.flight-summary-buy:hover {
+  background: #94ca51;
+}
+
+.flight-summary-buy:active {
+  background: #94ca51;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(93, 134, 41, 0.5), inset 0 1px 2px 0 #b8dc8b;
+  box-shadow: 0 4px 8px 0 rgba(93, 134, 41, 0.5), inset 0 1px 2px 0 #b8dc8b;
+}
+
 .flight-details {
   border-top: 1px solid #e0e0e0;
 }
 
 .results-wrapper {
   font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.87);
 }

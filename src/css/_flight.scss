@@ -1,16 +1,33 @@
+@import "variable";
+
 .flight {
+	background-color: #fff;
+	border-bottom: 1px solid #d7d7d7;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+	cursor: pointer;
+
+	&:first-of-type {
+		border-top-left-radius: 2px;
+		border-top-right-radius: 2px;
+	}
+
+	&:last-of-type {
+		border-bottom-left-radius: 2px;
+		border-bottom-right-radius: 2px;
+		border-bottom: none;
+	}
+
 	&_hidden {
 		display: none;
 	}
 
 	&-summary {
-		& > div {
-			justify-content: space-between;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 
-			& > :last-child {
-				padding-right: 0;
-			}
-		}
+		min-height: 48px;
+		padding: 12px 24px;
 
 		&__left, &__middle, &__right {
 			display: flex;
@@ -42,6 +59,15 @@
 		&-stage {
 			width: 65px;
 			text-align: center;
+
+			&__time {
+				font-size: 1.5rem;
+			}
+
+			&__location {
+				color: $light-font-color;
+				font-size: 0.75rem;
+			}
 
 			&-routeInfo {
 				display: flex;
@@ -78,19 +104,18 @@
 					line-height: 20px;
 					font-size: 11px;
 
-					color: rgba(0, 0, 0, 0.87);
 					background: #fff;
 				}
 			}
 		}
 
 		&-route {
-			color: rgba(0, 0, 0, 0.54);
+			color: $light-font-color;
 		}
 
 		&-price {
 			margin-right: 24px;
-			color: rgba(0, 0, 0, 0.54);
+			color: $light-font-color;
 
 			&__amount {
 				display: flex;
@@ -98,15 +123,39 @@
 				justify-content: flex-end;
 
 				&-wrapper {
+					color: $common-font-color;
+					font-size: 1.5rem;
 					margin-left: 5px !important;
 
 					&__currency {
 						font-size: 15px;
 						font-weight: 400;
 						margin-left: 5px;
-						color: rgba(0, 0, 0, 0.54);
+						color: $light-font-color;
 					}
 				}
+			}
+		}
+
+		&-buy {
+			font-size: 15px;
+			line-height: 40px;
+			padding: 0 15px;
+			border-radius: 0;
+
+			color: #fff;
+			background-color: #88c43d;
+			box-shadow: 0 4px 8px 0 rgba(93, 134, 41, .5);
+			transition: background .1s ease-in;
+			user-select: none;
+
+			&:hover {
+				background: #94ca51;
+			}
+
+			&:active {
+				background: #94ca51;
+				box-shadow: 0 4px 8px 0 rgba(93, 134, 41, .5), inset 0 1px 2px 0 #b8dc8b;
 			}
 		}
 	}
