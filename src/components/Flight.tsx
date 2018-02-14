@@ -5,6 +5,7 @@ import Arrow from 'material-ui-icons/KeyboardArrowDown';
 
 import FlightModel from '../schemas/Flight';
 import Segment from '../schemas/Segment';
+import Price from './Price';
 
 interface Props {
 	flight: FlightModel;
@@ -101,13 +102,11 @@ class Flight extends React.Component<Props, State> {
 				<div className="flight-summary-price">
 					<div className="flight-summary-price__amount">
 						{!isOW ? 'от' : null}
-						<span className="flight-summary-price__amount-wrapper">
-							{flight.totalPrice.amount}
-							<span className="flight-summary-price__amount-wrapper__currency">{flight.totalPrice.currency}</span>
-						</span>
+
+						<Price price={flight.totalPrice}/>
 					</div>
 
-					{!isOW ? <div className="flight-summary-price__scope">
+					{!isOW ? <div className="flight-summary-price__route">
 						туда и обратно
 					</div> : null}
 				</div>

@@ -249,13 +249,13 @@
   justify-content: flex-end;
 }
 
-.flight-summary-price__amount-wrapper {
+.flight-summary-price__amount .price {
   color: rgba(0, 0, 0, 0.87);
   font-size: 1.5rem;
   margin-left: 5px !important;
 }
 
-.flight-summary-price__amount-wrapper__currency {
+.flight-summary-price__amount .price-currency {
   font-size: 15px;
   font-weight: 400;
   margin-left: 5px;

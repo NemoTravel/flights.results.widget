@@ -161,12 +161,12 @@
 				align-items: flex-end;
 				justify-content: flex-end;
 
-				&-wrapper {
+				.price {
 					color: $common-font-color;
 					font-size: 1.5rem;
 					margin-left: 5px !important;
 
-					&__currency {
+					&-currency {
 						font-size: 15px;
 						font-weight: 400;
 						margin-left: 5px;
