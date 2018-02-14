@@ -11,7 +11,7 @@ const lastSingleNumber = 9;
  * @param {number} brokenNumber
  * @returns {string}
  */
-const fixNumber = (brokenNumber: number): string => brokenNumber > lastSingleNumber ? brokenNumber.toString() : '0' + brokenNumber;
+const fixNumber = (brokenNumber: number): string => brokenNumber > lastSingleNumber ? brokenNumber.toString() : '0' + brokenNumber.toString();
 
 /**
  * Convert Nemo date object to Moment.

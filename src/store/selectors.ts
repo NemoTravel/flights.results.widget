@@ -16,7 +16,7 @@ const getFilteredAirlines = (state: ApplicationState): string[] => state.filters
 export const getSelectedAirlinesList = createSelector(
 	[ getFilteredAirlines ],
 	(airlinesCodes: string[]): SelectedAirlinesList => {
-		return airlinesCodes.reduce((result: SelectedAirlinesList, code): SelectedAirlinesList => ({ ...result, [code]: true }), {});
+		return airlinesCodes.reduce((result: SelectedAirlinesList, code: string): SelectedAirlinesList => ({ ...result, [code]: true }), {} as SelectedAirlinesList);
 	}
 );
 
