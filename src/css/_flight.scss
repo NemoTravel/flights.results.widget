@@ -55,6 +55,14 @@
 
 		&_open {
 			border-bottom: 1px solid #e0e0e0;
+
+			.flight-summary-logo, .flight-summary-stage, .flight-summary-stage-routeInfo, .flight-summary__middle {
+				display: none;
+			}
+
+			.flight-summary-placeholder {
+				display: block;
+			}
 		}
 
 		&-expand {
@@ -92,6 +100,16 @@
 			&__image {
 				max-width: 110px;
 				max-height: 25px;
+			}
+		}
+		
+		&-placeholder {
+			display: none;
+			font-size: 1rem;
+
+			&__route {
+				margin-left: 15px;
+				color: $light-font-color;
 			}
 		}
 

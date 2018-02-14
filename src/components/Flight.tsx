@@ -52,6 +52,11 @@ class Flight extends React.Component<Props, State> {
 					<Arrow/>
 				</div>
 
+				<div className="flight-summary-placeholder">
+					<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
+					<span className="flight-summary-placeholder__route">{firstSegment.depAirport.city.name} &mdash; {lastSegment.arrAirport.city.name}</span>
+				</div>
+
 				<div className="flight-summary-logo">
 					<img className="flight-summary-logo__image" src={`http://nemo1${firstSegment.airline.logoIcon}`}/>
 				</div>
