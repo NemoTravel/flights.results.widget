@@ -10,6 +10,7 @@ export interface SelectedAirlinesList {
 }
 
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
+const getIsDirectOnly = (state: ApplicationState): boolean => state.filters.directOnly;
 const getFilteredAirlines = (state: ApplicationState): string[] => state.filters.airlines;
 
 export const getSelectedAirlinesList = createSelector(
@@ -20,15 +21,17 @@ export const getSelectedAirlinesList = createSelector(
 );
 
 export const getVisibleFlights = createSelector(
-	[ getFlights, getSelectedAirlinesList ],
-	(flights: Flight[], selectedAirlines: SelectedAirlinesList): Flight[] => flights.filter(flight => {
-		let result = false;
-
-		if (!Object.keys(selectedAirlines).length || !!flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
-			result = true;
+	[ getFlights, getSelectedAirlinesList, getIsDirectOnly ],
+	(flights: Flight[], selectedAirlines: SelectedAirlinesList, directOnly: boolean): Flight[] => flights.filter(flight => {
+		if (directOnly && flight.segments.length !== 1) {
+			return false;
 		}
 
-		return result;
+		if (Object.keys(selectedAirlines).length && !flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
+			return false;
+		}
+
+		return true;
 	})
 );
 
