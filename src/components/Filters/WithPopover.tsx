@@ -1,15 +1,17 @@
 import * as React from 'react';
-import Filter from '../Filter';
+import Filter, { State as FilterState } from '../Filter';
 import Chip from 'material-ui/Chip';
 import Popover from 'material-ui/Popover';
+import classNames = require('classnames');
 
-export interface State {
+export interface State extends FilterState {
 	element?: HTMLElement;
 	isOpen?: boolean;
 }
 
 abstract class WithPopover<P, S> extends Filter<P, State | S> {
 	state: State = {
+		isActive: false,
 		isOpen: false,
 		element: null
 	};
@@ -29,6 +31,8 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 	getElement(node: HTMLDivElement): void {
 		this.setState({
+			isActive: this.state.isActive,
+			isOpen: this.state.isOpen,
 			element: node
 		} as State);
 	}
@@ -54,8 +58,8 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 	}
 
 	render(): React.ReactNode {
-		return <div className="filters-filter" ref={this.getElement}>
-			<Chip label={this.label} onClick={this.onClick}/>
+		return <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })} ref={this.getElement}>
+			<Chip className="filters-filter-chip" label={this.label} onClick={this.onClick}/>
 
 			<Popover
 				className={`filters-filter-popover filters-filter-popover_${this.type}`}

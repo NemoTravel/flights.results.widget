@@ -16,7 +16,10 @@ import {
 import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
-import { FilterAirlinesAction, FILTERS_ADD_AIRLINE, FILTERS_REMOVE_AIRLINE } from './store/filters/actions';
+import {
+	FilterAirlinesAction, FILTERS_ADD_AIRLINE, FILTERS_REMOVE_AIRLINE,
+	FILTERS_TOGGLE_DIRECT_FLIGHTS
+} from './store/filters/actions';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 
@@ -44,6 +47,7 @@ export interface Config {
 
 interface FiltersState {
 	airlines: string[];
+	directOnly: boolean;
 }
 
 export interface ApplicationState {
@@ -62,6 +66,15 @@ const configReducer = (state: Config = initalConfig, action: SetConfigAction): C
 	switch (action.type) {
 		case SET_CONFIG:
 			return action.payload;
+	}
+
+	return state;
+};
+
+const directOnly = (state: boolean = false, action: Action): boolean => {
+	switch (action.type) {
+		case FILTERS_TOGGLE_DIRECT_FLIGHTS:
+			return !state;
 	}
 
 	return state;
@@ -110,7 +123,8 @@ const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
 	flights: flightsReducer,
 	filters: combineReducers<FiltersState>({
-		airlines: airlinesFilter
+		airlines: airlinesFilter,
+		directOnly: directOnly
 	}),
 	config: configReducer
 });

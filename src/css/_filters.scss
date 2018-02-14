@@ -12,6 +12,15 @@
 			margin-left: 10px;
 		}
 
+		&_active {
+			.filters-filter-chip {
+				&, &:hover, &:focus, &:active {
+					background: #64b5f6;
+					color: #fff;
+				}
+			}
+		}
+
 		&-popover {
 			margin-top: 5px;
 

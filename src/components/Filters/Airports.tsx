@@ -19,6 +19,7 @@ interface State extends FilterState {
 
 class Airports extends WithPopover<Props, State> {
 	state: State = {
+		isActive: false,
 		isOpen: false,
 		element: null,
 		activeTab: 0
@@ -36,20 +37,29 @@ class Airports extends WithPopover<Props, State> {
 
 	changeTab(event: React.ChangeEvent<{}>, value: number): void {
 		this.setState({
+			isActive: this.state.isActive,
+			isOpen: this.state.isOpen,
+			element: this.state.element,
 			activeTab: value
-		} as Partial<State>);
+		} as State);
 	}
 
 	changeTabFromSwipe(value: number): void {
 		this.setState({
+			isActive: this.state.isActive,
+			isOpen: this.state.isOpen,
+			element: this.state.element,
 			activeTab: value
-		} as Partial<State>);
+		} as State);
 	}
 
 	onPopoverClose(): void {
 		this.setState({
+			isActive: this.state.isActive,
+			isOpen: this.state.isOpen,
+			element: this.state.element,
 			activeTab: 0
-		} as Partial<State>);
+		} as State);
 	}
 
 	renderPopover(): React.ReactNode {

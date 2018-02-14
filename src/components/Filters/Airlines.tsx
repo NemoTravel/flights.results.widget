@@ -21,11 +21,13 @@ interface DispatchProps {
 	removeAirline: (IATA: string) => FilterAirlinesAction;
 }
 
-class Airlines extends WithPopover<StateProps & DispatchProps, any> {
+type Props = StateProps & DispatchProps;
+
+class Airlines extends WithPopover<Props, any> {
 	protected type = FilterType.Airlines;
 	protected label = 'Авиакомпании';
 
-	constructor(props: StateProps & DispatchProps) {
+	constructor(props: Props) {
 		super(props);
 
 		this.onChange = this.onChange.bind(this);
@@ -40,6 +42,12 @@ class Airlines extends WithPopover<StateProps & DispatchProps, any> {
 		else {
 			this.props.removeAirline(airlineCode);
 		}
+	}
+
+	componentWillReceiveProps(props: Props): void {
+		this.setState({
+			isActive: !!Object.keys(props.selectedAirlines).length
+		});
 	}
 
 	renderPopover(): React.ReactNode {

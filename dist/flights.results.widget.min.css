@@ -11,6 +11,14 @@
   margin-left: 10px;
 }
 
+.filters-filter_active .filters-filter-chip,
+.filters-filter_active .filters-filter-chip:hover,
+.filters-filter_active .filters-filter-chip:focus,
+.filters-filter_active .filters-filter-chip:active {
+  background: #64b5f6;
+  color: #fff;
+}
+
 .filters-filter-popover {
   margin-top: 5px;
 }
