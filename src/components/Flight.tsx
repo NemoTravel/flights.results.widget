@@ -1,9 +1,5 @@
 import * as React from 'react';
 import * as moment from 'moment';
-import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-import Tooltip from 'material-ui/Tooltip';
 
 import FlightModel from '../schemas/Flight';
 import Segment from '../schemas/Segment';
@@ -13,6 +9,10 @@ interface Props {
 }
 
 class Flight extends React.Component<Props> {
+	shouldComponentUpdate(nextProps: Props, nextState: any): boolean {
+		return this.props.flight.id !== nextProps.flight.id;
+	}
+
 	render(): React.ReactNode {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
@@ -23,22 +23,21 @@ class Flight extends React.Component<Props> {
 
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 
-		return <ExpansionPanel className="flight">
-			<ExpansionPanelSummary className="flight-summary">
+		return <div className="flight-summary">
 				<div className="flight-summary__left">
 					<div className="flight-summary-logo">
-						<Tooltip title={firstSegment.airline.name} placement="top">
+						{/*<Tooltip title={firstSegment.airline.name} placement="top">*/}
 							<img className="flight-summary-logo__image" src={`http://nemo1${firstSegment.airline.logoIcon}`}/>
-						</Tooltip>
+						{/*</Tooltip>*/}
 					</div>
 
 					<div className="flight-summary-stage">
 						<div className="flight-summary-stage__time">
-							<Typography variant="headline">{firstSegment.depDate.format('HH:MM')}</Typography>
+							{firstSegment.depDate.format('HH:MM')}
 						</div>
 
 						<div className="flight-summary-stage__location">
-							<Typography variant="caption">{firstSegment.depAirport.IATA}</Typography>
+							{firstSegment.depAirport.IATA}
 						</div>
 					</div>
 
@@ -49,11 +48,11 @@ class Flight extends React.Component<Props> {
 
 					<div className="flight-summary-stage">
 						<div className="flight-summary-stage__time">
-							<Typography variant="headline">{lastSegment.arrDate.format('HH:MM')}</Typography>
+							{lastSegment.arrDate.format('HH:MM')}
 						</div>
 
 						<div className="flight-summary-stage__location">
-							<Typography variant="caption">{lastSegment.arrAirport.IATA}</Typography>
+							{lastSegment.arrAirport.IATA}
 						</div>
 					</div>
 				</div>
@@ -77,10 +76,10 @@ class Flight extends React.Component<Props> {
 					<div className="flight-summary-price">
 						<div className="flight-summary-price__amount">
 							{!isOW ? 'от' : null}
-							<Typography className="flight-summary-price__amount-wrapper" variant="headline">
+							<span className="flight-summary-price__amount-wrapper">
 								{flight.totalPrice.amount}
 								<span className="flight-summary-price__amount-wrapper__currency">{flight.totalPrice.currency}</span>
-							</Typography>
+							</span>
 						</div>
 
 						{!isOW ? <div className="flight-summary-price__scope">
@@ -89,15 +88,10 @@ class Flight extends React.Component<Props> {
 					</div>
 
 					<div className="flight-summary-buy">
-						<Button variant="raised" color="secondary">Выбрать</Button>
+						<button>Выбрать</button>
 					</div>
 				</div>
-			</ExpansionPanelSummary>
-
-			<ExpansionPanelDetails className="flight-details">
-				Информация
-			</ExpansionPanelDetails>
-		</ExpansionPanel>;
+			</div>;
 	}
 }
 
