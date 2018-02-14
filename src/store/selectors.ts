@@ -22,7 +22,13 @@ export const getSelectedAirlinesList = createSelector(
 export const getVisibleFlights = createSelector(
 	[ getFlights, getSelectedAirlinesList ],
 	(flights: Flight[], selectedAirlines: SelectedAirlinesList): Flight[] => flights.filter(flight => {
-		return !Object.keys(selectedAirlines).length || !!flight.segments.find(segment => segment.airline.IATA in selectedAirlines);
+		let result = false;
+
+		if (!Object.keys(selectedAirlines).length || !!flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
+			result = true;
+		}
+
+		return result;
 	})
 );
 

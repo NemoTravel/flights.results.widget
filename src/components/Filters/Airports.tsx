@@ -3,9 +3,10 @@ import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 
-import Filter, { State as FilterState, Type as FilterType } from '../Filter';
+import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
+import WithPopover, { State as FilterState } from './WithPopover';
 
 interface Props {
 	departureAirports: Airport[];
@@ -16,7 +17,7 @@ interface State extends FilterState {
 	activeTab: number;
 }
 
-class Airports extends Filter<Props, State> {
+class Airports extends WithPopover<Props, State> {
 	state: State = {
 		isOpen: false,
 		element: null,

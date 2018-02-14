@@ -1,7 +1,8 @@
 import * as React from 'react';
-import Filter, { Type as FilterType } from '../Filter';
+import { Type as FilterType } from '../Filter';
+import WithPopover from './WithPopover';
 
-class Time extends Filter<any, any> {
+class Time extends WithPopover<any, any> {
 	protected type = FilterType.Time;
 	protected label = 'Время';
 

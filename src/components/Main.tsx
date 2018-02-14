@@ -4,6 +4,7 @@ import { LinearProgress } from 'material-ui/Progress';
 
 import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
+import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import { ApplicationState } from '../main';
@@ -28,6 +29,7 @@ class Main extends React.Component<StateProps> {
 				</section>
 
 				<section className="filters">
+					<DirectOnlyFilter/>
 					<AirlineFilter/>
 					<AirportsFilter departureAirports={this.props.departureAirports} arrivalAirports={this.props.arrivalAirports}/>
 					<TimeFilter/>

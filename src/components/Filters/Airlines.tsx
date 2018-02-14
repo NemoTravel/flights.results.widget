@@ -4,11 +4,12 @@ import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui
 import Checkbox from 'material-ui/Checkbox';
 
 import Airline from '../../schemas/Airline';
-import Filter, { Type as FilterType } from '../Filter';
+import { Type as FilterType } from '../Filter';
 import { addAirline, FilterAirlinesAction, removeAirline } from '../../store/filters/actions';
 import { getAirlinesList, getSelectedAirlinesList, SelectedAirlinesList } from '../../store/selectors';
 import { ApplicationState } from '../../main';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import WithPopover from './WithPopover';
 
 interface StateProps {
 	airlines: Airline[];
@@ -20,7 +21,7 @@ interface DispatchProps {
 	removeAirline: (IATA: string) => FilterAirlinesAction;
 }
 
-class Airlines extends Filter<StateProps & DispatchProps, any> {
+class Airlines extends WithPopover<StateProps & DispatchProps, any> {
 	protected type = FilterType.Airlines;
 	protected label = 'Авиакомпании';
 
