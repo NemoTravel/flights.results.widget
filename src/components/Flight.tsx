@@ -3,9 +3,10 @@ import * as moment from 'moment';
 import * as classnames from 'classnames';
 import Arrow from 'material-ui-icons/KeyboardArrowDown';
 
-import FlightModel from '../schemas/Flight';
-import Segment from '../schemas/Segment';
+import Segment from './Flight/Segment';
 import Price from './Price';
+import FlightModel from '../schemas/Flight';
+import SegmentModel from '../schemas/Segment';
 
 interface Props {
 	flight: FlightModel;
@@ -40,7 +41,7 @@ class Flight extends React.Component<Props, State> {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
 		const lastSegment = flight.segments[flight.segments.length - 1];
-		const totalFlightTime = flight.segments.reduce((result: number, segment: Segment) => result + segment.flightTime + segment.waitingTime, 0);
+		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
 		const isDirect = flight.segments.length === 1;
 		const isOW = flight.segmentGroups.length === 1;
 
@@ -124,9 +125,9 @@ class Flight extends React.Component<Props, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return <div className={classnames('flight-details', { 'flight-details_open': this.state.isOpen })}>
-			123
-		</div>;
+		return this.state.isOpen ? <div className="flight-details">
+			{this.props.flight.segments.map((segment, index) => <Segment key={index} segment={segment}/>)}
+		</div> : null;
 	}
 
 	render(): React.ReactNode {

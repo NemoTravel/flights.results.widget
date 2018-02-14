@@ -8,7 +8,18 @@
 	cursor: pointer;
 	transition: margin-bottom 0.1s ease-out;
 
+	&_hidden {
+		display: none;
+	}
+
+	&_open {
+		margin-top: 16px;
+		margin-bottom: 16px;
+		border-radius: 2px;
+	}
+
 	&:first-of-type {
+		margin-top: 0;
 		border-top-left-radius: 2px;
 		border-top-right-radius: 2px;
 	}
@@ -17,15 +28,6 @@
 		border-bottom-left-radius: 2px;
 		border-bottom-right-radius: 2px;
 		border-bottom: none;
-	}
-
-	&_hidden {
-		display: none;
-	}
-
-	&_open {
-		margin-bottom: 16px;
-		border-radius: 2px;
 	}
 
 	&-summary {
@@ -218,10 +220,35 @@
 	}
 
 	&-details {
-		display: none;
+		&-segment {
+			padding-left: 44px;
 
-		&_open {
-			display: block;
+			&:first-of-type {
+				margin-top: 12px;
+			}
+
+			&:last-of-type {
+				margin-bottom: 12px;
+			}
+
+			&__wrapper {
+				display: flex;
+				align-items: center;
+				max-width: 516px;
+
+
+				padding: 12px 24px 12px 24px;
+				background: #f7f7f7;
+
+				.flight-summary-stage-routeInfo__flightTime {
+					background: #f7f7f7;
+				}
+			}
+
+			&-transfer {
+				margin-top: 12px;
+				margin-bottom: 12px;
+			}
 		}
 	}
 }
