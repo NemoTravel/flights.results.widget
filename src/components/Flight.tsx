@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import Arrow from 'material-ui-icons/KeyboardArrowDown';
 
 import FlightModel from '../schemas/Flight';
 import Segment from '../schemas/Segment';
@@ -26,6 +27,10 @@ class Flight extends React.Component<Props> {
 		return <div className="flight">
 			<div className="flight-summary">
 				<div className="flight-summary__left">
+					<div className="flight-summary-expand">
+						<Arrow/>
+					</div>
+
 					<div className="flight-summary-logo">
 						<img className="flight-summary-logo__image" src={`http://nemo1${firstSegment.airline.logoIcon}`}/>
 					</div>
