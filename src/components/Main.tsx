@@ -10,7 +10,8 @@ import Flight from './Flight';
 import FlightModel from '../schemas/Flight';
 import { getVisibleFlights } from '../store/selectors';
 import { ApplicationState } from '../state';
-import { List, ListRowProps, WindowScroller } from 'react-virtualized';
+import { AutoSizer, List, ListRowProps, WindowScroller } from 'react-virtualized';
+import classNames = require('classnames');
 
 interface StateProps {
 	isLoading: boolean;
@@ -31,38 +32,44 @@ class Main extends React.Component<StateProps> {
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
 		const rowHeight = 72;
+		const overscan = 20;
 
-		return this.props.isLoading ?
-			<LinearProgress className="results-loader" color="secondary" variant="query"/> :
-			<div className="results-wrapper">
-				<section className="scenarios">
+		return <div className={classNames('results', { results_isLoading: this.props.isLoading })}>
+			<LinearProgress className="results-loader" color="secondary" variant="query"/>
 
-				</section>
+			<section className="scenarios">
 
-				<section className="filters">
-					<DirectOnlyFilter/>
-					<AirlineFilter/>
-					<AirportsFilter/>
-					<TimeFilter/>
-				</section>
+			</section>
 
-				<section className="results">
-					<WindowScroller>
-						{({ width, height, isScrolling, onChildScroll, scrollTop }) => (
-							<List
-								autoHeight
-								isScrolling={isScrolling}
-								scrollTop={scrollTop}
-								height={height}
-								width={width}
-								rowCount={numOfFlights}
-								rowHeight={rowHeight}
-								rowRenderer={this.flightRenderer}
-							/>
-						)}
-					</WindowScroller>
-				</section>
-			</div>;
+			<section className="filters">
+				<DirectOnlyFilter/>
+				<AirlineFilter/>
+				<AirportsFilter/>
+				<TimeFilter/>
+			</section>
+
+			<section className="results-flights">
+				<WindowScroller>
+					{({ isScrolling, scrollTop }) => (
+						<AutoSizer>
+							{({ height, width }) => (
+								<List
+									autoHeight
+									isScrolling={isScrolling}
+									scrollTop={scrollTop}
+									height={height}
+									width={width}
+									rowCount={numOfFlights}
+									rowHeight={rowHeight}
+									overscanRowCount={overscan}
+									rowRenderer={this.flightRenderer}
+								/>
+							)}
+						</AutoSizer>
+					)}
+				</WindowScroller>
+			</section>
+		</div>;
 	}
 }
 

@@ -71,18 +71,40 @@
             box-shadow: 0 4px 8px 0 rgba(93,134,41,.5);
             border-radius: 0;
         }
+
+        .wrapper {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #searchResultsRoot {
+            flex: 1;
+            display: flex;
+            padding-top: 136px;
+        }
+
+        .sticky {
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 1200;
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div>
-			<img src="./logo.svg">
+    <div class="wrapper">
+        <div class="sticky">
+            <header class="header">
+                <div>
+                    <img src="./logo.svg">
+                </div>
+            </header>
+
+            <section id="searchFormRoot"></section>
         </div>
-    </header>
-
-    <section id="searchFormRoot"></section>
-
-    <section id="searchResultsRoot"></section>
+        <section id="searchResultsRoot"></section>
+    </div>
 
     <script src="flights.results.widget.min.js"></script>
     <script src="http://search.mlsd.ru/flights.search.widget.min.js"></script>
