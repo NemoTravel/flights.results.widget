@@ -17,7 +17,10 @@ import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
 import {
-	FilterAirlinesAction, FILTERS_ADD_AIRLINE, FILTERS_REMOVE_AIRLINE,
+	FilterAirlinesAction, FilterAirportsAction, FILTERS_ADD_AIRLINE, FILTERS_ADD_ARRIVAL_AIRPORT,
+	FILTERS_ADD_DEPARTURE_AIRPORT,
+	FILTERS_REMOVE_AIRLINE, FILTERS_REMOVE_ARRIVAL_AIRPORT,
+	FILTERS_REMOVE_DEPARTURE_AIRPORT,
 	FILTERS_TOGGLE_DIRECT_FLIGHTS
 } from './store/filters/actions';
 
@@ -48,6 +51,8 @@ export interface Config {
 interface FiltersState {
 	airlines: string[];
 	directOnly: boolean;
+	departureAirports: string[];
+	arrivalAirports: string[];
 }
 
 export interface ApplicationState {
@@ -66,6 +71,42 @@ const configReducer = (state: Config = initalConfig, action: SetConfigAction): C
 	switch (action.type) {
 		case SET_CONFIG:
 			return action.payload;
+	}
+
+	return state;
+};
+
+const departureAirportsFilter = (state: string[] = [], action: FilterAirportsAction): string[] => {
+	switch (action.type) {
+		case FILTERS_ADD_DEPARTURE_AIRPORT:
+			const result: string[] = [...state];
+
+			if (!state.find(code => code === action.payload)) {
+				result.push(action.payload);
+			}
+
+			return result;
+
+		case FILTERS_REMOVE_DEPARTURE_AIRPORT:
+			return state.filter(code => code !== action.payload);
+	}
+
+	return state;
+};
+
+const arrivalAirportsFilter = (state: string[] = [], action: FilterAirportsAction): string[] => {
+	switch (action.type) {
+		case FILTERS_ADD_ARRIVAL_AIRPORT:
+			const result: string[] = [...state];
+
+			if (!state.find(code => code === action.payload)) {
+				result.push(action.payload);
+			}
+
+			return result;
+
+		case FILTERS_REMOVE_ARRIVAL_AIRPORT:
+			return state.filter(code => code !== action.payload);
 	}
 
 	return state;
@@ -124,7 +165,9 @@ const rootReducer = combineReducers<ApplicationState>({
 	flights: flightsReducer,
 	filters: combineReducers<FiltersState>({
 		airlines: airlinesFilter,
-		directOnly: directOnly
+		directOnly: directOnly,
+		departureAirports: departureAirportsFilter,
+		arrivalAirprots: arrivalAirportsFilter
 	}),
 	config: configReducer
 });

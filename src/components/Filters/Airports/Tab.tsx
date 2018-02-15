@@ -2,10 +2,12 @@ import * as React from 'react';
 import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import Airport from '../../../schemas/Airport';
+import { FilterAirportsAction } from '../../../store/filters/actions';
 
 interface Props {
 	airports: Airport[];
 	title: string;
+	onChange: (event: React.FormEvent<HTMLInputElement>, checked: boolean) => void;
 }
 
 class Tab extends React.Component<Props> {
@@ -19,6 +21,7 @@ class Tab extends React.Component<Props> {
 							key={index}
 							control={
 								<Checkbox
+									onChange={this.props.onChange}
 									checked={false}
 									value={airport.IATA}
 								/>

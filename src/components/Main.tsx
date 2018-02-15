@@ -9,14 +9,11 @@ import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import { ApplicationState } from '../main';
 import FlightModel from '../schemas/Flight';
-import Airport from '../schemas/Airport';
-import { getArrivalAirportsList, getDepartureAirportsList, getVisibleFlights } from '../store/selectors';
+import { getVisibleFlights } from '../store/selectors';
 
 interface StateProps {
 	isLoading: boolean;
 	flights: FlightModel[];
-	departureAirports: Airport[];
-	arrivalAirports: Airport[];
 }
 
 class Main extends React.Component<StateProps> {
@@ -31,7 +28,7 @@ class Main extends React.Component<StateProps> {
 				<section className="filters">
 					<DirectOnlyFilter/>
 					<AirlineFilter/>
-					<AirportsFilter departureAirports={this.props.departureAirports} arrivalAirports={this.props.arrivalAirports}/>
+					<AirportsFilter/>
 					<TimeFilter/>
 				</section>
 
@@ -45,9 +42,7 @@ class Main extends React.Component<StateProps> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		isLoading: state.isLoading,
-		flights: getVisibleFlights(state),
-		departureAirports: getDepartureAirportsList(state),
-		arrivalAirports: getArrivalAirportsList(state)
+		flights: getVisibleFlights(state)
 	};
 };
 
