@@ -1,11 +1,10 @@
 import { createSelector } from 'reselect';
 import Flight from '../schemas/Flight';
-import {
-	getIsDirectOnly,
-	getSelectedAirlinesList, getSelectedArrivalAirportsList,
-	getSelectedDepartureAirportsList, ListOfSelectedCodes
-} from './filters/selectors';
+import { ListOfSelectedCodes } from './filters/selectors';
 import { ApplicationState } from '../state';
+import { getSelectedAirlinesList } from './filters/airlines/selectors';
+import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
+import { getIsDirectOnly } from './filters/directOnly/selectors';
 
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
 

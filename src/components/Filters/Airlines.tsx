@@ -7,10 +7,7 @@ import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import WithPopover from './WithPopover';
-import {
-	getAirlinesList, getSelectedAirlinesList, getSelectedAirlinesObjects,
-	ListOfSelectedCodes
-} from '../../store/filters/selectors';
+import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
 import {
 	FilterAirlinesAction,
@@ -18,6 +15,11 @@ import {
 	removeAirline,
 	removeAllAirlines
 } from '../../store/filters/airlines/actions';
+import {
+	getAirlinesList,
+	getSelectedAirlinesList,
+	getSelectedAirlinesObjects
+} from '../../store/filters/airlines/selectors';
 
 interface StateProps {
 	airlines: Airline[];

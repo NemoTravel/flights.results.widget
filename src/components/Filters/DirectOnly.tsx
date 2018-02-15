@@ -4,6 +4,7 @@ import Filter, { Type as FilterType, State as FilterState } from '../Filter';
 import { Action, bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../state';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
+import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
 
 interface StateProps {
 	directOnly: boolean;
@@ -36,7 +37,7 @@ class DirectOnly extends Filter<Props, FilterState> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
-		directOnly: state.filters.directOnly
+		directOnly: getIsDirectOnly(state)
 	};
 };
 
