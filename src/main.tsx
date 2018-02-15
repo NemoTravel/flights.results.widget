@@ -17,10 +17,8 @@ import './css/main.scss';
 import { parse } from './services/parsers/results';
 import Flight from './schemas/Flight';
 import {
-	FilterAirlinesAction, FilterAirportsAction, FILTERS_ADD_AIRLINE, FILTERS_ADD_ARRIVAL_AIRPORT,
-	FILTERS_ADD_DEPARTURE_AIRPORT,
-	FILTERS_REMOVE_AIRLINE, FILTERS_REMOVE_ARRIVAL_AIRPORT,
-	FILTERS_REMOVE_DEPARTURE_AIRPORT,
+	FilterAirlinesAction, FilterAirportsAction, FILTERS_ADD_AIRLINE, FILTERS_ADD_AIRPORT,
+	FILTERS_REMOVE_AIRLINE, FILTERS_REMOVE_AIRPORT,
 	FILTERS_TOGGLE_DIRECT_FLIGHTS
 } from './store/filters/actions';
 
@@ -43,16 +41,25 @@ export enum PassengerType {
 	InfantWithSeat = 'INS'
 }
 
+export enum LocationType {
+	Departure = 'departure',
+	Arrival = 'arrival'
+}
+
 export interface Config {
 	rootElement: HTMLElement;
 	locale: Language;
 }
 
+interface AirportsFilterState {
+	[LocationType.Arrival]: string[];
+	[LocationType.Departure]: string[];
+}
+
 interface FiltersState {
 	airlines: string[];
 	directOnly: boolean;
-	departureAirports: string[];
-	arrivalAirports: string[];
+	airports: AirportsFilterState;
 }
 
 export interface ApplicationState {
@@ -61,6 +68,11 @@ export interface ApplicationState {
 	flights: Flight[];
 	filters: FiltersState;
 }
+
+const initialAirportsFiltersState: AirportsFilterState = {
+	[LocationType.Departure]: [],
+	[LocationType.Arrival]: []
+};
 
 const initalConfig: Config = {
 	rootElement: document.getElementById('root'),
@@ -76,64 +88,52 @@ const configReducer = (state: Config = initalConfig, action: SetConfigAction): C
 	return state;
 };
 
-const departureAirportsFilter = (state: string[] = [], action: FilterAirportsAction): string[] => {
+const addCodeInList = (list: string[], code: string): string[] => {
+	const result: string[] = [...list];
+
+	if (!list.find(existingCode => existingCode === code)) {
+		result.push(code);
+	}
+
+	return result;
+};
+
+const removeCodeFromList = (list: string[], code: string): string[] => {
+	return list.filter(existingCode => existingCode !== code);
+};
+
+const airportsCodesListReducer = (state: string[], action: FilterAirportsAction): string[] => {
 	switch (action.type) {
-		case FILTERS_ADD_DEPARTURE_AIRPORT:
-			const result: string[] = [...state];
+		case FILTERS_ADD_AIRPORT:
+			return addCodeInList(state, action.payload);
 
-			if (!state.find(code => code === action.payload)) {
-				result.push(action.payload);
-			}
-
-			return result;
-
-		case FILTERS_REMOVE_DEPARTURE_AIRPORT:
-			return state.filter(code => code !== action.payload);
+		case FILTERS_REMOVE_AIRPORT:
+			return removeCodeFromList(state, action.payload);
 	}
 
 	return state;
 };
 
-const arrivalAirportsFilter = (state: string[] = [], action: FilterAirportsAction): string[] => {
+const airlinesFilterReducer = (state: string[] = [], action: FilterAirlinesAction): string[] => {
 	switch (action.type) {
-		case FILTERS_ADD_ARRIVAL_AIRPORT:
-			const result: string[] = [...state];
+		case FILTERS_ADD_AIRLINE:
+			return addCodeInList(state, action.payload);
 
-			if (!state.find(code => code === action.payload)) {
-				result.push(action.payload);
-			}
-
-			return result;
-
-		case FILTERS_REMOVE_ARRIVAL_AIRPORT:
-			return state.filter(code => code !== action.payload);
+		case FILTERS_REMOVE_AIRLINE:
+			return removeCodeFromList(state, action.payload);
 	}
 
 	return state;
 };
 
-const directOnly = (state: boolean = false, action: Action): boolean => {
+const airportsFilterReducer = (state: AirportsFilterState = initialAirportsFiltersState, action: FilterAirportsAction): AirportsFilterState => {
+	return { ...state, [action.locationType]: airportsCodesListReducer(state[action.locationType], action) };
+};
+
+const directOnlyFilterReducer = (state: boolean = false, action: Action): boolean => {
 	switch (action.type) {
 		case FILTERS_TOGGLE_DIRECT_FLIGHTS:
 			return !state;
-	}
-
-	return state;
-};
-
-const airlinesFilter = (state: string[] = [], action: FilterAirlinesAction): string[] => {
-	switch (action.type) {
-		case FILTERS_ADD_AIRLINE:
-			const result: string[] = [...state];
-
-			if (!state.find(code => code === action.payload)) {
-				result.push(action.payload);
-			}
-
-			return result;
-
-		case FILTERS_REMOVE_AIRLINE:
-			return state.filter(code => code !== action.payload);
 	}
 
 	return state;
@@ -164,10 +164,9 @@ const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
 	flights: flightsReducer,
 	filters: combineReducers<FiltersState>({
-		airlines: airlinesFilter,
-		directOnly: directOnly,
-		departureAirports: departureAirportsFilter,
-		arrivalAirprots: arrivalAirportsFilter
+		airlines: airlinesFilterReducer,
+		directOnly: directOnlyFilterReducer,
+		airports: airportsFilterReducer
 	}),
 	config: configReducer
 });

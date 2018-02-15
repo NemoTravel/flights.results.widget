@@ -8,27 +8,24 @@ import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { ApplicationState } from '../../main';
-import { getArrivalAirportsList, getDepartureAirportsList } from '../../store/selectors';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { ApplicationState, LocationType } from '../../main';
 import {
-	FilterAirlinesAction,
-	addArrivalAirport,
-	addDepartureAirport,
-	removeArrivalAirport,
-	removeDepartureAirport
-} from '../../store/filters/actions';
+	getArrivalAirportsList, getDepartureAirportsList, getSelectedArrivalAirportsList,
+	getSelectedDepartureAirportsList, ListOfSelectedCodes
+} from '../../store/selectors';
+import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { FilterAirlinesAction, addAirport, removeAirport } from '../../store/filters/actions';
 
 interface StateProps {
 	departureAirports: Airport[];
 	arrivalAirports: Airport[];
+	selectedDepartureAirports: ListOfSelectedCodes;
+	selectedArrivalAirports: ListOfSelectedCodes;
 }
 
 interface DispatchProps {
-	addDepartureAirport: (IATA: string) => FilterAirlinesAction;
-	removeDepartureAirport: (IATA: string) => FilterAirlinesAction;
-	addArrivalAirport: (IATA: string) => FilterAirlinesAction;
-	removeArrivalAirport: (IATA: string) => FilterAirlinesAction;
+	addAirport: (IATA: string, type: LocationType) => FilterAirlinesAction;
+	removeAirport: (IATA: string, type: LocationType) => FilterAirlinesAction;
 }
 
 interface State extends FilterState {
@@ -61,10 +58,10 @@ class Airports extends WithPopover<Props, State> {
 		const airlineCode = (event.target as HTMLInputElement).value;
 
 		if (checked) {
-			this.props.addDepartureAirport(airlineCode);
+			this.props.addAirport(airlineCode, LocationType.Departure);
 		}
 		else {
-			this.props.removeDepartureAirport(airlineCode);
+			this.props.removeAirport(airlineCode, LocationType.Departure);
 		}
 	}
 
@@ -72,10 +69,10 @@ class Airports extends WithPopover<Props, State> {
 		const airlineCode = (event.target as HTMLInputElement).value;
 
 		if (checked) {
-			this.props.addArrivalAirport(airlineCode);
+			this.props.addAirport(airlineCode, LocationType.Arrival);
 		}
 		else {
-			this.props.removeArrivalAirport(airlineCode);
+			this.props.removeAirport(airlineCode, LocationType.Arrival);
 		}
 	}
 
@@ -117,8 +114,19 @@ class Airports extends WithPopover<Props, State> {
 				index={this.state.activeTab}
 				onChangeIndex={this.changeTabFromSwipe}
 			>
-				<AirportTab airports={this.props.departureAirports} onChange={this.onDepartureChange} title="Аэропорты вылета"/>
-				<AirportTab airports={this.props.arrivalAirports} onChange={this.onArrivalChange} title="Аэропорты прилета"/>
+				<AirportTab
+					selectedAirports={this.props.selectedDepartureAirports}
+					airports={this.props.departureAirports}
+					onChange={this.onDepartureChange}
+					title="Аэропорты вылета"
+				/>
+
+				<AirportTab
+					selectedAirports={this.props.selectedArrivalAirports}
+					airports={this.props.arrivalAirports}
+					onChange={this.onArrivalChange}
+					title="Аэропорты прилета"
+				/>
 			</SwipeableViews>
 		</div>;
 	}
@@ -126,6 +134,8 @@ class Airports extends WithPopover<Props, State> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
+		selectedDepartureAirports: getSelectedDepartureAirportsList(state),
+		selectedArrivalAirports: getSelectedArrivalAirportsList(state),
 		departureAirports: getDepartureAirportsList(state),
 		arrivalAirports: getArrivalAirportsList(state)
 	};
@@ -133,10 +143,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
-		addDepartureAirport: bindActionCreators(addDepartureAirport, dispatch),
-		removeDepartureAirport: bindActionCreators(removeDepartureAirport, dispatch),
-		addArrivalAirport: bindActionCreators(addArrivalAirport, dispatch),
-		removeArrivalAirport: bindActionCreators(removeArrivalAirport, dispatch)
+		addAirport: bindActionCreators(addAirport, dispatch),
+		removeAirport: bindActionCreators(removeAirport, dispatch)
 	};
 };
 

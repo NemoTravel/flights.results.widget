@@ -3,14 +3,20 @@ import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui
 import Checkbox from 'material-ui/Checkbox';
 import Airport from '../../../schemas/Airport';
 import { FilterAirportsAction } from '../../../store/filters/actions';
+import { ListOfSelectedCodes } from '../../../store/selectors';
 
 interface Props {
+	selectedAirports: ListOfSelectedCodes;
 	airports: Airport[];
 	title: string;
 	onChange: (event: React.FormEvent<HTMLInputElement>, checked: boolean) => void;
 }
 
 class Tab extends React.Component<Props> {
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.selectedAirports !== nextProps.selectedAirports;
+	}
+
 	render(): React.ReactNode {
 		return <div className="filters-filter-popover-tabsSelector-content__wrapper">
 			<FormControl component="fieldset">
@@ -22,7 +28,7 @@ class Tab extends React.Component<Props> {
 							control={
 								<Checkbox
 									onChange={this.props.onChange}
-									checked={false}
+									checked={airport.IATA in this.props.selectedAirports}
 									value={airport.IATA}
 								/>
 							}

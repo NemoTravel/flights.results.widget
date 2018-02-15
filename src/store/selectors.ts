@@ -1,28 +1,38 @@
 import { createSelector } from 'reselect';
-import { ApplicationState } from '../main';
+import { ApplicationState, LocationType } from '../main';
 import Flight from '../schemas/Flight';
 import Airline from '../schemas/Airline';
 import Airport from '../schemas/Airport';
 import Segment from '../schemas/Segment';
 
-export interface SelectedAirlinesList {
+export interface ListOfSelectedCodes {
 	[IATA: string]: boolean;
 }
 
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
 const getIsDirectOnly = (state: ApplicationState): boolean => state.filters.directOnly;
 const getFilteredAirlines = (state: ApplicationState): string[] => state.filters.airlines;
+const getFilteredDepartureAirports = (state: ApplicationState): string[] => state.filters.airports[LocationType.Departure];
+const getFilteredArrivalAirports = (state: ApplicationState): string[] => state.filters.airports[LocationType.Arrival];
 
-export const getSelectedAirlinesList = createSelector(
-	[ getFilteredAirlines ],
-	(airlinesCodes: string[]): SelectedAirlinesList => {
-		return airlinesCodes.reduce((result: SelectedAirlinesList, code: string): SelectedAirlinesList => ({ ...result, [code]: true }), {} as SelectedAirlinesList);
-	}
-);
+const getListOfSelectedCodes = (codes: string[]): ListOfSelectedCodes => {
+	const defaultList: ListOfSelectedCodes = {};
+
+	return codes.reduce((result: ListOfSelectedCodes, code: string): ListOfSelectedCodes => {
+		return {
+			...result,
+			[code]: true
+		};
+	}, defaultList);
+};
+
+export const getSelectedAirlinesList = createSelector([ getFilteredAirlines ], getListOfSelectedCodes);
+export const getSelectedDepartureAirportsList = createSelector([ getFilteredDepartureAirports ], getListOfSelectedCodes);
+export const getSelectedArrivalAirportsList = createSelector([ getFilteredArrivalAirports ], getListOfSelectedCodes);
 
 export const getVisibleFlights = createSelector(
 	[ getFlights, getSelectedAirlinesList, getIsDirectOnly ],
-	(flights: Flight[], selectedAirlines: SelectedAirlinesList, directOnly: boolean): Flight[] => flights.filter(flight => {
+	(flights: Flight[], selectedAirlines: ListOfSelectedCodes, directOnly: boolean): Flight[] => flights.filter(flight => {
 		if (directOnly && flight.segments.length !== 1) {
 			return false;
 		}
