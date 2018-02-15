@@ -7,9 +7,9 @@ import AirportsFilter from './Filters/Airports';
 import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
 import Flight from './Flight';
-import { ApplicationState } from '../main';
 import FlightModel from '../schemas/Flight';
 import { getVisibleFlights } from '../store/selectors';
+import { ApplicationState } from '../state';
 
 interface StateProps {
 	isLoading: boolean;

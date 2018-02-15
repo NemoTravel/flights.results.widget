@@ -2,8 +2,7 @@ import * as React from 'react';
 import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import Airport from '../../../schemas/Airport';
-import { FilterAirportsAction } from '../../../store/filters/actions';
-import { ListOfSelectedCodes } from '../../../store/selectors';
+import { ListOfSelectedCodes } from '../../../store/filters/selectors';
 
 interface Props {
 	selectedAirports: ListOfSelectedCodes;

@@ -8,13 +8,15 @@ import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { ApplicationState, LocationType } from '../../main';
-import {
-	getArrivalAirportsList, getDepartureAirportsList, getSelectedArrivalAirportsList,
-	getSelectedDepartureAirportsList, ListOfSelectedCodes
-} from '../../store/selectors';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { FilterAirlinesAction, addAirport, removeAirport } from '../../store/filters/actions';
+import {
+	getArrivalAirportsList,
+	getDepartureAirportsList,
+	getSelectedArrivalAirportsList, getSelectedDepartureAirportsList,
+	ListOfSelectedCodes
+} from '../../store/filters/selectors';
+import { ApplicationState, LocationType } from '../../state';
 
 interface StateProps {
 	departureAirports: Airport[];

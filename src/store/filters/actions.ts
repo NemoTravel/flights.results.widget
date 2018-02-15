@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LocationType } from '../../main';
+import { LocationType } from '../../state';
 
 export const FILTERS_TOGGLE_DIRECT_FLIGHTS = 'FILTERS_TOGGLE_DIRECT_FLIGHTS';
 export const FILTERS_ADD_AIRLINE = 'FILTERS_ADD_AIRLINE';

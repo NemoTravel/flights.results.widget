@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Filter, { Type as FilterType, State as FilterState } from '../Filter';
-import { ApplicationState } from '../../main';
 import { Action, bindActionCreators, Dispatch } from 'redux';
 import { toggleDirectFlights } from '../../store/filters/actions';
+import { ApplicationState } from '../../state';
 
 interface StateProps {
 	directOnly: boolean;

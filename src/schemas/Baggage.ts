@@ -1,4 +1,4 @@
-import { PassengerType } from '../main';
+import { PassengerType } from '../state';
 
 export interface RealBaggage {
 	description: string;

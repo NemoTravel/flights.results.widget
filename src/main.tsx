@@ -1,26 +1,20 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { Action, combineReducers, createStore } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as moment from 'moment';
 import 'whatwg-fetch';
 
 import Main from './components/Main';
 import themeObject from './themes/default';
-import {
-	SET_CONFIG,
-	SET_FLIGHTS, setConfig, SetConfigAction, setFlights, SetFlightsAction, START_LOADING, startLoading, STOP_LOADING,
-	stopLoading
-} from './store/actions';
 import './css/main.scss';
 import { parse } from './services/parsers/results';
-import Flight from './schemas/Flight';
-import {
-	FilterAirlinesAction, FilterAirportsAction, FILTERS_ADD_AIRLINE, FILTERS_ADD_AIRPORT,
-	FILTERS_REMOVE_AIRLINE, FILTERS_REMOVE_AIRPORT,
-	FILTERS_TOGGLE_DIRECT_FLIGHTS
-} from './store/filters/actions';
+import { rootReducer } from './store/reducers';
+import { setConfig } from './store/config/actions';
+import { startLoading, stopLoading } from './store/isLoading/actions';
+import { setFlights } from './store/flights/actions';
+import { ApplicationState, Config } from './state';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 
@@ -28,148 +22,6 @@ const momentDurationFormatSetup = require('moment-duration-format');
 // 	const { whyDidYouUpdate } = require('why-did-you-update');
 // 	whyDidYouUpdate(React);
 // }
-
-enum Language {
-	Russian = 'ru',
-	English = 'en'
-}
-
-export enum PassengerType {
-	Adult = 'ADT',
-	Child = 'CLD',
-	Infant = 'INF',
-	InfantWithSeat = 'INS'
-}
-
-export enum LocationType {
-	Departure = 'departure',
-	Arrival = 'arrival'
-}
-
-export interface Config {
-	rootElement: HTMLElement;
-	locale: Language;
-}
-
-interface AirportsFilterState {
-	[LocationType.Arrival]: string[];
-	[LocationType.Departure]: string[];
-}
-
-interface FiltersState {
-	airlines: string[];
-	directOnly: boolean;
-	airports: AirportsFilterState;
-}
-
-export interface ApplicationState {
-	isLoading: boolean;
-	config: Config;
-	flights: Flight[];
-	filters: FiltersState;
-}
-
-const initialAirportsFiltersState: AirportsFilterState = {
-	[LocationType.Departure]: [],
-	[LocationType.Arrival]: []
-};
-
-const initalConfig: Config = {
-	rootElement: document.getElementById('root'),
-	locale: Language.English
-};
-
-const configReducer = (state: Config = initalConfig, action: SetConfigAction): Config => {
-	switch (action.type) {
-		case SET_CONFIG:
-			return action.payload;
-	}
-
-	return state;
-};
-
-const addCodeInList = (list: string[], code: string): string[] => {
-	const result: string[] = [...list];
-
-	if (!list.find(existingCode => existingCode === code)) {
-		result.push(code);
-	}
-
-	return result;
-};
-
-const removeCodeFromList = (list: string[], code: string): string[] => {
-	return list.filter(existingCode => existingCode !== code);
-};
-
-const airportsCodesListReducer = (state: string[], action: FilterAirportsAction): string[] => {
-	switch (action.type) {
-		case FILTERS_ADD_AIRPORT:
-			return addCodeInList(state, action.payload);
-
-		case FILTERS_REMOVE_AIRPORT:
-			return removeCodeFromList(state, action.payload);
-	}
-
-	return state;
-};
-
-const airlinesFilterReducer = (state: string[] = [], action: FilterAirlinesAction): string[] => {
-	switch (action.type) {
-		case FILTERS_ADD_AIRLINE:
-			return addCodeInList(state, action.payload);
-
-		case FILTERS_REMOVE_AIRLINE:
-			return removeCodeFromList(state, action.payload);
-	}
-
-	return state;
-};
-
-const airportsFilterReducer = (state: AirportsFilterState = initialAirportsFiltersState, action: FilterAirportsAction): AirportsFilterState => {
-	return { ...state, [action.locationType]: airportsCodesListReducer(state[action.locationType], action) };
-};
-
-const directOnlyFilterReducer = (state: boolean = false, action: Action): boolean => {
-	switch (action.type) {
-		case FILTERS_TOGGLE_DIRECT_FLIGHTS:
-			return !state;
-	}
-
-	return state;
-};
-
-const loadingReducer = (state: boolean = false, action: Action): boolean => {
-	switch (action.type) {
-		case START_LOADING:
-			return true;
-
-		case STOP_LOADING:
-			return false;
-	}
-
-	return state;
-};
-
-const flightsReducer = (state: Flight[] = [], action: SetFlightsAction): Flight[] => {
-	switch (action.type) {
-		case SET_FLIGHTS:
-			return action.payload;
-	}
-
-	return state;
-};
-
-const rootReducer = combineReducers<ApplicationState>({
-	isLoading: loadingReducer,
-	flights: flightsReducer,
-	filters: combineReducers<FiltersState>({
-		airlines: airlinesFilterReducer,
-		directOnly: directOnlyFilterReducer,
-		airports: airportsFilterReducer
-	}),
-	config: configReducer
-});
 
 export const init = (config: Config) => {
 	const searchId = 215646;
