@@ -12,6 +12,10 @@ export interface AirlinesMap {
 	[IATA: string]: Airline;
 }
 
+export interface AirportsMap {
+	[IATA: string]: Airport;
+}
+
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
 
 const getListOfSelectedCodes = (codes: string[]): ListOfSelectedCodes => {
@@ -118,6 +122,20 @@ export const getAirportsList = (flights: Flight[], type: string): Airport[] => {
 		return 0;
 	});
 };
+
+export const getAirportsMap = createSelector(
+	[getAirportsList],
+	(airports: Airport[]): AirportsMap => {
+		const defaultMap: AirportsMap = {};
+
+		return airports.reduce((result: AirportsMap, airport) => {
+			return {
+				...result,
+				[airport.IATA]: airport
+			};
+		}, defaultMap);
+	}
+);
 
 export const getDepartureAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'departure'));
 export const getArrivalAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'arrival'));
