@@ -1,7 +1,7 @@
 import { Action, combineReducers } from 'redux';
 import {
 	FilterAirlinesAction, FilterAirportsAction, FILTERS_ADD_AIRLINE, FILTERS_ADD_AIRPORT, FILTERS_REMOVE_AIRLINE,
-	FILTERS_REMOVE_AIRPORT,
+	FILTERS_REMOVE_AIRPORT, FILTERS_REMOVE_ALL_AIRLINES, FILTERS_REMOVE_ALL_AIRPORTS,
 	FILTERS_TOGGLE_DIRECT_FLIGHTS
 } from './actions';
 import { AirportsFilterState, FiltersState, LocationType } from '../../state';
@@ -44,12 +44,20 @@ const airlinesFilterReducer = (state: string[] = [], action: FilterAirlinesActio
 
 		case FILTERS_REMOVE_AIRLINE:
 			return removeCodeFromList(state, action.payload);
+
+		case FILTERS_REMOVE_ALL_AIRLINES:
+			return [];
 	}
 
 	return state;
 };
 
 const airportsFilterReducer = (state: AirportsFilterState = initialAirportsFiltersState, action: FilterAirportsAction): AirportsFilterState => {
+	switch (action.type) {
+		case FILTERS_REMOVE_ALL_AIRPORTS:
+			return { ...state, departure: [], arrival: []};
+	}
+
 	return { ...state, [action.locationType]: airportsCodesListReducer(state[action.locationType], action) };
 };
 

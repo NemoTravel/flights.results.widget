@@ -5,8 +5,8 @@ import Checkbox from 'material-ui/Checkbox';
 
 import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
-import { addAirline, FilterAirlinesAction, removeAirline } from '../../store/filters/actions';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { addAirline, removeAirline, removeAllAirlines, FilterAirlinesAction } from '../../store/filters/actions';
+import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import WithPopover from './WithPopover';
 import { getAirlinesList, getSelectedAirlinesList, ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
@@ -19,6 +19,7 @@ interface StateProps {
 interface DispatchProps {
 	addAirline: (IATA: string) => FilterAirlinesAction;
 	removeAirline: (IATA: string) => FilterAirlinesAction;
+	removeAllAirlines: () => Action;
 }
 
 type Props = StateProps & DispatchProps;
@@ -42,6 +43,10 @@ class Airlines extends WithPopover<Props, any> {
 		else {
 			this.props.removeAirline(airlineCode);
 		}
+	}
+
+	onClear(): void {
+		this.props.removeAllAirlines();
 	}
 
 	componentWillReceiveProps(props: Props): void {
@@ -85,7 +90,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
 		addAirline: bindActionCreators(addAirline, dispatch),
-		removeAirline: bindActionCreators(removeAirline, dispatch)
+		removeAirline: bindActionCreators(removeAirline, dispatch),
+		removeAllAirlines: bindActionCreators(removeAllAirlines, dispatch)
 	};
 };
 

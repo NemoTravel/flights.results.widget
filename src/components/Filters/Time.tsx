@@ -9,6 +9,10 @@ class Time extends WithPopover<any, any> {
 	renderPopover(): React.ReactNode {
 		return 'HELLO';
 	}
+
+	onClear(): void {
+
+	}
 }
 
 export default Time;

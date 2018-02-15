@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Chip from 'material-ui/Chip';
+import Chip, { ChipProps } from 'material-ui/Chip';
 import classNames = require('classnames');
 
 export enum Type {
@@ -25,13 +25,26 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 		super(props);
 
 		this.onClick = this.onClick.bind(this);
+		this.onClear = this.onClear.bind(this);
 	}
 
 	abstract onClick(): void;
+	abstract onClear(): void;
 
 	render(): React.ReactNode {
+		const chipProps: ChipProps = {
+			label: this.label
+		};
+
+		if (this.state.isActive) {
+			chipProps.onDelete = this.onClear;
+		}
+		else {
+			chipProps.onClick = this.onClick;
+		}
+
 		return <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-			<Chip className="filters-filter-chip" label={this.label} onClick={this.onClick}/>
+			<Chip className="filters-filter-chip" {...chipProps}/>
 		</div>;
 	}
 }

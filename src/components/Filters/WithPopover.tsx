@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Filter, { State as FilterState } from '../Filter';
-import Chip from 'material-ui/Chip';
+import Chip, { ChipProps } from 'material-ui/Chip';
 import Popover from 'material-ui/Popover';
 import classNames = require('classnames');
 
@@ -58,8 +58,17 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 	}
 
 	render(): React.ReactNode {
+		const chipProps: ChipProps = {
+			label: this.label,
+			onClick: this.onClick
+		};
+
+		if (this.state.isActive) {
+			chipProps.onDelete = this.onClear;
+		}
+
 		return <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })} ref={this.getElement}>
-			<Chip className="filters-filter-chip" label={this.label} onClick={this.onClick}/>
+			<Chip className="filters-filter-chip" {...chipProps}/>
 
 			<Popover
 				className={`filters-filter-popover filters-filter-popover_${this.type}`}

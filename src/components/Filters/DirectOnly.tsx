@@ -25,7 +25,11 @@ class DirectOnly extends Filter<Props, FilterState> {
 		} as FilterState);
 	}
 
-	onClick() {
+	onClick(): void {
+		this.props.toggleDirectFlights();
+	}
+
+	onClear(): void {
 		this.props.toggleDirectFlights();
 	}
 }

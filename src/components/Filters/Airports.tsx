@@ -8,8 +8,8 @@ import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
-import { FilterAirlinesAction, addAirport, removeAirport } from '../../store/filters/actions';
+import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { FilterAirlinesAction, addAirport, removeAirport, removeAllAirports } from '../../store/filters/actions';
 import {
 	getArrivalAirportsList,
 	getDepartureAirportsList,
@@ -28,6 +28,7 @@ interface StateProps {
 interface DispatchProps {
 	addAirport: (IATA: string, type: LocationType) => FilterAirlinesAction;
 	removeAirport: (IATA: string, type: LocationType) => FilterAirlinesAction;
+	removeAllAirports: () => Action;
 }
 
 interface State extends FilterState {
@@ -82,6 +83,10 @@ class Airports extends WithPopover<Props, State> {
 		else {
 			this.props.removeAirport(airlineCode, LocationType.Arrival);
 		}
+	}
+
+	onClear(): void {
+		this.props.removeAllAirports();
 	}
 
 	changeTab(event: React.ChangeEvent<{}>, value: number): void {
@@ -152,7 +157,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
 		addAirport: bindActionCreators(addAirport, dispatch),
-		removeAirport: bindActionCreators(removeAirport, dispatch)
+		removeAirport: bindActionCreators(removeAirport, dispatch),
+		removeAllAirports: bindActionCreators(removeAllAirports, dispatch)
 	};
 };
 
