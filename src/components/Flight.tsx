@@ -9,6 +9,7 @@ import SegmentModel from '../schemas/Segment';
 
 interface Props {
 	flight: FlightModel;
+	style: React.CSSProperties;
 }
 
 interface State {
@@ -133,7 +134,7 @@ class Flight extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
-		return <div className={classnames('flight', { flight_open: this.state.isOpen })}>
+		return <div className={classnames('flight', { flight_open: this.state.isOpen })} style={this.props.style}>
 			{this.renderSummary()}
 			{this.renderDetails()}
 		</div>;

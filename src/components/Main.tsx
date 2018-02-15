@@ -10,6 +10,7 @@ import Flight from './Flight';
 import FlightModel from '../schemas/Flight';
 import { getVisibleFlights } from '../store/selectors';
 import { ApplicationState } from '../state';
+import { List, ListRowProps, WindowScroller } from 'react-virtualized';
 
 interface StateProps {
 	isLoading: boolean;
@@ -17,7 +18,20 @@ interface StateProps {
 }
 
 class Main extends React.Component<StateProps> {
+	constructor(props: StateProps) {
+		super(props);
+
+		this.flightRenderer = this.flightRenderer.bind(this);
+	}
+
+	flightRenderer({ index, isScrolling, key, style }: ListRowProps): React.ReactNode {
+		return <Flight key={index} flight={this.props.flights[index]} style={style}/>;
+	}
+
 	render(): React.ReactNode {
+		const numOfFlights = this.props.flights.length;
+		const rowHeight = 72;
+
 		return this.props.isLoading ?
 			<LinearProgress className="results-loader" color="secondary" variant="query"/> :
 			<div className="results-wrapper">
@@ -33,7 +47,20 @@ class Main extends React.Component<StateProps> {
 				</section>
 
 				<section className="results">
-					{this.props.flights.map((flight, index) => <Flight key={index} flight={flight}/>)}
+					<WindowScroller>
+						{({ width, height, isScrolling, onChildScroll, scrollTop }) => (
+							<List
+								autoHeight
+								isScrolling={isScrolling}
+								scrollTop={scrollTop}
+								height={height}
+								width={width}
+								rowCount={numOfFlights}
+								rowHeight={rowHeight}
+								rowRenderer={this.flightRenderer}
+							/>
+						)}
+					</WindowScroller>
 				</section>
 			</div>;
 	}

@@ -39,17 +39,14 @@
   padding: 20px 20px 10px;
 }
 
-.results {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
 .results-loader {
   position: absolute !important;
   width: 100%;
 }
 
 .flight {
+  width: 1280px;
+  margin: 0 auto;
   background-color: #fff;
   border-bottom: 1px solid #d7d7d7;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);

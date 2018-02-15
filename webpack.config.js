@@ -104,26 +104,8 @@ const config = {
 
             // Handling ".scss" files for nemo default theme
             {
-                test: /\.scss$/,
-                include: [
-                    path.resolve(__dirname, 'src/css/nemo')
-                ],
-                use: extractNemoSass.extract({
-                    use: [
-                        // Allows to import CSS through JavaScript.
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: !isDevMode
-                            }
-                        },
-                        'resolve-url-loader', // Resolving relative URL in CSS code.
-                        'postcss-loader', // Using autoprefixe plugin.
-                        'sass-loader' // Compiles Sass to CSS.
-                    ],
-                    fallback: 'style-loader',
-                    publicPath: path.resolve(__dirname, 'dist')
-                })
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader?modules', 'postcss-loader']
             },
 
             // Handling fonts and converting them to base64 format.

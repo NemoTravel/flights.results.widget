@@ -9,6 +9,7 @@ import 'whatwg-fetch';
 import Main from './components/Main';
 import themeObject from './themes/default';
 import './css/main.scss';
+import 'react-virtualized/styles.css';
 import { parse } from './services/parsers/results';
 import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';
