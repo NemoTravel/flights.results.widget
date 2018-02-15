@@ -1,17 +1,8 @@
-import { Action, combineReducers } from 'redux';
-import { FILTERS_TOGGLE_DIRECT_FLIGHTS } from './actions';
+import { combineReducers } from 'redux';
 import { FiltersState } from '../../state';
 import { airportsFilterReducer } from './airports/reducers';
 import { airlinesFilterReducer } from './airlines/reducers';
-
-const directOnlyFilterReducer = (state: boolean = false, action: Action): boolean => {
-	switch (action.type) {
-		case FILTERS_TOGGLE_DIRECT_FLIGHTS:
-			return !state;
-	}
-
-	return state;
-};
+import { directOnlyFilterReducer } from './directOnly/reducers';
 
 export const filtersReducer = combineReducers<FiltersState>({
 	airlines: airlinesFilterReducer,
