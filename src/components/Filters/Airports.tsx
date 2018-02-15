@@ -54,6 +54,12 @@ class Airports extends WithPopover<Props, State> {
 		this.onDepartureChange = this.onDepartureChange.bind(this);
 	}
 
+	componentWillReceiveProps(props: Props): void {
+		this.setState({
+			isActive: !!Object.keys(props.selectedDepartureAirports).length || !!Object.keys(props.selectedArrivalAirports).length
+		});
+	}
+
 	onDepartureChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
 		const airlineCode = (event.target as HTMLInputElement).value;
 
