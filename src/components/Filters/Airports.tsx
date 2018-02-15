@@ -63,9 +63,29 @@ class Airports extends WithPopover<Props, State> {
 		this.onDepartureChange = this.onDepartureChange.bind(this);
 	}
 
-	componentWillReceiveProps(props: Props): void {
+	componentWillReceiveProps({ selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject }: Props): void {
+		const hasSelectedDepartureAirports = !!Object.keys(selectedDepartureAirports).length;
+		const hasSelectedArrivalAirports = !!Object.keys(selectedArrivalAirports).length;
+		let chipLabel = this.label;
+
+		if (hasSelectedDepartureAirports) {
+			chipLabel = 'Вылет: ' + selectedDepartureAirportsObject.map(airport => airport.name).join(', ');
+		}
+
+		if (hasSelectedArrivalAirports) {
+			const tmpChipLabel = selectedArrivalAirportsObject.map(airport => airport.name).join(', ');
+
+			if (hasSelectedDepartureAirports) {
+				chipLabel += ', прилет: ' + tmpChipLabel;
+			}
+			else {
+				chipLabel = 'Прилет: ' + tmpChipLabel;
+			}
+		}
+
 		this.setState({
-			isActive: !!Object.keys(props.selectedDepartureAirports).length || !!Object.keys(props.selectedArrivalAirports).length
+			isActive: hasSelectedDepartureAirports || hasSelectedArrivalAirports,
+			chipLabel: chipLabel
 		});
 	}
 
@@ -155,8 +175,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		selectedDepartureAirports: getSelectedDepartureAirportsList(state),
 		selectedArrivalAirports: getSelectedArrivalAirportsList(state),
-		selectedDepartureAirportsObject: getSelectedArrivalAirportsObjects(state),
-		selectedArrivalAirportsObject: getSelectedDepartureAirportsObjects(state),
+		selectedDepartureAirportsObject: getSelectedDepartureAirportsObjects(state),
+		selectedArrivalAirportsObject: getSelectedArrivalAirportsObjects(state),
 		departureAirports: getDepartureAirportsList(state),
 		arrivalAirports: getArrivalAirportsList(state)
 	};

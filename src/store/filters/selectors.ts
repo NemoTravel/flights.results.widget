@@ -152,7 +152,7 @@ export const getSelectedDepartureAirportsObjects = createSelector(
 );
 
 export const getSelectedArrivalAirportsObjects = createSelector(
-	[getArrivalAirportsMap, getFilteredDepartureAirports],
+	[getArrivalAirportsMap, getFilteredArrivalAirports],
 	(airportsMap: ObjectsMap<Airport>, airportsCodes: string[]): Airport[] => {
 		return airportsCodes.map(code => airportsMap[code]);
 	}
