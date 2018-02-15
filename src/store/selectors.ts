@@ -26,27 +26,43 @@ const getListOfSelectedCodes = (codes: string[]): ListOfSelectedCodes => {
 	}, defaultList);
 };
 
-export const getSelectedAirlinesList = createSelector([ getFilteredAirlines ], getListOfSelectedCodes);
-export const getSelectedDepartureAirportsList = createSelector([ getFilteredDepartureAirports ], getListOfSelectedCodes);
-export const getSelectedArrivalAirportsList = createSelector([ getFilteredArrivalAirports ], getListOfSelectedCodes);
+export const getSelectedAirlinesList = createSelector([getFilteredAirlines], getListOfSelectedCodes);
+export const getSelectedDepartureAirportsList = createSelector([getFilteredDepartureAirports], getListOfSelectedCodes);
+export const getSelectedArrivalAirportsList = createSelector([getFilteredArrivalAirports], getListOfSelectedCodes);
 
 export const getVisibleFlights = createSelector(
-	[ getFlights, getSelectedAirlinesList, getIsDirectOnly ],
-	(flights: Flight[], selectedAirlines: ListOfSelectedCodes, directOnly: boolean): Flight[] => flights.filter(flight => {
-		if (directOnly && flight.segments.length !== 1) {
-			return false;
-		}
+	[
+		getFlights,
+		getSelectedAirlinesList,
+		getSelectedDepartureAirportsList,
+		getSelectedArrivalAirportsList,
+		getIsDirectOnly
+	],
+	(flights: Flight[], selectedAirlines: ListOfSelectedCodes, selectedDepartureAirports: ListOfSelectedCodes, selectedArrivalAirports: ListOfSelectedCodes, directOnly: boolean): Flight[] => {
+		return flights.filter(flight => {
+			if (directOnly && flight.segments.length !== 1) {
+				return false;
+			}
 
-		if (Object.keys(selectedAirlines).length && !flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
-			return false;
-		}
+			if (Object.keys(selectedDepartureAirports).length && !(flight.segments[0].depAirport.IATA in selectedDepartureAirports)) {
+				return false;
+			}
 
-		return true;
-	})
+			if (Object.keys(selectedArrivalAirports).length && !(flight.segments[flight.segments.length - 1].arrAirport.IATA in selectedArrivalAirports)) {
+				return false;
+			}
+
+			if (Object.keys(selectedAirlines).length && !flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
+				return false;
+			}
+
+			return true;
+		});
+	}
 );
 
 export const getAirlinesList = createSelector(
-	[ getFlights ],
+	[getFlights],
 	(flights: Flight[]): Airline[] => {
 		const airlines: Airline[] = [];
 		const airlinesMap: { [IATA: string]: any } = {};
@@ -114,11 +130,11 @@ const getAirportsList = (flights: Flight[], type: string): Airport[] => {
 };
 
 export const getDepartureAirportsList = createSelector(
-	[ getFlights ],
+	[getFlights],
 	(flights: Flight[]): Airport[] => getAirportsList(flights, 'departure')
 );
 
 export const getArrivalAirportsList = createSelector(
-	[ getFlights ],
+	[getFlights],
 	(flights: Flight[]): Airport[] => getAirportsList(flights, 'arrival')
 );
