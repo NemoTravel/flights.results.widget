@@ -8,12 +8,12 @@ export interface ListOfSelectedCodes {
 	[IATA: string]: boolean;
 }
 
-export interface AirlinesMap {
-	[IATA: string]: Airline;
+export interface ObjectWithIATA {
+	IATA: string;
 }
 
-export interface AirportsMap {
-	[IATA: string]: Airport;
+export interface ObjectsMap<T> {
+	[IATA: string]: T;
 }
 
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
@@ -72,23 +72,27 @@ export const getAirlinesList = createSelector(
 	}
 );
 
+const createMap = <T extends ObjectWithIATA>(objects: T[]): ObjectsMap<T> => {
+	const defaultMap: ObjectsMap<T> = {};
+
+	return objects.reduce((result: ObjectsMap<T>, object: T): ObjectsMap<T> => {
+		return {
+			...result,
+			[object.IATA]: object
+		};
+	}, defaultMap);
+};
+
 export const getAirlinesMap = createSelector(
 	[getAirlinesList],
-	(airlines: Airline[]): AirlinesMap => {
-		const defaultMap: AirlinesMap = {};
-
-		return airlines.reduce((result: AirlinesMap, airline) => {
-			return {
-				...result,
-				[airline.IATA]: airline
-			};
-		}, defaultMap);
+	(airlines: Airline[]): ObjectsMap<Airline> => {
+		return createMap<Airline>(airlines);
 	}
 );
 
 export const getSelectedAirlinesObjects = createSelector(
 	[getAirlinesMap, getFilteredAirlines],
-	(airlinesMap: AirlinesMap, airlinesCodes: string[]): Airline[] => {
+	(airlinesMap: ObjectsMap<Airline>, airlinesCodes: string[]): Airline[] => {
 		return airlinesCodes.map(code => airlinesMap[code]);
 	}
 );
@@ -123,19 +127,33 @@ export const getAirportsList = (flights: Flight[], type: string): Airport[] => {
 	});
 };
 
-export const getAirportsMap = createSelector(
-	[getAirportsList],
-	(airports: Airport[]): AirportsMap => {
-		const defaultMap: AirportsMap = {};
+export const getDepartureAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'departure'));
+export const getArrivalAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'arrival'));
 
-		return airports.reduce((result: AirportsMap, airport) => {
-			return {
-				...result,
-				[airport.IATA]: airport
-			};
-		}, defaultMap);
+export const getDepartureAirportsMap = createSelector(
+	[getDepartureAirportsList],
+	(airports: Airport[]): ObjectsMap<Airport> => {
+		return createMap<Airport>(airports);
 	}
 );
 
-export const getDepartureAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'departure'));
-export const getArrivalAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'arrival'));
+export const getArrivalAirportsMap = createSelector(
+	[getArrivalAirportsList],
+	(airports: Airport[]): ObjectsMap<Airport> => {
+		return createMap<Airport>(airports);
+	}
+);
+
+export const getSelectedDepartureAirportsObjects = createSelector(
+	[getDepartureAirportsMap, getFilteredDepartureAirports],
+	(airportsMap: ObjectsMap<Airport>, airportsCodes: string[]): Airport[] => {
+		return airportsCodes.map(code => airportsMap[code]);
+	}
+);
+
+export const getSelectedArrivalAirportsObjects = createSelector(
+	[getArrivalAirportsMap, getFilteredDepartureAirports],
+	(airportsMap: ObjectsMap<Airport>, airportsCodes: string[]): Airport[] => {
+		return airportsCodes.map(code => airportsMap[code]);
+	}
+);

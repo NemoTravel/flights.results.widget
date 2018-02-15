@@ -13,7 +13,10 @@ import { FilterAirlinesAction, addAirport, removeAirport, removeAllAirports } fr
 import {
 	getArrivalAirportsList,
 	getDepartureAirportsList,
-	getSelectedArrivalAirportsList, getSelectedDepartureAirportsList,
+	getSelectedArrivalAirportsList,
+	getSelectedArrivalAirportsObjects,
+	getSelectedDepartureAirportsList,
+	getSelectedDepartureAirportsObjects,
 	ListOfSelectedCodes
 } from '../../store/filters/selectors';
 import { ApplicationState, LocationType } from '../../state';
@@ -23,6 +26,8 @@ interface StateProps {
 	arrivalAirports: Airport[];
 	selectedDepartureAirports: ListOfSelectedCodes;
 	selectedArrivalAirports: ListOfSelectedCodes;
+	selectedDepartureAirportsObject: Airport[];
+	selectedArrivalAirportsObject: Airport[];
 }
 
 interface DispatchProps {
@@ -150,6 +155,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		selectedDepartureAirports: getSelectedDepartureAirportsList(state),
 		selectedArrivalAirports: getSelectedArrivalAirportsList(state),
+		selectedDepartureAirportsObject: getSelectedArrivalAirportsObjects(state),
+		selectedArrivalAirportsObject: getSelectedDepartureAirportsObjects(state),
 		departureAirports: getDepartureAirportsList(state),
 		arrivalAirports: getArrivalAirportsList(state)
 	};
