@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import * as classnames from 'classnames';
-import Arrow from 'material-ui-icons/KeyboardArrowDown';
 
 import Segment from './Flight/Segment';
 import Price from './Price';
@@ -50,7 +49,10 @@ class Flight extends React.Component<Props, State> {
 		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen })} onClick={this.toggleDetails}>
 			<div className="flight-summary__left">
 				<div className={classnames('flight-summary-expand', { 'flight-summary-expand_open': this.state.isOpen })}>
-					<Arrow/>
+					<svg fill="rgba(0, 0, 0, 0.54)" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+						<path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
+						<path d="M0-.75h24v24H0z" fill="none"/>
+					</svg>
 				</div>
 
 				<div className="flight-summary-placeholder">
