@@ -5,7 +5,6 @@ import Checkbox from 'material-ui/Checkbox';
 
 import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
-import { addAirline, removeAirline, removeAllAirlines, FilterAirlinesAction } from '../../store/filters/actions';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import WithPopover from './WithPopover';
 import {
@@ -13,6 +12,12 @@ import {
 	ListOfSelectedCodes
 } from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
+import {
+	FilterAirlinesAction,
+	addAirline,
+	removeAirline,
+	removeAllAirlines
+} from '../../store/filters/airlines/actions';
 
 interface StateProps {
 	airlines: Airline[];

@@ -9,7 +9,6 @@ import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
-import { FilterAirlinesAction, addAirport, removeAirport, removeAllAirports } from '../../store/filters/actions';
 import {
 	getArrivalAirportsList,
 	getDepartureAirportsList,
@@ -20,6 +19,12 @@ import {
 	ListOfSelectedCodes
 } from '../../store/filters/selectors';
 import { ApplicationState, LocationType } from '../../state';
+import {
+	FilterAirportsAction,
+	addAirport,
+	removeAirport,
+	removeAllAirports
+} from '../../store/filters/airports/actions';
 
 interface StateProps {
 	departureAirports: Airport[];
@@ -31,8 +36,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	addAirport: (IATA: string, type: LocationType) => FilterAirlinesAction;
-	removeAirport: (IATA: string, type: LocationType) => FilterAirlinesAction;
+	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
+	removeAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
 	removeAllAirports: () => Action;
 }
 
