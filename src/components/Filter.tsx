@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Chip, { ChipProps } from 'material-ui/Chip';
 import classNames = require('classnames');
+import Airline from '../schemas/Airline';
 
 export enum Type {
 	Airports = 'airports',
@@ -11,10 +12,12 @@ export enum Type {
 
 export interface State {
 	isActive: boolean;
+	chipLabel: string;
 }
 
 abstract class Filter<P, S> extends React.Component<P, S | State> {
 	state: State = {
+		chipLabel: '',
 		isActive: false
 	};
 
@@ -31,9 +34,15 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 	abstract onClick(): void;
 	abstract onClear(): void;
 
+	componentDidMount(): void {
+		this.setState({
+			chipLabel: this.label
+		} as State);
+	}
+
 	render(): React.ReactNode {
 		const chipProps: ChipProps = {
-			label: this.label
+			label: this.state.chipLabel
 		};
 
 		if (this.state.isActive) {

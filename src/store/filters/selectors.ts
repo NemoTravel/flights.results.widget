@@ -8,6 +8,10 @@ export interface ListOfSelectedCodes {
 	[IATA: string]: boolean;
 }
 
+export interface AirlinesMap {
+	[IATA: string]: Airline;
+}
+
 const getFlights = (state: ApplicationState): Flight[] => state.flights;
 
 const getListOfSelectedCodes = (codes: string[]): ListOfSelectedCodes => {
@@ -61,6 +65,27 @@ export const getAirlinesList = createSelector(
 
 			return 0;
 		});
+	}
+);
+
+export const getAirlinesMap = createSelector(
+	[getAirlinesList],
+	(airlines: Airline[]): AirlinesMap => {
+		const defaultMap: AirlinesMap = {};
+
+		return airlines.reduce((result: AirlinesMap, airline) => {
+			return {
+				...result,
+				[airline.IATA]: airline
+			};
+		}, defaultMap);
+	}
+);
+
+export const getSelectedAirlinesObjects = createSelector(
+	[getAirlinesMap, getFilteredAirlines],
+	(airlinesMap: AirlinesMap, airlinesCodes: string[]): Airline[] => {
+		return airlinesCodes.map(code => airlinesMap[code]);
 	}
 );
 

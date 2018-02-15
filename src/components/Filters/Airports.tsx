@@ -39,6 +39,7 @@ type Props = StateProps & DispatchProps;
 
 class Airports extends WithPopover<Props, State> {
 	state: State = {
+		chipLabel: '',
 		isActive: false,
 		isOpen: false,
 		element: null,

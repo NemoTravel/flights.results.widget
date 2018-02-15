@@ -11,6 +11,7 @@ export interface State extends FilterState {
 
 abstract class WithPopover<P, S> extends Filter<P, State | S> {
 	state: State = {
+		chipLabel: '',
 		isActive: false,
 		isOpen: false,
 		element: null
@@ -31,6 +32,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 	getElement(node: HTMLDivElement): void {
 		this.setState({
+			chipLabel: this.state.chipLabel,
 			isActive: this.state.isActive,
 			isOpen: this.state.isOpen,
 			element: node
@@ -59,7 +61,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 	render(): React.ReactNode {
 		const chipProps: ChipProps = {
-			label: this.label,
+			label: this.state.chipLabel,
 			onClick: this.onClick
 		};
 

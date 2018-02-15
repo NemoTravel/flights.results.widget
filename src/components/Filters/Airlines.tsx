@@ -8,12 +8,16 @@ import { Type as FilterType } from '../Filter';
 import { addAirline, removeAirline, removeAllAirlines, FilterAirlinesAction } from '../../store/filters/actions';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import WithPopover from './WithPopover';
-import { getAirlinesList, getSelectedAirlinesList, ListOfSelectedCodes } from '../../store/filters/selectors';
+import {
+	getAirlinesList, getSelectedAirlinesList, getSelectedAirlinesObjects,
+	ListOfSelectedCodes
+} from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
 
 interface StateProps {
 	airlines: Airline[];
 	selectedAirlines: ListOfSelectedCodes;
+	selectedAirlinesObject: Airline[];
 }
 
 interface DispatchProps {
@@ -49,9 +53,12 @@ class Airlines extends WithPopover<Props, any> {
 		this.props.removeAllAirlines();
 	}
 
-	componentWillReceiveProps(props: Props): void {
+	componentWillReceiveProps({ selectedAirlines, selectedAirlinesObject }: Props): void {
+		const hasSelectedAirlines = !!Object.keys(selectedAirlines).length;
+
 		this.setState({
-			isActive: !!Object.keys(props.selectedAirlines).length
+			isActive: hasSelectedAirlines,
+			chipLabel: hasSelectedAirlines ? selectedAirlinesObject.map((airline: Airline): string => airline.name).join(', ') : this.label
 		});
 	}
 
@@ -83,7 +90,8 @@ class Airlines extends WithPopover<Props, any> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		airlines: getAirlinesList(state),
-		selectedAirlines: getSelectedAirlinesList(state)
+		selectedAirlines: getSelectedAirlinesList(state),
+		selectedAirlinesObject: getSelectedAirlinesObjects(state)
 	};
 };
 

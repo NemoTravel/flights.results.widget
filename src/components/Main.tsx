@@ -50,9 +50,9 @@ class Main extends React.Component<StateProps> {
 
 			<section className="results-flights">
 				<WindowScroller>
-					{({ isScrolling, scrollTop }) => (
+					{({ height, isScrolling, scrollTop }) => (
 						<AutoSizer>
-							{({ height, width }) => (
+							{({ width }) => (
 								<List
 									autoHeight
 									isScrolling={isScrolling}
