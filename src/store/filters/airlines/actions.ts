@@ -8,6 +8,12 @@ export interface FilterAirlinesAction extends Action {
 	payload: string;
 }
 
+/**
+ * Add airline code to the list of airlines codes used for filtering.
+ *
+ * @param {string} IATA
+ * @returns {FilterAirlinesAction}
+ */
 export const addAirline = (IATA: string): FilterAirlinesAction => {
 	return {
 		type: FILTERS_ADD_AIRLINE,
@@ -15,6 +21,12 @@ export const addAirline = (IATA: string): FilterAirlinesAction => {
 	};
 };
 
+/**
+ * Remove airline code from the list of airlines codes used for filtering.
+ *
+ * @param {string} IATA
+ * @returns {FilterAirlinesAction}
+ */
 export const removeAirline = (IATA: string): FilterAirlinesAction => {
 	return {
 		type: FILTERS_REMOVE_AIRLINE,
@@ -22,6 +34,11 @@ export const removeAirline = (IATA: string): FilterAirlinesAction => {
 	};
 };
 
+/**
+ * Clear the list of airlines codes used for filtering.
+ *
+ * @returns {Action}
+ */
 export const removeAllAirlines = (): Action => {
 	return {
 		type: FILTERS_REMOVE_ALL_AIRLINES

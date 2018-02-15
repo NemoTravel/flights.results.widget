@@ -13,8 +13,20 @@ export interface ObjectsMap<T> {
 	[IATA: string]: T;
 }
 
+/**
+ * Get an array of all flights.
+ *
+ * @param {ApplicationState} state
+ * @returns {Flight[]}
+ */
 export const getFlights = (state: ApplicationState): Flight[] => state.flights;
 
+/**
+ * Get an object with selected codes used for filtering (airlines and airports filters).
+ *
+ * @param {string[]} codes
+ * @returns {ListOfSelectedCodes}
+ */
 export const getListOfSelectedCodes = (codes: string[]): ListOfSelectedCodes => {
 	const defaultList: ListOfSelectedCodes = {};
 
@@ -26,6 +38,13 @@ export const getListOfSelectedCodes = (codes: string[]): ListOfSelectedCodes => 
 	}, defaultList);
 };
 
+/**
+ * Create a map of `objectCode` => `objectInstance`.
+ * Used for creating a set of selected objects used for filtering (set of airports or airlines).
+ *
+ * @param {[]} objects
+ * @returns {ObjectsMap}
+ */
 export const createMap = <T extends ObjectWithIATA>(objects: T[]): ObjectsMap<T> => {
 	const defaultMap: ObjectsMap<T> = {};
 

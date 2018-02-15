@@ -16,7 +16,7 @@ import {
 	removeAllAirlines
 } from '../../store/filters/airlines/actions';
 import {
-	getAirlinesList,
+	getAllAirlines,
 	getSelectedAirlinesList,
 	getSelectedAirlinesObjects
 } from '../../store/filters/airlines/selectors';
@@ -96,7 +96,7 @@ class Airlines extends WithPopover<Props, any> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
-		airlines: getAirlinesList(state),
+		airlines: getAllAirlines(state),
 		selectedAirlines: getSelectedAirlinesList(state),
 		selectedAirlinesObject: getSelectedAirlinesObjects(state)
 	};

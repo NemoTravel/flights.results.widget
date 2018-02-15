@@ -18,8 +18,8 @@ import {
 	removeAllAirports
 } from '../../store/filters/airports/actions';
 import {
-	getArrivalAirportsList,
-	getDepartureAirportsList,
+	getArrivalAirports,
+	getDepartureAirports,
 	getSelectedArrivalAirportsList,
 	getSelectedArrivalAirportsObjects,
 	getSelectedDepartureAirportsList,
@@ -182,8 +182,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 		selectedArrivalAirports: getSelectedArrivalAirportsList(state),
 		selectedDepartureAirportsObject: getSelectedDepartureAirportsObjects(state),
 		selectedArrivalAirportsObject: getSelectedArrivalAirportsObjects(state),
-		departureAirports: getDepartureAirportsList(state),
-		arrivalAirports: getArrivalAirportsList(state)
+		departureAirports: getDepartureAirports(state),
+		arrivalAirports: getArrivalAirports(state)
 	};
 };
 

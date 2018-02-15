@@ -4,19 +4,39 @@ import Flight from '../../../schemas/Flight';
 import { ApplicationState, LocationType } from '../../../state';
 import { createMap, getFlights, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 
+/**
+ * Get an array of departure airports codes used for filtering.
+ *
+ * @param {ApplicationState} state
+ * @returns {string[]}
+ */
 export const getFilteredDepartureAirports = (state: ApplicationState): string[] => state.filters.airports[LocationType.Departure];
+
+/**
+ * Get an array of arrival airports codes used for filtering.
+ *
+ * @param {ApplicationState} state
+ * @returns {string[]}
+ */
 export const getFilteredArrivalAirports = (state: ApplicationState): string[] => state.filters.airports[LocationType.Arrival];
 
 export const getSelectedDepartureAirportsList = createSelector([getFilteredDepartureAirports], getListOfSelectedCodes);
 export const getSelectedArrivalAirportsList = createSelector([getFilteredArrivalAirports], getListOfSelectedCodes);
 
-export const getAirportsList = (flights: Flight[], type: string): Airport[] => {
+/**
+ * Get an array of airports for departure and arrival locations.
+ *
+ * @param {Flight[]} flights
+ * @param {LocationType} type
+ * @returns {Airport[]}
+ */
+export const getAirports = (flights: Flight[], type: LocationType): Airport[] => {
 	const airports: Airport[] = [];
 	const airportsMap: { [IATA: string]: any } = {};
 
 	flights.forEach(({ segments }) => {
-		const segment = type === 'departure' ? segments[0] : segments[segments.length - 1];
-		const firstSegmentAirport = type === 'departure' ? segment.depAirport : segment.arrAirport;
+		const segment = type === LocationType.Departure ? segments[0] : segments[segments.length - 1];
+		const firstSegmentAirport = type === LocationType.Departure ? segment.depAirport : segment.arrAirport;
 
 		if (!airportsMap.hasOwnProperty(firstSegmentAirport.IATA)) {
 			airportsMap[firstSegmentAirport.IATA] = true;
@@ -40,23 +60,32 @@ export const getAirportsList = (flights: Flight[], type: string): Airport[] => {
 	});
 };
 
-export const getDepartureAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'departure'));
-export const getArrivalAirportsList = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirportsList(flights, 'arrival'));
+export const getDepartureAirports = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirports(flights, LocationType.Departure));
+export const getArrivalAirports = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirports(flights, LocationType.Arrival));
 
+/**
+ * Map of `airportCode` => `airportObject`.
+ */
 export const getDepartureAirportsMap = createSelector(
-	[getDepartureAirportsList],
+	[getDepartureAirports],
 	(airports: Airport[]): ObjectsMap<Airport> => {
 		return createMap<Airport>(airports);
 	}
 );
 
+/**
+ * Map of `airportCode` => `airportObject`.
+ */
 export const getArrivalAirportsMap = createSelector(
-	[getArrivalAirportsList],
+	[getArrivalAirports],
 	(airports: Airport[]): ObjectsMap<Airport> => {
 		return createMap<Airport>(airports);
 	}
 );
 
+/**
+ * Get an array of departure airports selected in filters.
+ */
 export const getSelectedDepartureAirportsObjects = createSelector(
 	[getDepartureAirportsMap, getFilteredDepartureAirports],
 	(airportsMap: ObjectsMap<Airport>, airportsCodes: string[]): Airport[] => {
@@ -64,6 +93,9 @@ export const getSelectedDepartureAirportsObjects = createSelector(
 	}
 );
 
+/**
+ * Get an array of arrival airports selected in filters.
+ */
 export const getSelectedArrivalAirportsObjects = createSelector(
 	[getArrivalAirportsMap, getFilteredArrivalAirports],
 	(airportsMap: ObjectsMap<Airport>, airportsCodes: string[]): Airport[] => {
