@@ -26,6 +26,8 @@
 
         body {
             background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
@@ -81,30 +83,18 @@
         #searchResultsRoot {
             flex: 1;
             display: flex;
-            padding-top: 136px;
-        }
-
-        .sticky {
-            position: fixed;
-            left: 0;
-            right: 0;
-            z-index: 1200;
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="sticky">
-            <header class="header">
-                <div>
-                    <img src="./logo.svg">
-                </div>
-            </header>
-
-            <section id="searchFormRoot"></section>
+    <header class="header">
+        <div>
+            <img src="./logo.svg">
         </div>
-        <section id="searchResultsRoot"></section>
-    </div>
+    </header>
+
+    <section id="searchFormRoot"></section>
+    <section id="searchResultsRoot"></section>
 
     <script src="flights.results.widget.min.js"></script>
     <script src="http://search.mlsd.ru/flights.search.widget.min.js"></script>

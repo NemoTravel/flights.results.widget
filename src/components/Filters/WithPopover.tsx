@@ -69,7 +69,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 			chipProps.onDelete = this.onClear;
 		}
 
-		return <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })} ref={this.getElement}>
+		return <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive || this.state.isOpen })} ref={this.getElement}>
 			<Chip className="filters-filter-chip" {...chipProps}/>
 
 			<Popover

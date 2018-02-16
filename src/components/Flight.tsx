@@ -6,6 +6,9 @@ import Segment from './Flight/Segment';
 import Price from './Price';
 import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
+import Airline from '../schemas/Airline';
+import { ObjectsMap } from '../store/filters/selectors';
+import set = Reflect.set;
 
 interface Props {
 	flight: FlightModel;
@@ -37,6 +40,21 @@ class Flight extends React.Component<Props, State> {
 		} as State);
 	}
 
+	renderLogo(): React.ReactNode {
+		const { flight } = this.props;
+		const airlinesMap: ObjectsMap<Airline> = {};
+		const airlinesInFlight: Airline[] = [];
+
+		flight.segments.forEach(segment => {
+			if (!airlinesMap.hasOwnProperty(segment.airline.IATA)) {
+				airlinesMap[segment.airline.IATA] = segment.airline;
+				airlinesInFlight.push(segment.airline);
+			}
+		});
+
+		return airlinesInFlight.length > 1 ? airlinesInFlight.map(airline => airline.name).join(', ') : <img className="flight-summary-logo__image" src={`http://nemo1${flight.segments[0].airline.logoIcon}`}/>;
+	}
+
 	renderSummary(): React.ReactNode {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
@@ -62,7 +80,7 @@ class Flight extends React.Component<Props, State> {
 				</div>
 
 				<div className="flight-summary-logo">
-					<img className="flight-summary-logo__image" src={`http://nemo1${firstSegment.airline.logoIcon}`}/>
+					{this.renderLogo()}
 				</div>
 
 				<div className="flight-summary-stage">

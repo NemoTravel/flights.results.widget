@@ -29,5 +29,9 @@
 		flex: 1;
 		width: $common-content-width;
 		margin: 0 auto;
+
+		.ReactVirtualized__List {
+			outline: none !important;
+		}
 	}
 }

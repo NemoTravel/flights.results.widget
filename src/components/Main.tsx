@@ -26,13 +26,13 @@ class Main extends React.Component<StateProps> {
 	}
 
 	flightRenderer({ index, isScrolling, key, style }: ListRowProps): React.ReactNode {
-		return <Flight key={index} flight={this.props.flights[index]} style={style}/>;
+		return <Flight key={key} flight={this.props.flights[index]} style={style}/>;
 	}
 
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
 		const rowHeight = 72;
-		const overscan = 20;
+		const overscan = 10;
 
 		return <div className={classNames('results', { results_isLoading: this.props.isLoading })}>
 			<LinearProgress className="results-loader" color="secondary" variant="query"/>
@@ -50,15 +50,16 @@ class Main extends React.Component<StateProps> {
 
 			<section className="results-flights">
 				<WindowScroller>
-					{({ height, isScrolling, scrollTop }) => (
+					{({ height, isScrolling, onChildScroll, scrollTop }) => (
 						<AutoSizer>
 							{({ width }) => (
 								<List
 									autoHeight
-									isScrolling={isScrolling}
-									scrollTop={scrollTop}
 									height={height}
 									width={width}
+									isScrolling={isScrolling}
+									scrollTop={scrollTop}
+									onScroll={onChildScroll}
 									rowCount={numOfFlights}
 									rowHeight={rowHeight}
 									overscanRowCount={overscan}
