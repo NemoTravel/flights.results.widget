@@ -52,7 +52,9 @@ class Flight extends React.Component<Props, State> {
 			}
 		});
 
-		return airlinesInFlight.length > 1 ? airlinesInFlight.map(airline => airline.name).join(', ') : <img className="flight-summary-logo__image" src={`http://nemo1${flight.segments[0].airline.logoIcon}`}/>;
+		return airlinesInFlight.length > 1 ?
+			airlinesInFlight.map(airline => airline.name).join(', ') :
+			<img className="flight-summary-logo__image" src={`http://nemo1${flight.segments[0].airline.logoIcon}`}/>;
 	}
 
 	renderSummary(): React.ReactNode {

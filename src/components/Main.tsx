@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { connect } from 'react-redux';
 import { LinearProgress } from 'material-ui/Progress';
 
@@ -11,7 +12,6 @@ import FlightModel from '../schemas/Flight';
 import { getVisibleFlights } from '../store/selectors';
 import { ApplicationState } from '../state';
 import { AutoSizer, List, ListRowProps, WindowScroller } from 'react-virtualized';
-import classNames = require('classnames');
 
 interface StateProps {
 	isLoading: boolean;
@@ -32,7 +32,6 @@ class Main extends React.Component<StateProps> {
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
 		const rowHeight = 72;
-		const overscan = 10;
 
 		return <div className={classNames('results', { results_isLoading: this.props.isLoading })}>
 			<LinearProgress className="results-loader" color="secondary" variant="query"/>
@@ -48,28 +47,29 @@ class Main extends React.Component<StateProps> {
 				<TimeFilter/>
 			</section>
 
-			<section className="results-flights">
-				<WindowScroller>
-					{({ height, isScrolling, onChildScroll, scrollTop }) => (
-						<AutoSizer>
+			<WindowScroller>
+				{({ height, isScrolling, onChildScroll, scrollTop, registerChild }) => (
+					<div>
+						<AutoSizer disableHeight>
 							{({ width }) => (
-								<List
-									autoHeight
-									height={height}
-									width={width}
-									isScrolling={isScrolling}
-									scrollTop={scrollTop}
-									onScroll={onChildScroll}
-									rowCount={numOfFlights}
-									rowHeight={rowHeight}
-									overscanRowCount={overscan}
-									rowRenderer={this.flightRenderer}
-								/>
+								<div ref={registerChild}>
+									<List
+										autoHeight
+										height={height}
+										width={width}
+										isScrolling={isScrolling}
+										scrollTop={scrollTop}
+										onScroll={onChildScroll}
+										rowCount={numOfFlights}
+										rowHeight={rowHeight}
+										rowRenderer={this.flightRenderer}
+									/>
+								</div>
 							)}
 						</AutoSizer>
-					)}
-				</WindowScroller>
-			</section>
+					</div>
+				)}
+			</WindowScroller>
 		</div>;
 	}
 }
