@@ -54,7 +54,7 @@ class Flight extends React.Component<Props, State> {
 
 		return airlinesInFlight.length > 1 ?
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
-			<img className="flight-summary-logo__image" src={`http://nemo1${flight.segments[0].airline.logoIcon}`}/>;
+			<img className="flight-summary-logo__image" src={`http://release.mlsd.ru${flight.segments[0].airline.logoIcon}`}/>;
 	}
 
 	renderSummary(): React.ReactNode {

@@ -34,7 +34,7 @@ export const init = (config: Config) => {
 	momentDurationFormatSetup(moment);
 	moment.locale(config.locale);
 
-	fetch(`http://nemo1/?go=orderAPI/get&uri=flight/search/${searchId}`)
+	fetch(`http://release.mlsd.ru/?go=orderAPI/get&uri=flight/search/${searchId}`)
 		.then((response: Response) => response.json())
 		.then((response: any) => {
 			const flights = parse(response, searchId);
