@@ -41,7 +41,7 @@
 		align-items: center;
 		justify-content: space-between;
 
-		min-height: 48px;
+		min-height: 73px;
 		padding: 12px 24px;
 
 		cursor: pointer;
@@ -259,9 +259,7 @@
 
 			&__right {
 				@extend .flight-summary__right;
-
 				font-size: 15px;
-
 			}
 
 			&__wrapper {
