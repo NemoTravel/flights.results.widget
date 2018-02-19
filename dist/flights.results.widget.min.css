@@ -167,6 +167,8 @@
 
 .flight-summary_open {
   border-bottom: 1px solid #e0e0e0;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
 }
 
 .flight-summary_open .flight-summary-logo,
@@ -229,6 +231,10 @@
 .flight-summary-logo__image {
   max-width: 110px;
   max-height: 25px;
+}
+
+.flight-summary-logo__text {
+  padding-right: 15px;
 }
 
 .flight-summary-placeholder {
@@ -382,15 +388,25 @@
   -ms-flex-align: center;
   align-items: center;
   max-width: 516px;
-  padding: 12px 24px 12px 24px;
-  background: #f7f7f7;
-}
-
-.flight-details-segment__wrapper .flight-summary-stage-routeInfo__flightTime {
-  background: #f7f7f7;
+  padding: 0 24px;
 }
 
 .flight-details-segment-transfer {
-  margin-top: 12px;
-  margin-bottom: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: #f7f7f7;
+  max-width: 516px;
+  margin: 12px 0;
+  padding: 12px;
+}
+
+.flight-details-segment-transfer svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  fill: rgba(0, 0, 0, 0.87);
 }

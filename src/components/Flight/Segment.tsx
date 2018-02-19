@@ -6,6 +6,11 @@ interface Props {
 	segment: SegmentModel;
 }
 
+const TransferIcon = <svg fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+	<path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/>
+	<path d="M0 0h24v24H0z" fill="none"/>
+</svg>;
+
 class Segment extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return this.props.segment !== nextProps.segment;
@@ -52,7 +57,7 @@ class Segment extends React.Component<Props> {
 
 			{isDirect ? null : (
 				<div className="flight-details-segment-transfer">
-					Пересадка {waitingTime} – {segment.arrAirport.city.name} ({segment.arrAirport.IATA})
+					{TransferIcon} Пересадка {waitingTime} – {segment.arrAirport.city.name} ({segment.arrAirport.IATA})
 				</div>
 			)}
 		</div>;
