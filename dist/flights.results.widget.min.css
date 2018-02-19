@@ -134,8 +134,11 @@
 }
 
 .flight-summary__left,
+.flight-details-segment__left,
 .flight-summary__middle,
-.flight-summary__right {
+.flight-details-segment__middle,
+.flight-summary__right,
+.flight-details-segment__right {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -144,7 +147,8 @@
   align-items: center;
 }
 
-.flight-summary__middle {
+.flight-summary__middle,
+.flight-details-segment__middle {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -158,7 +162,8 @@
   width: 320px;
 }
 
-.flight-summary__right {
+.flight-summary__right,
+.flight-details-segment__right {
   width: 250px;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
@@ -172,9 +177,13 @@
 }
 
 .flight-summary_open .flight-summary-logo,
+.flight-summary_open .flight-details-segment-logo,
 .flight-summary_open .flight-summary-stage,
+.flight-summary_open .flight-details-segment-stage,
 .flight-summary_open .flight-summary-stage-routeInfo,
-.flight-summary_open .flight-summary__middle {
+.flight-summary_open .flight-details-segment-stage-routeInfo,
+.flight-summary_open .flight-summary__middle,
+.flight-summary_open .flight-details-segment__middle {
   display: none;
 }
 
@@ -220,7 +229,8 @@
   transform: rotate(180deg);
 }
 
-.flight-summary-logo {
+.flight-summary-logo,
+.flight-details-segment-logo {
   width: 180px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -228,7 +238,8 @@
   font-size: 15px;
 }
 
-.flight-summary-logo__image {
+.flight-summary-logo__image,
+.flight-details-segment-logo__image {
   max-width: 110px;
   max-height: 25px;
 }
@@ -247,21 +258,25 @@
   color: rgba(0, 0, 0, 0.54);
 }
 
-.flight-summary-stage {
+.flight-summary-stage,
+.flight-details-segment-stage {
   width: 65px;
   text-align: center;
 }
 
-.flight-summary-stage__time {
+.flight-summary-stage__time,
+.flight-details-segment-stage__time {
   font-size: 1.5rem;
 }
 
-.flight-summary-stage__location {
+.flight-summary-stage__location,
+.flight-details-segment-stage__date {
   color: rgba(0, 0, 0, 0.54);
   font-size: 0.75rem;
 }
 
-.flight-summary-stage-routeInfo {
+.flight-summary-stage-routeInfo,
+.flight-details-segment-stage-routeInfo {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -280,13 +295,15 @@
   text-align: center;
 }
 
-.flight-summary-stage-routeInfo__arrow {
+.flight-summary-stage-routeInfo__arrow,
+.flight-details-segment-stage-routeInfo__arrow {
   position: relative;
   width: 100%;
   border-bottom: 1px solid #d0d0d0;
 }
 
-.flight-summary-stage-routeInfo__arrow:after {
+.flight-summary-stage-routeInfo__arrow:after,
+.flight-details-segment-stage-routeInfo__arrow:after {
   content: '';
   position: absolute;
   height: 4px;
@@ -299,7 +316,8 @@
   transform: rotate(135deg);
 }
 
-.flight-summary-stage-routeInfo__flightTime {
+.flight-summary-stage-routeInfo__flightTime,
+.flight-details-segment-stage-routeInfo__flightTime {
   position: absolute;
   padding: 0 5px;
   line-height: 20px;
@@ -307,7 +325,8 @@
   background: #fff;
 }
 
-.flight-summary-route {
+.flight-summary-route,
+.flight-details-segment-route {
   color: rgba(0, 0, 0, 0.54);
 }
 
@@ -380,14 +399,20 @@
   padding-left: 44px;
 }
 
+.flight-details-segment__right {
+  font-size: 15px;
+}
+
 .flight-details-segment__wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  max-width: 516px;
   padding: 0 24px;
 }
 
@@ -399,8 +424,7 @@
   -ms-flex-align: center;
   align-items: center;
   background: #f7f7f7;
-  max-width: 516px;
-  margin: 12px 0;
+  margin: 12px 24px 12px 0;
   padding: 12px;
 }
 

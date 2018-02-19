@@ -1,9 +1,10 @@
+import { Moment } from 'moment';
 import Aircraft from './Aircraft';
 import Airline from './Airline';
 import Airport from './Airport';
-import BookingClass from './BookingClass';
 import Baggage from './Baggage';
-import { Moment } from 'moment';
+import BookingClass from './BookingClass';
+import TariffFeatures from './TariffFeatures';
 
 export default interface Segment {
 	aircraft: Aircraft;
@@ -34,6 +35,6 @@ export default interface Segment {
 	stopQuantity: number;
 	sunPercentLeft: number;
 	sunPercentRight: number;
-	tariffFeatures: any;
+	tariffFeatures: TariffFeatures;
 	waitingTime: number;
 }

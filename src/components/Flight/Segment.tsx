@@ -22,42 +22,58 @@ class Segment extends React.Component<Props> {
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const isDirect = !segment.nextSegment;
 		const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
+		const brandName = segment.tariffFeatures ? segment.tariffFeatures.fareFamilyName : '';
 
 		return <div className="flight-details-segment">
 			<div className="flight-details-segment__wrapper">
-				<div className="flight-summary-logo">
-					<img className="flight-summary-logo__image" src={`http://release.mlsd.ru${segment.airline.logoIcon}`}/>
+				<div className="flight-details-segment__left">
+					<div className="flight-details-segment-logo">
+						<img className="flight-details-segment-logo__image" src={`http://release.mlsd.ru${segment.airline.logoIcon}`}/>
+					</div>
+
+					<div className="flight-details-segment-stage">
+						<div className="flight-details-segment-stage__time">
+							{segment.depDate.format('HH:MM')}
+						</div>
+
+						<div className="flight-details-segment-stage__date">
+							{segment.depDate.format('DD MMM')}
+						</div>
+					</div>
+
+					<div className="flight-details-segment-stage-routeInfo">
+						<div className="flight-details-segment-stage-routeInfo__arrow"/>
+						<span className="flight-details-segment-stage-routeInfo__flightTime">{totalFlightTimeHuman}</span>
+					</div>
+
+					<div className="flight-details-segment-stage">
+						<div className="flight-details-segment-stage__time">
+							{segment.arrDate.format('HH:MM')}
+						</div>
+
+						<div className="flight-details-segment-stage__date">
+							{segment.arrDate.format('DD MMM')}
+						</div>
+					</div>
 				</div>
 
-				<div className="flight-summary-stage">
-					<div className="flight-summary-stage__time">
-						{segment.depDate.format('HH:MM')}
-					</div>
-
-					<div className="flight-summary-stage__location">
-						{segment.depAirport.IATA}
+				<div className="flight-details-segment__middle">
+					<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
+					<div className="flight-details-segment-route">
+						{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}
+						&nbsp;&mdash;&nbsp;
+						{segment.arrAirport.city.name}{segment.arrAirport.city.name !== segment.arrAirport.name ? ', ' + segment.arrAirport.name : null}
 					</div>
 				</div>
 
-				<div className="flight-summary-stage-routeInfo">
-					<div className="flight-summary-stage-routeInfo__arrow"/>
-					<span className="flight-summary-stage-routeInfo__flightTime">{totalFlightTimeHuman}</span>
-				</div>
-
-				<div className="flight-summary-stage">
-					<div className="flight-summary-stage__time">
-						{segment.arrDate.format('HH:MM')}
-					</div>
-
-					<div className="flight-summary-stage__location">
-						{segment.arrAirport.IATA}
-					</div>
+				<div className="flight-details-segment__right">
+					{brandName ? `Тариф «${brandName}»` : ''}
 				</div>
 			</div>
 
 			{isDirect ? null : (
 				<div className="flight-details-segment-transfer">
-					{TransferIcon} Пересадка {waitingTime} – {segment.arrAirport.city.name} ({segment.arrAirport.IATA})
+					{TransferIcon} Пересадка {waitingTime} – {segment.arrAirport.city.name}
 				</div>
 			)}
 		</div>;
