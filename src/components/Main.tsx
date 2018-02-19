@@ -48,23 +48,21 @@ class Main extends React.Component<StateProps> {
 			</section>
 
 			<WindowScroller>
-				{({ height, isScrolling, onChildScroll, scrollTop, registerChild }) => (
+				{({ height, isScrolling, onChildScroll, scrollTop }) => (
 					<div>
 						<AutoSizer disableHeight>
 							{({ width }) => (
-								<div ref={registerChild}>
-									<List
-										autoHeight
-										height={height}
-										width={width}
-										isScrolling={isScrolling}
-										scrollTop={scrollTop}
-										onScroll={onChildScroll}
-										rowCount={numOfFlights}
-										rowHeight={rowHeight}
-										rowRenderer={this.flightRenderer}
-									/>
-								</div>
+								<List
+									autoHeight
+									height={height}
+									width={width}
+									isScrolling={isScrolling}
+									scrollTop={scrollTop}
+									onScroll={onChildScroll}
+									rowCount={numOfFlights}
+									rowHeight={rowHeight}
+									rowRenderer={this.flightRenderer}
+								/>
 							)}
 						</AutoSizer>
 					</div>
