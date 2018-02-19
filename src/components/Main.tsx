@@ -11,12 +11,22 @@ import Flight from './Flight';
 import FlightModel from '../schemas/Flight';
 import { getVisibleFlights } from '../store/selectors';
 import { ApplicationState } from '../state';
-import { AutoSizer, List, ListRowProps, WindowScroller } from 'react-virtualized';
+import {
+	AutoSizer, CellMeasurer, CellMeasurerCache, Grid, List, ListRowProps,
+	WindowScroller
+} from 'react-virtualized';
 
 interface StateProps {
 	isLoading: boolean;
 	flights: FlightModel[];
 }
+
+const rowHeight = 72;
+
+const cache = new CellMeasurerCache({
+	defaultHeight: rowHeight,
+	fixedWidth: true
+});
 
 class Main extends React.Component<StateProps> {
 	constructor(props: StateProps) {
@@ -25,20 +35,29 @@ class Main extends React.Component<StateProps> {
 		this.flightRenderer = this.flightRenderer.bind(this);
 	}
 
-	flightRenderer({ index, isScrolling, key, style }: ListRowProps): React.ReactNode {
-		return <Flight key={key} flight={this.props.flights[index]} style={style}/>;
+	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {
+		return <CellMeasurer
+			cache={cache}
+			columnIndex={0}
+			key={key}
+			parent={parent as any}
+			rowIndex={index}
+		>
+			{({ measure }) => (
+				<div className="flight__holder" style={style}>
+					<Flight onLoad={measure} key={key} flight={this.props.flights[index]}/>
+				</div>
+			)}
+		</CellMeasurer>;
 	}
 
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
-		const rowHeight = 72;
 
 		return <div className={classNames('results', { results_isLoading: this.props.isLoading })}>
 			<LinearProgress className="results-loader" color="secondary" variant="query"/>
 
-			<section className="scenarios">
-
-			</section>
+			<section className="scenarios"/>
 
 			<section className="filters">
 				<DirectOnlyFilter/>
@@ -54,13 +73,14 @@ class Main extends React.Component<StateProps> {
 							{({ width }) => (
 								<List
 									autoHeight
+									deferredMeasurementCache={cache}
 									height={height}
 									width={width}
 									isScrolling={isScrolling}
 									scrollTop={scrollTop}
 									onScroll={onChildScroll}
 									rowCount={numOfFlights}
-									rowHeight={rowHeight}
+									rowHeight={cache.rowHeight}
 									rowRenderer={this.flightRenderer}
 								/>
 							)}

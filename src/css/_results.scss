@@ -21,8 +21,9 @@
 		}
 	}
 
-	.ReactVirtualized__List {
+	.ReactVirtualized__List, .ReactVirtualized__Grid__innerScrollContainer {
 		outline: none !important;
+		overflow: visible !important;
 	}
 
 	&-loader {

@@ -67,8 +67,10 @@
   display: none;
 }
 
-.results .ReactVirtualized__List {
+.results .ReactVirtualized__List,
+.results .ReactVirtualized__Grid__innerScrollContainer {
   outline: none !important;
+  overflow: visible !important;
 }
 
 .results-loader {
@@ -91,7 +93,6 @@
   border-bottom: 1px solid #d7d7d7;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-  cursor: pointer;
   -webkit-transition: margin-bottom 0.1s ease-out;
   transition: margin-bottom 0.1s ease-out;
 }
@@ -102,17 +103,16 @@
 
 .flight_open {
   margin-top: 16px;
-  margin-bottom: 16px;
   border-radius: 2px;
 }
 
-.flight:first-of-type {
+.flight__holder:first-of-type .flight {
   margin-top: 0;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
 }
 
-.flight:last-of-type {
+.flight__holder:last-of-type .flight {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   border-bottom: none;
@@ -130,6 +130,7 @@
   justify-content: space-between;
   min-height: 48px;
   padding: 12px 24px;
+  cursor: pointer;
 }
 
 .flight-summary__left,
@@ -361,16 +362,12 @@
   box-shadow: 0 4px 8px 0 rgba(93, 134, 41, 0.5), inset 0 1px 2px 0 #b8dc8b;
 }
 
+.flight-details {
+  padding: 15px 0;
+}
+
 .flight-details-segment {
   padding-left: 44px;
-}
-
-.flight-details-segment:first-of-type {
-  margin-top: 12px;
-}
-
-.flight-details-segment:last-of-type {
-  margin-bottom: 12px;
 }
 
 .flight-details-segment__wrapper {

@@ -9,10 +9,12 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import set = Reflect.set;
+import thunk from 'redux-thunk';
 
 interface Props {
 	flight: FlightModel;
-	style: React.CSSProperties;
+	style?: React.CSSProperties;
+	onLoad: () => void;
 }
 
 interface State {
@@ -151,6 +153,14 @@ class Flight extends React.Component<Props, State> {
 		return this.state.isOpen ? <div className="flight-details">
 			{this.props.flight.segments.map((segment, index) => <Segment key={index} segment={segment}/>)}
 		</div> : null;
+	}
+
+	componentDidMount(): void {
+		this.props.onLoad();
+	}
+
+	componentDidUpdate(): void {
+		this.props.onLoad();
 	}
 
 	render(): React.ReactNode {
