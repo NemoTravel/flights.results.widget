@@ -8,8 +8,6 @@ import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
-import set = Reflect.set;
-import thunk from 'redux-thunk';
 
 interface Props {
 	flight: FlightModel;
@@ -150,8 +148,10 @@ class Flight extends React.Component<Props, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return this.state.isOpen ? <div className="flight-details">
-			{this.props.flight.segments.map((segment, index) => <Segment key={index} segment={segment}/>)}
+		return this.state.isOpen ? <div className="flight-details__wrapper">
+			<div className="flight-details">
+				{this.props.flight.segments.map((segment, index) => <Segment key={index} segment={segment}/>)}
+			</div>
 		</div> : null;
 	}
 
@@ -164,9 +164,13 @@ class Flight extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
-		return <div className={classnames('flight', { flight_open: this.state.isOpen })} style={this.props.style}>
-			{this.renderSummary()}
-			{this.renderDetails()}
+		return <div className="flight" style={this.props.style}>
+			<div className={classnames('flight__wrapper', { flight__wrapper_open: this.state.isOpen })}>
+				<div className="flight__shadow">
+					{this.renderSummary()}
+					{this.renderDetails()}
+				</div>
+			</div>
 		</div>;
 	}
 }

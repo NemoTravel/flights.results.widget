@@ -88,34 +88,32 @@
   margin: 0 auto;
 }
 
-.flight {
-  background-color: #fff;
-  border-bottom: 1px solid #d7d7d7;
-  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-  -webkit-transition: margin-bottom 0.1s ease-out;
-  transition: margin-bottom 0.1s ease-out;
-}
-
 .flight_hidden {
   display: none;
 }
 
-.flight_open {
-  margin-top: 16px;
-  border-radius: 2px;
+.flight__shadow {
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.flight__wrapper_open {
+  border-bottom: none;
+  padding: 16px 0;
 }
 
 .flight__holder:first-of-type .flight {
-  margin-top: 0;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
+}
+
+.flight__holder:first-of-type .flight__wrapper {
+  padding-top: 0;
 }
 
 .flight__holder:last-of-type .flight {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-  border-bottom: none;
 }
 
 .flight-summary {
@@ -131,6 +129,8 @@
   min-height: 48px;
   padding: 12px 24px;
   cursor: pointer;
+  border-bottom: 1px solid #d7d7d7;
+  background-color: #fff;
 }
 
 .flight-summary__left,
@@ -364,6 +364,10 @@
 
 .flight-details {
   padding: 15px 0;
+}
+
+.flight-details__wrapper {
+  background-color: #fff;
 }
 
 .flight-details-segment {

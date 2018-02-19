@@ -1,26 +1,30 @@
 @import "variable";
 
 .flight {
-	background-color: #fff;
-	border-bottom: 1px solid #d7d7d7;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-	transition: margin-bottom 0.1s ease-out;
-
 	&_hidden {
 		display: none;
 	}
 
-	&_open {
-		margin-top: 16px;
-		border-radius: 2px;
+	&__shadow {
+		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+	}
+
+	&__wrapper {
+		&_open {
+			border-bottom: none;
+			padding: 16px 0;
+		}
 	}
 
 	&__holder {
 		&:first-of-type {
 			.flight {
-				margin-top: 0;
 				border-top-left-radius: 2px;
 				border-top-right-radius: 2px;
+
+				&__wrapper {
+					padding-top: 0;
+				}
 			}
 		}
 
@@ -28,7 +32,6 @@
 			.flight {
 				border-bottom-left-radius: 2px;
 				border-bottom-right-radius: 2px;
-				border-bottom: none;
 			}
 		}
 	}
@@ -40,7 +43,10 @@
 
 		min-height: 48px;
 		padding: 12px 24px;
+
 		cursor: pointer;
+		border-bottom: 1px solid #d7d7d7;
+		background-color: #fff;
 
 		&__left, &__middle, &__right {
 			display: flex;
@@ -229,6 +235,10 @@
 
 	&-details {
 		padding: 15px 0;
+
+		&__wrapper {
+			background-color: #fff;
+		}
 
 		&-segment {
 			padding-left: 44px;
