@@ -2,7 +2,7 @@ import { ApplicationState } from '../../state';
 import Flight from '../../schemas/Flight';
 
 export interface ListOfSelectedCodes {
-	[IATA: string]: boolean;
+	[code: string]: boolean;
 }
 
 export interface ObjectWithIATA {
