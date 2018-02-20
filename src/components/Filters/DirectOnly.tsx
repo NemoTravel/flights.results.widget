@@ -20,6 +20,12 @@ class DirectOnly extends Filter<Props, FilterState> {
 	protected type = FilterType.DirectOnly;
 	protected label = 'Без пересадок';
 
+	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
+		return this.props.directOnly !== nextProps.directOnly ||
+			this.state.isActive !== nextState.isActive ||
+			this.state.chipLabel !== nextState.chipLabel;
+	}
+
 	componentWillReceiveProps(props: Props): void {
 		this.setState({
 			isActive: props.directOnly

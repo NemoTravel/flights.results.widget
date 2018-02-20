@@ -6,7 +6,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
-import WithPopover from './WithPopover';
+import WithPopover, { State as WithPopoverState } from './WithPopover';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
 import {
@@ -35,7 +35,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-class Airlines extends WithPopover<Props, any> {
+class Airlines extends WithPopover<Props, WithPopoverState> {
 	protected type = FilterType.Airlines;
 	protected label = 'Авиакомпании';
 
