@@ -7,7 +7,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
-import WithPopover, { State as FilterState } from './WithPopover';
+import WithPopover, { State as WithPopoverState, State as FilterState } from './WithPopover';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState, LocationType } from '../../state';
@@ -66,6 +66,18 @@ class Airports extends WithPopover<Props, State> {
 		this.changeTabFromSwipe = this.changeTabFromSwipe.bind(this);
 		this.onArrivalChange = this.onArrivalChange.bind(this);
 		this.onDepartureChange = this.onDepartureChange.bind(this);
+	}
+
+	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+		return this.props.departureAirports !== nextProps.departureAirports ||
+			this.props.arrivalAirports !== nextProps.arrivalAirports ||
+			this.props.selectedDepartureAirports !== nextProps.selectedArrivalAirports ||
+			this.props.selectedDepartureAirportsObject !== nextProps.selectedDepartureAirportsObject ||
+			this.props.selectedArrivalAirportsObject !== nextProps.selectedArrivalAirportsObject ||
+			this.state.activeTab !== nextState.activeTab ||
+			this.state.isOpen !== nextState.isOpen ||
+			this.state.isActive !== nextState.isActive ||
+			this.state.chipLabel !== nextState.chipLabel;
 	}
 
 	componentWillReceiveProps({ selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject }: Props): void {
@@ -141,8 +153,8 @@ class Airports extends WithPopover<Props, State> {
 					indicatorColor="primary"
 					textColor="primary"
 				>
-					<Tab label="Вылет" value={0}/>
-					<Tab label="Прилет" value={1}/>
+					<Tab className="filters-filter-popover-tabsSelector-tab" label="Вылет" value={0}/>
+					<Tab className="filters-filter-popover-tabsSelector-tab" label="Прилет" value={1}/>
 				</Tabs>
 			</AppBar>
 

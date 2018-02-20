@@ -45,6 +45,15 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 		this.onChange = this.onChange.bind(this);
 	}
 
+	shouldComponentUpdate(nextProps: Props, nextState: WithPopoverState): boolean {
+		return this.props.airlines !== nextProps.airlines ||
+			this.props.selectedAirlines !== nextProps.selectedAirlines ||
+			this.props.selectedAirlinesObject !== nextProps.selectedAirlinesObject ||
+			this.state.isOpen !== nextState.isOpen ||
+			this.state.isActive !== nextState.isActive ||
+			this.state.chipLabel !== nextState.chipLabel;
+	}
+
 	onChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
 		const airlineCode = (event.target as HTMLInputElement).value;
 

@@ -62,6 +62,15 @@ class Time extends WithPopover<Props, State> {
 		this.onDepartureChange = this.onDepartureChange.bind(this);
 	}
 
+	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+		return this.props.selectedDepartureTimeIntervals !== nextProps.selectedDepartureTimeIntervals ||
+			this.props.selectedArrivalTimeIntervals !== nextProps.selectedArrivalTimeIntervals ||
+			this.state.activeTab !== nextState.activeTab ||
+			this.state.isOpen !== nextState.isOpen ||
+			this.state.isActive !== nextState.isActive ||
+			this.state.chipLabel !== nextState.chipLabel;
+	}
+
 	componentWillReceiveProps({ selectedDepartureTimeIntervals, selectedArrivalTimeIntervals }: Props): void {
 		const hasSelectedDepartureTimeIntervals = !!Object.keys(selectedDepartureTimeIntervals).length;
 		const hasSelectedArrivalTimeIntervals = !!Object.keys(selectedArrivalTimeIntervals).length;
@@ -151,8 +160,8 @@ class Time extends WithPopover<Props, State> {
 					indicatorColor="primary"
 					textColor="primary"
 				>
-					<Tab label="Вылет" value={0}/>
-					<Tab label="Прилет" value={1}/>
+					<Tab className="filters-filter-popover-tabsSelector-tab" label="Вылет" value={0}/>
+					<Tab className="filters-filter-popover-tabsSelector-tab" label="Прилет" value={1}/>
 				</Tabs>
 			</AppBar>
 

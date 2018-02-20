@@ -38,6 +38,10 @@
 			}
 
 			&-tabsSelector {
+				&-tab {
+					font-weight: 600 !important;
+				}
+
 				&-content {
 					&__wrapper {
 						padding: 20px 20px 10px;
