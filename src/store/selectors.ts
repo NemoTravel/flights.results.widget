@@ -4,32 +4,10 @@ import { getFlights, ListOfSelectedCodes } from './filters/selectors';
 import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
 import { getIsDirectOnly } from './filters/directOnly/selectors';
-import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from './filters/time/selectors';
-import { FlightTimeInterval } from '../state';
-import { Moment } from 'moment';
-
-const getTimeIntervalForDate = (date: Moment): FlightTimeInterval => {
-	const hours = date.hours();
-	const MORNING_TIME = 6;
-	const NOON_TIME = 12;
-	const EVENING_TIME = 18;
-	let result: FlightTimeInterval;
-
-	if (hours < MORNING_TIME) {
-		result = FlightTimeInterval.Night;
-	}
-	else if (hours >= MORNING_TIME && hours < NOON_TIME) {
-		result = FlightTimeInterval.Morning;
-	}
-	else if (hours >= NOON_TIME && hours < EVENING_TIME) {
-		result = FlightTimeInterval.Afternoon;
-	}
-	else if (hours >= EVENING_TIME) {
-		result = FlightTimeInterval.Evening;
-	}
-
-	return result;
-};
+import {
+	getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals,
+	getTimeIntervalForDate
+} from './filters/time/selectors';
 
 /**
  * Get an array of flights after filtering.
