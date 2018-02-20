@@ -9,14 +9,16 @@ import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import FlightModel from '../schemas/Flight';
-import { getVisibleFlights } from '../store/selectors';
+import { getVisibleFlights, isMultipleLegs } from '../store/selectors';
 import { ApplicationState } from '../state';
 import {
 	AutoSizer, CellMeasurer, CellMeasurerCache, Grid, List, ListRowProps,
 	WindowScroller
 } from 'react-virtualized';
+import Toolbar from './Toolbar';
 
 interface StateProps {
+	isMultipleLegs: boolean;
 	isLoading: boolean;
 	flights: FlightModel[];
 }
@@ -88,12 +90,15 @@ class Main extends React.Component<StateProps> {
 					</div>
 				)}
 			</WindowScroller>
+
+			{isMultipleLegs ? <Toolbar/> : null}
 		</div>;
 	}
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
+		isMultipleLegs: isMultipleLegs(state),
 		isLoading: state.isLoading,
 		flights: getVisibleFlights(state)
 	};

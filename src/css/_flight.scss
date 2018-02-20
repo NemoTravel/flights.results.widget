@@ -19,8 +19,10 @@
 	&__holder {
 		&:first-of-type {
 			.flight {
-				border-top-left-radius: 2px;
-				border-top-right-radius: 2px;
+				&__shadow, &-summary {
+					border-top-left-radius: 2px;
+					border-top-right-radius: 2px;
+				}
 
 				&__wrapper {
 					padding-top: 0;
@@ -29,7 +31,7 @@
 		}
 
 		&:last-of-type {
-			.flight {
+			.flight__shadow, .flight-summary {
 				border-bottom-left-radius: 2px;
 				border-bottom-right-radius: 2px;
 			}

@@ -104,7 +104,8 @@
   padding: 16px 0;
 }
 
-.flight__holder:first-of-type .flight {
+.flight__holder:first-of-type .flight__shadow,
+.flight__holder:first-of-type .flight-summary {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
 }
@@ -113,7 +114,8 @@
   padding-top: 0;
 }
 
-.flight__holder:last-of-type .flight {
+.flight__holder:last-of-type .flight__shadow,
+.flight__holder:last-of-type .flight-summary {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
 }
@@ -440,4 +442,108 @@
   height: 18px;
   margin-right: 8px;
   fill: rgba(0, 0, 0, 0.87);
+}
+
+.toolbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  border-top: 1px solid #e0e0e0;
+  background: #fff;
+}
+
+.toolbar__inner {
+  width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.toolbar-legs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.toolbar-legs-leg {
+  padding: 8px 9px;
+  font-size: 15px;
+  color: #64b5f6;
+  background-color: #fff;
+  border: 1px solid #64b5f6;
+  border-radius: 5px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.toolbar-legs-leg:not(:last-of-type) {
+  margin-right: 15px;
+}
+
+.toolbar-legs-leg__icon {
+  height: 20px !important;
+  margin-right: 5px;
+}
+
+.toolbar-legs-leg__icon_reverse {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.toolbar-legs-leg_disabled {
+  border: 1px dashed #64b5f6;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar-legs-leg_done {
+  color: #fff;
+  background-color: #64b5f6;
+}
+
+.toolbar-totalPrice {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #64b5f6;
+}
+
+.toolbar-totalPrice__prefix {
+  margin-right: 5px;
+  font-size: 15px;
+  position: relative;
+  top: 1px;
+}
+
+.toolbar-totalPrice .price {
+  font-size: 1.5rem;
+}
+
+.toolbar-totalPrice .price .price-currency {
+  margin-left: 5px;
+  font-size: 15px;
 }
