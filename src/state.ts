@@ -50,10 +50,15 @@ export interface FlightsByLegsState {
 	[legId: number]: Flight[];
 }
 
+export interface SelectedFlightsState {
+	[legId: number]: number;
+}
+
 export interface ApplicationState {
 	config: Config;
 	currentLeg: number;
 	flightsByLegs: FlightsByLegsState;
 	filters: FiltersState;
 	isLoading: boolean;
+	selectedFlights: SelectedFlightsState;
 }
