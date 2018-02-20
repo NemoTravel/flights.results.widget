@@ -1,23 +1,23 @@
 import { Action } from 'redux';
-import { LocationType, FlightTimeType } from '../../../state';
+import { LocationType, FlightTimeInterval } from '../../../state';
 
 export const FILTERS_ADD_TIME = 'FILTERS_ADD_TIME';
 export const FILTERS_REMOVE_TIME = 'FILTERS_REMOVE_TIME';
 export const FILTERS_REMOVE_ALL_TIME = 'FILTERS_REMOVE_ALL_TIME';
 
 export interface FilterTimeAction extends Action {
-	payload: FlightTimeType;
+	payload: FlightTimeInterval;
 	locationType: LocationType;
 }
 
 /**
  * Add time interval to the list of time intervals used for filtering.
  *
- * @param {FlightTimeType} time
+ * @param {FlightTimeInterval} time
  * @param {LocationType} type
  * @returns {FilterAirportsAction}
  */
-export const addTimeInterval = (time: FlightTimeType, type: LocationType): FilterTimeAction => {
+export const addTimeInterval = (time: FlightTimeInterval, type: LocationType): FilterTimeAction => {
 	return {
 		type: FILTERS_ADD_TIME,
 		locationType: type,
@@ -28,11 +28,11 @@ export const addTimeInterval = (time: FlightTimeType, type: LocationType): Filte
 /**
  * Remove time interval from the list of time intervals used for filtering.
  *
- * @param {FlightTimeType} time
+ * @param {FlightTimeInterval} time
  * @param {LocationType} type
  * @returns {FilterAirportsAction}
  */
-export const removeTimeInterval = (time: FlightTimeType, type: LocationType): FilterTimeAction => {
+export const removeTimeInterval = (time: FlightTimeInterval, type: LocationType): FilterTimeAction => {
 	return {
 		type: FILTERS_REMOVE_TIME,
 		locationType: type,

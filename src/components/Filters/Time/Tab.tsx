@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { ListOfSelectedCodes } from '../../../store/filters/selectors';
-import { FlightTimeType } from '../../../state';
+import { FlightTimeInterval } from '../../../state';
 
 interface Props {
 	selectedTime: ListOfSelectedCodes;
@@ -24,8 +24,8 @@ class Tab extends React.Component<Props> {
 						control={
 							<Checkbox
 								onChange={this.props.onChange}
-								checked={FlightTimeType.Morning in this.props.selectedTime}
-								value={FlightTimeType.Morning}
+								checked={FlightTimeInterval.Morning in this.props.selectedTime}
+								value={FlightTimeInterval.Morning}
 							/>
 						}
 						label="Утро (06:00 - 12:00)"
@@ -34,8 +34,8 @@ class Tab extends React.Component<Props> {
 						control={
 							<Checkbox
 								onChange={this.props.onChange}
-								checked={FlightTimeType.Noon in this.props.selectedTime}
-								value={FlightTimeType.Noon}
+								checked={FlightTimeInterval.Afternoon in this.props.selectedTime}
+								value={FlightTimeInterval.Afternoon}
 							/>
 						}
 						label="День (12:00 - 18:00)"
@@ -44,8 +44,8 @@ class Tab extends React.Component<Props> {
 						control={
 							<Checkbox
 								onChange={this.props.onChange}
-								checked={FlightTimeType.Evening in this.props.selectedTime}
-								value={FlightTimeType.Evening}
+								checked={FlightTimeInterval.Evening in this.props.selectedTime}
+								value={FlightTimeInterval.Evening}
 							/>
 						}
 						label="Вечер (18:00 - 00:00)"
@@ -54,8 +54,8 @@ class Tab extends React.Component<Props> {
 						control={
 							<Checkbox
 								onChange={this.props.onChange}
-								checked={FlightTimeType.Night in this.props.selectedTime}
-								value={FlightTimeType.Night}
+								checked={FlightTimeInterval.Night in this.props.selectedTime}
+								value={FlightTimeInterval.Night}
 							/>
 						}
 						label="Ночь (00:00 - 06:00)"

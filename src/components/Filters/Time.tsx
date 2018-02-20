@@ -7,7 +7,7 @@ import SwipeableViews from 'react-swipeable-views';
 import TimeTab from './Time/Tab';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { ApplicationState, FlightTimeType, LocationType } from '../../state';
+import { ApplicationState, FlightTimeInterval, LocationType } from '../../state';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import {
@@ -23,8 +23,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	addTimeInterval: (time: FlightTimeType, type: LocationType) => FilterTimeAction;
-	removeTimeInterval: (time: FlightTimeType, type: LocationType) => FilterTimeAction;
+	addTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
+	removeTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
 	removeAllTimeIntervals: () => Action;
 }
 
@@ -56,7 +56,7 @@ class Time extends WithPopover<Props, State> {
 	}
 
 	onDepartureChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
-		const timeInterval = (event.target as HTMLInputElement).value as FlightTimeType;
+		const timeInterval = (event.target as HTMLInputElement).value as FlightTimeInterval;
 
 		if (checked) {
 			this.props.addTimeInterval(timeInterval, LocationType.Departure);
@@ -67,7 +67,7 @@ class Time extends WithPopover<Props, State> {
 	}
 
 	onArrivalChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
-		const timeInterval = (event.target as HTMLInputElement).value as FlightTimeType;
+		const timeInterval = (event.target as HTMLInputElement).value as FlightTimeInterval;
 
 		if (checked) {
 			this.props.addTimeInterval(timeInterval, LocationType.Arrival);

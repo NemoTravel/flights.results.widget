@@ -53,9 +53,6 @@
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .results_isLoading .results-loader {
@@ -397,7 +394,7 @@
 }
 
 .flight-details-segment {
-  padding-left: 44px;
+  padding-left: 43px;
 }
 
 .flight-details-segment__right {

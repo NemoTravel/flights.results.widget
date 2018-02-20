@@ -27,16 +27,16 @@ export interface AirportsFilterState {
 	[LocationType.Departure]: string[];
 }
 
-export enum FlightTimeType {
+export enum FlightTimeInterval {
 	Night = '00:00-06:00',
 	Morning = '06:00-12:00',
-	Noon = '12:00-18:00',
+	Afternoon = '12:00-18:00',
 	Evening = '18:00-00:00'
 }
 
 export interface TimeFilterState {
-	[LocationType.Arrival]: FlightTimeType[];
-	[LocationType.Departure]: FlightTimeType[];
+	[LocationType.Arrival]: FlightTimeInterval[];
+	[LocationType.Departure]: FlightTimeInterval[];
 }
 
 export interface FiltersState {
