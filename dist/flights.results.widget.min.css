@@ -349,6 +349,11 @@
   justify-content: flex-end;
 }
 
+.flight-summary-price__amount-prefix {
+  position: relative;
+  top: -3px;
+}
+
 .flight-summary-price__amount .price {
   color: rgba(0, 0, 0, 0.87);
   font-size: 1.5rem;

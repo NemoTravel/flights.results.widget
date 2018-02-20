@@ -46,9 +46,14 @@ export interface FiltersState {
 	time: TimeFilterState;
 }
 
+export interface FlightsByLegsState {
+	[legId: number]: Flight[];
+}
+
 export interface ApplicationState {
-	isLoading: boolean;
 	config: Config;
-	flights: Flight[];
+	currentLeg: number;
+	flightsByLegs: FlightsByLegsState;
 	filters: FiltersState;
+	isLoading: boolean;
 }

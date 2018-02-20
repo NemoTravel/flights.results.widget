@@ -16,6 +16,7 @@ import { setConfig } from './store/config/actions';
 import { startLoading, stopLoading } from './store/isLoading/actions';
 import { setFlights } from './store/flights/actions';
 import { ApplicationState, Config } from './state';
+import Flight from './schemas/Flight';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 
@@ -25,7 +26,6 @@ const momentDurationFormatSetup = require('moment-duration-format');
 // }
 
 export const init = (config: Config) => {
-	const searchId = 216613;
 	const store = createStore<ApplicationState>(rootReducer);
 	const theme = createMuiTheme(themeObject);
 
@@ -34,14 +34,22 @@ export const init = (config: Config) => {
 	momentDurationFormatSetup(moment);
 	moment.locale(config.locale);
 
-	fetch(`http://release.mlsd.ru/?go=orderAPI/get&uri=flight/search/${searchId}`)
-		.then((response: Response) => response.json())
-		.then((response: any) => {
-			const flights = parse(response, searchId);
+	const firstSearchId = 216724;
+	const secondSearchId = 216725;
 
-			store.dispatch(stopLoading());
-			store.dispatch(setFlights(flights));
+	const promises = [ firstSearchId, secondSearchId ].map(searchId => {
+		return fetch(`http://release.mlsd.ru/?go=orderAPI/get&uri=flight/search/${firstSearchId}`)
+			.then((response: Response) => response.json())
+			.then((response: any) => parse(response, searchId));
+	});
+
+	Promise.all(promises).then((results: Flight[][]) => {
+		results.forEach((flights: Flight[], legId: number) => {
+			store.dispatch(setFlights(flights, legId));
 		});
+
+		store.dispatch(stopLoading());
+	});
 
 	ReactDOM.render(<Provider store={store}>
 		<MuiThemeProvider theme={theme}>

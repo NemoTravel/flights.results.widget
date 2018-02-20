@@ -4,10 +4,12 @@ import { flightsReducer } from './flights/reducers';
 import { loadingReducer } from './isLoading/reducers';
 import { configReducer } from './config/reducers';
 import { filtersReducer } from './filters/reducers';
+import { currentLegReducer } from './currentLeg/reducers';
 
 export const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
-	flights: flightsReducer,
+	flightsByLegs: flightsReducer,
 	filters: filtersReducer,
-	config: configReducer
+	config: configReducer,
+	currentLeg: currentLegReducer
 });
