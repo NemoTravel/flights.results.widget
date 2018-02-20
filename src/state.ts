@@ -1,4 +1,5 @@
 import Flight from './schemas/Flight';
+import Leg from './schemas/Leg';
 
 export enum Language {
 	Russian = 'ru',
@@ -61,4 +62,5 @@ export interface ApplicationState {
 	filters: FiltersState;
 	isLoading: boolean;
 	selectedFlights: SelectedFlightsState;
+	legs: Leg[];
 }

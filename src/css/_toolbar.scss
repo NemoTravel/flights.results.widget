@@ -42,7 +42,7 @@
 
 			&__icon {
 				height: 20px !important;
-				margin-right: 5px;
+				margin-right: 7px;
 
 				&_reverse {
 					transform: rotateY(180deg);
@@ -55,7 +55,7 @@
 				cursor: not-allowed;
 			}
 
-			&_done {
+			&_selected {
 				color: #fff;
 				background-color: #64b5f6;
 			}

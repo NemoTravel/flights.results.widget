@@ -503,7 +503,7 @@
 
 .toolbar-legs-leg__icon {
   height: 20px !important;
-  margin-right: 5px;
+  margin-right: 7px;
 }
 
 .toolbar-legs-leg__icon_reverse {
@@ -517,7 +517,7 @@
   cursor: not-allowed;
 }
 
-.toolbar-legs-leg_done {
+.toolbar-legs-leg_selected {
   color: #fff;
   background-color: #64b5f6;
 }
