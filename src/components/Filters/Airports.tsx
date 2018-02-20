@@ -78,14 +78,7 @@ class Airports extends WithPopover<Props, State> {
 		}
 
 		if (hasSelectedArrivalAirports) {
-			const tmpChipLabel = selectedArrivalAirportsObject.map(airport => airport.name).join(', ');
-
-			if (hasSelectedDepartureAirports) {
-				chipLabel += ', прилет: ' + tmpChipLabel;
-			}
-			else {
-				chipLabel = 'Прилет: ' + tmpChipLabel;
-			}
+			chipLabel = `${hasSelectedDepartureAirports ? chipLabel + ', ' : ''}Прилет: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
 		}
 
 		this.setState({

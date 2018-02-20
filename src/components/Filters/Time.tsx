@@ -10,12 +10,19 @@ import WithPopover, { State as FilterState } from './WithPopover';
 import { ApplicationState, FlightTimeInterval, LocationType } from '../../state';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import {
-	getArrivalAirports, getDepartureAirports, getSelectedArrivalAirportsList,
-	getSelectedArrivalAirportsObjects, getSelectedDepartureAirportsList, getSelectedDepartureAirportsObjects
-} from '../../store/filters/airports/selectors';
 import { FilterTimeAction, addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/filters/time/selectors';
+
+interface TimeIntervalsLabels {
+	[interval: string]: string;
+}
+
+export const timeIntervalsLabels: TimeIntervalsLabels = {
+	[FlightTimeInterval.Morning]: 'утром',
+	[FlightTimeInterval.Afternoon]: 'днём',
+	[FlightTimeInterval.Evening]: 'вечером',
+	[FlightTimeInterval.Night]: 'ночью'
+};
 
 interface StateProps {
 	selectedDepartureTimeIntervals: ListOfSelectedCodes;
@@ -53,6 +60,41 @@ class Time extends WithPopover<Props, State> {
 		this.changeTabFromSwipe = this.changeTabFromSwipe.bind(this);
 		this.onArrivalChange = this.onArrivalChange.bind(this);
 		this.onDepartureChange = this.onDepartureChange.bind(this);
+	}
+
+	componentWillReceiveProps({ selectedDepartureTimeIntervals, selectedArrivalTimeIntervals }: Props): void {
+		const hasSelectedDepartureTimeIntervals = !!Object.keys(selectedDepartureTimeIntervals).length;
+		const hasSelectedArrivalTimeIntervals = !!Object.keys(selectedArrivalTimeIntervals).length;
+		let chipLabel = this.label;
+
+		if (hasSelectedDepartureTimeIntervals) {
+			const parts: string[] = [];
+
+			for (const interval in selectedDepartureTimeIntervals) {
+				if (selectedDepartureTimeIntervals.hasOwnProperty(interval)) {
+					parts.push(timeIntervalsLabels[interval]);
+				}
+			}
+
+			chipLabel = 'Вылет: ' + parts.join(', ');
+		}
+
+		if (hasSelectedArrivalTimeIntervals) {
+			const parts: string[] = [];
+
+			for (const interval in selectedArrivalTimeIntervals) {
+				if (selectedArrivalTimeIntervals.hasOwnProperty(interval)) {
+					parts.push(timeIntervalsLabels[interval]);
+				}
+			}
+
+			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилет: ${parts.join(', ')}`;
+		}
+
+		this.setState({
+			isActive: hasSelectedDepartureTimeIntervals || hasSelectedArrivalTimeIntervals,
+			chipLabel: chipLabel
+		});
 	}
 
 	onDepartureChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
