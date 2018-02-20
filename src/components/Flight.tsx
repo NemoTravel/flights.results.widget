@@ -130,7 +130,7 @@ class Flight extends React.Component<Props, State> {
 			<div className="flight-summary__right">
 				<div className="flight-summary-price">
 					<div className="flight-summary-price__amount">
-						{!isOW ? 'от' : null}
+						{!isOW ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
 						<Price price={flight.totalPrice}/>
 					</div>

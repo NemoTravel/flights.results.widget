@@ -201,6 +201,11 @@
 				align-items: flex-end;
 				justify-content: flex-end;
 
+				&-prefix {
+					position: relative;
+					top: -3px;
+				}
+
 				.price {
 					color: $common-font-color;
 					font-size: 1.5rem;
