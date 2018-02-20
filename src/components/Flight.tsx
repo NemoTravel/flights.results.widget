@@ -8,11 +8,14 @@ import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
+import { CommonThunkAction } from '../state';
 
 interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
 	onLoad: () => void;
+	currentLeg: number;
+	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
 }
 
 interface State {
@@ -28,6 +31,7 @@ class Flight extends React.Component<Props, State> {
 		super(props);
 
 		this.toggleDetails = this.toggleDetails.bind(this);
+		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
@@ -38,6 +42,12 @@ class Flight extends React.Component<Props, State> {
 		this.setState({
 			isOpen: !this.state.isOpen
 		} as State);
+	}
+
+	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
+		event.stopPropagation();
+		event.preventDefault();
+		this.props.selectFlight(this.props.flight.id, this.props.currentLeg);
 	}
 
 	renderLogo(): React.ReactNode {
@@ -140,7 +150,7 @@ class Flight extends React.Component<Props, State> {
 					</div> : null}
 				</div>
 
-				<div className="flight-summary-buy">
+				<div className="flight-summary-buy" onClick={this.onBuyButtonClick}>
 					Выбрать
 				</div>
 			</div>

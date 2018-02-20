@@ -1,14 +1,9 @@
 import { Action } from 'redux';
 
-export const SET_CURRENT_LEG = 'SET_CURRENT_LEG';
+export const NEXT_LEG = 'NEXT_LEG';
 
-export interface CurrentLegAction extends Action {
-	payload: number;
-}
-
-export const setCurrentLeg = (legId: number): CurrentLegAction => {
+export const nextLeg = (): Action => {
 	return {
-		type: SET_CURRENT_LEG,
-		payload: legId
+		type: NEXT_LEG
 	};
 };

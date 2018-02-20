@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import * as moment from 'moment';
 import 'whatwg-fetch';
 
@@ -15,7 +16,7 @@ import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';
 import { startLoading, stopLoading } from './store/isLoading/actions';
 import { setFlights } from './store/flights/actions';
-import { ApplicationState, Config } from './state';
+import { Config } from './state';
 import Flight from './schemas/Flight';
 
 const momentDurationFormatSetup = require('moment-duration-format');
@@ -26,7 +27,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 // }
 
 export const init = (config: Config) => {
-	const store = createStore<ApplicationState>(rootReducer);
+	const store = createStore(rootReducer, applyMiddleware(thunk));
 	const theme = createMuiTheme(themeObject);
 
 	store.dispatch(setConfig(config));
@@ -38,7 +39,7 @@ export const init = (config: Config) => {
 	const secondSearchId = 216725;
 
 	const promises = [ firstSearchId, secondSearchId ].map(searchId => {
-		return fetch(`http://release.mlsd.ru/?go=orderAPI/get&uri=flight/search/${firstSearchId}`)
+		return fetch(`http://release.mlsd.ru/?go=orderAPI/get&uri=flight/search/${searchId}`)
 			.then((response: Response) => response.json())
 			.then((response: any) => parse(response, searchId));
 	});

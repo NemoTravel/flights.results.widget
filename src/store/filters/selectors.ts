@@ -38,9 +38,7 @@ export const getCurrentLegId = (state: ApplicationState): number => state.curren
  */
 export const getFlights = createSelector(
 	[getFlightsByLegs, getCurrentLegId],
-	(flightsByLegs: FlightsByLegsState, legId: number): Flight[] => {
-		return flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
-	}
+	(flightsByLegs: FlightsByLegsState, legId: number): Flight[] => flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : []
 );
 
 /**

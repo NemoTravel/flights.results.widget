@@ -483,6 +483,8 @@
   font-size: 15px;
   color: #64b5f6;
   background-color: #fff;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
   border: 1px solid #64b5f6;
   border-radius: 5px;
   -webkit-user-select: none;

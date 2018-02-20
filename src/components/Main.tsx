@@ -10,18 +10,24 @@ import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import FlightModel from '../schemas/Flight';
 import { getVisibleFlights, isMultipleLegs } from '../store/selectors';
-import { ApplicationState } from '../state';
-import {
-	AutoSizer, CellMeasurer, CellMeasurerCache, Grid, List, ListRowProps,
-	WindowScroller
-} from 'react-virtualized';
+import { ApplicationState, CommonThunkAction } from '../state';
+import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowScroller } from 'react-virtualized';
 import Toolbar from './Toolbar';
+import { selectFlight } from '../store/selectedFlights/actions';
+import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
 interface StateProps {
 	isMultipleLegs: boolean;
 	isLoading: boolean;
 	flights: FlightModel[];
+	currentLeg: number;
 }
+
+interface DispatchProps {
+	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+}
+
+type Props = StateProps & DispatchProps;
 
 const rowHeight = 72;
 
@@ -30,8 +36,8 @@ const cache = new CellMeasurerCache({
 	fixedWidth: true
 });
 
-class Main extends React.Component<StateProps> {
-	constructor(props: StateProps) {
+class Main extends React.Component<Props> {
+	constructor(props: Props) {
 		super(props);
 
 		this.flightRenderer = this.flightRenderer.bind(this);
@@ -47,7 +53,7 @@ class Main extends React.Component<StateProps> {
 		>
 			{({ measure }) => (
 				<div className="flight__holder" style={style}>
-					<Flight onLoad={measure} key={key} flight={this.props.flights[index]}/>
+					<Flight onLoad={measure} key={key} flight={this.props.flights[index]} selectFlight={this.props.selectFlight} currentLeg={this.props.currentLeg}/>
 				</div>
 			)}
 		</CellMeasurer>;
@@ -100,8 +106,15 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		isMultipleLegs: isMultipleLegs(state),
 		isLoading: state.isLoading,
-		flights: getVisibleFlights(state)
+		flights: getVisibleFlights(state),
+		currentLeg: state.currentLeg
 	};
 };
 
-export default connect(mapStateToProps)(Main);
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
+	return {
+		selectFlight: bindActionCreators(selectFlight, dispatch)
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

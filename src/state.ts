@@ -1,5 +1,10 @@
+import { ThunkAction } from 'redux-thunk';
 import Flight from './schemas/Flight';
 import Leg from './schemas/Leg';
+
+export type CommonThunkAction = ThunkAction<void, ApplicationState, null>;
+
+export type GetStateFunction = () => ApplicationState;
 
 export enum Language {
 	Russian = 'ru',
