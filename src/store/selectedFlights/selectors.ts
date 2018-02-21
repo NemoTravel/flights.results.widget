@@ -3,14 +3,11 @@ import { ApplicationState, FlightsState, SelectedFlightsState } from '../../stat
 import { getFlightsPool } from '../flights/selectors';
 import Money from '../../schemas/Money';
 
-export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsState => {
-	return state.selectedFlights;
-};
+export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsState => state.selectedFlights;
 
 export const getTotalPrice = createSelector(
 	[getFlightsPool, getSelectedFlightsIds],
 	(flightsPool: FlightsState, selectedFlightsIds: SelectedFlightsState): Money => {
-
 		const totalPrice: Money = {
 			amount: 0,
 			currency: 'RUB'
