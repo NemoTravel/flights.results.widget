@@ -16,7 +16,7 @@ import { parse } from './services/parsers/results';
 import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';
 import { startLoading, stopLoading } from './store/isLoading/actions';
-import { setFlights } from './store/flights/actions';
+import { setFlights } from './store/flightsByLegs/actions';
 import { Config } from './state';
 import Flight from './schemas/Flight';
 

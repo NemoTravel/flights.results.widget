@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { ApplicationState } from '../state';
-import { flightsReducer } from './flights/reducers';
+import { flightsByLegsReducer } from './flightsByLegs/reducers';
 import { loadingReducer } from './isLoading/reducers';
 import { configReducer } from './config/reducers';
 import { filtersReducer } from './filters/reducers';
@@ -26,7 +26,7 @@ const initialLegsState = [
 
 export const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
-	flightsByLegs: flightsReducer,
+	flightsByLegs: flightsByLegsReducer,
 	filters: filtersReducer,
 	config: configReducer,
 	currentLeg: currentLegReducer,
