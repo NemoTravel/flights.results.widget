@@ -2,11 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Price from './Price';
 import Leg from '../schemas/Leg';
-import { ApplicationState } from '../state';
+import { ApplicationState, CommonThunkAction } from '../state';
 import LegComponent from './Toolbar/Leg';
 import Money from '../schemas/Money';
 import { getTotalPrice } from '../store/selectedFlights/selectors';
-import { LegAction, setLeg } from '../store/currentLeg/actions';
+import { goToLeg, LegAction } from '../store/currentLeg/actions';
 import { bindActionCreators, Dispatch } from 'redux';
 
 interface StateProps {
@@ -16,7 +16,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	setLeg: (legId: number) => LegAction;
+	goToLeg: (legId: number) => CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
@@ -39,7 +39,7 @@ class Toolbar extends React.Component<Props> {
 		const isSelected = leg.id === this.props.currentLeg;
 		const isRTBack = leg.id === 1 && this.props.legs.length === NUM_OF_LEGS_FOR_RT;
 
-		return <LegComponent key={leg.id} leg={leg} setLeg={this.props.setLeg} isDisabled={isDisabled} isSelected={isSelected} isReverse={isRTBack}/>;
+		return <LegComponent key={leg.id} leg={leg} goToLeg={this.props.goToLeg} isDisabled={isDisabled} isSelected={isSelected} isReverse={isRTBack}/>;
 	}
 
 	render(): React.ReactNode {
@@ -67,7 +67,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<LegAction>): DispatchProps => {
 	return {
-		setLeg: bindActionCreators(setLeg, dispatch)
+		goToLeg: bindActionCreators(goToLeg, dispatch)
 	};
 };
 

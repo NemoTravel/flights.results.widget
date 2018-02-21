@@ -11,7 +11,7 @@ export interface SelectedFlightAction extends Action {
 	};
 }
 
-export const addSelectedFlight = (flightId: number, legId: number): SelectedFlightAction => {
+export const setSelectedFlight = (flightId: number, legId: number): SelectedFlightAction => {
 	return {
 		type: SET_SELECTED_FLIGHT,
 		payload: {
@@ -23,7 +23,7 @@ export const addSelectedFlight = (flightId: number, legId: number): SelectedFlig
 
 export const selectFlight = (flightId: number, legId: number): CommonThunkAction => {
 	return (dispatch, getState) => {
-		dispatch(addSelectedFlight(flightId, legId));
+		dispatch(setSelectedFlight(flightId, legId));
 		dispatch(nextLeg());
 	};
 };

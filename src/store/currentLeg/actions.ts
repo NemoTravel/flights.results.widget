@@ -1,4 +1,6 @@
 import { Action } from 'redux';
+import { CommonThunkAction } from '../../state';
+import { setSelectedFlight } from '../selectedFlights/actions';
 
 export const NEXT_LEG = 'NEXT_LEG';
 export const SET_LEG = 'SET_LEG';
@@ -10,6 +12,13 @@ export interface LegAction extends Action {
 export const nextLeg = (): LegAction => {
 	return {
 		type: NEXT_LEG
+	};
+};
+
+export const goToLeg = (legId: number): CommonThunkAction => {
+	return (dispatch, getState): void => {
+		dispatch(setSelectedFlight(null, legId));
+		dispatch(setLeg(legId));
 	};
 };
 
