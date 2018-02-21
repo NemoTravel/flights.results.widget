@@ -1,7 +1,9 @@
 import { SET_SELECTED_FLIGHT, SelectedFlightAction } from './actions';
 import { SelectedFlightsState } from '../../state';
 
-export const selectedFlightsReducer = (state: SelectedFlightsState = {}, action: SelectedFlightAction): SelectedFlightsState => {
+const initialState: SelectedFlightsState = {};
+
+export const selectedFlightsReducer = (state: SelectedFlightsState = initialState, action: SelectedFlightAction): SelectedFlightsState => {
 	switch (action.type) {
 		case SET_SELECTED_FLIGHT:
 			return {

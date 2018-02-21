@@ -15,14 +15,6 @@ export interface ObjectsMap<T> {
 }
 
 /**
- * Get list of flights grouped by flight id.
- *
- * @param {ApplicationState} state
- * @returns {FlightsState}
- */
-export const getFlightsPool = (state: ApplicationState): FlightsState => state.flights;
-
-/**
  * Get flights objects grouped by leg id.
  *
  * @param {ApplicationState} state

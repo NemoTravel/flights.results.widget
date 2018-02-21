@@ -4,8 +4,11 @@ import Price from './Price';
 import Leg from '../schemas/Leg';
 import { ApplicationState } from '../state';
 import LegComponent from './Toolbar/Leg';
+import Money from '../schemas/Money';
+import { getTotalPrice } from '../store/selectedFlights/selectors';
 
 interface StateProps {
+	totalPrice: Money;
 	currentLeg: number;
 	legs: Leg[];
 }
@@ -39,7 +42,7 @@ class Toolbar extends React.Component<StateProps> {
 				</div>
 
 				<div className="toolbar-totalPrice">
-					<Price price={{ amount: 1336, currency: 'RUB' }}/>
+					<Price price={this.props.totalPrice}/>
 				</div>
 			</div>
 		</section>;
@@ -48,6 +51,7 @@ class Toolbar extends React.Component<StateProps> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
+		totalPrice: getTotalPrice(state),
 		legs: state.legs,
 		currentLeg: state.currentLeg
 	};

@@ -8,7 +8,6 @@ import logger from 'redux-logger';
 import * as moment from 'moment';
 import 'whatwg-fetch';
 
-import Main from './components/Main';
 import themeObject from './themes/default';
 import './css/main.scss';
 import 'react-virtualized/styles.css';
@@ -20,6 +19,7 @@ import { setFlightsByLeg } from './store/flightsByLegs/actions';
 import { Config } from './state';
 import Flight from './schemas/Flight';
 import { addFlights } from './store/flights/actions';
+import Main from './components/Main';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 

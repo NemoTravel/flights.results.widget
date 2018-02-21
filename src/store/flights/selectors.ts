@@ -1,7 +1,15 @@
-import { getCurrentLegId, getFlightsIdsByLegs, getFlightsPool } from '../filters/selectors';
+import { getCurrentLegId, getFlightsIdsByLegs } from '../filters/selectors';
 import { createSelector } from 'reselect';
 import Flight from '../../schemas/Flight';
-import { FlightsByLegsState, FlightsState } from '../../state';
+import { ApplicationState, FlightsByLegsState, FlightsState } from '../../state';
+
+/**
+ * Get list of flights grouped by flight id.
+ *
+ * @param {ApplicationState} state
+ * @returns {FlightsState}
+ */
+export const getFlightsPool = (state: ApplicationState): FlightsState => state.flights;
 
 /**
  * Get an array of all flights on the current selected leg.

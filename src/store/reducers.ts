@@ -33,6 +33,6 @@ export const rootReducer = combineReducers<ApplicationState>({
 	filters: filtersReducer,
 	config: configReducer,
 	currentLeg: currentLegReducer,
-	selectedFligts: selectedFlightsReducer,
+	selectedFlights: selectedFlightsReducer,
 	legs: (state: Leg[] = initialLegsState): Leg[] => state
 });
