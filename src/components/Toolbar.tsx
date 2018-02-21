@@ -6,6 +6,8 @@ import { ApplicationState } from '../state';
 import LegComponent from './Toolbar/Leg';
 import Money from '../schemas/Money';
 import { getTotalPrice } from '../store/selectedFlights/selectors';
+import { LegAction, setLeg } from '../store/currentLeg/actions';
+import { bindActionCreators, Dispatch } from 'redux';
 
 interface StateProps {
 	totalPrice: Money;
@@ -13,25 +15,31 @@ interface StateProps {
 	legs: Leg[];
 }
 
+interface DispatchProps {
+	setLeg: (legId: number) => LegAction;
+}
+
+type Props = StateProps & DispatchProps;
+
 const NUM_OF_LEGS_FOR_RT = 2;
 
-class Toolbar extends React.Component<StateProps> {
-	constructor(props: StateProps) {
+class Toolbar extends React.Component<Props> {
+	constructor(props: Props) {
 		super(props);
 
 		this.renderLeg = this.renderLeg.bind(this);
 	}
 
-	shouldComponentUpdate(nextProps: StateProps): boolean {
+	shouldComponentUpdate(nextProps: Props): boolean {
 		return nextProps.currentLeg !== this.props.currentLeg;
 	}
 
 	renderLeg(leg: Leg): React.ReactNode {
 		const isDisabled = leg.id > this.props.currentLeg;
-		const isSelected = leg.id < this.props.currentLeg;
+		const isSelected = leg.id === this.props.currentLeg;
 		const isRTBack = leg.id === 1 && this.props.legs.length === NUM_OF_LEGS_FOR_RT;
 
-		return <LegComponent key={leg.id} leg={leg} isDisabled={isDisabled} isSelected={isSelected} isReverse={isRTBack}/>;
+		return <LegComponent key={leg.id} leg={leg} setLeg={this.props.setLeg} isDisabled={isDisabled} isSelected={isSelected} isReverse={isRTBack}/>;
 	}
 
 	render(): React.ReactNode {
@@ -57,4 +65,10 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-export default connect(mapStateToProps)(Toolbar);
+const mapDispatchToProps = (dispatch: Dispatch<LegAction>): DispatchProps => {
+	return {
+		setLeg: bindActionCreators(setLeg, dispatch)
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

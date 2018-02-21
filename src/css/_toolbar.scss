@@ -23,7 +23,7 @@
 		align-items: center;
 
 		&-leg {
-			padding: 8px 9px;
+			padding: 8px 11px 8px 9px;
 			font-size: 15px;
 
 			color: #64b5f6;
@@ -32,6 +32,7 @@
 
 			border: 1px solid #64b5f6;
 			border-radius: 5px;
+			cursor: pointer;
 			user-select: none;
 
 			display: flex;
@@ -59,6 +60,7 @@
 			&_selected {
 				color: #fff;
 				background-color: #64b5f6;
+				cursor: default;
 			}
 		}
 	}
