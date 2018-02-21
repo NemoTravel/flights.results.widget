@@ -16,9 +16,10 @@ import { parse } from './services/parsers/results';
 import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';
 import { startLoading, stopLoading } from './store/isLoading/actions';
-import { setFlights } from './store/flightsByLegs/actions';
+import { setFlightsByLeg } from './store/flightsByLegs/actions';
 import { Config } from './state';
 import Flight from './schemas/Flight';
+import { addFlights } from './store/flights/actions';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 
@@ -47,7 +48,8 @@ export const init = (config: Config) => {
 
 	Promise.all(promises).then((results: Flight[][]) => {
 		results.forEach((flights: Flight[], legId: number) => {
-			store.dispatch(setFlights(flights, legId));
+			store.dispatch(setFlightsByLeg(flights, legId));
+			store.dispatch(addFlights(flights));
 		});
 
 		store.dispatch(stopLoading());

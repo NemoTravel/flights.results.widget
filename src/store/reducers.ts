@@ -1,4 +1,7 @@
+import * as moment from 'moment';
 import { combineReducers } from 'redux';
+
+import Leg from '../schemas/Leg';
 import { ApplicationState } from '../state';
 import { flightsByLegsReducer } from './flightsByLegs/reducers';
 import { loadingReducer } from './isLoading/reducers';
@@ -6,8 +9,7 @@ import { configReducer } from './config/reducers';
 import { filtersReducer } from './filters/reducers';
 import { currentLegReducer } from './currentLeg/reducers';
 import { selectedFlightsReducer } from './selectedFlights/reducers';
-import Leg from '../schemas/Leg';
-import * as moment from 'moment';
+import { flightsReducer } from './flights/reducers';
 
 const initialLegsState = [
 	{
@@ -26,6 +28,7 @@ const initialLegsState = [
 
 export const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
+	flights: flightsReducer,
 	flightsByLegs: flightsByLegsReducer,
 	filters: filtersReducer,
 	config: configReducer,

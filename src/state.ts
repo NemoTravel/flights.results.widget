@@ -60,11 +60,16 @@ export interface SelectedFlightsState {
 	[legId: number]: number;
 }
 
+export interface FlightsState {
+	[flightId: number]: Flight;
+}
+
 export interface ApplicationState {
 	config: Config;
 	currentLeg: number;
-	flightsByLegs: FlightsByLegsState;
 	filters: FiltersState;
+	flights: FlightsState;
+	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
 	selectedFlights: SelectedFlightsState;
 	legs: Leg[];

@@ -10,7 +10,7 @@ export interface SetFlightsAction extends Action {
 	};
 }
 
-export const setFlights = (flights: Flight[], legId: number): SetFlightsAction => {
+export const setFlightsByLeg = (flights: Flight[], legId: number): SetFlightsAction => {
 	return {
 		type: SET_FLIGHTS_BY_LEGS,
 		payload: {
