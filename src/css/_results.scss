@@ -10,7 +10,7 @@
 
 	&_isLoading {
 		.results-loader {
-			display: block;
+			display: flex;
 		}
 
 		.scenarios, .filters, .results-flights, .results__headline {
@@ -26,10 +26,18 @@
 
 	&-loader {
 		display: none;
-		width: 100%;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		
+		background: rgba(255, 255, 255, 0.5);
+		cursor: wait;
 
-		position: absolute !important;
 		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		z-index: 2000;
 	}
 
 	&-flights {

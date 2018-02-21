@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
-import { LinearProgress } from 'material-ui/Progress';
+import { CircularProgress } from 'material-ui/Progress';
 
 import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
@@ -105,7 +105,9 @@ class Main extends React.Component<Props> {
 		const numOfFlights = this.props.flights.length;
 
 		return <div className={classNames('results', { results_isLoading: this.props.isLoading })}>
-			<LinearProgress className="results-loader" color="secondary" variant="query"/>
+			<div className="results-loader">
+				<CircularProgress color="secondary" variant="indeterminate"/>
+			</div>
 
 			<section className="scenarios"/>
 
