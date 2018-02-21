@@ -29,12 +29,7 @@ export const selectFlight = (flightId: number, legId: number): CommonThunkAction
 
 		dispatch(setSelectedFlight(flightId, legId));
 
-		if (isLastLeg(state)) {
-
-		}
-		else {
-			dispatch(startLoading());
-			setTimeout(() => dispatch(stopLoading()), LEG_CHANGING_DELAY);
+		if (!isLastLeg(state)) {
 			dispatch(nextLeg());
 		}
 	};

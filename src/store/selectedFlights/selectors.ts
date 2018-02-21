@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 import { ApplicationState, FlightsState, SelectedFlightsState } from '../../state';
 import { getFlightsPool } from '../flights/selectors';
 import Money from '../../schemas/Money';
+import { getLegs } from '../currentLeg/selectors';
+import Leg from '../../schemas/Leg';
 
 export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsState => state.selectedFlights;
 
@@ -24,5 +26,12 @@ export const getTotalPrice = createSelector(
 		}
 
 		return totalPrice;
+	}
+);
+
+export const isSelectionComplete = createSelector(
+	[getLegs, getSelectedFlightsIds],
+	(legs: Leg[], selectedFlightsIds: SelectedFlightsState) => {
+		return !legs.find(leg => !selectedFlightsIds.hasOwnProperty(leg.id));
 	}
 );
