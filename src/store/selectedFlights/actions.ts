@@ -1,6 +1,7 @@
 import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
 import { nextLeg } from '../currentLeg/actions';
+import { isLastLeg } from '../currentLeg/selectors';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 
@@ -23,7 +24,15 @@ export const setSelectedFlight = (flightId: number, legId: number): SelectedFlig
 
 export const selectFlight = (flightId: number, legId: number): CommonThunkAction => {
 	return (dispatch, getState) => {
+		const state = getState();
+
 		dispatch(setSelectedFlight(flightId, legId));
-		dispatch(nextLeg());
+
+		if (isLastLeg(state)) {
+
+		}
+		else {
+			dispatch(nextLeg());
+		}
 	};
 };
