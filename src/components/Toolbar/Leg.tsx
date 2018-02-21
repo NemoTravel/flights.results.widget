@@ -4,6 +4,7 @@ import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
 import LegModel from '../../schemas/Leg';
 import { LegAction } from '../../store/currentLeg/actions';
 import { CommonThunkAction } from '../../state';
+import Tooltip from 'material-ui/Tooltip';
 
 interface Props {
 	leg: LegModel;
@@ -42,10 +43,16 @@ class Leg extends React.Component<Props> {
 			'toolbar-legs-leg_selected': isSelected
 		});
 
-		return <div className={classNames} onClick={this.onClick}>
+		let content = <div className={classNames} onClick={this.onClick}>
 			<FlightTakeOffIcon className={classnames('toolbar-legs-leg__icon', { 'toolbar-legs-leg__icon_reverse': isReverse })}/>
 			{leg.departure} &mdash; {leg.arrival}, {leg.date.format('DD MMMM')}
 		</div>;
+
+		if (!isDisabled && !isSelected) {
+			content = <Tooltip title="Выбрать другой рейс">{content}</Tooltip>;
+		}
+
+		return content;
 	}
 }
 
