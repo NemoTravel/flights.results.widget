@@ -50,7 +50,10 @@ class Toolbar extends React.Component<Props> {
 				</div>
 
 				<div className="toolbar-totalPrice">
-					<Price price={this.props.totalPrice}/>
+					{this.props.totalPrice && this.props.totalPrice.amount ?
+						<Price price={this.props.totalPrice}/> :
+						'Выберите рейс'
+					}
 				</div>
 			</div>
 		</section>;
