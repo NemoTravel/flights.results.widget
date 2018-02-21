@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import Flight from '../schemas/Flight';
-import { getFlights, getFlightsByLegs, ListOfSelectedCodes } from './filters/selectors';
+import { getFlightsIdsByLegs, ListOfSelectedCodes } from './filters/selectors';
 import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
 import { getIsDirectOnly } from './filters/directOnly/selectors';
@@ -9,9 +9,10 @@ import {
 	getTimeIntervalForDate
 } from './filters/time/selectors';
 import { FlightsByLegsState } from '../state';
+import { getFlights } from './flights/selectors';
 
 export const isMultipleLegs = createSelector(
-	[getFlightsByLegs],
+	[getFlightsIdsByLegs],
 	(flightsByLegs: FlightsByLegsState): boolean => Object.keys(flightsByLegs).length > 1
 );
 

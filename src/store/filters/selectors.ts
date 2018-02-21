@@ -1,4 +1,4 @@
-import { ApplicationState, FlightsByLegsState } from '../../state';
+import { ApplicationState, FlightsByLegsState, FlightsState } from '../../state';
 import Flight from '../../schemas/Flight';
 import { createSelector } from 'reselect';
 
@@ -15,12 +15,20 @@ export interface ObjectsMap<T> {
 }
 
 /**
+ * Get list of flights grouped by flight id.
+ *
+ * @param {ApplicationState} state
+ * @returns {FlightsState}
+ */
+export const getFlightsPool = (state: ApplicationState): FlightsState => state.flights;
+
+/**
  * Get flights objects grouped by leg id.
  *
  * @param {ApplicationState} state
  * @returns {FlightsByLegsState}
  */
-export const getFlightsByLegs = (state: ApplicationState): FlightsByLegsState => state.flightsByLegs;
+export const getFlightsIdsByLegs = (state: ApplicationState): FlightsByLegsState => state.flightsByLegs;
 
 /**
  * Get current leg id.
@@ -29,17 +37,6 @@ export const getFlightsByLegs = (state: ApplicationState): FlightsByLegsState =>
  * @returns {number}
  */
 export const getCurrentLegId = (state: ApplicationState): number => state.currentLeg;
-
-/**
- * Get an array of all flights.
- *
- * @param {ApplicationState} state
- * @returns {Flight[]}
- */
-export const getFlights = createSelector(
-	[getFlightsByLegs, getCurrentLegId],
-	(flightsByLegs: FlightsByLegsState, legId: number): Flight[] => flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : []
-);
 
 /**
  * Get an object with selected codes used for filtering (airlines and airports filters).

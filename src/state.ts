@@ -53,7 +53,7 @@ export interface FiltersState {
 }
 
 export interface FlightsByLegsState {
-	[legId: number]: Flight[];
+	[legId: number]: number[];
 }
 
 export interface SelectedFlightsState {

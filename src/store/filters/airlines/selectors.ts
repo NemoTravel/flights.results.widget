@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
 import { ApplicationState } from '../../../state';
-import { createMap, getFlights, getListOfSelectedCodes, ObjectsMap } from '../selectors';
+import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import Airline from '../../../schemas/Airline';
 import Flight from '../../../schemas/Flight';
+import { getFlights } from '../../flights/selectors';
 
 /**
  * Get an array of airlines codes used for filtering.

@@ -2,7 +2,8 @@ import { createSelector } from 'reselect';
 import Airport from '../../../schemas/Airport';
 import Flight from '../../../schemas/Flight';
 import { ApplicationState, LocationType } from '../../../state';
-import { createMap, getFlights, getListOfSelectedCodes, ObjectsMap } from '../selectors';
+import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
+import { getFlights } from '../../flights/selectors';
 
 /**
  * Get an array of departure airports codes used for filtering.

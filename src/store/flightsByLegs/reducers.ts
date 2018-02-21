@@ -6,7 +6,7 @@ export const flightsByLegsReducer = (state: FlightsByLegsState = {}, action: Set
 		case SET_FLIGHTS_BY_LEGS:
 			return {
 				...state,
-				[action.payload.legId]: action.payload.flights
+				[action.payload.legId]: action.payload.flights.map(flight => flight.id)
 			};
 	}
 

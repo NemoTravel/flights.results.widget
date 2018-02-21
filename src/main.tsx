@@ -48,8 +48,8 @@ export const init = (config: Config) => {
 
 	Promise.all(promises).then((results: Flight[][]) => {
 		results.forEach((flights: Flight[], legId: number) => {
-			store.dispatch(setFlightsByLeg(flights, legId));
 			store.dispatch(addFlights(flights));
+			store.dispatch(setFlightsByLeg(flights, legId));
 		});
 
 		store.dispatch(stopLoading());
