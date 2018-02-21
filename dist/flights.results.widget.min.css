@@ -65,7 +65,8 @@
 
 .results_isLoading .scenarios,
 .results_isLoading .filters,
-.results_isLoading .results-flights {
+.results_isLoading .results-flights,
+.results_isLoading .results__headline {
   display: none;
 }
 

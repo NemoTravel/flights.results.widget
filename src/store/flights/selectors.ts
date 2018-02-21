@@ -1,7 +1,8 @@
-import { getCurrentLegId, getFlightsIdsByLegs } from '../filters/selectors';
+import { getFlightsIdsByLegs } from '../filters/selectors';
 import { createSelector } from 'reselect';
 import Flight from '../../schemas/Flight';
 import { ApplicationState, FlightsByLegsState, FlightsState } from '../../state';
+import { getCurrentLegId } from '../currentLeg/selectors';
 
 /**
  * Get list of flights grouped by flight id.

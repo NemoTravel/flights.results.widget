@@ -22,7 +22,7 @@ const initialLegsState = [
 		id: 1,
 		date: moment('2018-06-25').locale('ru'),
 		departure: 'Москва',
-		arrival: 'Санкт-Петербург'
+		arrival: 'Париж'
 	}
 ];
 

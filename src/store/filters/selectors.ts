@@ -23,14 +23,6 @@ export interface ObjectsMap<T> {
 export const getFlightsIdsByLegs = (state: ApplicationState): FlightsByLegsState => state.flightsByLegs;
 
 /**
- * Get current leg id.
- *
- * @param {ApplicationState} state
- * @returns {number}
- */
-export const getCurrentLegId = (state: ApplicationState): number => state.currentLeg;
-
-/**
  * Get an object with selected codes used for filtering (airlines and airports filters).
  *
  * @param {string[]} codes
