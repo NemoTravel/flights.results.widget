@@ -1,7 +1,8 @@
 import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
-import { nextLeg } from '../currentLeg/actions';
+import { LEG_CHANGING_DELAY, nextLeg } from '../currentLeg/actions';
 import { isLastLeg } from '../currentLeg/selectors';
+import { startLoading, stopLoading } from '../isLoading/actions';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 
@@ -32,6 +33,8 @@ export const selectFlight = (flightId: number, legId: number): CommonThunkAction
 
 		}
 		else {
+			dispatch(startLoading());
+			setTimeout(() => dispatch(stopLoading()), LEG_CHANGING_DELAY);
 			dispatch(nextLeg());
 		}
 	};

@@ -5,6 +5,8 @@ import { setSelectedFlight } from '../selectedFlights/actions';
 export const NEXT_LEG = 'NEXT_LEG';
 export const SET_LEG = 'SET_LEG';
 
+export const LEG_CHANGING_DELAY = 500;
+
 export interface LegAction extends Action {
 	payload?: number;
 }
