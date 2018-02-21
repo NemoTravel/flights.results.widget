@@ -90,6 +90,7 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 						key={index}
 						control={
 							<Checkbox
+								color="primary"
 								onChange={this.onChange}
 								checked={airline.IATA in this.props.selectedAirlines}
 								value={airline.IATA}

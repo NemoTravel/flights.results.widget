@@ -516,7 +516,7 @@
 .toolbar-legs-leg_disabled {
   border: 1px dashed #64b5f6;
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: default;
 }
 
 .toolbar-legs-leg_selected {

@@ -26,6 +26,7 @@ class Tab extends React.Component<Props> {
 							key={index}
 							control={
 								<Checkbox
+									color="primary"
 									onChange={this.props.onChange}
 									checked={airport.IATA in this.props.selectedAirports}
 									value={airport.IATA}

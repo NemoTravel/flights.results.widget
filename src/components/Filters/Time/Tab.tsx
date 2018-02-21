@@ -23,6 +23,7 @@ class Tab extends React.Component<Props> {
 					<FormControlLabel
 						control={
 							<Checkbox
+								color="primary"
 								onChange={this.props.onChange}
 								checked={FlightTimeInterval.Morning in this.props.selectedTime}
 								value={FlightTimeInterval.Morning}
@@ -33,6 +34,7 @@ class Tab extends React.Component<Props> {
 					<FormControlLabel
 						control={
 							<Checkbox
+								color="primary"
 								onChange={this.props.onChange}
 								checked={FlightTimeInterval.Afternoon in this.props.selectedTime}
 								value={FlightTimeInterval.Afternoon}
@@ -43,6 +45,7 @@ class Tab extends React.Component<Props> {
 					<FormControlLabel
 						control={
 							<Checkbox
+								color="primary"
 								onChange={this.props.onChange}
 								checked={FlightTimeInterval.Evening in this.props.selectedTime}
 								value={FlightTimeInterval.Evening}
@@ -53,6 +56,7 @@ class Tab extends React.Component<Props> {
 					<FormControlLabel
 						control={
 							<Checkbox
+								color="primary"
 								onChange={this.props.onChange}
 								checked={FlightTimeInterval.Night in this.props.selectedTime}
 								value={FlightTimeInterval.Night}
