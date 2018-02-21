@@ -43,16 +43,14 @@ class Leg extends React.Component<Props> {
 			'toolbar-legs-leg_selected': isSelected
 		});
 
-		let content = <div className={classNames} onClick={this.onClick}>
+		return <div className={classNames} onClick={this.onClick}>
 			<FlightTakeOffIcon className={classnames('toolbar-legs-leg__icon', { 'toolbar-legs-leg__icon_reverse': isReverse })}/>
 			{leg.departure} &mdash; {leg.arrival}, {leg.date.format('DD MMMM')}
+
+			<div className="toolbar-legs-leg__hidden">
+				Изменить рейс
+			</div>
 		</div>;
-
-		if (!isDisabled && !isSelected) {
-			content = <Tooltip title="Выбрать другой рейс">{content}</Tooltip>;
-		}
-
-		return content;
 	}
 }
 

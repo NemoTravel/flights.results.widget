@@ -492,6 +492,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -524,6 +525,32 @@
   color: #fff;
   background-color: #64b5f6;
   cursor: default;
+}
+
+.toolbar-legs-leg__hidden {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #fff;
+  background-color: #64b5f6;
+  opacity: 0;
+  -webkit-transition: opacity 0.15s ease-out;
+  transition: opacity 0.15s ease-out;
+}
+
+.toolbar-legs-leg:not(.toolbar-legs-leg_selected):not(.toolbar-legs-leg_disabled):hover .toolbar-legs-leg__hidden {
+  opacity: 1;
 }
 
 .toolbar-totalPrice {
