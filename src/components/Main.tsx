@@ -9,7 +9,7 @@ import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
 import Flight from './Flight';
 import FlightModel from '../schemas/Flight';
-import { getVisibleFlights, isMultipleLegs } from '../store/selectors';
+import { getVisibleFlights } from '../store/selectors';
 import { ApplicationState, CommonThunkAction } from '../state';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowScroller } from 'react-virtualized';
 import Toolbar from './Toolbar';
@@ -17,10 +17,11 @@ import { selectFlight } from '../store/selectedFlights/actions';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import Typography from 'material-ui/Typography';
 import Leg from '../schemas/Leg';
-import { getCurrentLeg } from '../store/currentLeg/selectors';
+import { getCurrentLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 
 interface StateProps {
 	isMultipleLegs: boolean;
+	isLastLeg: boolean;
 	isLoading: boolean;
 	flights: FlightModel[];
 	currentLeg: Leg;
@@ -85,7 +86,15 @@ class Main extends React.Component<Props> {
 		>
 			{({ measure }) => (
 				<div className="flight__holder" style={style}>
-					<Flight onLoad={measure} key={key} flight={this.props.flights[index]} selectFlight={this.props.selectFlight} currentLeg={this.props.currentLeg.id}/>
+					<Flight
+						onLoad={measure}
+						key={key}
+						flight={this.props.flights[index]}
+						selectFlight={this.props.selectFlight}
+						currentLegId={this.props.currentLeg.id}
+						isLastLeg={this.props.isLastLeg}
+						isMultipleLegs={this.props.isMultipleLegs}
+					/>
 				</div>
 			)}
 		</CellMeasurer>;
@@ -142,6 +151,7 @@ class Main extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		isMultipleLegs: isMultipleLegs(state),
+		isLastLeg: isLastLeg(state),
 		isLoading: state.isLoading,
 		flights: getVisibleFlights(state),
 		currentLeg: getCurrentLeg(state)

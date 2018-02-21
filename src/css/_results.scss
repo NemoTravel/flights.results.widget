@@ -3,6 +3,7 @@
 .results {
 	width: 1280px;
 	margin: 0 auto;
+	padding-bottom: 80px;
 
 	display: flex;
 	flex-direction: column;
@@ -20,6 +21,7 @@
 	.ReactVirtualized__List, .ReactVirtualized__Grid__innerScrollContainer {
 		outline: none !important;
 		overflow: visible !important;
+		padding-bottom: 140px;
 	}
 
 	&-loader {

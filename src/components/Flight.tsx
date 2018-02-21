@@ -14,7 +14,9 @@ interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
 	onLoad: () => void;
-	currentLeg: number;
+	currentLegId: number;
+	isMultipleLegs: boolean;
+	isLastLeg: boolean;
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
 }
 
@@ -47,7 +49,7 @@ class Flight extends React.Component<Props, State> {
 	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
-		this.props.selectFlight(this.props.flight.id, this.props.currentLeg);
+		this.props.selectFlight(this.props.flight.id, this.props.currentLegId);
 	}
 
 	renderLogo(): React.ReactNode {
@@ -73,7 +75,6 @@ class Flight extends React.Component<Props, State> {
 		const lastSegment = flight.segments[flight.segments.length - 1];
 		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
 		const isDirect = flight.segments.length === 1;
-		const isOW = flight.segmentGroups.length === 1;
 
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 
@@ -140,13 +141,13 @@ class Flight extends React.Component<Props, State> {
 			<div className="flight-summary__right">
 				<div className="flight-summary-price">
 					<div className="flight-summary-price__amount">
-						{!isOW ? <span className="flight-summary-price__amount-prefix">от</span> : null}
+						{this.props.isMultipleLegs && !this.props.isLastLeg ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
-						<Price price={flight.totalPrice}/>
+						<Price withPlus={this.props.currentLegId !== 0} price={flight.totalPrice}/>
 					</div>
 
-					{!isOW ? <div className="flight-summary-price__route">
-						туда и обратно
+					{this.props.isMultipleLegs ? <div className="flight-summary-price__route">
+						за весь перелет
 					</div> : null}
 				</div>
 

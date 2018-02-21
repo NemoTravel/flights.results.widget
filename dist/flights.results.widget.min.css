@@ -50,6 +50,7 @@
 .results {
   width: 1280px;
   margin: 0 auto;
+  padding-bottom: 80px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -74,6 +75,7 @@
 .results .ReactVirtualized__Grid__innerScrollContainer {
   outline: none !important;
   overflow: visible !important;
+  padding-bottom: 140px;
 }
 
 .results-loader {
@@ -169,7 +171,7 @@
 
 .flight-summary__right,
 .flight-details-segment__right {
-  width: 250px;
+  width: 270px;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;

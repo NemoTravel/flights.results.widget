@@ -25,3 +25,13 @@ export const getCurrentLeg = createSelector(
 	[getCurrentLegId, getLegs],
 	(currentLegId: number, legs: Leg[]): Leg => legs[currentLegId]
 );
+
+export const isMultipleLegs = createSelector(
+	[getLegs],
+	(legs: Leg[]): boolean => legs.length > 1
+);
+
+export const isLastLeg = createSelector(
+	[getCurrentLegId, getLegs],
+	(currentLegId: number, legs: Leg[]): boolean => currentLegId === legs.length - 1
+);
