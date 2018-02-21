@@ -15,16 +15,16 @@ export const nextLeg = (): LegAction => {
 	};
 };
 
-export const goToLeg = (legId: number): CommonThunkAction => {
-	return (dispatch, getState): void => {
-		dispatch(setSelectedFlight(null, legId));
-		dispatch(setLeg(legId));
-	};
-};
-
 export const setLeg = (legId: number): LegAction => {
 	return {
 		type: SET_LEG,
 		payload: legId
+	};
+};
+
+export const goToLeg = (legId: number): CommonThunkAction => {
+	return (dispatch): void => {
+		dispatch(setSelectedFlight(null, legId));
+		dispatch(setLeg(legId));
 	};
 };

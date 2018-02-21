@@ -39,10 +39,14 @@ const cache = new CellMeasurerCache({
 	fixedWidth: true
 });
 
+const PLURAL_MULTIPLE_NUM = 5;
+const PLURAL_EXCEPTION_START = 11;
+const PLURAL_EXCEPTION_END = 15;
+
 const getPluralNumOfFlights = (numOfFlights: number): string => {
 	const lastNumber = parseInt(numOfFlights.toString()[numOfFlights.toString().length - 1]);
 
-	if (lastNumber === 0 || lastNumber >= 5 || (numOfFlights >= 11 && numOfFlights < 15)) {
+	if (lastNumber === 0 || lastNumber >= PLURAL_MULTIPLE_NUM || (numOfFlights >= PLURAL_EXCEPTION_START && numOfFlights < PLURAL_EXCEPTION_END)) {
 		return 'рейсов';
 	}
 	else if (lastNumber === 1) {
@@ -56,7 +60,7 @@ const getPluralNumOfFlights = (numOfFlights: number): string => {
 const getPluralHeadline = (numOfFlights: number): string => {
 	const lastNumber = parseInt(numOfFlights.toString()[numOfFlights.toString().length - 1]);
 
-	if (lastNumber === 1 && numOfFlights !== 11) {
+	if (lastNumber === 1 && numOfFlights !== PLURAL_EXCEPTION_START) {
 		return 'Найден';
 	}
 	else {
