@@ -1,7 +1,7 @@
+import Flight from '../schemas/Flight';
 import { CommonThunkAction } from '../state';
 import { setFlightsByLeg } from './flightsByLegs/actions';
 import { startLoading, stopLoading } from './isLoading/actions';
-import Flight from '../schemas/Flight';
 import { parse } from '../services/parsers/results';
 import { addFlights } from './flights/actions';
 
@@ -26,5 +26,11 @@ export const startSearch = (): CommonThunkAction => {
 
 			dispatch(stopLoading());
 		});
+	};
+};
+
+export const searchForAlternativeFlights = (): CommonThunkAction => {
+	return (dispatch): void => {
+
 	};
 };
