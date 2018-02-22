@@ -1,6 +1,4 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
-import { CircularProgress } from 'material-ui/Progress';
 import Toolbar from './Toolbar';
 import Typography from 'material-ui/Typography';
 
@@ -110,11 +108,7 @@ class Results extends React.Component<Props> {
 		const { currentLeg } = this.props;
 		const numOfFlights = this.props.flights.length;
 
-		return <div className={classNames('results', { results_isLoading: this.props.isLoading })}>
-			<div className="results-loader">
-				<CircularProgress color="secondary" variant="indeterminate"/>
-			</div>
-
+		return <div>
 			<section className="scenarios"/>
 
 			<section className="filters">
