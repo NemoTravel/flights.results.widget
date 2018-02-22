@@ -18,6 +18,7 @@ import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { getVisibleFlights } from '../store/selectors';
 import { connect } from 'react-redux';
 import { selectFlight } from '../store/selectedFlights/actions';
+import { startSearch } from '../store/actions';
 
 interface StateProps {
 	isMultipleLegs: boolean;
@@ -29,6 +30,7 @@ interface StateProps {
 
 interface DispatchProps {
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+	startSearch: () => CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
@@ -74,6 +76,10 @@ class Results extends React.Component<Props> {
 		super(props);
 
 		this.flightRenderer = this.flightRenderer.bind(this);
+	}
+
+	componentDidMount(): void {
+		this.props.startSearch();
 	}
 
 	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {
@@ -162,7 +168,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
-		selectFlight: bindActionCreators(selectFlight, dispatch)
+		selectFlight: bindActionCreators(selectFlight, dispatch),
+		startSearch: bindActionCreators(startSearch, dispatch)
 	};
 };
 
