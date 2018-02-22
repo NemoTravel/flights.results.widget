@@ -1,0 +1,19 @@
+.fareFamilies {
+	&-title {
+		margin-top: 20px !important;
+	}
+
+	&-leg {
+		&-segment {
+			margin-top: 30px;
+
+			&__families {
+				display: flex;
+			}
+
+			&-family {
+				flex: 1;
+			}
+		}
+	}
+}
