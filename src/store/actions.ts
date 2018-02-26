@@ -8,13 +8,13 @@ import { addFlights } from './flights/actions';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
-		const firstSearchId = 217217;
-		const secondSearchId = 217218;
+		const firstSearchId = 217224;
+		const secondSearchId = 217225;
 
 		dispatch(startLoading());
 
 		const promises = [ firstSearchId, secondSearchId ].map(searchId => {
-			return fetch(`http://release.mlsd.ru/?go=orderAPI/get&uri=flight/search/${searchId}`)
+			return fetch(`http://mlsd.ru:9876/?go=orderAPI/get&uri=flight/search/${searchId}`)
 				.then((response: Response) => response.json())
 				.then((response: any) => parseResults(response, searchId));
 		});
@@ -45,7 +45,7 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 		}
 
 		const promises = flightIds.map(flightId => {
-			return fetch(`http://release.mlsd.ru/index.php?go=orderAPI/get&uri=flight/fareFamilies/${flightId}`)
+			return fetch(`http://mlsd.ru:9876/index.php?go=orderAPI/get&uri=flight/fareFamilies/${flightId}`)
 				.then((response: Response) => response.json())
 				.then((response: any) => parseFareFamilies(response, flightId));
 		});

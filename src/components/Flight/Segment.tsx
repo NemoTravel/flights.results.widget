@@ -29,7 +29,7 @@ class Segment extends React.Component<Props> {
 			<div className="flight-details-segment__wrapper">
 				<div className="flight-details-segment__left">
 					<div className="flight-details-segment-logo">
-						<img className="flight-details-segment-logo__image" src={`http://release.mlsd.ru${segment.airline.logoIcon}`}/>
+						<img className="flight-details-segment-logo__image" src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
 					</div>
 
 					<div className="flight-details-segment-stage">
