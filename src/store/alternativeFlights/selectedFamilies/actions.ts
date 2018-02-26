@@ -9,7 +9,7 @@ export interface SelectedFamiliesAction extends Action {
 	}
 }
 
-export const selectFamily = (familyId: number, segmentId: number): SelectedFamiliesAction => {
+export const selectFamily = (segmentId: number, familyId: number): SelectedFamiliesAction => {
 	return {
 		type: SELECT_FAMILY,
 		payload: {
