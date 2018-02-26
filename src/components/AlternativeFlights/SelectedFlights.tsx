@@ -9,8 +9,8 @@ interface Props {
 
 class SelectedFlights extends React.Component<Props> {
 	render(): React.ReactNode {
-		return <div>
-			<Typography className="fareFamilies-title" variant="display1">Выбранные перелеты</Typography>
+		return <div className="fareFamilies-selectedFlights">
+			<Typography className="fareFamilies-selectedFlights-title" variant="display1">Выбранные перелеты</Typography>
 
 			{this.props.flights.map(flight => <div key={flight.id} className="flight__holder">
 				<FlightComponent

@@ -49,4 +49,11 @@
 			}
 		}
 	}
+
+	&-selectedFlights {
+		&-title {
+			@extend .fareFamilies-title;
+			margin-bottom: 20px !important;
+		}
+	}
 }

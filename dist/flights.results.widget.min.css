@@ -600,7 +600,8 @@
   font-size: 15px;
 }
 
-.fareFamilies-title {
+.fareFamilies-title,
+.fareFamilies-selectedFlights-title {
   margin-top: 20px !important;
 }
 
@@ -655,4 +656,8 @@
 .fareFamilies-leg-segment-family-feature__icon_Charge svg {
   fill: #ff9800;
   width: 19px;
+}
+
+.fareFamilies-selectedFlights-title {
+  margin-bottom: 20px !important;
 }
