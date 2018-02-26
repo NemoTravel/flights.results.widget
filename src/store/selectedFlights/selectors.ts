@@ -4,8 +4,28 @@ import { getFlightsPool } from '../flights/selectors';
 import Money from '../../schemas/Money';
 import { getLegs } from '../currentLeg/selectors';
 import Leg from '../../schemas/Leg';
+import Flight from '../../schemas/Flight';
 
 export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsState => state.selectedFlights;
+
+export const getSelectedFlights = createSelector(
+	[getFlightsPool, getSelectedFlightsIds],
+	(flightsPool: FlightsState, selectedFlightsIds: SelectedFlightsState): Flight[] => {
+		const result: Flight[] = [];
+
+		for (const legId in selectedFlightsIds) {
+			if (selectedFlightsIds.hasOwnProperty(legId)) {
+				const flightId = selectedFlightsIds[legId];
+
+				if (flightsPool.hasOwnProperty(flightId)) {
+					result.push(flightsPool[flightId]);
+				}
+			}
+		}
+
+		return result;
+	}
+);
 
 export const getTotalPrice = createSelector(
 	[getFlightsPool, getSelectedFlightsIds],

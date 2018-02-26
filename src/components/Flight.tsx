@@ -14,11 +14,12 @@ import { declension } from '../utils';
 interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
-	onLoad: () => void;
-	currentLegId: number;
-	isMultipleLegs: boolean;
-	isLastLeg: boolean;
-	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+	onLoad?: () => void;
+	currentLegId?: number;
+	isMultipleLegs?: boolean;
+	isLastLeg?: boolean;
+	infoOnly?: boolean;
+	selectFlight?: (flightId: number, legId: number) => CommonThunkAction;
 }
 
 interface State {
@@ -26,6 +27,11 @@ interface State {
 }
 
 class Flight extends React.Component<Props, State> {
+	static defaultProps: Partial<Props> = {
+		infoOnly: false,
+		onLoad: () => {}
+	};
+
 	state: State = {
 		isOpen: false
 	};
@@ -137,7 +143,7 @@ class Flight extends React.Component<Props, State> {
 				</div>
 			</div>
 
-			<div className="flight-summary__right">
+			<div className={classnames('flight-summary__right', { 'flight-summary__right_hidden': this.props.infoOnly })}>
 				<div className="flight-summary-price">
 					<div className="flight-summary-price__amount">
 						{this.props.isMultipleLegs && !this.props.isLastLeg ? <span className="flight-summary-price__amount-prefix">от</span> : null}

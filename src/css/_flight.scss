@@ -65,6 +65,12 @@
 		&__right {
 			width: 270px;
 			justify-content: flex-end;
+
+			&_hidden {
+				* {
+					display: none;
+				}
+			}
 		}
 
 		&_open {

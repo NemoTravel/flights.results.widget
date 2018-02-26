@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import Typography from 'material-ui/Typography';
 
+import Flight from '../schemas/Flight';
+import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Segment from './AlternativeFlights/Segment';
 import { searchForAlternativeFlights } from '../store/actions';
 import { ApplicationState, CommonThunkAction, SelectedFamiliesState } from '../state';
 import { SelectedFamiliesAction, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
+import { getSelectedFlights } from '../store/selectedFlights/selectors';
 
 interface StateProps {
+	selectedFlights: Flight[];
 	selectedFamilies: SelectedFamiliesState;
 }
 
@@ -25,10 +29,12 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilies } = this.props;
+		const { selectedFamilies, selectedFlights } = this.props;
 		const segments = [0, 1];
 
 		return <section className="fareFamilies">
+			<SelectedFlights flights={selectedFlights}/>
+
 			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
 
 			<div className="alternativeFlights__legs">
@@ -49,6 +55,7 @@ class AlternativeFlights extends React.Component<Props> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
+		selectedFlights: getSelectedFlights(state),
 		selectedFamilies: state.alternativeFlights.selectedFamilies
 	};
 };
