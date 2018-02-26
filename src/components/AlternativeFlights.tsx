@@ -10,16 +10,22 @@ import Cancel from 'material-ui-icons/Clear';
 import MonetizationOn from 'material-ui-icons/AttachMoney';
 
 import { searchForAlternativeFlights } from '../store/actions';
-import { CommonThunkAction } from '../state';
+import { ApplicationState, CommonThunkAction, SelectedFamiliesState } from '../state';
 import { SelectedFamiliesAction, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
+
+interface StateProps {
+	selectedFamilies: SelectedFamiliesState;
+}
 
 interface DispatchProps {
 	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
 	searchForAlternativeFlights: () => CommonThunkAction;
 }
 
-class AlternativeFlights extends React.Component<DispatchProps> {
-	constructor(props: DispatchProps) {
+type Props = StateProps & DispatchProps;
+
+class AlternativeFlights extends React.Component<Props> {
+	constructor(props: Props) {
 		super(props);
 
 		this.onFamilySelect = this.onFamilySelect.bind(this);
@@ -37,7 +43,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 	}
 
 	render(): React.ReactNode {
-		const val: string = '0_1';
+		const { selectedFamilies } = this.props;
 
 		return <section className="fareFamilies">
 			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
@@ -53,7 +59,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 							<div className="fareFamilies-leg-segment__families">
 								<div className="fareFamilies-leg-segment-family">
 									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel onChange={this.onFamilySelect} checked={val === '0_0'} name="family_0" value="0_0" control={<Radio color="primary"/>} label="Легкий"/>
+										<FormControlLabel onChange={this.onFamilySelect} checked={selectedFamilies[0] === 0} name="family_0" value="0_0" control={<Radio color="primary"/>} label="Легкий"/>
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
@@ -68,7 +74,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 
 								<div className="fareFamilies-leg-segment-family">
 									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel onChange={this.onFamilySelect} checked={val === '0_1'} name="family_0" value="0_1" control={<Radio color="primary"/>} label="Стандартный"/>
+										<FormControlLabel onChange={this.onFamilySelect} checked={selectedFamilies[0] === 1} name="family_0" value="0_1" control={<Radio color="primary"/>} label="Стандартный"/>
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
@@ -83,7 +89,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 
 								<div className="fareFamilies-leg-segment-family">
 									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel onChange={this.onFamilySelect} checked={val === '0_2'} name="family_0" value="0_2" control={<Radio color="primary"/>} label="Гибкий"/>
+										<FormControlLabel onChange={this.onFamilySelect} checked={selectedFamilies[0] === 2} name="family_0" value="0_2" control={<Radio color="primary"/>} label="Гибкий"/>
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
@@ -104,6 +110,12 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 	}
 }
 
+const mapStateToProps = (state: ApplicationState): StateProps => {
+	return {
+		selectedFamilies: state.alternativeFlights.selectedFamilies
+	};
+};
+
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
 		selectFamily: bindActionCreators(selectFamily, dispatch),
@@ -111,4 +123,4 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	};
 };
 
-export default connect(null, mapDispatchToProps)(AlternativeFlights);
+export default connect(mapStateToProps, mapDispatchToProps)(AlternativeFlights);
