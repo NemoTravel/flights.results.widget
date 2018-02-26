@@ -7,13 +7,11 @@ import Cancel from 'material-ui-icons/Clear';
 import MonetizationOn from 'material-ui-icons/AttachMoney';
 
 import { FamilyModel } from './Segment';
-import { SelectedFamiliesAction } from '../../store/alternativeFlights/selectedFamilies/actions';
 
 interface Props {
-	segmentId: number;
 	family: FamilyModel;
 	isSelected: boolean;
-	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
+	selectFamily: (familyId: number) => void;
 }
 
 class Family extends React.Component<Props> {
@@ -26,19 +24,21 @@ class Family extends React.Component<Props> {
 	onFamilySelect(event: React.ChangeEvent<{}>): void {
 		const inputValue = (event.target as HTMLInputElement).value;
 
-		this.props.selectFamily(this.props.segmentId, parseInt(inputValue));
+		this.props.selectFamily(parseInt(inputValue));
 	}
 
 	render() {
+		const { family } = this.props;
+
 		return <div className="fareFamilies-leg-segment-family">
 			<div className="fareFamilies-leg-segment-family__name">
 				<FormControlLabel
-					onChange={this.onFamilySelect}
+					name="family"
+					label={family.name}
 					checked={this.props.isSelected}
-					name={`family_${this.props.segmentId}`}
-					value={this.props.family.id.toString()}
+					value={family.id.toString()}
 					control={<Radio color="primary"/>}
-					label={this.props.family.name}
+					onChange={this.onFamilySelect}
 				/>
 			</div>
 

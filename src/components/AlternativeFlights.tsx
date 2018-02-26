@@ -26,7 +26,7 @@ class AlternativeFlights extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const { selectedFamilies } = this.props;
-		const segments = [0];
+		const segments = [0, 1];
 
 		return <section className="fareFamilies">
 			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
@@ -34,7 +34,12 @@ class AlternativeFlights extends React.Component<Props> {
 			<div className="alternativeFlights__legs">
 				<div className="fareFamilies-leg">
 					<div className="fareFamilies-leg__segments">
-						{segments.map(segmentId => <Segment key={segmentId} segmentId={segmentId} selectedFamilyId={selectedFamilies[segmentId]} selectFamily={this.props.selectFamily}/>)}
+						{segments.map(segmentId => <Segment
+							key={segmentId}
+							segmentId={segmentId}
+							selectedFamilyId={selectedFamilies[segmentId]}
+							selectFamily={this.props.selectFamily}/>
+						)}
 					</div>
 				</div>
 			</div>

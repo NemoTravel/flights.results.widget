@@ -16,8 +16,18 @@ export interface FamilyModel {
 }
 
 class Segment extends React.Component<Props> {
+	constructor(props: Props) {
+		super(props);
+
+		this.selectFamilyWrapper = this.selectFamilyWrapper.bind(this);
+	}
+
+	selectFamilyWrapper(familyId: number): void {
+		this.props.selectFamily(this.props.segmentId, familyId);
+	}
+
 	render(): React.ReactNode {
-		const { selectedFamilyId, segmentId } = this.props;
+		const { selectedFamilyId } = this.props;
 		const families: FamilyModel[] = [
 			{
 				id: 0,
@@ -38,15 +48,14 @@ class Segment extends React.Component<Props> {
 				Саратов &mdash; Москва, 24 июня
 			</Typography>
 
-			<div className="fareFamilies-leg-segment__families">
+			<form className="fareFamilies-leg-segment__families">
 				{families.map(family => <Family
 					key={family.id}
-					selectFamily={this.props.selectFamily}
+					selectFamily={this.selectFamilyWrapper}
 					family={family}
-					segmentId={segmentId}
 					isSelected={selectedFamilyId === family.id}
 				/>)}
-			</div>
+			</form>
 		</div>;
 	}
 }
