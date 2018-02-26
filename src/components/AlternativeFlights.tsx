@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { CommonThunkAction } from '../state';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
-import { searchForAlternativeFlights } from '../store/actions';
 import Typography from 'material-ui/Typography';
 import Radio from 'material-ui/Radio';
-import { FormControl, FormControlLabel } from 'material-ui/Form';
-import { RadioGroup } from 'material-ui/Radio';
+import { FormControlLabel } from 'material-ui/Form';
+
+import CheckCircle from 'material-ui-icons/Check';
+import Cancel from 'material-ui-icons/Clear';
+import MonetizationOn from 'material-ui-icons/AttachMoney';
+
+import { searchForAlternativeFlights } from '../store/actions';
+import { CommonThunkAction } from '../state';
 
 interface DispatchProps {
 	searchForAlternativeFlights: () => CommonThunkAction;
@@ -36,12 +40,12 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
+										<div className="fareFamilies-leg-segment-family-feature">
+											<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
+												<CheckCircle/>
+											</span>
+											Какая-то фича
+										</div>
 									</div>
 								</div>
 
@@ -51,12 +55,12 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
+										<div className="fareFamilies-leg-segment-family-feature">
+											<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_NotAvailable">
+												<Cancel/>
+											</span>
+											Какая-то фича
+										</div>
 									</div>
 								</div>
 
@@ -66,27 +70,12 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-									</div>
-								</div>
-
-								<div className="fareFamilies-leg-segment-family">
-									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other4" control={<Radio name="family" color="primary"/>} label="Бизнес"/>
-									</div>
-
-									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
+										<div className="fareFamilies-leg-segment-family-feature">
+											<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_NeedToPay">
+												<MonetizationOn/>
+											</span>
+											Какая-то фича
+										</div>
 									</div>
 								</div>
 							</div>

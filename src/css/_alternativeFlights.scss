@@ -13,6 +13,39 @@
 
 			&-family {
 				flex: 1;
+
+				&-feature {
+					display: flex;
+					align-items: center;
+
+					&__icon {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin-right: 6px;
+
+						&_Free {
+							svg {
+								fill: #94ca51;
+								width: 19px
+							}
+						}
+
+						&_NotAvailable {
+							svg {
+								fill: #f44336;
+								width: 19px
+							}
+						}
+
+						&_NeedToPay {
+							svg {
+								fill: #ff9800;
+								width: 19px
+							}
+						}
+					}
+				}
 			}
 		}
 	}

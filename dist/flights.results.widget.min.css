@@ -615,3 +615,40 @@
   -ms-flex: 1;
   flex: 1;
 }
+
+.fareFamilies-leg-segment-family-feature {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.fareFamilies-leg-segment-family-feature__icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-right: 6px;
+}
+
+.fareFamilies-leg-segment-family-feature__icon_Free svg {
+  fill: #94ca51;
+  width: 19px;
+}
+
+.fareFamilies-leg-segment-family-feature__icon_NotAvailable svg {
+  fill: #f44336;
+  width: 19px;
+}
+
+.fareFamilies-leg-segment-family-feature__icon_NeedToPay svg {
+  fill: #ff9800;
+  width: 19px;
+}
