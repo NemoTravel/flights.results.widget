@@ -125,12 +125,11 @@ class Flight extends React.Component<Props, State> {
 
 			<div className="flight-summary__middle">
 				<div className="flight-summary-transfers">
-					{isDirect ? 'прямой' : null}
-					{!isDirect ? flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
+					{isDirect ? 'прямой' : flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
 						const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 
 						return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в {declension(segment.arrAirport.city.name)}</div>;
-					}) : null}
+					})}
 				</div>
 
 				<div className="flight-summary-route">
