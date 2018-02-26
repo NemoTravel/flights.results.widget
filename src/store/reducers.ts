@@ -10,6 +10,7 @@ import { filtersReducer } from './filters/reducers';
 import { currentLegReducer } from './currentLeg/reducers';
 import { selectedFlightsReducer } from './selectedFlights/reducers';
 import { flightsReducer } from './flights/reducers';
+import { alternativeFlightsReducer } from './alternativeFlights/reducers';
 
 const initialLegsState = [
 	{
@@ -34,5 +35,6 @@ export const rootReducer = combineReducers<ApplicationState>({
 	config: configReducer,
 	currentLeg: currentLegReducer,
 	selectedFlights: selectedFlightsReducer,
+	alternativeFlights: alternativeFlightsReducer,
 	legs: (state: Leg[] = initialLegsState): Leg[] => state
 });

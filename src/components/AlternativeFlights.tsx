@@ -36,7 +36,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 							<div className="fareFamilies-leg-segment__families">
 								<div className="fareFamilies-leg-segment-family">
 									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other1" control={<Radio name="family" color="primary"/>} label="Легкий"/>
+										<FormControlLabel name="family" value="other1" control={<Radio color="primary"/>} label="Легкий"/>
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
@@ -51,7 +51,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 
 								<div className="fareFamilies-leg-segment-family">
 									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other2" control={<Radio name="family" color="primary"/>} label="Стандартный"/>
+										<FormControlLabel name="family" value="other2" control={<Radio color="primary"/>} label="Стандартный"/>
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
@@ -66,7 +66,7 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 
 								<div className="fareFamilies-leg-segment-family">
 									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other3" control={<Radio name="family" color="primary"/>} label="Гибкий"/>
+										<FormControlLabel name="family" value="other3" control={<Radio color="primary"/>} label="Гибкий"/>
 									</div>
 
 									<div className="fareFamilies-leg-segment-family__features">
@@ -76,72 +76,6 @@ class AlternativeFlights extends React.Component<DispatchProps> {
 											</span>
 											Какая-то фича
 										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div className="fareFamilies-leg-segment">
-							<Typography className="fareFamilies-leg-segment__title" variant="headline">Москва &mdash; Париж, 25 июня</Typography>
-
-							<div className="fareFamilies-leg-segment__families">
-								<div className="fareFamilies-leg-segment-family">
-									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other1" control={<Radio name="family" color="primary"/>} label="Легкий"/>
-									</div>
-
-									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-									</div>
-								</div>
-
-								<div className="fareFamilies-leg-segment-family">
-									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other2" control={<Radio name="family" color="primary"/>} label="Стандартный"/>
-									</div>
-
-									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-									</div>
-								</div>
-
-								<div className="fareFamilies-leg-segment-family">
-									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other3" control={<Radio name="family" color="primary"/>} label="Гибкий"/>
-									</div>
-
-									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-									</div>
-								</div>
-
-								<div className="fareFamilies-leg-segment-family">
-									<div className="fareFamilies-leg-segment-family__name">
-										<FormControlLabel value="other4" control={<Radio name="family" color="primary"/>} label="Бизнес"/>
-									</div>
-
-									<div className="fareFamilies-leg-segment-family__features">
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
-										<div className="fareFamilies-leg-segment-family-feature">Какая-то фича</div>
 									</div>
 								</div>
 							</div>

@@ -64,6 +64,14 @@ export interface FlightsState {
 	[flightId: number]: Flight;
 }
 
+export interface SelectedFamiliesState {
+	[segmentId: number]: number;
+}
+
+export interface AlternativeFlightsState {
+	selectedFamilies: SelectedFamiliesState;
+}
+
 export interface ApplicationState {
 	config: Config;
 	currentLeg: number;
@@ -72,5 +80,6 @@ export interface ApplicationState {
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
 	selectedFlights: SelectedFlightsState;
+	alternativeFlights: AlternativeFlightsState;
 	legs: Leg[];
 }
