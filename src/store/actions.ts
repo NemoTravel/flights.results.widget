@@ -8,8 +8,8 @@ import { addFlights } from './flights/actions';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
-		const firstSearchId = 216724;
-		const secondSearchId = 216725;
+		const firstSearchId = 217217;
+		const secondSearchId = 217218;
 
 		dispatch(startLoading());
 

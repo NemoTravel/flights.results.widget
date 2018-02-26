@@ -19,17 +19,25 @@ export const declension = (word: string, language = Language.Russian): string =>
 		const lastLetterIndex = word.length - 1;
 		const lastLetter = word[lastLetterIndex];
 		let newWord = word;
+		let newSuffix: string;
 
-		if (/[аеёийоуыьэюя]/i.test(lastLetter)) {
+		if (word === 'Казань' || word === 'Пермь') {
+			newSuffix = 'и';
+		}
+		else if (/[аеёийоуыьэюя]/i.test(lastLetter)) {
 			if (/[айь]/i.test(lastLetter)) {
-				newWord = word.substr(0, lastLetterIndex) + 'е';
+				newSuffix = 'е';
 			}
 			else if (lastLetter === 'ы') {
-				newWord = word.substr(0, lastLetterIndex) + 'ах';
+				newSuffix = 'ах';
 			}
 		}
 		else {
 			newWord = word + 'е';
+		}
+
+		if (newSuffix) {
+			newWord = word.substr(0, lastLetterIndex) + newSuffix;
 		}
 
 		return newWord;
