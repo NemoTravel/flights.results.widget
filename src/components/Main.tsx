@@ -20,7 +20,7 @@ class Main extends React.Component<StateProps> {
 				<CircularProgress color="secondary" variant="indeterminate"/>
 			</div>
 
-			{this.props.isSelectionComplete || true ? <AlternativeFlights/> : <Results/>}
+			{this.props.isSelectionComplete ? <AlternativeFlights/> : <Results/>}
 		</div>;
 	}
 }

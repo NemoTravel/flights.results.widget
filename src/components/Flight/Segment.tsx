@@ -1,6 +1,7 @@
 import * as React from 'react';
 import SegmentModel from '../../schemas/Segment';
 import * as moment from 'moment';
+import { declension } from '../../utils';
 
 interface Props {
 	segment: SegmentModel;
@@ -73,7 +74,7 @@ class Segment extends React.Component<Props> {
 
 			{isDirect ? null : (
 				<div className="flight-details-segment-transfer">
-					{TransferIcon} Пересадка {waitingTime} – {segment.arrAirport.city.name}
+					{TransferIcon} Пересадка {waitingTime} в {declension(segment.arrAirport.city.name)}
 				</div>
 			)}
 		</div>;
