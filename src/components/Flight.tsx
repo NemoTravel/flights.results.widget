@@ -9,6 +9,7 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { CommonThunkAction } from '../state';
+import { declension } from '../utils';
 
 interface Props {
 	flight: FlightModel;
@@ -128,8 +129,7 @@ class Flight extends React.Component<Props, State> {
 					{!isDirect ? flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
 						const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 
-						return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в
-							городе {segment.arrAirport.city.name}</div>;
+						return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в {declension(segment.arrAirport.city.name)}</div>;
 					}) : null}
 				</div>
 

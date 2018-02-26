@@ -74,7 +74,7 @@ class Segment extends React.Component<Props> {
 
 			{isDirect ? null : (
 				<div className="flight-details-segment-transfer">
-					{TransferIcon} Пересадка {waitingTime} в {declension(segment.arrAirport.city.name)}
+					{TransferIcon} {waitingTime} пересадка в {declension(segment.arrAirport.city.name)}
 				</div>
 			)}
 		</div>;
