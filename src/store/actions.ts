@@ -51,8 +51,6 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 		});
 
 		Promise.all(promises).then((results: Flight[][]) => {
-			console.log(results);
-
 			dispatch(stopLoading());
 		});
 	};

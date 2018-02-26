@@ -1,11 +1,13 @@
 import { SelectedFamiliesState } from '../../../state';
-import { AnyAction } from 'redux';
-import { SELECT_FAMILY } from './actions';
+import { SELECT_FAMILY, SelectedFamiliesAction } from './actions';
 
-export const selectedFamiliesReducer = (state: SelectedFamiliesState = {}, action: AnyAction): SelectedFamiliesState => {
+export const selectedFamiliesReducer = (state: SelectedFamiliesState = {}, action: SelectedFamiliesAction): SelectedFamiliesState => {
 	switch (action.type) {
 		case SELECT_FAMILY:
-			return state;
+			return {
+				...state,
+				[action.payload.segmentId]: action.payload.familyId
+			};
 	}
 
 	return state;
