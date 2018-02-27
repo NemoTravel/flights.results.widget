@@ -1,20 +1,23 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
+
 import LegModel from '../../schemas/Leg';
-import { LegAction } from '../../store/currentLeg/actions';
 import { CommonThunkAction } from '../../state';
-import Tooltip from 'material-ui/Tooltip';
 
 interface Props {
-	leg: LegModel;
 	isDisabled: boolean;
 	isSelected: boolean;
-	isReverse: boolean;
-	goToLeg: (legId: number) => CommonThunkAction;
+	leg?: LegModel;
+	isReverse?: boolean;
+	goToLeg?: (legId: number) => CommonThunkAction;
 }
 
 class Leg extends React.Component<Props> {
+	static defaultProps: Partial<Props> = {
+		isReverse: false
+	};
+
 	constructor(props: Props) {
 		super(props);
 

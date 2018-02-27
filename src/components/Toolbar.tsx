@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+
 import Price from './Price';
 import Leg from '../schemas/Leg';
 import { ApplicationState, CommonThunkAction } from '../state';
 import LegComponent from './Toolbar/Leg';
+import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
-import { getTotalPrice } from '../store/selectedFlights/selectors';
+import { getTotalPrice, isSelectionComplete } from '../store/selectedFlights/selectors';
 import { goToLeg, LegAction } from '../store/currentLeg/actions';
-import { bindActionCreators, Dispatch } from 'redux';
 
 interface StateProps {
 	totalPrice: Money;
+	isSelectionComplete: boolean;
 	currentLeg: number;
 	legs: Leg[];
 }
@@ -35,18 +38,33 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	renderLeg(leg: Leg): React.ReactNode {
-		const isDisabled = leg.id > this.props.currentLeg;
-		const isSelected = leg.id === this.props.currentLeg;
-		const isRTBack = leg.id === 1 && this.props.legs.length === NUM_OF_LEGS_FOR_RT;
+		const { currentLeg, legs, isSelectionComplete } = this.props;
+		const isDisabled = leg.id > currentLeg;
+		const isSelected = !isSelectionComplete && leg.id === currentLeg;
+		const isRTBack = leg.id === 1 && legs.length === NUM_OF_LEGS_FOR_RT;
 
-		return <LegComponent key={leg.id} leg={leg} goToLeg={this.props.goToLeg} isDisabled={isDisabled} isSelected={isSelected} isReverse={isRTBack}/>;
+		return <LegComponent
+			key={leg.id}
+			leg={leg}
+			goToLeg={this.props.goToLeg}
+			isDisabled={isDisabled}
+			isSelected={isSelected}
+			isReverse={isRTBack}
+		/>;
 	}
 
 	render(): React.ReactNode {
+		const { isSelectionComplete } = this.props;
+
 		return <section className="toolbar">
 			<div className="toolbar__inner">
 				<div className="toolbar-legs">
 					{this.props.legs.map(this.renderLeg)}
+
+					<OptionsLegComponent
+						isDisabled={!isSelectionComplete}
+						isSelected={isSelectionComplete}
+					/>
 				</div>
 
 				<div className="toolbar-totalPrice">
@@ -64,7 +82,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
-		currentLeg: state.currentLeg
+		currentLeg: state.currentLeg,
+		isSelectionComplete: isSelectionComplete(state)
 	};
 };
 

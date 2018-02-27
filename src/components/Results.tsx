@@ -144,8 +144,6 @@ class Results extends React.Component<Props> {
 					</div>
 				)}
 			</WindowScroller>
-
-			{isMultipleLegs ? <Toolbar/> : null}
 		</div>;
 	}
 }
