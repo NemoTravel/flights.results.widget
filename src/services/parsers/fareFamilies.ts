@@ -1,17 +1,20 @@
 import * as APIParser from '@nemo.travel/api-parser';
-import Flight from '../../schemas/Flight';
-import { parse as parseFlight } from './flight';
+import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 
-export const parse = (response: APIParser.Response, parentFlightId: number): Flight[] => {
-	let flights: Flight[] = [];
+export const parse = (response: APIParser.Response, parentFlightId: number): FareFamiliesCombinations => {
+	let result: FareFamiliesCombinations;
 	const objects = APIParser(response);
 	const responseInfo = objects[`flight/fareFamilies/${parentFlightId}`];
 
-	if (responseInfo && responseInfo.hasOwnProperty('target')) {
-		const results = responseInfo.target;
-
-		flights = results.map(parseFlight);
+	if (responseInfo) {
+		result = {
+			initialCombination: responseInfo['initialCombination'],
+			combinationsPrices: responseInfo['combinationsPrices'],
+			fareFamilies: responseInfo['fareFamilies'],
+			fareFamiliesBySegments: responseInfo['fareFamiliesBySegments'],
+			validCombinations: responseInfo['validCombinations']
+		};
 	}
 
-	return flights;
+	return result;
 };

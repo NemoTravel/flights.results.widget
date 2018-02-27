@@ -4,7 +4,7 @@ import Airline from './Airline';
 import Airport from './Airport';
 import Baggage from './Baggage';
 import BookingClass from './BookingClass';
-import TariffFeatures from './TariffFeatures';
+import FareFamily from './FareFamily';
 
 export default interface Segment {
 	aircraft: Aircraft;
@@ -35,6 +35,6 @@ export default interface Segment {
 	stopQuantity: number;
 	sunPercentLeft: number;
 	sunPercentRight: number;
-	tariffFeatures: TariffFeatures;
+	fareFamily: FareFamily;
 	waitingTime: number;
 }

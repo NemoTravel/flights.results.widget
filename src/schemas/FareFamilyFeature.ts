@@ -4,7 +4,7 @@ export enum FeaturePayment {
 	NotAvailable = 'NotAvailable'
 }
 
-export default interface TariffFeature {
+export default interface FareFamilyFeature {
 	description: string;
 	name: string;
 	needToPay: FeaturePayment;

@@ -9,8 +9,6 @@ import {
 	getTimeIntervalForDate
 } from './filters/time/selectors';
 import { getFlights } from './flights/selectors';
-import { getLegs } from './currentLeg/selectors';
-import Leg from '../schemas/Leg';
 
 /**
  * Get an array of flights after filtering.
