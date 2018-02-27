@@ -24,9 +24,19 @@ export const setLeg = (legId: number): LegAction => {
 	};
 };
 
-export const goToLeg = (legId: number): CommonThunkAction => {
-	return (dispatch): void => {
-		dispatch(setSelectedFlight(null, legId));
-		dispatch(setLeg(legId));
+export const goToLeg = (newLegId: number): CommonThunkAction => {
+	return (dispatch, getState): void => {
+		const selectedFlights = getState().selectedFlights;
+
+		for (const legId in selectedFlights) {
+			const numberedLegId = parseInt(legId);
+
+			if (selectedFlights.hasOwnProperty(legId) && numberedLegId > newLegId) {
+				dispatch(setSelectedFlight(null, numberedLegId));
+			}
+		}
+
+		dispatch(setSelectedFlight(null, newLegId));
+		dispatch(setLeg(newLegId));
 	};
 };
