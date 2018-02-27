@@ -1,6 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
 import Flight from './schemas/Flight';
 import Leg from './schemas/Leg';
+import FareFamiliesCombinations from './schemas/FareFamiliesCombinations';
 
 export type CommonThunkAction = ThunkAction<void, ApplicationState, null>;
 
@@ -68,8 +69,13 @@ export interface SelectedFamiliesState {
 	[segmentId: number]: number;
 }
 
+export interface FareFamiliesCombinationsState {
+	[flightId: number]: FareFamiliesCombinations;
+}
+
 export interface AlternativeFlightsState {
 	selectedFamilies: SelectedFamiliesState;
+	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
 export interface ApplicationState {

@@ -7,7 +7,7 @@ import Flight from '../schemas/Flight';
 import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Segment from './AlternativeFlights/Segment';
 import { searchForAlternativeFlights } from '../store/actions';
-import { ApplicationState, CommonThunkAction, SelectedFamiliesState } from '../state';
+import { ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, SelectedFamiliesState } from '../state';
 import { SelectedFamiliesAction, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
@@ -15,6 +15,7 @@ import { goToLeg } from '../store/currentLeg/actions';
 interface StateProps {
 	selectedFlights: Flight[];
 	selectedFamilies: SelectedFamiliesState;
+	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
 interface DispatchProps {
@@ -58,6 +59,7 @@ class AlternativeFlights extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
+		fareFamiliesCombinations: state.alternativeFlights.fareFamiliesCombinations,
 		selectedFamilies: state.alternativeFlights.selectedFamilies
 	};
 };
