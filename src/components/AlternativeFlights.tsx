@@ -41,13 +41,15 @@ class AlternativeFlights extends React.Component<Props> {
 
 			<div className="alternativeFlights__legs">
 				{selectedFlights.map(flight => (
-					<Leg
-						key={flight.id}
-						flight={flight}
-						selectedFamilies={selectedFamilies}
-						combinations={fareFamiliesCombinations[flight.id]}
-						selectFamily={selectFamily}
-					/>
+					fareFamiliesCombinations.hasOwnProperty(flight.id) ? (
+						<Leg
+							key={flight.id}
+							flight={flight}
+							selectedFamilies={selectedFamilies}
+							combinations={fareFamiliesCombinations[flight.id]}
+							selectFamily={selectFamily}
+						/>
+					) : null
 				))}
 			</div>
 		</section>;

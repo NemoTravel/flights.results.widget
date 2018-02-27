@@ -6,10 +6,11 @@ import CheckCircle from 'material-ui-icons/Check';
 import Cancel from 'material-ui-icons/Clear';
 import MonetizationOn from 'material-ui-icons/AttachMoney';
 
-import { FamilyModel } from './Segment';
+import FareFamily from '../../schemas/FareFamily';
 
 interface Props {
-	family: FamilyModel;
+	id: number;
+	family: FareFamily;
 	isSelected: boolean;
 	selectFamily: (familyId: number) => void;
 }
@@ -28,15 +29,15 @@ class Family extends React.Component<Props> {
 	}
 
 	render() {
-		const { family } = this.props;
+		const { family, id } = this.props;
 
 		return <div className="fareFamilies-leg-segment-family">
 			<div className="fareFamilies-leg-segment-family__name">
 				<FormControlLabel
 					name="family"
-					label={family.name}
+					label={family.fareFamilyName}
 					checked={this.props.isSelected}
-					value={family.id.toString()}
+					value={id.toString()}
 					control={<Radio color="primary"/>}
 					onChange={this.onFamilySelect}
 				/>

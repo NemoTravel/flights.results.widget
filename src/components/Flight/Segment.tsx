@@ -23,7 +23,7 @@ class Segment extends React.Component<Props> {
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const isDirect = !segment.nextSegment;
 		const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
-		const brandName = segment.fareFamily ? segment.fareFamily.name : '';
+		const brandName = segment.fareFamily ? segment.fareFamily.fareFamilyName : '';
 
 		return <div className="flight-details-segment">
 			<div className="flight-details-segment__wrapper">

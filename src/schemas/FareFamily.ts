@@ -2,7 +2,7 @@ import FareFamilyFeature from './FareFamilyFeature';
 
 export default interface FareFamily {
 	isLoaded: boolean;
-	name: string;
+	fareFamilyName: string;
 	segmentId: number;
 	fareFeatures: {
 		baggage: FareFamilyFeature[];

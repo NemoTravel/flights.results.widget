@@ -15,16 +15,19 @@ interface Props {
 
 class Leg extends React.Component<Props> {
 	render(): React.ReactNode {
-		const { flight, selectedFamilies, selectFamily } = this.props;
+		const { flight, selectedFamilies, selectFamily, combinations } = this.props;
 
 		return <div className="fareFamilies-leg">
 			<div className="fareFamilies-leg__segments">
-				{flight.segments.map((segment, index) => <Segment
-					key={index}
-					segmentId={index}
-					selectedFamilyId={selectedFamilies[index]}
-					selectFamily={selectFamily}/>
-				)}
+				{flight.segments.map((segment, index) => (
+					<Segment
+						key={index}
+						combinations={combinations}
+						segmentId={index}
+						selectedFamilyId={selectedFamilies[index]}
+						selectFamily={selectFamily}
+					/>
+				))}
 			</div>
 		</div>;
 	}

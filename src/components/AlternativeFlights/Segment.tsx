@@ -3,16 +3,14 @@ import Typography from 'material-ui/Typography';
 
 import Family from './Family';
 import { SelectedFamiliesAction } from '../../store/alternativeFlights/selectedFamilies/actions';
+import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
+import FareFamily from '../../schemas/FareFamily';
 
 interface Props {
 	segmentId: number;
 	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
 	selectedFamilyId: number;
-}
-
-export interface FamilyModel {
-	id: number;
-	name: string;
+	combinations: FareFamiliesCombinations;
 }
 
 class Segment extends React.Component<Props> {
@@ -27,21 +25,11 @@ class Segment extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilyId } = this.props;
-		const families: FamilyModel[] = [
-			{
-				id: 0,
-				name: 'Легкий'
-			},
-			{
-				id: 1,
-				name: 'Стандарт'
-			},
-			{
-				id: 2,
-				name: 'Премиум'
-			}
-		];
+		const { selectedFamilyId, combinations, segmentId } = this.props;
+		const stringSegmentId = 'S' + segmentId;
+		const families: FareFamily[] = combinations.fareFamiliesBySegments[stringSegmentId];
+
+		console.log(segmentId);
 
 		return <div className="fareFamilies-leg-segment">
 			<Typography className="fareFamilies-leg-segment__title" variant="headline">
@@ -49,12 +37,13 @@ class Segment extends React.Component<Props> {
 			</Typography>
 
 			<form className="fareFamilies-leg-segment__families">
-				{families.map(family => (
+				{families.map((family, index) => (
 					<Family
-						key={family.id}
+						key={index}
+						id={index}
 						selectFamily={this.selectFamilyWrapper}
 						family={family}
-						isSelected={selectedFamilyId === family.id}
+						isSelected={selectedFamilyId === index}
 					/>
 				))}
 			</form>
