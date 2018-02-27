@@ -5,7 +5,7 @@ import Typography from 'material-ui/Typography';
 
 import Flight from '../schemas/Flight';
 import SelectedFlights from './AlternativeFlights/SelectedFlights';
-import Segment from './AlternativeFlights/Segment';
+import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';
 import { ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, SelectedFamiliesState } from '../state';
 import { SelectedFamiliesAction, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
@@ -32,8 +32,7 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilies, selectedFlights } = this.props;
-		const segments = [0];
+		const { selectedFamilies, selectedFlights, fareFamiliesCombinations, selectFamily } = this.props;
 
 		return <section className="fareFamilies">
 			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
@@ -41,16 +40,15 @@ class AlternativeFlights extends React.Component<Props> {
 			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
 
 			<div className="alternativeFlights__legs">
-				<div className="fareFamilies-leg">
-					<div className="fareFamilies-leg__segments">
-						{segments.map(segmentId => <Segment
-							key={segmentId}
-							segmentId={segmentId}
-							selectedFamilyId={selectedFamilies[segmentId]}
-							selectFamily={this.props.selectFamily}/>
-						)}
-					</div>
-				</div>
+				{selectedFlights.map(flight => (
+					<Leg
+						key={flight.id}
+						flight={flight}
+						selectedFamilies={selectedFamilies}
+						combinations={fareFamiliesCombinations[flight.id]}
+						selectFamily={selectFamily}
+					/>
+				))}
 			</div>
 		</section>;
 	}
