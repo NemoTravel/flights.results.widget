@@ -10,6 +10,7 @@ import { searchForAlternativeFlights } from '../store/actions';
 import { ApplicationState, CommonThunkAction, SelectedFamiliesState } from '../state';
 import { SelectedFamiliesAction, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
+import { goToLeg } from '../store/currentLeg/actions';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -19,6 +20,7 @@ interface StateProps {
 interface DispatchProps {
 	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
 	searchForAlternativeFlights: () => CommonThunkAction;
+	goToLeg: (legId: number) => CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
@@ -30,10 +32,10 @@ class AlternativeFlights extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const { selectedFamilies, selectedFlights } = this.props;
-		const segments = [0, 1];
+		const segments = [0];
 
 		return <section className="fareFamilies">
-			<SelectedFlights flights={selectedFlights}/>
+			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
 
 			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
 
@@ -63,7 +65,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
 		selectFamily: bindActionCreators(selectFamily, dispatch),
-		searchForAlternativeFlights: bindActionCreators(searchForAlternativeFlights, dispatch)
+		searchForAlternativeFlights: bindActionCreators(searchForAlternativeFlights, dispatch),
+		goToLeg: bindActionCreators(goToLeg, dispatch)
 	};
 };
 

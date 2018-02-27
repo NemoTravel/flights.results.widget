@@ -49,12 +49,14 @@ class Segment extends React.Component<Props> {
 			</Typography>
 
 			<form className="fareFamilies-leg-segment__families">
-				{families.map(family => <Family
-					key={family.id}
-					selectFamily={this.selectFamilyWrapper}
-					family={family}
-					isSelected={selectedFamilyId === family.id}
-				/>)}
+				{families.map(family => (
+					<Family
+						key={family.id}
+						selectFamily={this.selectFamilyWrapper}
+						family={family}
+						isSelected={selectedFamilyId === family.id}
+					/>
+				))}
 			</form>
 		</div>;
 	}

@@ -50,6 +50,27 @@ class Family extends React.Component<Props> {
 
 					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
 				</div>
+				<div className="fareFamilies-leg-segment-family-feature">
+					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
+						<CheckCircle/>
+					</span>
+
+					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
+				</div>
+				<div className="fareFamilies-leg-segment-family-feature">
+					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
+						<CheckCircle/>
+					</span>
+
+					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
+				</div>
+				<div className="fareFamilies-leg-segment-family-feature">
+					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
+						<CheckCircle/>
+					</span>
+
+					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
+				</div>
 			</div>
 		</div>;
 	}

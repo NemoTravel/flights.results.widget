@@ -11,7 +11,7 @@ import { ObjectsMap } from '../store/filters/selectors';
 import { CommonThunkAction } from '../state';
 import { declension } from '../utils';
 
-interface Props {
+export interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
 	onLoad?: () => void;
@@ -25,7 +25,7 @@ interface State {
 	isOpen: boolean;
 }
 
-class Flight extends React.Component<Props, State> {
+class Flight<P> extends React.Component<Props & P, State> {
 	static defaultProps: Partial<Props> = {
 		onLoad: () => {}
 	};
@@ -34,14 +34,14 @@ class Flight extends React.Component<Props, State> {
 		isOpen: false
 	};
 
-	constructor(props: Props) {
+	constructor(props: Props & P) {
 		super(props);
 
 		this.toggleDetails = this.toggleDetails.bind(this);
 		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
 	}
 
-	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
 		return this.props.flight.id !== nextProps.flight.id || this.state.isOpen !== nextState.isOpen;
 	}
 

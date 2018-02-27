@@ -15,15 +15,15 @@ import { alternativeFlightsReducer } from './alternativeFlights/reducers';
 const initialLegsState = [
 	{
 		id: 0,
-		date: moment('2018-06-24').locale('ru'),
-		departure: 'Саратов',
-		arrival: 'Москва'
+		date: moment('2018-06-22').locale('ru'),
+		departure: 'Москва',
+		arrival: 'Санкт-Петербург'
 	},
 	{
 		id: 1,
-		date: moment('2018-06-25').locale('ru'),
-		departure: 'Москва',
-		arrival: 'Париж'
+		date: moment('2018-06-22').locale('ru'),
+		departure: 'Санкт-Петербург',
+		arrival: 'Мадрид'
 	}
 ];
 

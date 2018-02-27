@@ -24,7 +24,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const NUM_OF_LEGS_FOR_RT = 2;
+// const NUM_OF_LEGS_FOR_RT = 2;
 
 class Toolbar extends React.Component<Props> {
 	constructor(props: Props) {
@@ -38,10 +38,10 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	renderLeg(leg: Leg): React.ReactNode {
-		const { currentLeg, legs, isSelectionComplete } = this.props;
+		const { currentLeg, isSelectionComplete } = this.props;
 		const isDisabled = leg.id > currentLeg;
 		const isSelected = !isSelectionComplete && leg.id === currentLeg;
-		const isRTBack = leg.id === 1 && legs.length === NUM_OF_LEGS_FOR_RT;
+		// const isRTBack = leg.id === 1 && legs.length === NUM_OF_LEGS_FOR_RT;
 
 		return <LegComponent
 			key={leg.id}
