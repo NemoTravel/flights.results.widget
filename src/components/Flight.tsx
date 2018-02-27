@@ -18,7 +18,6 @@ interface Props {
 	currentLegId?: number;
 	isMultipleLegs?: boolean;
 	isLastLeg?: boolean;
-	infoOnly?: boolean;
 	selectFlight?: (flightId: number, legId: number) => CommonThunkAction;
 }
 
@@ -28,7 +27,6 @@ interface State {
 
 class Flight extends React.Component<Props, State> {
 	static defaultProps: Partial<Props> = {
-		infoOnly: false,
 		onLoad: () => {}
 	};
 
@@ -74,6 +72,28 @@ class Flight extends React.Component<Props, State> {
 		return airlinesInFlight.length > 1 ?
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
 			<img className="flight-summary-logo__image" src={`http://mlsd.ru:9876${flight.segments[0].airline.logoIcon}`}/>;
+	}
+
+	renderSummaryButtonsBlock(): React.ReactNode {
+		const flight = this.props.flight;
+
+		return <div className="flight-summary__right">
+			<div className="flight-summary-price">
+				<div className="flight-summary-price__amount">
+					{this.props.isMultipleLegs && !this.props.isLastLeg ? <span className="flight-summary-price__amount-prefix">от</span> : null}
+
+					<Price withPlus={this.props.currentLegId !== 0} price={flight.totalPrice}/>
+				</div>
+
+				{this.props.isMultipleLegs ? <div className="flight-summary-price__route">
+					за весь маршрут
+				</div> : null}
+			</div>
+
+			<div className="flight-summary-buy" onClick={this.onBuyButtonClick}>
+				Выбрать
+			</div>
+		</div>;
 	}
 
 	renderSummary(): React.ReactNode {
@@ -143,23 +163,7 @@ class Flight extends React.Component<Props, State> {
 				</div>
 			</div>
 
-			<div className={classnames('flight-summary__right', { 'flight-summary__right_hidden': this.props.infoOnly })}>
-				<div className="flight-summary-price">
-					<div className="flight-summary-price__amount">
-						{this.props.isMultipleLegs && !this.props.isLastLeg ? <span className="flight-summary-price__amount-prefix">от</span> : null}
-
-						<Price withPlus={this.props.currentLegId !== 0} price={flight.totalPrice}/>
-					</div>
-
-					{this.props.isMultipleLegs ? <div className="flight-summary-price__route">
-						за весь маршрут
-					</div> : null}
-				</div>
-
-				<div className="flight-summary-buy" onClick={this.onBuyButtonClick}>
-					Выбрать
-				</div>
-			</div>
+			{this.renderSummaryButtonsBlock()}
 		</div>;
 	}
 
