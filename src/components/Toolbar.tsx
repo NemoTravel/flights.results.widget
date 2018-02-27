@@ -49,7 +49,7 @@ class Toolbar extends React.Component<Props> {
 			goToLeg={this.props.goToLeg}
 			isDisabled={isDisabled}
 			isSelected={isSelected}
-			isReverse={isRTBack}
+			isReverse={false}
 		/>;
 	}
 

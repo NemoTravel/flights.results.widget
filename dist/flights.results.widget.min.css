@@ -66,13 +66,6 @@
   display: flex;
 }
 
-.results_isLoading .scenarios,
-.results_isLoading .filters,
-.results_isLoading .results-flights,
-.results_isLoading .results__headline {
-  display: none;
-}
-
 .results .ReactVirtualized__List,
 .results .ReactVirtualized__Grid__innerScrollContainer {
   outline: none !important;
