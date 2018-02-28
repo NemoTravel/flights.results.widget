@@ -9,44 +9,56 @@ import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 
 interface Props {
+	initialCombination: string;
 	segment: SegmentModel;
-	segmentId: number;
+	segmentId: string;
 	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
-	selectedFamilyId: number;
-	combinations: FareFamiliesCombinations;
+	families: FareFamily[];
+	isAvailable: boolean;
 }
 
-class Segment extends React.Component<Props> {
+interface State {
+	selectedFamilyId: string;
+}
+
+class Segment extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
+
+		this.state = {
+			selectedFamilyId: props.initialCombination
+		};
 
 		this.selectFamilyWrapper = this.selectFamilyWrapper.bind(this);
 	}
 
-	selectFamilyWrapper(familyId: number): void {
-		this.props.selectFamily(this.props.segmentId, familyId);
+	selectFamilyWrapper(familyId: string): void {
+		this.setState({
+			selectedFamilyId: familyId
+		});
 	}
 
 	renderContent(): React.ReactNode {
-		const { selectedFamilyId, combinations, segmentId } = this.props;
-		const stringSegmentId = 'S' + segmentId.toString();
-		const families: FareFamily[] = combinations.fareFamiliesBySegments[stringSegmentId];
+		const { initialCombination, families } = this.props;
+		const selectedFamilyId = this.state.selectedFamilyId || initialCombination;
 
 		return <form className="fareFamilies-leg-segment__families">
-			{families.map((family, index) => (
-				<Family
-					key={index}
-					id={index}
+			{families.map((family, index) => {
+				const familyId = `F${index + 1}`;
+
+				return <Family
+					key={familyId}
+					id={familyId}
 					selectFamily={this.selectFamilyWrapper}
 					family={family}
-					isSelected={selectedFamilyId === index}
-				/>
-			))}
+					isSelected={selectedFamilyId === familyId}
+				/>;
+			})}
 		</form>;
 	}
 
 	render(): React.ReactNode {
-		const { combinations, segment } = this.props;
+		const { isAvailable, segment } = this.props;
 
 		return <Paper className="fareFamilies-leg-segment">
 			<div className="fareFamilies-leg-segment-title">
@@ -60,10 +72,10 @@ class Segment extends React.Component<Props> {
 					</Typography>
 				</div>
 
-				{combinations ? '' : <span className="fareFamilies-leg-segment-title__disclaimer">Выбор тарифа недоступен</span>}
+				{isAvailable ? '' : <span className="fareFamilies-leg-segment-title__disclaimer">Выбор тарифа недоступен</span>}
 			</div>
 
-			{combinations ? this.renderContent() : ''}
+			{isAvailable ? this.renderContent() : ''}
 		</Paper>;
 	}
 }

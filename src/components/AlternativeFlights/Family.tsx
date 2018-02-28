@@ -17,10 +17,10 @@ const paymentIcons = {
 };
 
 interface Props {
-	id: number;
+	id: string;
 	family: FareFamily;
 	isSelected: boolean;
-	selectFamily: (familyId: number) => void;
+	selectFamily: (familyId: string) => void;
 }
 
 class Family extends React.Component<Props> {
@@ -33,7 +33,13 @@ class Family extends React.Component<Props> {
 	onFamilySelect(event: React.ChangeEvent<{}>): void {
 		const inputValue = (event.target as HTMLInputElement).value;
 
-		this.props.selectFamily(parseInt(inputValue));
+		this.props.selectFamily(inputValue);
+	}
+
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.id !== nextProps.id ||
+			this.props.isSelected !== nextProps.isSelected ||
+			this.props.family !== nextProps.family;
 	}
 
 	render() {
@@ -50,7 +56,7 @@ class Family extends React.Component<Props> {
 					name="family"
 					label={family.fareFamilyName}
 					checked={this.props.isSelected}
-					value={id.toString()}
+					value={id}
 					control={<Radio color="primary"/>}
 					onChange={this.onFamilySelect}
 				/>

@@ -15,20 +15,25 @@ interface Props {
 
 class Leg extends React.Component<Props> {
 	render(): React.ReactNode {
-		const { flight, selectedFamilies, selectFamily, combinations } = this.props;
+		const { flight, selectFamily, combinations } = this.props;
+		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 
 		return <div className="fareFamilies-leg">
 			<div className="fareFamilies-leg__segments">
-				{flight.segments.map((segment, index) => (
-					<Segment
+				{flight.segments.map((segment, index) => {
+					const segmentId = `S${index}`;
+					const families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
+
+					return <Segment
+						key={segmentId}
+						segmentId={segmentId}
 						segment={segment}
-						key={index}
-						combinations={combinations}
-						segmentId={index}
-						selectedFamilyId={selectedFamilies[index]}
+						initialCombination={initialCombinationsBySegments[index]}
+						families={families}
+						isAvailable={!!combinations}
 						selectFamily={selectFamily}
-					/>
-				))}
+					/>;
+				})}
 			</div>
 		</div>;
 	}
