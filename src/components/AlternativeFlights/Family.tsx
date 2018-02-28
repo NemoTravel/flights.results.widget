@@ -10,6 +10,12 @@ import MonetizationOn from 'material-ui-icons/AttachMoney';
 import FareFamily from '../../schemas/FareFamily';
 import FareFamilyFeature, { FeaturePayment } from '../../schemas/FareFamilyFeature';
 
+const paymentIcons = {
+	[FeaturePayment.Free]: <CheckCircle/>,
+	[FeaturePayment.Charge]: <MonetizationOn/>,
+	[FeaturePayment.NotAvailable]: <Cancel/>
+};
+
 interface Props {
 	id: number;
 	family: FareFamily;
@@ -55,9 +61,7 @@ class Family extends React.Component<Props> {
 					<Tooltip key={index} className="fareFamilies-leg-segment-family-feature__tooltip" title={feature.description} placement="top">
 						<div className="fareFamilies-leg-segment-family-feature">
 							<span className={`fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_${feature.needToPay}`}>
-								{feature.needToPay === FeaturePayment.Free ? <CheckCircle/> : ''}
-								{feature.needToPay === FeaturePayment.Charge ? <MonetizationOn/> : ''}
-								{feature.needToPay === FeaturePayment.NotAvailable ? <Cancel/> : ''}
+								{paymentIcons[feature.needToPay]}
 							</span>
 
 							<span className="fareFamilies-leg-segment-family-feature__name">

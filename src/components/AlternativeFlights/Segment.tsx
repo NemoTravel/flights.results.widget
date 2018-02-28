@@ -27,30 +27,43 @@ class Segment extends React.Component<Props> {
 		this.props.selectFamily(this.props.segmentId, familyId);
 	}
 
-	render(): React.ReactNode {
-		const { selectedFamilyId, combinations, segmentId, segment } = this.props;
+	renderContent(): React.ReactNode {
+		const { selectedFamilyId, combinations, segmentId } = this.props;
 		const stringSegmentId = 'S' + segmentId.toString();
 		const families: FareFamily[] = combinations.fareFamiliesBySegments[stringSegmentId];
 
+		return <form className="fareFamilies-leg-segment__families">
+			{families.map((family, index) => (
+				<Family
+					key={index}
+					id={index}
+					selectFamily={this.selectFamilyWrapper}
+					family={family}
+					isSelected={selectedFamilyId === index}
+				/>
+			))}
+		</form>;
+	}
+
+	render(): React.ReactNode {
+		const { combinations, segment } = this.props;
+
 		return <Paper className="fareFamilies-leg-segment">
 			<div className="fareFamilies-leg-segment-title">
-				<img className="fareFamilies-leg-segment-title__logo" src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
-				<Typography variant="headline">
-					{segment.depAirport.city.name}&nbsp;&mdash;&nbsp;{segment.arrAirport.city.name},&nbsp;{segment.depDate.format('DD MMM')}
-				</Typography>
+				<div className="fareFamilies-leg-segment-title__left">
+					<div className="fareFamilies-leg-segment-title-logo">
+						<img src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
+					</div>
+
+					<Typography variant="headline">
+						{segment.depAirport.city.name}&nbsp;&mdash;&nbsp;{segment.arrAirport.city.name},&nbsp;{segment.depDate.format('DD MMM')}
+					</Typography>
+				</div>
+
+				{combinations ? '' : <span className="fareFamilies-leg-segment-title__disclaimer">Выбор тарифа недоступен</span>}
 			</div>
 
-			<form className="fareFamilies-leg-segment__families">
-				{families.map((family, index) => (
-					<Family
-						key={index}
-						id={index}
-						selectFamily={this.selectFamilyWrapper}
-						family={family}
-						isSelected={selectedFamilyId === index}
-					/>
-				))}
-			</form>
+			{combinations ? this.renderContent() : ''}
 		</Paper>;
 	}
 }

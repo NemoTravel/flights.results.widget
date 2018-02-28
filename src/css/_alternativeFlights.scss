@@ -8,28 +8,44 @@
 
 	&-leg {
 		&-segment {
-			margin-bottom: 30px;
+			margin-bottom: 15px;
 			padding: 20px;
 
 			&__families {
 				display: flex;
 				overflow-x: auto;
+
+				margin-top: 20px;
 				padding-bottom: 5px;
 			}
 
 			&-title {
 				display: flex;
 				align-items: center;
-				margin-bottom: 20px;
+				justify-content: space-between;
 
 				h1 {
 					font-size: 1.3rem;
 				}
 
-				&__logo {
-					max-width: 110px;
-					max-height: 25px;
-					margin-right: 20px;
+				&__left {
+					display: flex;
+					align-items: center;
+				}
+
+				&-logo {
+					width: 150px;
+
+					img {
+						max-width: 110px;
+						max-height: 25px;
+						vertical-align: middle;
+					}
+				}
+
+				&__disclaimer {
+					font-size: 17px;
+					color: rgba(0, 0, 0, 0.54);
 				}
 			}
 
