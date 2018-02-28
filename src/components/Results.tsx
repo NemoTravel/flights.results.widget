@@ -44,31 +44,6 @@ const PLURAL_MULTIPLE_NUM = 5;
 const PLURAL_EXCEPTION_START = 11;
 const PLURAL_EXCEPTION_END = 15;
 
-const getPluralNumOfFlights = (numOfFlights: number): string => {
-	const lastNumber = parseInt(numOfFlights.toString()[numOfFlights.toString().length - 1]);
-
-	if (lastNumber === 0 || lastNumber >= PLURAL_MULTIPLE_NUM || (numOfFlights >= PLURAL_EXCEPTION_START && numOfFlights < PLURAL_EXCEPTION_END)) {
-		return 'рейсов';
-	}
-	else if (lastNumber === 1) {
-		return 'рейс';
-	}
-	else {
-		return 'рейса';
-	}
-};
-
-const getPluralHeadline = (numOfFlights: number): string => {
-	const lastNumber = parseInt(numOfFlights.toString()[numOfFlights.toString().length - 1]);
-
-	if (lastNumber === 1 && numOfFlights !== PLURAL_EXCEPTION_START) {
-		return 'Найден';
-	}
-	else {
-		return 'Найдено';
-	}
-};
-
 class Results extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
@@ -112,15 +87,21 @@ class Results extends React.Component<Props> {
 			<section className="scenarios"/>
 
 			<section className="filters">
-				<DirectOnlyFilter/>
-				<AirlineFilter/>
-				<AirportsFilter/>
-				<TimeFilter/>
-			</section>
+				<div className="filters__left">
+					<span className="filters-routeInfo">
+						Выберите рейс {currentLeg.departure} &mdash; {currentLeg.arrival}
+					</span>
+				</div>
 
-			<Typography className="results__headline" paragraph={true}>
-				{getPluralHeadline(numOfFlights)} {numOfFlights} {getPluralNumOfFlights(numOfFlights)} по направлению {currentLeg.departure} &mdash; {currentLeg.arrival}.
-			</Typography>
+				<div className="filters__right">
+					<span className="filters-title">Фильтры</span>
+
+					<DirectOnlyFilter/>
+					<AirlineFilter/>
+					<AirportsFilter/>
+					<TimeFilter/>
+				</div>
+			</section>
 
 			<WindowScroller>
 				{({ height, isScrolling, onChildScroll, scrollTop }) => (

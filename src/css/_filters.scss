@@ -2,11 +2,30 @@
 
 .filters {
 	display: flex;
+	justify-content: space-between;
 	flex: 0 0 auto;
 	width: $common-content-width;
 
 	margin: 0 auto;
 	padding: 15px 0;
+
+	&__left, &__right {
+		display: flex;
+		align-items: center;
+	}
+
+	&-routeInfo {
+		font-size: 18px;
+	}
+
+	&-title {
+		position: relative;
+		top: -1px;
+		margin-right: 10px;
+
+		font-size: 14px;
+		color: rgba(0, 0, 0, 0.54);
+	}
 
 	&-filter {
 		&:not(:first-of-type) {

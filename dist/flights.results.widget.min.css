@@ -2,12 +2,37 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   width: 1280px;
   margin: 0 auto;
   padding: 15px 0;
+}
+
+.filters__left,
+.filters__right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.filters-routeInfo {
+  font-size: 18px;
+}
+
+.filters-title {
+  position: relative;
+  top: -1px;
+  margin-right: 10px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .filters-filter:not(:first-of-type) {
