@@ -3,7 +3,6 @@ import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 
 import Family from './Family';
-import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 
@@ -11,7 +10,7 @@ interface Props {
 	initialCombination: string;
 	segment: SegmentModel;
 	segmentId: string;
-	selectFamily: SelectFamily;
+	onChange: (segmentId: number, familyId: string) => void;
 	families: FareFamily[];
 	isAvailable: boolean;
 }
@@ -34,9 +33,9 @@ class Segment extends React.Component<Props, State> {
 	onChange(familyId: string): void {
 		this.setState({
 			selectedFamilyId: familyId
-		});
+		} as State);
 
-		this.props.selectFamily(0, this.props.segment.number, familyId);
+		this.props.onChange(this.props.segment.number, familyId);
 	}
 
 	renderContent(): React.ReactNode {

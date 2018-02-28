@@ -7,6 +7,7 @@ import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/ac
 import { SelectedFamiliesState } from '../../state';
 
 interface Props {
+	id: number;
 	flight: Flight;
 	selectedFamilies: SelectedFamiliesState;
 	combinations: FareFamiliesCombinations;
@@ -14,8 +15,18 @@ interface Props {
 }
 
 class Leg extends React.Component<Props> {
+	constructor(props: Props) {
+		super(props);
+
+		this.onChange = this.onChange.bind(this);
+	}
+
+	onChange(segmentId: number, familyId: string): void {
+		this.props.selectFamily(this.props.id, segmentId, familyId);
+	}
+
 	render(): React.ReactNode {
-		const { flight, selectFamily, combinations } = this.props;
+		const { flight, combinations } = this.props;
 		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 
 		return <div className="fareFamilies-leg">
@@ -31,7 +42,7 @@ class Leg extends React.Component<Props> {
 						initialCombination={initialCombinationsBySegments[index]}
 						families={families}
 						isAvailable={!!combinations}
-						selectFamily={selectFamily}
+						onChange={this.onChange}
 					/>;
 				})}
 			</div>

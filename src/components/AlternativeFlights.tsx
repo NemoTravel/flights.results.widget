@@ -43,9 +43,10 @@ class AlternativeFlights extends React.Component<Props> {
 			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
 
 			<div className="alternativeFlights__legs">
-				{selectedFlights.map(flight => (
+				{selectedFlights.map((flight, index) => (
 					<Leg
 						key={flight.id}
+						id={index}
 						flight={flight}
 						selectedFamilies={selectedFamilies}
 						combinations={fareFamiliesCombinations[flight.id]}
