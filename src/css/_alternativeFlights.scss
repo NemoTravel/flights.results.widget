@@ -1,4 +1,6 @@
 .fareFamilies {
+	margin-bottom: 60px;
+
 	&-title {
 		margin-top: 20px !important;
 		margin-bottom: 20px !important;
@@ -7,18 +9,44 @@
 	&-leg {
 		&-segment {
 			margin-bottom: 30px;
+			padding: 20px;
 
 			&__families {
 				display: flex;
+				overflow-x: auto;
+				padding-bottom: 5px;
+			}
+
+			&-title {
+				display: flex;
+				align-items: center;
+				margin-bottom: 20px;
+
+				h1 {
+					font-size: 1.3rem;
+				}
+
+				&__logo {
+					max-width: 110px;
+					max-height: 25px;
+					margin-right: 20px;
+				}
 			}
 
 			&-family {
 				flex: 1;
+				min-width: 200px;
+
+				&__name {
+					padding-bottom: 10px;
+				}
 
 				&-feature {
 					display: flex;
 					align-items: center;
-					padding: 2px 15px 2px 0;
+
+					padding: 0 15px 0 0;
+					margin-bottom: 10px;
 
 					&__tooltip {
 						div[role="tooltip"] {
@@ -32,26 +60,28 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						margin-right: 6px;
+						margin-right: 10px;
+
+						svg {
+							width: 17px;
+							height: 17px;
+						}
 
 						&_Free {
 							svg {
 								fill: #94ca51;
-								width: 19px
 							}
 						}
 
 						&_NotAvailable {
 							svg {
 								fill: #f44336;
-								width: 19px
 							}
 						}
 
 						&_Charge {
 							svg {
 								fill: #ff9800;
-								width: 19px
 							}
 						}
 					}

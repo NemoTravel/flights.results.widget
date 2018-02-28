@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Typography from 'material-ui/Typography';
+import Paper from 'material-ui/Paper';
 
 import Family from './Family';
 import { SelectedFamiliesAction } from '../../store/alternativeFlights/selectedFamilies/actions';
@@ -28,13 +29,16 @@ class Segment extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const { selectedFamilyId, combinations, segmentId, segment } = this.props;
-		const stringSegmentId = 'S' + segmentId;
+		const stringSegmentId = 'S' + segmentId.toString();
 		const families: FareFamily[] = combinations.fareFamiliesBySegments[stringSegmentId];
 
-		return <div className="fareFamilies-leg-segment">
-			<Typography className="fareFamilies-leg-segment__title" variant="headline">
-				{segment.depAirport.city.name}&nbsp;&mdash;&nbsp;{segment.arrAirport.city.name},&nbsp;{segment.depDate.format('DD MMM')}
-			</Typography>
+		return <Paper className="fareFamilies-leg-segment">
+			<div className="fareFamilies-leg-segment-title">
+				<img className="fareFamilies-leg-segment-title__logo" src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
+				<Typography variant="headline">
+					{segment.depAirport.city.name}&nbsp;&mdash;&nbsp;{segment.arrAirport.city.name},&nbsp;{segment.depDate.format('DD MMM')}
+				</Typography>
+			</div>
 
 			<form className="fareFamilies-leg-segment__families">
 				{families.map((family, index) => (
@@ -47,7 +51,7 @@ class Segment extends React.Component<Props> {
 					/>
 				))}
 			</form>
-		</div>;
+		</Paper>;
 	}
 }
 
