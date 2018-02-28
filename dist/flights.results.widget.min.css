@@ -658,6 +658,8 @@
   -ms-flex: 1;
   flex: 1;
   min-width: 215px;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
 }
 
 .fareFamilies-leg-segment-family:not(:last-of-type) {
@@ -679,6 +681,10 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.fareFamilies-leg-segment-family_selected {
+  background-color: #f7f7f7;
 }
 
 .fareFamilies-leg-segment-family_selected .fareFamilies-leg-segment-family__name {

@@ -8,10 +8,7 @@ import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';
 import { ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, SelectedFamiliesState } from '../state';
-import {
-	SelectedFamiliesAction, SelectFamily,
-	selectFamily
-} from '../store/alternativeFlights/selectedFamilies/actions';
+import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
 

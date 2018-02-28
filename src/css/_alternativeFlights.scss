@@ -52,6 +52,7 @@
 			&-family {
 				flex: 1;
 				min-width: 215px;
+				transition: background-color 0.2s;
 
 				&:not(:last-of-type) {
 					border-right: 1px solid #eee;
@@ -72,6 +73,8 @@
 				}
 
 				&_selected {
+					background-color: #f7f7f7;
+
 					.fareFamilies-leg-segment-family__name {
 						background-color: #64b5f6;
 

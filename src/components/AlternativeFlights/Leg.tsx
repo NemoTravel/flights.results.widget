@@ -3,8 +3,8 @@ import * as React from 'react';
 import Segment from './Segment';
 import Flight from '../../schemas/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
-import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';
 import { SelectedFamiliesState } from '../../state';
+import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';
 
 interface Props {
 	id: number;

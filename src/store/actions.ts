@@ -7,7 +7,7 @@ import { parse as parseFareFamilies } from '../services/parsers/fareFamilies';
 import { addFlights } from './flights/actions';
 import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
-import { selectFamily } from './alternativeFlights/selectedFamilies/actions';
+import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
@@ -57,7 +57,7 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 			results.forEach((combinations, legId) => {
 				dispatch(setCombinations(legId, combinations));
 				const combination = combinations ? combinations.initialCombination.split('_') : [];
-				combination.forEach((familyId, segmentId) => dispatch(selectFamily(legId, segmentId, familyId)));
+				combination.forEach((familyId, segmentId) => dispatch(setSelectedFamily(legId, segmentId, familyId)));
 			});
 
 			dispatch(stopLoading());

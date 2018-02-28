@@ -67,7 +67,9 @@ class Family extends React.Component<Props> {
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__price">
-				{isDisabled ? 'Недоступно' : '+ 1 700 RUB'}
+				{isDisabled ? 'Недоступно' : ''}
+				{isSelected ? 'Выбрано' : ''}
+				{!isSelected && !isDisabled ? '+ 1 700 RUB' : ''}
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__features">
