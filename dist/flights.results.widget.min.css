@@ -618,6 +618,13 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  padding: 2px 15px 2px 0;
+}
+
+.fareFamilies-leg-segment-family-feature__tooltip div[role="tooltip"] {
+  max-width: 300px;
+  padding: 8px;
+  font-size: 0.8rem;
 }
 
 .fareFamilies-leg-segment-family-feature__icon {

@@ -1,12 +1,14 @@
 import * as React from 'react';
 import Radio from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
+import Tooltip from 'material-ui/Tooltip';
 
 import CheckCircle from 'material-ui-icons/Check';
 import Cancel from 'material-ui-icons/Clear';
 import MonetizationOn from 'material-ui-icons/AttachMoney';
 
 import FareFamily from '../../schemas/FareFamily';
+import FareFamilyFeature, { FeaturePayment } from '../../schemas/FareFamilyFeature';
 
 interface Props {
 	id: number;
@@ -29,7 +31,12 @@ class Family extends React.Component<Props> {
 	}
 
 	render() {
-		const { family, id } = this.props;
+		const { id, family } = this.props;
+		const allFareFeatures: FareFamilyFeature[] = [
+			...family.fareFeatures.baggage,
+			...family.fareFeatures.exare,
+			...family.fareFeatures.misc
+		];
 
 		return <div className="fareFamilies-leg-segment-family">
 			<div className="fareFamilies-leg-segment-family__name">
@@ -44,34 +51,21 @@ class Family extends React.Component<Props> {
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__features">
-				<div className="fareFamilies-leg-segment-family-feature">
-					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
-						<CheckCircle/>
-					</span>
+				{allFareFeatures.map((feature, index) => (
+					<Tooltip key={index} className="fareFamilies-leg-segment-family-feature__tooltip" title={feature.description} placement="top">
+						<div className="fareFamilies-leg-segment-family-feature">
+							<span className={`fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_${feature.needToPay}`}>
+								{feature.needToPay === FeaturePayment.Free ? <CheckCircle/> : ''}
+								{feature.needToPay === FeaturePayment.Charge ? <MonetizationOn/> : ''}
+								{feature.needToPay === FeaturePayment.NotAvailable ? <Cancel/> : ''}
+							</span>
 
-					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
-				</div>
-				<div className="fareFamilies-leg-segment-family-feature">
-					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
-						<CheckCircle/>
-					</span>
-
-					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
-				</div>
-				<div className="fareFamilies-leg-segment-family-feature">
-					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
-						<CheckCircle/>
-					</span>
-
-					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
-				</div>
-				<div className="fareFamilies-leg-segment-family-feature">
-					<span className="fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_Free">
-						<CheckCircle/>
-					</span>
-
-					<span className="fareFamilies-leg-segment-family-feature__name">Какая-то фича</span>
-				</div>
+							<span className="fareFamilies-leg-segment-family-feature__name">
+								{feature.showTitle ? feature.title + ' — ' : ''}{feature.value}
+							</span>
+						</div>
+					</Tooltip>
+				))}
 			</div>
 		</div>;
 	}

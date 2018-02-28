@@ -18,6 +18,15 @@
 				&-feature {
 					display: flex;
 					align-items: center;
+					padding: 2px 15px 2px 0;
+
+					&__tooltip {
+						div[role="tooltip"] {
+							max-width: 300px;
+							padding: 8px;
+							font-size: 0.8rem;
+						}
+					}
 
 					&__icon {
 						display: flex;
