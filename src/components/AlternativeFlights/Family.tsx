@@ -62,6 +62,10 @@ class Family extends React.Component<Props> {
 				/>
 			</div>
 
+			<div className="fareFamilies-leg-segment-family__price">
+				+ 1 700 RUB
+			</div>
+
 			<div className="fareFamilies-leg-segment-family__features">
 				{allFareFeatures.map((feature, index) => (
 					<Tooltip key={index} className="fareFamilies-leg-segment-family-feature__tooltip" title={feature.description} placement="top">

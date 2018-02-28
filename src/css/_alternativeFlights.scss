@@ -9,20 +9,21 @@
 	&-leg {
 		&-segment {
 			margin-bottom: 15px;
-			padding: 20px;
+			padding: 20px 24px;
 
 			&__families {
 				display: flex;
 				overflow-x: auto;
-
-				margin-top: 20px;
-				padding-bottom: 5px;
 			}
 
 			&-title {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+
+				margin: 0 -24px;
+				padding: 0 24px 15px;
+				border-bottom: 1px solid #cecece;
 
 				h1 {
 					font-size: 1.3rem;
@@ -51,10 +52,30 @@
 
 			&-family {
 				flex: 1;
-				min-width: 200px;
+				min-width: 215px;
+
+				&:not(:last-of-type) {
+					border-right: 1px solid #eee;
+				}
 
 				&__name {
-					padding-bottom: 10px;
+					text-align: center;
+					padding: 5px 15px;
+				}
+
+				&__price {
+					border-top: 1px solid #eee;
+					border-bottom: 1px solid #eee;
+
+					text-align: center;
+					padding: 10px 0;
+
+					color: #88c43d;
+					font-size: 15px;
+				}
+
+				&__features {
+					padding: 10px;
 				}
 
 				&-feature {

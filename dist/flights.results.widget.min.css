@@ -601,7 +601,7 @@
 
 .fareFamilies-leg-segment {
   margin-bottom: 15px;
-  padding: 20px;
+  padding: 20px 24px;
 }
 
 .fareFamilies-leg-segment__families {
@@ -609,8 +609,6 @@
   display: -ms-flexbox;
   display: flex;
   overflow-x: auto;
-  margin-top: 20px;
-  padding-bottom: 5px;
 }
 
 .fareFamilies-leg-segment-title {
@@ -623,6 +621,9 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  margin: 0 -24px;
+  padding: 0 24px 15px;
+  border-bottom: 1px solid #cecece;
 }
 
 .fareFamilies-leg-segment-title h1 {
@@ -657,11 +658,29 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  min-width: 200px;
+  min-width: 215px;
+}
+
+.fareFamilies-leg-segment-family:not(:last-of-type) {
+  border-right: 1px solid #eee;
 }
 
 .fareFamilies-leg-segment-family__name {
-  padding-bottom: 10px;
+  text-align: center;
+  padding: 5px 15px;
+}
+
+.fareFamilies-leg-segment-family__price {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  padding: 10px 0;
+  color: #88c43d;
+  font-size: 15px;
+}
+
+.fareFamilies-leg-segment-family__features {
+  padding: 10px;
 }
 
 .fareFamilies-leg-segment-family-feature {
