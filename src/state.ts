@@ -74,7 +74,7 @@ export interface SelectedFamiliesState {
 }
 
 export interface FareFamiliesCombinationsState {
-	[flightId: number]: FareFamiliesCombinations;
+	[legId: number]: FareFamiliesCombinations;
 }
 
 export interface AlternativeFlightsState {

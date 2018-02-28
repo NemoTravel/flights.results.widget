@@ -49,7 +49,7 @@ class AlternativeFlights extends React.Component<Props> {
 						id={index}
 						flight={flight}
 						selectedFamilies={selectedFamilies}
-						combinations={fareFamiliesCombinations[flight.id]}
+						combinations={fareFamiliesCombinations[index]}
 						selectFamily={selectFamily}
 					/>
 				))}
