@@ -6,6 +6,7 @@ import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 import { EnabledFamilies } from './Leg';
+import Tooltip from 'material-ui/Tooltip';
 
 interface Props {
 	enabledFamilies: EnabledFamilies;
@@ -67,7 +68,9 @@ class Segment extends React.Component<Props, State> {
 			<div className="fareFamilies-leg-segment-title">
 				<div className="fareFamilies-leg-segment-title__left">
 					<div className="fareFamilies-leg-segment-title-logo">
-						<img src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
+						<Tooltip title={segment.airline.name} placement="top">
+							<img src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
+						</Tooltip>
 					</div>
 
 					<Typography variant="headline">

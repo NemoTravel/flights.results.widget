@@ -56,7 +56,7 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 		Promise.all(promises).then((results: FareFamiliesCombinations[]) => {
 			results.forEach((combinations, legId) => {
 				dispatch(setCombinations(legId, combinations));
-				const combination = combinations.initialCombination.split('_');
+				const combination = combinations ? combinations.initialCombination.split('_') : [];
 				combination.forEach((familyId, segmentId) => dispatch(selectFamily(legId, segmentId, familyId)));
 			});
 
