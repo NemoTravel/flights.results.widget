@@ -7,7 +7,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportTab from './Airports/Tab';
-import WithPopover, { State as WithPopoverState, State as FilterState } from './WithPopover';
+import WithPopover, { State as FilterState } from './WithPopover';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState, LocationType } from '../../state';

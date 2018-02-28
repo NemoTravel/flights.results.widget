@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Toolbar from './Toolbar';
-import Typography from 'material-ui/Typography';
 
 import Flight from './Flight';
 import AirlineFilter from './Filters/Airlines';
@@ -9,7 +7,7 @@ import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
 import { getCurrentLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { ApplicationState, CommonThunkAction } from '../state';
+import { ApplicationState, CommonThunkAction, LocationType } from '../state';
 import { CellMeasurerCache, ListRowProps, CellMeasurer, WindowScroller, AutoSizer, List } from 'react-virtualized';
 import FlightModel from '../schemas/Flight';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
@@ -17,6 +15,7 @@ import { getVisibleFlights } from '../store/selectors';
 import { connect } from 'react-redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import { startSearch } from '../store/actions';
+import { addAirport, FilterAirportsAction } from '../store/filters/airports/actions';
 
 interface StateProps {
 	isMultipleLegs: boolean;
@@ -27,6 +26,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
+	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
 	startSearch: () => CommonThunkAction;
 }
@@ -39,10 +39,6 @@ const cache = new CellMeasurerCache({
 	defaultHeight: rowHeight,
 	fixedWidth: true
 });
-
-const PLURAL_MULTIPLE_NUM = 5;
-const PLURAL_EXCEPTION_START = 11;
-const PLURAL_EXCEPTION_END = 15;
 
 class Results extends React.Component<Props> {
 	constructor(props: Props) {
@@ -73,6 +69,7 @@ class Results extends React.Component<Props> {
 						currentLegId={this.props.currentLeg.id}
 						isLastLeg={this.props.isLastLeg}
 						isMultipleLegs={this.props.isMultipleLegs}
+						addAirport={this.props.addAirport}
 					/>
 				</div>
 			)}
@@ -141,6 +138,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
+		addAirport: bindActionCreators(addAirport, dispatch),
 		selectFlight: bindActionCreators(selectFlight, dispatch),
 		startSearch: bindActionCreators(startSearch, dispatch)
 	};

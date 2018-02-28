@@ -8,8 +8,10 @@ import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
-import { CommonThunkAction } from '../state';
+import { CommonThunkAction, LocationType } from '../state';
 import { declension } from '../utils';
+import Chip from 'material-ui/Chip';
+import { FilterAirportsAction } from '../store/filters/airports/actions';
 
 export interface Props {
 	flight: FlightModel;
@@ -19,6 +21,7 @@ export interface Props {
 	isMultipleLegs?: boolean;
 	isLastLeg?: boolean;
 	selectFlight?: (flightId: number, legId: number) => CommonThunkAction;
+	addAirport?: (IATA: string, type: LocationType) => FilterAirportsAction;
 }
 
 interface State {
@@ -116,7 +119,10 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 				<div className="flight-summary-placeholder">
 					<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
-					<span className="flight-summary-placeholder__route">{firstSegment.depAirport.city.name} &mdash; {lastSegment.arrAirport.city.name}</span>
+					{/*<span className="flight-summary-placeholder__route">{firstSegment.depAirport.city.name} &mdash; {lastSegment.arrAirport.city.name}</span>*/}
+					<Chip style={{ marginRight: '10px', marginLeft: '15px' }} label={firstSegment.depAirport.name} onClick={() => this.props.addAirport(firstSegment.depAirport.IATA, LocationType.Departure)}/>
+					<Chip style={{ marginRight: '10px' }} label={lastSegment.arrAirport.name} onClick={() => this.props.addAirport(lastSegment.arrAirport.IATA, LocationType.Arrival)}/>
+					<Chip label={firstSegment.airline.name}/>
 				</div>
 
 				<div className="flight-summary-logo">
