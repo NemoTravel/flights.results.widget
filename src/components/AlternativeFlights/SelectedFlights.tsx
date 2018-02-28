@@ -10,6 +10,10 @@ interface Props {
 }
 
 class SelectedFlights extends React.Component<Props> {
+	// shouldComponentUpdate(): boolean {
+	// 	return false;
+	// }
+
 	render(): React.ReactNode {
 		return <div className="fareFamilies-selectedFlights">
 			<Typography className="fareFamilies-selectedFlights-title" variant="display1">Выбранные перелеты</Typography>

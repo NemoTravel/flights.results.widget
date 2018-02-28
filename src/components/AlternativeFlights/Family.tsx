@@ -20,20 +20,20 @@ interface Props {
 	id: string;
 	family: FareFamily;
 	isSelected: boolean;
-	selectFamily: (familyId: string) => void;
+	onChange: (familyId: string) => void;
 }
 
 class Family extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 
-		this.onFamilySelect = this.onFamilySelect.bind(this);
+		this.onChange = this.onChange.bind(this);
 	}
 
-	onFamilySelect(event: React.ChangeEvent<{}>): void {
+	onChange(event: React.ChangeEvent<{}>): void {
 		const inputValue = (event.target as HTMLInputElement).value;
 
-		this.props.selectFamily(inputValue);
+		this.props.onChange(inputValue);
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
@@ -58,7 +58,7 @@ class Family extends React.Component<Props> {
 					checked={this.props.isSelected}
 					value={id}
 					control={<Radio color="primary"/>}
-					onChange={this.onFamilySelect}
+					onChange={this.onChange}
 				/>
 			</div>
 

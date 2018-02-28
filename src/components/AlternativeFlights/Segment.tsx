@@ -3,8 +3,7 @@ import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 
 import Family from './Family';
-import { SelectedFamiliesAction } from '../../store/alternativeFlights/selectedFamilies/actions';
-import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
+import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 
@@ -12,7 +11,7 @@ interface Props {
 	initialCombination: string;
 	segment: SegmentModel;
 	segmentId: string;
-	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
+	selectFamily: SelectFamily;
 	families: FareFamily[];
 	isAvailable: boolean;
 }
@@ -29,13 +28,15 @@ class Segment extends React.Component<Props, State> {
 			selectedFamilyId: props.initialCombination
 		};
 
-		this.selectFamilyWrapper = this.selectFamilyWrapper.bind(this);
+		this.onChange = this.onChange.bind(this);
 	}
 
-	selectFamilyWrapper(familyId: string): void {
+	onChange(familyId: string): void {
 		this.setState({
 			selectedFamilyId: familyId
 		});
+
+		this.props.selectFamily(0, this.props.segment.number, familyId);
 	}
 
 	renderContent(): React.ReactNode {
@@ -49,7 +50,7 @@ class Segment extends React.Component<Props, State> {
 				return <Family
 					key={familyId}
 					id={familyId}
-					selectFamily={this.selectFamilyWrapper}
+					onChange={this.onChange}
 					family={family}
 					isSelected={selectedFamilyId === familyId}
 				/>;

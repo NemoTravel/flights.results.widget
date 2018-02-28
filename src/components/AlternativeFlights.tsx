@@ -8,7 +8,10 @@ import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';
 import { ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, SelectedFamiliesState } from '../state';
-import { SelectedFamiliesAction, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
+import {
+	SelectedFamiliesAction, SelectFamily,
+	selectFamily
+} from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
 
@@ -19,7 +22,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
+	selectFamily: SelectFamily;
 	searchForAlternativeFlights: () => CommonThunkAction;
 	goToLeg: (legId: number) => CommonThunkAction;
 }

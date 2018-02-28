@@ -65,8 +65,12 @@ export interface FlightsState {
 	[flightId: number]: Flight;
 }
 
+export interface SelectedFamiliesSegmentCombination {
+	[segmentId: number]: string;
+}
+
 export interface SelectedFamiliesState {
-	[segmentId: number]: number;
+	[legId: number]: SelectedFamiliesSegmentCombination;
 }
 
 export interface FareFamiliesCombinationsState {
