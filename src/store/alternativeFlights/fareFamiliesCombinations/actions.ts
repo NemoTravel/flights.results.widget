@@ -5,16 +5,16 @@ export const SET_FARE_FAMILIES_COMBINATIONS = 'SET_FARE_FAMILIES_COMBINATIONS';
 
 export interface FareFamiliesCombinationsAction extends Action {
 	payload: {
-		flightId: number;
+		legId: number;
 		combinations: FareFamiliesCombinations;
 	};
 }
 
-export const setCombinations = (flightId: number, combinations: FareFamiliesCombinations): FareFamiliesCombinationsAction => {
+export const setCombinations = (legId: number, combinations: FareFamiliesCombinations): FareFamiliesCombinationsAction => {
 	return {
 		type: SET_FARE_FAMILIES_COMBINATIONS,
 		payload: {
-			flightId,
+			legId,
 			combinations
 		}
 	};

@@ -6,7 +6,7 @@ export const fareFamiliesCombinationsReducer = (state: FareFamiliesCombinationsS
 		case SET_FARE_FAMILIES_COMBINATIONS:
 			return {
 				...state,
-				[action.payload.flightId]: action.payload.combinations
+				[action.payload.legId]: action.payload.combinations
 			};
 	}
 
