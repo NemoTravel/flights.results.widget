@@ -5,8 +5,10 @@ import Family from './Family';
 import { SelectedFamiliesAction } from '../../store/alternativeFlights/selectedFamilies/actions';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import FareFamily from '../../schemas/FareFamily';
+import SegmentModel from '../../schemas/Segment';
 
 interface Props {
+	segment: SegmentModel;
 	segmentId: number;
 	selectFamily: (segmentId: number, familyId: number) => SelectedFamiliesAction;
 	selectedFamilyId: number;
@@ -25,15 +27,13 @@ class Segment extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilyId, combinations, segmentId } = this.props;
+		const { selectedFamilyId, combinations, segmentId, segment } = this.props;
 		const stringSegmentId = 'S' + segmentId;
 		const families: FareFamily[] = combinations.fareFamiliesBySegments[stringSegmentId];
 
-		console.log(segmentId);
-
 		return <div className="fareFamilies-leg-segment">
 			<Typography className="fareFamilies-leg-segment__title" variant="headline">
-				Саратов &mdash; Москва, 24 июня
+				{segment.depAirport.city.name}&nbsp;&mdash;&nbsp;{segment.arrAirport.city.name},&nbsp;{segment.depDate.format('DD MMM')}
 			</Typography>
 
 			<form className="fareFamilies-leg-segment__families">

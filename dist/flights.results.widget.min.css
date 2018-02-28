@@ -592,10 +592,11 @@
 .fareFamilies-title,
 .fareFamilies-selectedFlights-title {
   margin-top: 20px !important;
+  margin-bottom: 20px !important;
 }
 
 .fareFamilies-leg-segment {
-  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .fareFamilies-leg-segment__families {

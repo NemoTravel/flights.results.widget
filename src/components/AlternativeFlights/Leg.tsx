@@ -21,6 +21,7 @@ class Leg extends React.Component<Props> {
 			<div className="fareFamilies-leg__segments">
 				{flight.segments.map((segment, index) => (
 					<Segment
+						segment={segment}
 						key={index}
 						combinations={combinations}
 						segmentId={index}
