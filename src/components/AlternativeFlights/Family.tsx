@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import Radio from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
 import Tooltip from 'material-ui/Tooltip';
@@ -20,6 +21,7 @@ interface Props {
 	id: string;
 	family: FareFamily;
 	isSelected: boolean;
+	isDisabled: boolean;
 	onChange: (familyId: string) => void;
 }
 
@@ -31,9 +33,11 @@ class Family extends React.Component<Props> {
 	}
 
 	onChange(event: React.ChangeEvent<{}>): void {
-		const inputValue = (event.target as HTMLInputElement).value;
+		if (!this.props.isDisabled) {
+			const inputValue = (event.target as HTMLInputElement).value;
 
-		this.props.onChange(inputValue);
+			this.props.onChange(inputValue);
+		}
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
@@ -43,14 +47,14 @@ class Family extends React.Component<Props> {
 	}
 
 	render() {
-		const { id, family } = this.props;
+		const { id, family, isDisabled } = this.props;
 		const allFareFeatures: FareFamilyFeature[] = [
 			...family.fareFeatures.baggage,
 			...family.fareFeatures.exare,
 			...family.fareFeatures.misc
 		];
 
-		return <div className="fareFamilies-leg-segment-family">
+		return <div className={classnames('fareFamilies-leg-segment-family', { 'fareFamilies-leg-segment-family_disabled': isDisabled })}>
 			<div className="fareFamilies-leg-segment-family__name">
 				<FormControlLabel
 					name="family"
@@ -63,7 +67,7 @@ class Family extends React.Component<Props> {
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__price">
-				+ 1 700 RUB
+				{isDisabled ? 'Недоступно' : '+ 1 700 RUB'}
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__features">

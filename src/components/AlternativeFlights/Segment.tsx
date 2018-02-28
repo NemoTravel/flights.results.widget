@@ -5,8 +5,10 @@ import Paper from 'material-ui/Paper';
 import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
+import { EnabledFamilies } from './Leg';
 
 interface Props {
+	enabledFamilies: EnabledFamilies;
 	initialCombination: string;
 	segment: SegmentModel;
 	segmentId: string;
@@ -39,7 +41,7 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	renderContent(): React.ReactNode {
-		const { initialCombination, families } = this.props;
+		const { initialCombination, families, enabledFamilies } = this.props;
 		const selectedFamilyId = this.state.selectedFamilyId || initialCombination;
 
 		return <form className="fareFamilies-leg-segment__families">
@@ -51,6 +53,7 @@ class Segment extends React.Component<Props, State> {
 					id={familyId}
 					onChange={this.onChange}
 					family={family}
+					isDisabled={!enabledFamilies.hasOwnProperty(familyId)}
 					isSelected={selectedFamilyId === familyId}
 				/>;
 			})}

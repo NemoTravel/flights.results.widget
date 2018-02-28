@@ -665,6 +665,23 @@
   border-right: 1px solid #eee;
 }
 
+.fareFamilies-leg-segment-family_disabled {
+  cursor: not-allowed;
+}
+
+.fareFamilies-leg-segment-family_disabled svg {
+  fill: rgba(188, 188, 188, 0.6) !important;
+}
+
+.fareFamilies-leg-segment-family_disabled * {
+  pointer-events: none;
+  color: rgba(188, 188, 188, 0.6) !important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .fareFamilies-leg-segment-family__name {
   text-align: center;
   padding: 5px 15px;
