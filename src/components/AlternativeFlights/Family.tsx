@@ -47,14 +47,14 @@ class Family extends React.Component<Props> {
 	}
 
 	render() {
-		const { id, family, isDisabled } = this.props;
+		const { id, family, isDisabled, isSelected } = this.props;
 		const allFareFeatures: FareFamilyFeature[] = [
 			...family.fareFeatures.baggage,
 			...family.fareFeatures.exare,
 			...family.fareFeatures.misc
 		];
 
-		return <div className={classnames('fareFamilies-leg-segment-family', { 'fareFamilies-leg-segment-family_disabled': isDisabled })}>
+		return <div className={classnames('fareFamilies-leg-segment-family', { 'fareFamilies-leg-segment-family_disabled': isDisabled,  'fareFamilies-leg-segment-family_selected': isSelected })}>
 			<div className="fareFamilies-leg-segment-family__name">
 				<FormControlLabel
 					name="family"

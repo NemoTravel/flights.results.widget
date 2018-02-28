@@ -21,8 +21,7 @@
 				align-items: center;
 				justify-content: space-between;
 
-				margin: 0 -24px;
-				padding: 0 24px 15px;
+				padding: 0 0 15px;
 				border-bottom: 1px solid #e0e0e0;
 
 				h1 {
@@ -72,9 +71,20 @@
 					}
 				}
 
+				&_selected {
+					.fareFamilies-leg-segment-family__name {
+						background-color: #64b5f6;
+
+						* {
+							color: #fff;
+						}
+					}
+				}
+
 				&__name {
 					text-align: center;
 					padding: 5px 15px;
+					transition: background-color 0.2s;
 				}
 
 				&__price {

@@ -35,6 +35,7 @@ class Leg extends React.Component<Props> {
 		const validCombinations = combinations ? combinations.validCombinations : {};
 		const enabledFamiliesBySegments: { [segmentId: number]: EnabledFamilies } = {};
 
+		// @FIXME переделать на селекторы
 		for (const combination in validCombinations) {
 			if (validCombinations.hasOwnProperty(combination)) {
 				const combinationParts = combination.split('_');
