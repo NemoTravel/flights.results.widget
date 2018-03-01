@@ -1,4 +1,7 @@
 import * as React from 'react';
+import Snackbar from 'material-ui/Snackbar';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
 
 import Flight from './Flight';
 import AirlineFilter from './Filters/Airlines';
@@ -22,6 +25,8 @@ import { addAirport, FilterAirportsAction } from '../store/filters/airports/acti
 import { addAirline, FilterAirlinesAction } from '../store/filters/airlines/actions';
 import Sorting from './Sorting';
 import { setSorting, SortingAction } from '../store/sorting/actions';
+import Airport from '../schemas/Airport';
+import Airline from '../schemas/Airline';
 
 interface StateProps {
 	sorting: SortingState;
@@ -40,16 +45,27 @@ interface DispatchProps {
 	startSearch: () => CommonThunkAction;
 }
 
+interface State {
+	snackbarIsVisible: boolean;
+	snackbarLabel: string;
+}
+
 type Props = StateProps & DispatchProps;
 
 const rowHeight = 72;
+const snackbarAutohideTime = 5000;
 
 const cache = new CellMeasurerCache({
 	defaultHeight: rowHeight,
 	fixedWidth: true
 });
 
-class Results extends React.Component<Props> {
+class Results extends React.Component<Props, State> {
+	state: State = {
+		snackbarIsVisible: false,
+		snackbarLabel: ''
+	};
+
 	protected listComponent: any = null;
 
 	constructor(props: Props) {
@@ -57,10 +73,36 @@ class Results extends React.Component<Props> {
 
 		this.flightRenderer = this.flightRenderer.bind(this);
 		this.setSorting = this.setSorting.bind(this);
+		this.onSnackbarClose = this.onSnackbarClose.bind(this);
+		this.addAirportToFilters = this.addAirportToFilters.bind(this);
+		this.addAirlineToFilters = this.addAirlineToFilters.bind(this);
 	}
 
 	componentDidMount(): void {
 		this.props.startSearch();
+	}
+
+	showSnackbar(label: string): void {
+		this.setState({
+			snackbarIsVisible: true,
+			snackbarLabel: label
+		});
+	}
+
+	onSnackbarClose(): void {
+		this.setState({
+			snackbarIsVisible: false
+		});
+	}
+
+	addAirportToFilters(airport: Airport, type: LocationType): void {
+		this.props.addAirport(airport.IATA, type);
+		this.showSnackbar(`Аэропорт «${airport.name}» был добавлен в фильтры`);
+	}
+
+	addAirlineToFilters(airline: Airline): void {
+		this.props.addAirline(airline.IATA);
+		this.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
 	}
 
 	setSorting(type: SortingType, direction: SortingDirection): void {
@@ -86,8 +128,8 @@ class Results extends React.Component<Props> {
 						currentLegId={this.props.currentLeg.id}
 						isLastLeg={this.props.isLastLeg}
 						isMultipleLegs={this.props.isMultipleLegs}
-						addAirport={this.props.addAirport}
-						addAirline={this.props.addAirline}
+						addAirport={this.addAirportToFilters}
+						addAirline={this.addAirlineToFilters}
 					/>
 				</div>
 			)}
@@ -99,6 +141,30 @@ class Results extends React.Component<Props> {
 		const numOfFlights = this.props.flights.length;
 
 		return <div>
+			<Snackbar
+				open={this.state.snackbarIsVisible}
+				autoHideDuration={snackbarAutohideTime}
+				onClose={this.onSnackbarClose}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left'
+				}}
+				SnackbarContentProps={{
+					'aria-describedby': 'message-id'
+				}}
+				message={<span id="message-id">{this.state.snackbarLabel}</span>}
+				action={[
+					<IconButton
+						key="close"
+						aria-label="Close"
+						color="inherit"
+						onClick={this.onSnackbarClose}
+					>
+						<CloseIcon />
+					</IconButton>
+				]}
+			/>
+
 			<section className="scenarios"/>
 
 			<section className="filters">

@@ -816,7 +816,6 @@
 }
 
 .sorting-item {
-  color: rgba(0, 0, 0, 0.54);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -826,6 +825,9 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
 }
 
 .sorting-item__inner {

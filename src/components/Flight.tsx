@@ -11,9 +11,8 @@ import { ObjectsMap } from '../store/filters/selectors';
 import { CommonThunkAction, LocationType } from '../state';
 import { declension } from '../utils';
 import Chip from 'material-ui/Chip';
-import { FilterAirportsAction } from '../store/filters/airports/actions';
 import Tooltip from 'material-ui/Tooltip';
-import { FilterAirlinesAction } from '../store/filters/airlines/actions';
+import Airport from '../schemas/Airport';
 
 export interface Props {
 	flight: FlightModel;
@@ -23,8 +22,8 @@ export interface Props {
 	isMultipleLegs?: boolean;
 	isLastLeg?: boolean;
 	selectFlight?: (flightId: number, legId: number) => CommonThunkAction;
-	addAirport?: (IATA: string, type: LocationType) => FilterAirportsAction;
-	addAirline?: (IATA: string) => FilterAirlinesAction;
+	addAirport?: (airport: Airport, type: LocationType) => void;
+	addAirline?: (airline: Airline) => void;
 }
 
 interface State {
@@ -70,7 +69,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		event.preventDefault();
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
-		this.props.addAirport(firstSegment.depAirport.IATA, LocationType.Departure);
+		this.props.addAirport(firstSegment.depAirport, LocationType.Departure);
 	}
 
 	onArrivalAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
@@ -78,11 +77,11 @@ class Flight<P> extends React.Component<Props & P, State> {
 		event.preventDefault();
 		const flight = this.props.flight;
 		const lastSegment = flight.segments[flight.segments.length - 1];
-		this.props.addAirport(lastSegment.arrAirport.IATA, LocationType.Arrival);
+		this.props.addAirport(lastSegment.arrAirport, LocationType.Arrival);
 	}
 
-	onAirlineClick(IATA: string): void {
-		this.props.addAirline(IATA);
+	onAirlineClick(airline: Airline): void {
+		this.props.addAirline(airline);
 	}
 
 	renderLogo(): React.ReactNode {
@@ -168,7 +167,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 							<Chip label={airline.name} onClick={event => {
 								event.stopPropagation();
 								event.preventDefault();
-								this.onAirlineClick(airline.IATA);
+								this.onAirlineClick(airline);
 							}}/>
 						</Tooltip>
 					))}

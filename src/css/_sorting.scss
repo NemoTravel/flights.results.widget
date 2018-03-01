@@ -8,10 +8,12 @@
 	margin: 10px 0;
 
 	&-item {
-		color: $light-font-color;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+
+		color: $light-font-color;
+		transition: color 0.2s;
 
 		&__inner {
 			position: relative;
