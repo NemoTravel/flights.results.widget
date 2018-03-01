@@ -24,6 +24,18 @@ export enum LocationType {
 	Arrival = 'arrival'
 }
 
+export enum SortingType {
+	DepartureTime,
+	ArrivalTime,
+	FlightTime,
+	Price
+}
+
+export enum SortingDirection {
+	ASC,
+	DESC
+}
+
 export interface Config {
 	rootElement: HTMLElement;
 	locale: Language;
@@ -82,6 +94,11 @@ export interface AlternativeFlightsState {
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
+export interface SortingState {
+	type: SortingType;
+	direction: SortingDirection;
+}
+
 export interface ApplicationState {
 	config: Config;
 	currentLeg: number;
@@ -92,4 +109,5 @@ export interface ApplicationState {
 	selectedFlights: SelectedFlightsState;
 	alternativeFlights: AlternativeFlightsState;
 	legs: Leg[];
+	sorting: SortingState;
 }
