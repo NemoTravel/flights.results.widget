@@ -153,9 +153,13 @@
 				font-size: 1.5rem;
 			}
 
-			&__location {
+			&__date {
 				color: $light-font-color;
 				font-size: 0.75rem;
+
+				&_warning {
+					color: #ff9800;
+				}
 			}
 
 			&-routeInfo {
@@ -302,7 +306,11 @@
 				}
 
 				&__date {
-					@extend .flight-summary-stage__location;
+					@extend .flight-summary-stage__date;
+
+					&_warning {
+						@extend .flight-summary-stage__date_warning;
+					}
 				}
 
 				&-routeInfo {

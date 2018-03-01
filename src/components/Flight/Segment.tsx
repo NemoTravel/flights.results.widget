@@ -2,6 +2,7 @@ import * as React from 'react';
 import SegmentModel from '../../schemas/Segment';
 import * as moment from 'moment';
 import { declension } from '../../utils';
+import * as classnames from 'classnames';
 
 interface Props {
 	segment: SegmentModel;
@@ -24,6 +25,7 @@ class Segment extends React.Component<Props> {
 		const isDirect = !segment.nextSegment;
 		const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const brandName = segment.fareFamily ? segment.fareFamily.fareFamilyName : '';
+		const arrivalAtNextDay = segment.depDate.date() !== segment.arrDate.date();
 
 		return <div className="flight-details-segment">
 			<div className="flight-details-segment__wrapper">
@@ -52,7 +54,7 @@ class Segment extends React.Component<Props> {
 							{segment.arrDate.format('HH:mm')}
 						</div>
 
-						<div className="flight-details-segment-stage__date">
+						<div className={classnames('flight-details-segment-stage__date', { 'flight-details-segment-stage__date_warning': arrivalAtNextDay })}>
 							{segment.arrDate.format('DD MMM')}
 						</div>
 					</div>

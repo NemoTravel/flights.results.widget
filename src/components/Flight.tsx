@@ -132,6 +132,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const isDirect = flight.segments.length === 1;
 		const allAirlines: Airline[] = [];
 		const allAirlinesMap: { [IATA: string]: boolean } = {};
+		const arrivalAtNextDay = firstSegment.depDate.date() !== lastSegment.arrDate.date();
 
 		flight.segments.forEach(segment => {
 			if (!allAirlinesMap.hasOwnProperty(segment.airline.IATA)) {
@@ -182,8 +183,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 						{firstSegment.depDate.format('HH:mm')}
 					</div>
 
-					<div className="flight-summary-stage__location">
-						{firstSegment.depAirport.IATA}
+					<div className="flight-summary-stage__date">
+						{firstSegment.depDate.format('DD MMM')}
 					</div>
 				</div>
 
@@ -197,8 +198,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 						{lastSegment.arrDate.format('HH:mm')}
 					</div>
 
-					<div className="flight-summary-stage__location">
-						{lastSegment.arrAirport.IATA}
+					<div className={classnames('flight-summary-stage__date', { 'flight-summary-stage__date_warning': arrivalAtNextDay })}>
+						{lastSegment.arrDate.format('DD MMM')}
 					</div>
 				</div>
 			</div>

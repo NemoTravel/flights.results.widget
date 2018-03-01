@@ -315,10 +315,15 @@
   font-size: 1.5rem;
 }
 
-.flight-summary-stage__location,
+.flight-summary-stage__date,
 .flight-details-segment-stage__date {
   color: rgba(0, 0, 0, 0.54);
   font-size: 0.75rem;
+}
+
+.flight-summary-stage__date_warning,
+.flight-details-segment-stage__date_warning {
+  color: #ff9800;
 }
 
 .flight-summary-stage-routeInfo,
