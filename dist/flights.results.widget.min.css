@@ -826,6 +826,10 @@
 .sorting-item__text {
   cursor: pointer;
   border-bottom: 1px dashed;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .sorting-item__arrow {

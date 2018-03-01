@@ -3,13 +3,12 @@ import * as classnames from 'classnames';
 import ArrowDown from 'material-ui-icons/ArrowDownward';
 
 import { SortingDirection, SortingType } from '../state';
-import { SortingAction } from '../store/sorting/actions';
 
 interface Props {
 	isActive?: boolean;
 	direction?: SortingDirection;
 	type: SortingType;
-	setSorting: (type: SortingType, direction: SortingDirection) => SortingAction;
+	setSorting: (type: SortingType, direction: SortingDirection) => void;
 }
 
 const sortingLabels = {

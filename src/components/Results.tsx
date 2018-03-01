@@ -50,14 +50,22 @@ const cache = new CellMeasurerCache({
 });
 
 class Results extends React.Component<Props> {
+	protected listComponent: any = null;
+
 	constructor(props: Props) {
 		super(props);
 
 		this.flightRenderer = this.flightRenderer.bind(this);
+		this.setSorting = this.setSorting.bind(this);
 	}
 
 	componentDidMount(): void {
 		this.props.startSearch();
+	}
+
+	setSorting(type: SortingType, direction: SortingDirection): void {
+		this.props.setSorting(type, direction);
+		this.listComponent.forceUpdateGrid();
 	}
 
 	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {
@@ -115,28 +123,28 @@ class Results extends React.Component<Props> {
 					type={SortingType.DepartureTime}
 					isActive={sorting.type === SortingType.DepartureTime}
 					direction={sorting.type === SortingType.DepartureTime ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.props.setSorting}
+					setSorting={this.setSorting}
 				/>
 
 				<Sorting
 					type={SortingType.FlightTime}
 					isActive={sorting.type === SortingType.FlightTime}
 					direction={sorting.type === SortingType.FlightTime ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.props.setSorting}
+					setSorting={this.setSorting}
 				/>
 
 				<Sorting
 					type={SortingType.ArrivalTime}
 					isActive={sorting.type === SortingType.ArrivalTime}
 					direction={sorting.type === SortingType.ArrivalTime ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.props.setSorting}
+					setSorting={this.setSorting}
 				/>
 
 				<Sorting
 					type={SortingType.Price}
 					isActive={sorting.type === SortingType.Price}
 					direction={sorting.type === SortingType.Price ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.props.setSorting}
+					setSorting={this.setSorting}
 				/>
 			</section>
 
@@ -147,6 +155,7 @@ class Results extends React.Component<Props> {
 							{({ width }) => (
 								<List
 									autoHeight
+									ref={component => this.listComponent = component}
 									deferredMeasurementCache={cache}
 									height={height}
 									width={width}

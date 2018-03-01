@@ -6,6 +6,12 @@ import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from
 import { getIsDirectOnly } from './filters/directOnly/selectors';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals, getTimeIntervalForDate } from './filters/time/selectors';
 import { getFlights } from './flights/selectors';
+import { getCurrentSorting, priceCompareFunction } from './sorting/selectors';
+import { SortingDirection, SortingState, SortingType } from '../state';
+
+const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection) => number } = {
+	[SortingType.Price]: priceCompareFunction
+};
 
 /**
  * Get an array of flights after filtering.
@@ -18,7 +24,8 @@ export const getVisibleFlights = createSelector(
 		getSelectedArrivalAirportsList,
 		getSelectedDepartureTimeIntervals,
 		getSelectedArrivalTimeIntervals,
-		getIsDirectOnly
+		getIsDirectOnly,
+		getCurrentSorting
 	],
 	(
 		flights: Flight[],
@@ -27,9 +34,10 @@ export const getVisibleFlights = createSelector(
 		selectedArrivalAirports: ListOfSelectedCodes,
 		selectedDepartureTimeIntervals: ListOfSelectedCodes,
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
-		directOnly: boolean
+		directOnly: boolean,
+		sorting: SortingState
 	): Flight[] => {
-		return flights.filter(flight => {
+		let newFlights = flights.filter(flight => {
 			const firstSegment = flight.segments[0];
 			const lastSegment = flight.segments[flight.segments.length - 1];
 
@@ -59,5 +67,11 @@ export const getVisibleFlights = createSelector(
 
 			return true;
 		});
+
+		newFlights = newFlights.sort((a, b) => {
+			return sortingFunctionsMap[sorting.type](a, b, sorting.direction);
+		});
+
+		return newFlights;
 	}
 );
