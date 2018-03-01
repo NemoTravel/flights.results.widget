@@ -142,6 +142,7 @@ class Results extends React.Component<Props, State> {
 
 		return <div>
 			<Snackbar
+				className="snackbar"
 				open={this.state.snackbarIsVisible}
 				autoHideDuration={snackbarAutohideTime}
 				onClose={this.onSnackbarClose}
@@ -155,6 +156,7 @@ class Results extends React.Component<Props, State> {
 				message={<span id="message-id">{this.state.snackbarLabel}</span>}
 				action={[
 					<IconButton
+						className="snackbar-close"
 						key="close"
 						aria-label="Close"
 						color="inherit"

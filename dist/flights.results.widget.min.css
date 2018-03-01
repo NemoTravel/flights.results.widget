@@ -124,6 +124,15 @@
   margin: 0 auto;
 }
 
+.snackbar {
+  bottom: 75px !important;
+}
+
+.snackbar-close {
+  width: 36px !important;
+  height: 36px !important;
+}
+
 .flight_hidden {
   display: none;
 }
