@@ -131,6 +131,14 @@
 			display: none;
 			font-size: 1rem;
 
+			&-chip {
+				margin-left: 10px;
+
+				&:first-of-type {
+					margin-left: 15px;
+				}
+			}
+
 			&__route {
 				margin-left: 15px;
 				color: $light-font-color;

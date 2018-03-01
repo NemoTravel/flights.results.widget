@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import { startSearch } from '../store/actions';
 import { addAirport, FilterAirportsAction } from '../store/filters/airports/actions';
+import { addAirline, FilterAirlinesAction } from '../store/filters/airlines/actions';
 
 interface StateProps {
 	isMultipleLegs: boolean;
@@ -26,6 +27,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
+	addAirline: (IATA: string) => FilterAirlinesAction;
 	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
 	startSearch: () => CommonThunkAction;
@@ -70,6 +72,7 @@ class Results extends React.Component<Props> {
 						isLastLeg={this.props.isLastLeg}
 						isMultipleLegs={this.props.isMultipleLegs}
 						addAirport={this.props.addAirport}
+						addAirline={this.props.addAirline}
 					/>
 				</div>
 			)}
@@ -138,6 +141,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
+		addAirline: bindActionCreators(addAirline, dispatch),
 		addAirport: bindActionCreators(addAirport, dispatch),
 		selectFlight: bindActionCreators(selectFlight, dispatch),
 		startSearch: bindActionCreators(startSearch, dispatch)

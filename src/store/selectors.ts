@@ -4,10 +4,7 @@ import { ListOfSelectedCodes } from './filters/selectors';
 import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
 import { getIsDirectOnly } from './filters/directOnly/selectors';
-import {
-	getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals,
-	getTimeIntervalForDate
-} from './filters/time/selectors';
+import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals, getTimeIntervalForDate } from './filters/time/selectors';
 import { getFlights } from './flights/selectors';
 
 /**

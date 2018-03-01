@@ -12,6 +12,8 @@ import { CommonThunkAction, LocationType } from '../state';
 import { declension } from '../utils';
 import Chip from 'material-ui/Chip';
 import { FilterAirportsAction } from '../store/filters/airports/actions';
+import Tooltip from 'material-ui/Tooltip';
+import { FilterAirlinesAction } from '../store/filters/airlines/actions';
 
 export interface Props {
 	flight: FlightModel;
@@ -22,6 +24,7 @@ export interface Props {
 	isLastLeg?: boolean;
 	selectFlight?: (flightId: number, legId: number) => CommonThunkAction;
 	addAirport?: (IATA: string, type: LocationType) => FilterAirportsAction;
+	addAirline?: (IATA: string) => FilterAirlinesAction;
 }
 
 interface State {
@@ -42,6 +45,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		this.toggleDetails = this.toggleDetails.bind(this);
 		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
+		this.onDepartureAirportClick = this.onDepartureAirportClick.bind(this);
+		this.onArrivalAirportClick = this.onArrivalAirportClick.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
@@ -58,6 +63,26 @@ class Flight<P> extends React.Component<Props & P, State> {
 		event.stopPropagation();
 		event.preventDefault();
 		this.props.selectFlight(this.props.flight.id, this.props.currentLegId);
+	}
+
+	onDepartureAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
+		event.stopPropagation();
+		event.preventDefault();
+		const flight = this.props.flight;
+		const firstSegment = flight.segments[0];
+		this.props.addAirport(firstSegment.depAirport.IATA, LocationType.Departure);
+	}
+
+	onArrivalAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
+		event.stopPropagation();
+		event.preventDefault();
+		const flight = this.props.flight;
+		const lastSegment = flight.segments[flight.segments.length - 1];
+		this.props.addAirport(lastSegment.arrAirport.IATA, LocationType.Arrival);
+	}
+
+	onAirlineClick(IATA: string): void {
+		this.props.addAirline(IATA);
 	}
 
 	renderLogo(): React.ReactNode {
@@ -105,6 +130,15 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const lastSegment = flight.segments[flight.segments.length - 1];
 		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
 		const isDirect = flight.segments.length === 1;
+		const allAirlines: Airline[] = [];
+		const allAirlinesMap: { [IATA: string]: boolean } = {};
+
+		flight.segments.forEach(segment => {
+			if (!allAirlinesMap.hasOwnProperty(segment.airline.IATA)) {
+				allAirlines.push(segment.airline);
+				allAirlinesMap[segment.airline.IATA] = true;
+			}
+		});
 
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 
@@ -119,10 +153,24 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 				<div className="flight-summary-placeholder">
 					<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
-					{/*<span className="flight-summary-placeholder__route">{firstSegment.depAirport.city.name} &mdash; {lastSegment.arrAirport.city.name}</span>*/}
-					<Chip style={{ marginRight: '10px', marginLeft: '15px' }} label={firstSegment.depAirport.name} onClick={() => this.props.addAirport(firstSegment.depAirport.IATA, LocationType.Departure)}/>
-					<Chip style={{ marginRight: '10px' }} label={lastSegment.arrAirport.name} onClick={() => this.props.addAirport(lastSegment.arrAirport.IATA, LocationType.Arrival)}/>
-					<Chip label={firstSegment.airline.name}/>
+
+					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры">
+						<Chip label={`Вылет: ${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
+					</Tooltip>
+
+					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры">
+						<Chip label={`Прилет: ${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
+					</Tooltip>
+
+					{allAirlines.map((airline, index) => (
+						<Tooltip key={index} className="flight-summary-placeholder-chip" title="Добавить в фильтры">
+							<Chip label={airline.name} onClick={event => {
+								event.stopPropagation();
+								event.preventDefault();
+								this.onAirlineClick(airline.IATA);
+							}}/>
+						</Tooltip>
+					))}
 				</div>
 
 				<div className="flight-summary-logo">
