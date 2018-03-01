@@ -6,11 +6,17 @@ import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from
 import { getIsDirectOnly } from './filters/directOnly/selectors';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals, getTimeIntervalForDate } from './filters/time/selectors';
 import { getFlights } from './flights/selectors';
-import { getCurrentSorting, priceCompareFunction } from './sorting/selectors';
+import {
+	getCurrentSorting, priceCompareFunction, flightTimeCompareFunction,
+	departureTimeCompareFunction, arrivalTimeCompareFunction
+} from './sorting/selectors';
 import { SortingDirection, SortingState, SortingType } from '../state';
 
 const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection) => number } = {
-	[SortingType.Price]: priceCompareFunction
+	[SortingType.Price]: priceCompareFunction,
+	[SortingType.FlightTime]: flightTimeCompareFunction,
+	[SortingType.DepartureTime]: departureTimeCompareFunction,
+	[SortingType.ArrivalTime]: arrivalTimeCompareFunction
 };
 
 /**
