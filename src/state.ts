@@ -25,15 +25,15 @@ export enum LocationType {
 }
 
 export enum SortingType {
-	DepartureTime,
-	ArrivalTime,
-	FlightTime,
-	Price
+	DepartureTime = 'DepartureTime',
+	ArrivalTime = 'ArrivalTime',
+	FlightTime = 'FlightTime',
+	Price = 'Price'
 }
 
 export enum SortingDirection {
-	ASC,
-	DESC
+	ASC = 'ASC',
+	DESC = 'DESC'
 }
 
 export interface Config {

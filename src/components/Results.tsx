@@ -7,7 +7,10 @@ import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
 import { getCurrentLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { ApplicationState, CommonThunkAction, LocationType } from '../state';
+import {
+	ApplicationState, CommonThunkAction, LocationType, SortingDirection, SortingState,
+	SortingType
+} from '../state';
 import { CellMeasurerCache, ListRowProps, CellMeasurer, WindowScroller, AutoSizer, List } from 'react-virtualized';
 import FlightModel from '../schemas/Flight';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
@@ -17,8 +20,11 @@ import { selectFlight } from '../store/selectedFlights/actions';
 import { startSearch } from '../store/actions';
 import { addAirport, FilterAirportsAction } from '../store/filters/airports/actions';
 import { addAirline, FilterAirlinesAction } from '../store/filters/airlines/actions';
+import Sorting from './Sorting';
+import { setSorting, SortingAction } from '../store/sorting/actions';
 
 interface StateProps {
+	sorting: SortingState;
 	isMultipleLegs: boolean;
 	isLastLeg: boolean;
 	isLoading: boolean;
@@ -30,6 +36,7 @@ interface DispatchProps {
 	addAirline: (IATA: string) => FilterAirlinesAction;
 	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+	setSorting: (type: SortingType, direction: SortingDirection) => SortingAction;
 	startSearch: () => CommonThunkAction;
 }
 
@@ -80,7 +87,7 @@ class Results extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg } = this.props;
+		const { currentLeg, sorting } = this.props;
 		const numOfFlights = this.props.flights.length;
 
 		return <div>
@@ -101,6 +108,13 @@ class Results extends React.Component<Props> {
 					<AirportsFilter/>
 					<TimeFilter/>
 				</div>
+			</section>
+
+			<section className="sorting">
+				<Sorting type={SortingType.DepartureTime} isActive={sorting.type === SortingType.DepartureTime} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
+				<Sorting type={SortingType.FlightTime} isActive={sorting.type === SortingType.FlightTime} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
+				<Sorting type={SortingType.ArrivalTime} isActive={sorting.type === SortingType.ArrivalTime} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
+				<Sorting type={SortingType.Price} isActive={sorting.type === SortingType.Price} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
 			</section>
 
 			<WindowScroller>
@@ -131,6 +145,7 @@ class Results extends React.Component<Props> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
+		sorting: state.sorting,
 		isMultipleLegs: isMultipleLegs(state),
 		isLastLeg: isLastLeg(state),
 		isLoading: state.isLoading,
@@ -144,6 +159,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 		addAirline: bindActionCreators(addAirline, dispatch),
 		addAirport: bindActionCreators(addAirport, dispatch),
 		selectFlight: bindActionCreators(selectFlight, dispatch),
+		setSorting: bindActionCreators(setSorting, dispatch),
 		startSearch: bindActionCreators(startSearch, dispatch)
 	};
 };

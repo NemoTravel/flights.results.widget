@@ -798,3 +798,72 @@
 .fareFamilies-selectedFlights-title {
   margin-bottom: 20px !important;
 }
+
+.sorting {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-left: 246px;
+  margin: 10px 0;
+}
+
+.sorting-item {
+  color: rgba(0, 0, 0, 0.54);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.sorting-item__text {
+  cursor: pointer;
+  border-bottom: 1px dashed;
+}
+
+.sorting-item__arrow {
+  display: none;
+  margin-left: 5px;
+  margin-top: 1px;
+}
+
+.sorting-item__arrow,
+.sorting-item__arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sorting-item_active {
+  color: #64b5f6;
+}
+
+.sorting-item_active .sorting-item__arrow {
+  display: block;
+}
+
+.sorting-item_DepartureTime {
+  width: 65px;
+}
+
+.sorting-item_FlightTime {
+  width: 158px;
+}
+
+.sorting-item_ArrivalTime {
+  width: 65px;
+  margin-right: 495px;
+}
+
+.sorting-item_Price {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  width: 113px;
+}

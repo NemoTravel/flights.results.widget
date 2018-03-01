@@ -1,0 +1,58 @@
+@import "variable";
+
+.sorting {
+	display: flex;
+	align-items: center;
+
+	padding-left: 246px;
+	margin: 10px 0;
+
+	&-item {
+		color: $light-font-color;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&__text {
+			cursor: pointer;
+			border-bottom: 1px dashed;
+		}
+
+		&__arrow {
+			display: none;
+			margin-left: 5px;
+			margin-top: 1px;
+
+			&, svg {
+				width: 14px;
+				height: 14px;
+			}
+		}
+
+		&_active {
+			color: #64b5f6;
+
+			.sorting-item__arrow {
+				display: block;
+			}
+		}
+
+		&_DepartureTime {
+			width: 65px;
+		}
+
+		&_FlightTime {
+			width: 158px;
+		}
+
+		&_ArrivalTime {
+			width: 65px;
+			margin-right: 495px;
+		}
+
+		&_Price {
+			justify-content: flex-end;
+			width: 113px;
+		}
+	}
+}
