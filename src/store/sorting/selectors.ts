@@ -61,8 +61,8 @@ export const priceCompareFunction = (a: Flight, b: Flight, direction: SortingDir
  * @returns {number}
  */
 export const departureTimeCompareFunction = (a: Flight, b: Flight, direction: SortingDirection): number => {
-	const aTime = a.segments[0].depDate.hours() * MINUTES_IN_HOUR + a.segments[0].depDate.minutes();
-	const bTime = b.segments[0].depDate.hours() * MINUTES_IN_HOUR + b.segments[0].depDate.minutes();
+	const aTime = a.segments[0].depDate.unix();
+	const bTime = b.segments[0].depDate.unix();
 
 	return compare(aTime, bTime, direction);
 };
