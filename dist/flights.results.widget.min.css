@@ -823,6 +823,19 @@
   justify-content: center;
 }
 
+.sorting-item__inner {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
 .sorting-item__text {
   cursor: pointer;
   border-bottom: 1px dashed;
@@ -833,6 +846,8 @@
 }
 
 .sorting-item__arrow {
+  position: absolute;
+  right: -20px;
   display: none;
   -webkit-transition: -webkit-transform 0.115s ease-out;
   transition: -webkit-transform 0.115s ease-out;

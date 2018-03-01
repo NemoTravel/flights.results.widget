@@ -44,13 +44,15 @@ class Sorting extends React.Component<Props> {
 		const { type, direction, isActive } = this.props;
 
 		return <div className={classnames(`sorting-item sorting-item_${direction} sorting-item_${type}`, { 'sorting-item_active': isActive })}>
-			<span className="sorting-item__text" onClick={this.onClick}>
-				{sortingLabels[type]}
-			</span>
+			<div className="sorting-item__inner">
+				<span className="sorting-item__text" onClick={this.onClick}>
+					{sortingLabels[type]}
+				</span>
 
-			<span className="sorting-item__arrow">
-				<ArrowDown/>
-			</span>
+				<span className="sorting-item__arrow">
+					<ArrowDown/>
+				</span>
+			</div>
 		</div>;
 	}
 }
