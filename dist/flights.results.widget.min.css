@@ -830,6 +830,10 @@
 
 .sorting-item__arrow {
   display: none;
+  -webkit-transition: -webkit-transform 0.115s ease-out;
+  transition: -webkit-transform 0.115s ease-out;
+  transition: transform 0.115s ease-out;
+  transition: transform 0.115s ease-out, -webkit-transform 0.115s ease-out;
   margin-left: 5px;
   margin-top: 1px;
 }
@@ -846,6 +850,16 @@
 
 .sorting-item_active .sorting-item__arrow {
   display: block;
+}
+
+.sorting-item_ASC .sorting-item__arrow {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+.sorting-item_DESC .sorting-item__arrow {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .sorting-item_DepartureTime {

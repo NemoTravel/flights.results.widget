@@ -7,8 +7,8 @@ import { SortingAction } from '../store/sorting/actions';
 
 interface Props {
 	isActive?: boolean;
+	direction?: SortingDirection;
 	type: SortingType;
-	direction: SortingDirection;
 	setSorting: (type: SortingType, direction: SortingDirection) => SortingAction;
 }
 
@@ -21,14 +21,31 @@ const sortingLabels = {
 
 class Sorting extends React.Component<Props> {
 	static defaultProps: Partial<Props> = {
-		isActive: false
+		isActive: false,
+		direction: SortingDirection.ASC
 	};
+
+	constructor(props: Props) {
+		super(props);
+
+		this.onClick = this.onClick.bind(this);
+	}
+
+	onClick(): void {
+		let direction = this.props.direction;
+
+		if (this.props.isActive) {
+			direction = this.props.direction === SortingDirection.DESC ? SortingDirection.ASC : SortingDirection.DESC;
+		}
+
+		this.props.setSorting(this.props.type, direction);
+	}
 
 	render(): React.ReactNode {
 		const { type, direction, isActive } = this.props;
 
 		return <div className={classnames(`sorting-item sorting-item_${direction} sorting-item_${type}`, { 'sorting-item_active': isActive })}>
-			<span className="sorting-item__text">
+			<span className="sorting-item__text" onClick={this.onClick}>
 				{sortingLabels[type]}
 			</span>
 

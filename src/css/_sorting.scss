@@ -20,6 +20,8 @@
 
 		&__arrow {
 			display: none;
+			transition: transform 0.115s ease-out;
+
 			margin-left: 5px;
 			margin-top: 1px;
 
@@ -34,6 +36,18 @@
 
 			.sorting-item__arrow {
 				display: block;
+			}
+		}
+
+		&_ASC {
+			.sorting-item__arrow {
+				transform: rotate(0deg);
+			}
+		}
+
+		&_DESC {
+			.sorting-item__arrow {
+				transform: rotate(180deg);
 			}
 		}
 

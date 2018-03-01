@@ -154,16 +154,16 @@ class Flight<P> extends React.Component<Props & P, State> {
 				<div className="flight-summary-placeholder">
 					<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
 
-					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры">
+					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
 						<Chip label={`Вылет: ${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
 					</Tooltip>
 
-					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры">
+					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
 						<Chip label={`Прилет: ${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
 					</Tooltip>
 
 					{allAirlines.map((airline, index) => (
-						<Tooltip key={index} className="flight-summary-placeholder-chip" title="Добавить в фильтры">
+						<Tooltip key={index} className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
 							<Chip label={airline.name} onClick={event => {
 								event.stopPropagation();
 								event.preventDefault();

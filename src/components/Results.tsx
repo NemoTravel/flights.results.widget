@@ -111,10 +111,33 @@ class Results extends React.Component<Props> {
 			</section>
 
 			<section className="sorting">
-				<Sorting type={SortingType.DepartureTime} isActive={sorting.type === SortingType.DepartureTime} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
-				<Sorting type={SortingType.FlightTime} isActive={sorting.type === SortingType.FlightTime} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
-				<Sorting type={SortingType.ArrivalTime} isActive={sorting.type === SortingType.ArrivalTime} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
-				<Sorting type={SortingType.Price} isActive={sorting.type === SortingType.Price} direction={SortingDirection.ASC} setSorting={this.props.setSorting}/>
+				<Sorting
+					type={SortingType.DepartureTime}
+					isActive={sorting.type === SortingType.DepartureTime}
+					direction={sorting.type === SortingType.DepartureTime ? sorting.direction : SortingDirection.ASC}
+					setSorting={this.props.setSorting}
+				/>
+
+				<Sorting
+					type={SortingType.FlightTime}
+					isActive={sorting.type === SortingType.FlightTime}
+					direction={sorting.type === SortingType.FlightTime ? sorting.direction : SortingDirection.ASC}
+					setSorting={this.props.setSorting}
+				/>
+
+				<Sorting
+					type={SortingType.ArrivalTime}
+					isActive={sorting.type === SortingType.ArrivalTime}
+					direction={sorting.type === SortingType.ArrivalTime ? sorting.direction : SortingDirection.ASC}
+					setSorting={this.props.setSorting}
+				/>
+
+				<Sorting
+					type={SortingType.Price}
+					isActive={sorting.type === SortingType.Price}
+					direction={sorting.type === SortingType.Price ? sorting.direction : SortingDirection.ASC}
+					setSorting={this.props.setSorting}
+				/>
 			</section>
 
 			<WindowScroller>
