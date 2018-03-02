@@ -36,24 +36,36 @@ export const isSelectionComplete = createSelector(
 );
 
 export const getTotalPrice = createSelector(
-	[getFlightsPool, getSelectedFlightsIds, isSelectionComplete, getSelectedCombinations, getFareFamiliesCombinations],
-	(flightsPool: FlightsState, selectedFlightsIds: SelectedFlightsState, selectionComplete: boolean, selectedCombinations: string[], combinations: FareFamiliesCombinationsState): Money => {
+	[
+		getFlightsPool,
+		getSelectedFlightsIds,
+		isSelectionComplete,
+		getSelectedCombinations,
+		getFareFamiliesCombinations
+	],
+	(
+		flightsPool: FlightsState,
+		selectedFlightsIds: SelectedFlightsState,
+		selectionComplete: boolean,
+		selectedCombinations: string[],
+		combinations: FareFamiliesCombinationsState
+	): Money => {
 		const totalPrice: Money = {
 			amount: 0,
 			currency: 'RUB'
 		};
 
-		if (selectionComplete) {
-			selectedCombinations.forEach((combination, legId) => {
-				if (combinations[legId].combinationsPrices.hasOwnProperty(combination)) {
-					const price = combinations[legId].combinationsPrices[combination];
-					totalPrice.amount += price.amount;
+		for (const legId in selectedFlightsIds) {
+			if (selectedFlightsIds.hasOwnProperty(legId)) {
+				if (selectionComplete && selectedCombinations[legId]) {
+					const combination = selectedCombinations[legId];
+
+					if (combinations[legId].combinationsPrices.hasOwnProperty(combination)) {
+						const price = combinations[legId].combinationsPrices[combination];
+						totalPrice.amount += price.amount;
+					}
 				}
-			});
-		}
-		else {
-			for (const legId in selectedFlightsIds) {
-				if (selectedFlightsIds.hasOwnProperty(legId)) {
+				else {
 					const flightId = selectedFlightsIds[legId];
 
 					if (flightsPool.hasOwnProperty(flightId)) {
