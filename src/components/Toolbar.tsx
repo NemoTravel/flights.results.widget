@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import Button from 'material-ui/Button';
 
 import Price from './Price';
 import Leg from '../schemas/Leg';
@@ -10,11 +11,13 @@ import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
 import { getTotalPrice, isSelectionComplete } from '../store/selectedFlights/selectors';
 import { goToLeg, LegAction } from '../store/currentLeg/actions';
+import { combinationsAreValid } from '../store/alternativeFlights/selectors';
 
 interface StateProps {
 	totalPrice: Money;
 	isSelectionComplete: boolean;
 	currentLeg: number;
+	combinationsAreValid: boolean;
 	legs: Leg[];
 }
 
@@ -53,8 +56,24 @@ class Toolbar extends React.Component<Props> {
 		/>;
 	}
 
+	renderPrice(): React.ReactNode {
+		const { isSelectionComplete, combinationsAreValid, totalPrice } = this.props;
+		let result: React.ReactNode = null;
+
+		if (isSelectionComplete) {
+			result = combinationsAreValid && totalPrice.amount ? <Price price={totalPrice}/> : <div>Недоступная комбинация</div>;
+		}
+		else {
+			if (totalPrice.amount) {
+				result = <Price price={totalPrice}/>;
+			}
+		}
+
+		return result;
+	}
+
 	render(): React.ReactNode {
-		const { isSelectionComplete } = this.props;
+		const { isSelectionComplete, combinationsAreValid } = this.props;
 
 		return <section className="toolbar">
 			<div className="toolbar__inner">
@@ -68,10 +87,15 @@ class Toolbar extends React.Component<Props> {
 				</div>
 
 				<div className="toolbar-totalPrice">
-					{this.props.totalPrice && this.props.totalPrice.amount ?
-						<Price price={this.props.totalPrice}/> :
-						'Выберите рейс'
-					}
+					{this.renderPrice()}
+
+					{isSelectionComplete ? (
+						<div className="toolbar-totalPrice__button">
+							<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
+								Купить
+							</Button>
+						</div>
+					) : ''}
 				</div>
 			</div>
 		</section>;
@@ -83,6 +107,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
 		currentLeg: state.currentLeg,
+		combinationsAreValid: combinationsAreValid(state),
 		isSelectionComplete: isSelectionComplete(state)
 	};
 };

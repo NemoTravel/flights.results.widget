@@ -1,6 +1,7 @@
 import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
 import { setSelectedFlight } from '../selectedFlights/actions';
+import { setCombinations } from '../alternativeFlights/fareFamiliesCombinations/actions';
 
 export const NEXT_LEG = 'NEXT_LEG';
 export const SET_LEG = 'SET_LEG';
@@ -33,6 +34,7 @@ export const goToLeg = (newLegId: number): CommonThunkAction => {
 
 			if (selectedFlights.hasOwnProperty(legId) && numberedLegId > newLegId) {
 				dispatch(setSelectedFlight(null, numberedLegId));
+				dispatch(setCombinations(numberedLegId, null));
 			}
 		}
 
