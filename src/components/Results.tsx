@@ -1,47 +1,34 @@
 import * as React from 'react';
+import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
+import Typography from 'material-ui/Typography';
 
-import Flight from './Flight';
 import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
 import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
-import { getCurrentLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
+import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import {
-	ApplicationState, CommonThunkAction, LocationType, SortingDirection, SortingState,
-	SortingType
-} from '../state';
-import { CellMeasurerCache, ListRowProps, CellMeasurer, WindowScroller, AutoSizer, List } from 'react-virtualized';
+import { ApplicationState, CommonThunkAction, SortingDirection, SortingState, SortingType } from '../state';
 import FlightModel from '../schemas/Flight';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { getVisibleFlights } from '../store/selectors';
-import { connect } from 'react-redux';
-import { selectFlight } from '../store/selectedFlights/actions';
 import { startSearch } from '../store/actions';
-import { addAirport, FilterAirportsAction } from '../store/filters/airports/actions';
-import { addAirline, FilterAirlinesAction } from '../store/filters/airlines/actions';
 import Sorting from './Sorting';
 import { setSorting, SortingAction } from '../store/sorting/actions';
-import Airport from '../schemas/Airport';
-import Airline from '../schemas/Airline';
-import Typography from 'material-ui/Typography';
+import FlightsListComponent from './FlightsList';
 
 interface StateProps {
 	sorting: SortingState;
-	isMultipleLegs: boolean;
-	isLastLeg: boolean;
 	isLoading: boolean;
 	flights: FlightModel[];
 	currentLeg: Leg;
+	legs: Leg[];
 }
 
 interface DispatchProps {
-	addAirline: (IATA: string) => FilterAirlinesAction;
-	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
-	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
 	setSorting: (type: SortingType, direction: SortingDirection) => SortingAction;
 	startSearch: () => CommonThunkAction;
 }
@@ -53,13 +40,7 @@ interface State {
 
 type Props = StateProps & DispatchProps;
 
-const rowHeight = 72;
 const snackbarAutohideTime = 5000;
-
-const cache = new CellMeasurerCache({
-	defaultHeight: rowHeight,
-	fixedWidth: true
-});
 
 class Results extends React.Component<Props, State> {
 	state: State = {
@@ -67,16 +48,14 @@ class Results extends React.Component<Props, State> {
 		snackbarLabel: ''
 	};
 
-	protected listComponent: any = null;
+	protected flightsLists: { [legId: string]: any } = {};
 
 	constructor(props: Props) {
 		super(props);
 
-		this.flightRenderer = this.flightRenderer.bind(this);
 		this.setSorting = this.setSorting.bind(this);
+		this.showSnackbar = this.showSnackbar.bind(this);
 		this.onSnackbarClose = this.onSnackbarClose.bind(this);
-		this.addAirportToFilters = this.addAirportToFilters.bind(this);
-		this.addAirlineToFilters = this.addAirlineToFilters.bind(this);
 	}
 
 	componentDidMount(): void {
@@ -98,50 +77,13 @@ class Results extends React.Component<Props, State> {
 		});
 	}
 
-	addAirportToFilters(airport: Airport, type: LocationType): void {
-		this.props.addAirport(airport.IATA, type);
-		this.showSnackbar(`Аэропорт «${airport.name}» был добавлен в фильтры`);
-	}
-
-	addAirlineToFilters(airline: Airline): void {
-		this.props.addAirline(airline.IATA);
-		this.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
-	}
-
 	setSorting(type: SortingType, direction: SortingDirection): void {
 		this.props.setSorting(type, direction);
-		this.listComponent.forceUpdateGrid();
-	}
-
-	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {
-		return <CellMeasurer
-			cache={cache}
-			columnIndex={0}
-			key={key}
-			parent={parent as any}
-			rowIndex={index}
-		>
-			{({ measure }) => (
-				<div className="flight__holder" style={style}>
-					<Flight
-						onLoad={measure}
-						key={key}
-						flight={this.props.flights[index]}
-						selectFlight={this.props.selectFlight}
-						currentLegId={this.props.currentLeg.id}
-						isLastLeg={this.props.isLastLeg}
-						isMultipleLegs={this.props.isMultipleLegs}
-						addAirport={this.addAirportToFilters}
-						addAirline={this.addAirlineToFilters}
-					/>
-				</div>
-			)}
-		</CellMeasurer>;
+		this.flightsLists[this.props.currentLeg.id].wrappedInstance.updateGrid();
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, sorting } = this.props;
-		const numOfFlights = this.props.flights.length;
+		const { currentLeg, sorting, legs } = this.props;
 
 		return <div>
 			<Snackbar
@@ -219,38 +161,23 @@ class Results extends React.Component<Props, State> {
 				/>
 			</section>
 
-			<WindowScroller>
-				{({ height, isScrolling, onChildScroll, scrollTop }) => (
-					<div>
-						<AutoSizer disableHeight>
-							{({ width }) => (
-								<List
-									autoHeight
-									ref={component => this.listComponent = component}
-									deferredMeasurementCache={cache}
-									height={height}
-									width={width}
-									isScrolling={isScrolling}
-									scrollTop={scrollTop}
-									onScroll={onChildScroll}
-									rowCount={numOfFlights}
-									rowHeight={cache.rowHeight}
-									rowRenderer={this.flightRenderer}
-								/>
-							)}
-						</AutoSizer>
-					</div>
-				)}
-			</WindowScroller>
+			{legs.map(({ id }) => (
+				<FlightsListComponent
+					ref={component => this.flightsLists[id] = component}
+					key={id}
+					isVisible={currentLeg.id === id}
+					legId={id}
+					showSnackbar={this.showSnackbar}
+				/>
+			))}
 		</div>;
 	}
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
+		legs: getLegs(state),
 		sorting: state.sorting,
-		isMultipleLegs: isMultipleLegs(state),
-		isLastLeg: isLastLeg(state),
 		isLoading: state.isLoading,
 		flights: getVisibleFlights(state),
 		currentLeg: getCurrentLeg(state)
@@ -259,9 +186,6 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
-		addAirline: bindActionCreators(addAirline, dispatch),
-		addAirport: bindActionCreators(addAirport, dispatch),
-		selectFlight: bindActionCreators(selectFlight, dispatch),
 		setSorting: bindActionCreators(setSorting, dispatch),
 		startSearch: bindActionCreators(startSearch, dispatch)
 	};

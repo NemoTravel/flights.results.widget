@@ -111,14 +111,6 @@
   z-index: 2000;
 }
 
-.results-flights {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  width: 1280px;
-  margin: 0 auto;
-}
-
 .snackbar {
   bottom: 75px !important;
 }
