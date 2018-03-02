@@ -80,7 +80,9 @@ class Results extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		this.props.startSearch();
+		if (!this.props.flights.length) {
+			this.props.startSearch();
+		}
 	}
 
 	showSnackbar(label: string): void {
