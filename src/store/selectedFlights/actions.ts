@@ -3,6 +3,7 @@ import { CommonThunkAction } from '../../state';
 import { LEG_CHANGING_DELAY, nextLeg } from '../currentLeg/actions';
 import { isLastLeg } from '../currentLeg/selectors';
 import { startLoading, stopLoading } from '../isLoading/actions';
+import { clearAllFilters } from '../filters/actions';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 
@@ -28,6 +29,7 @@ export const selectFlight = (flightId: number, legId: number): CommonThunkAction
 		const state = getState();
 
 		dispatch(setSelectedFlight(flightId, legId));
+		dispatch(clearAllFilters());
 
 		if (!isLastLeg(state)) {
 			dispatch(nextLeg());
