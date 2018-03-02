@@ -11,8 +11,8 @@ import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
-		const firstSearchId = 217224;
-		const secondSearchId = 217225;
+		const firstSearchId = 218183;
+		const secondSearchId = 218184;
 
 		dispatch(startLoading());
 

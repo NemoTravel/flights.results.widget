@@ -123,15 +123,12 @@ class Flight<P> extends React.Component<Props & P, State> {
 		</div>;
 	}
 
-	renderSummary(): React.ReactNode {
+	renderSummaryPlaceholder(): React.ReactNode {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
 		const lastSegment = flight.segments[flight.segments.length - 1];
-		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
-		const isDirect = flight.segments.length === 1;
 		const allAirlines: Airline[] = [];
 		const allAirlinesMap: { [IATA: string]: boolean } = {};
-		const arrivalAtNextDay = firstSegment.depDate.date() !== lastSegment.arrDate.date();
 
 		flight.segments.forEach(segment => {
 			if (!allAirlinesMap.hasOwnProperty(segment.airline.IATA)) {
@@ -139,6 +136,37 @@ class Flight<P> extends React.Component<Props & P, State> {
 				allAirlinesMap[segment.airline.IATA] = true;
 			}
 		});
+
+		return <div className="flight-summary-placeholder">
+			<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
+
+			<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
+				<Chip label={`Вылет: ${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
+			</Tooltip>
+
+			<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
+				<Chip label={`Прилет: ${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
+			</Tooltip>
+
+			{allAirlines.map((airline, index) => (
+				<Tooltip key={index} className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
+					<Chip label={airline.name} onClick={event => {
+						event.stopPropagation();
+						event.preventDefault();
+						this.onAirlineClick(airline);
+					}}/>
+				</Tooltip>
+			))}
+		</div>;
+	}
+
+	renderSummary(): React.ReactNode {
+		const flight = this.props.flight;
+		const firstSegment = flight.segments[0];
+		const lastSegment = flight.segments[flight.segments.length - 1];
+		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
+		const isDirect = flight.segments.length === 1;
+		const arrivalAtNextDay = firstSegment.depDate.date() !== lastSegment.arrDate.date();
 
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 
@@ -151,27 +179,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 					</svg>
 				</div>
 
-				<div className="flight-summary-placeholder">
-					<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
-
-					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
-						<Chip label={`Вылет: ${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
-					</Tooltip>
-
-					<Tooltip className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
-						<Chip label={`Прилет: ${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
-					</Tooltip>
-
-					{allAirlines.map((airline, index) => (
-						<Tooltip key={index} className="flight-summary-placeholder-chip" title="Добавить в фильтры" placement="top">
-							<Chip label={airline.name} onClick={event => {
-								event.stopPropagation();
-								event.preventDefault();
-								this.onAirlineClick(airline);
-							}}/>
-						</Tooltip>
-					))}
-				</div>
+				{this.renderSummaryPlaceholder()}
 
 				<div className="flight-summary-logo">
 					{this.renderLogo()}
