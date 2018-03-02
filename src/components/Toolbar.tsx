@@ -61,7 +61,7 @@ class Toolbar extends React.Component<Props> {
 		let result: React.ReactNode = null;
 
 		if (isSelectionComplete) {
-			result = combinationsAreValid && totalPrice.amount ? <Price price={totalPrice}/> : <div>Недоступная комбинация</div>;
+			result = combinationsAreValid && totalPrice.amount ? <Price price={totalPrice}/> : <div className="toolbar-totalPrice__disclaimer">Недоступная комбинация</div>;
 		}
 		else {
 			if (totalPrice.amount) {

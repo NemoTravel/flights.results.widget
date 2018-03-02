@@ -624,6 +624,10 @@
   margin-left: 15px;
 }
 
+.toolbar-totalPrice__disclaimer {
+  color: #ff9800;
+}
+
 .toolbar-totalPrice .price {
   font-size: 1.5rem;
 }
