@@ -59,11 +59,25 @@ class FlightsList extends React.Component<Props> {
 	addAirportToFilters(airport: Airport, type: LocationType): void {
 		this.props.addAirport(airport.IATA, type);
 		this.props.showSnackbar(`Аэропорт «${airport.name}» был добавлен в фильтры`);
+
+		setTimeout(() => {
+			window.scroll({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}, 0);
 	}
 
 	addAirlineToFilters(airline: Airline): void {
 		this.props.addAirline(airline.IATA);
 		this.props.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
+
+		setTimeout(() => {
+			window.scroll({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}, 0);
 	}
 
 	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {

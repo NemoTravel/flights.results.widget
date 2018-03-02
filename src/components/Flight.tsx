@@ -69,6 +69,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
 		this.props.addAirport(firstSegment.depAirport, LocationType.Departure);
+		this.setState({ isOpen: false } as State);
 	}
 
 	onArrivalAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
@@ -77,10 +78,12 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight = this.props.flight;
 		const lastSegment = flight.segments[flight.segments.length - 1];
 		this.props.addAirport(lastSegment.arrAirport, LocationType.Arrival);
+		this.setState({ isOpen: false } as State);
 	}
 
 	onAirlineClick(airline: Airline): void {
 		this.props.addAirline(airline);
+		this.setState({ isOpen: false } as State);
 	}
 
 	renderLogo(): React.ReactNode {
