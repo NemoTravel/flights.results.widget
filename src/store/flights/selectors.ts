@@ -12,6 +12,11 @@ import { getCurrentLegId } from '../currentLeg/selectors';
  */
 export const getFlightsPool = (state: ApplicationState): FlightsState => state.flights;
 
+export const hasAnyFlights = createSelector(
+	[getFlightsPool],
+	(allFlights: FlightsState): boolean => !!Object.keys(allFlights).length
+);
+
 /**
  * Get an array of all flights on the current selected leg.
  *

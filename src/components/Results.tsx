@@ -13,17 +13,16 @@ import TimeFilter from './Filters/Time';
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
 import { ApplicationState, CommonThunkAction, SortingDirection, SortingState, SortingType } from '../state';
-import FlightModel from '../schemas/Flight';
-import { getVisibleFlights } from '../store/selectors';
 import { startSearch } from '../store/actions';
 import Sorting from './Sorting';
 import { setSorting, SortingAction } from '../store/sorting/actions';
 import FlightsListComponent from './FlightsList';
+import { hasAnyFlights } from '../store/flights/selectors';
 
 interface StateProps {
 	sorting: SortingState;
 	isLoading: boolean;
-	flights: FlightModel[];
+	hasAnyFlights: boolean;
 	currentLeg: Leg;
 	legs: Leg[];
 }
@@ -59,7 +58,7 @@ class Results extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		if (!this.props.flights.length) {
+		if (!this.props.hasAnyFlights) {
 			this.props.startSearch();
 		}
 	}
@@ -179,7 +178,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 		legs: getLegs(state),
 		sorting: state.sorting,
 		isLoading: state.isLoading,
-		flights: getVisibleFlights(state),
+		hasAnyFlights: hasAnyFlights(state),
 		currentLeg: getCurrentLeg(state)
 	};
 };
