@@ -711,6 +711,7 @@
 }
 
 .fareFamilies-leg-segment-family_disabled {
+  display: none;
   cursor: not-allowed;
 }
 
