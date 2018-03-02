@@ -12,6 +12,7 @@ import Money from '../schemas/Money';
 import { getTotalPrice, isSelectionComplete } from '../store/selectedFlights/selectors';
 import { goToLeg, LegAction } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/alternativeFlights/selectors';
+import Tooltip from 'material-ui/Tooltip';
 
 interface StateProps {
 	totalPrice: Money;
@@ -64,7 +65,7 @@ class Toolbar extends React.Component<Props> {
 		let result: React.ReactNode = null;
 
 		if (isSelectionComplete) {
-			result = combinationsAreValid && totalPrice.amount ? <Price price={totalPrice}/> : <div className="toolbar-totalPrice__disclaimer">Недоступная комбинация</div>;
+			result = combinationsAreValid && totalPrice.amount ? <Price price={totalPrice}/> : null;
 		}
 		else {
 			if (totalPrice.amount) {
@@ -94,9 +95,11 @@ class Toolbar extends React.Component<Props> {
 
 					{isSelectionComplete ? (
 						<div className="toolbar-totalPrice__button">
-							<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
-								Купить
-							</Button>
+							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title="Недоступная комбинация">
+								<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
+									Купить
+								</Button>
+							</Tooltip>
 						</div>
 					) : ''}
 				</div>

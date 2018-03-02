@@ -92,12 +92,18 @@
 	&-totalPrice {
 		display: flex;
 		align-items: center;
-
 		font-size: 17px;
-		color: #64b5f6;
 
 		&__button {
 			margin-left: 15px;
+
+			&-tooltip {
+				[role="tooltip"] {
+					max-width: 300px;
+					padding: 8px;
+					font-size: 0.8rem;
+				}
+			}
 		}
 
 		&__disclaimer {

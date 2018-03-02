@@ -612,11 +612,16 @@
   -ms-flex-align: center;
   align-items: center;
   font-size: 17px;
-  color: #64b5f6;
 }
 
 .toolbar-totalPrice__button {
   margin-left: 15px;
+}
+
+.toolbar-totalPrice__button-tooltip [role="tooltip"] {
+  max-width: 300px;
+  padding: 8px;
+  font-size: 0.8rem;
 }
 
 .toolbar-totalPrice__disclaimer {
