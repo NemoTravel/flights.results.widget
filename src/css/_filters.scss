@@ -4,18 +4,13 @@
 	display: flex;
 	justify-content: space-between;
 	flex: 0 0 auto;
-	width: $common-content-width;
 
-	margin: 0 auto;
-	padding: 15px 0;
+	width: $common-content-width;
+	margin: 20px auto;
 
 	&__left, &__right {
 		display: flex;
 		align-items: center;
-	}
-
-	&-routeInfo {
-		font-size: 18px;
 	}
 
 	&-title {

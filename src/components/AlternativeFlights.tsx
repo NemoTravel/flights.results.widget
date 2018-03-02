@@ -37,7 +37,7 @@ class AlternativeFlights extends React.Component<Props> {
 		return <section className="fareFamilies">
 			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
 
-			<Typography className="fareFamilies-title" variant="display1">Выбор тарифа</Typography>
+			<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
 
 			<div className="alternativeFlights__legs">
 				{selectedFlights.map((flight, index) => (

@@ -27,6 +27,7 @@ import Sorting from './Sorting';
 import { setSorting, SortingAction } from '../store/sorting/actions';
 import Airport from '../schemas/Airport';
 import Airline from '../schemas/Airline';
+import Typography from 'material-ui/Typography';
 
 interface StateProps {
 	sorting: SortingState;
@@ -171,9 +172,9 @@ class Results extends React.Component<Props, State> {
 
 			<section className="filters">
 				<div className="filters__left">
-					<span className="filters-routeInfo">
+					<Typography variant="headline">
 						Выберите рейс {currentLeg.departure} &mdash; {currentLeg.arrival}
-					</span>
+					</Typography>
 				</div>
 
 				<div className="filters__right">
