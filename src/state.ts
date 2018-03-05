@@ -2,6 +2,7 @@ import { ThunkAction } from 'redux-thunk';
 import Flight from './schemas/Flight';
 import Leg from './schemas/Leg';
 import FareFamiliesCombinations from './schemas/FareFamiliesCombinations';
+import Money from './schemas/Money';
 
 export type CommonThunkAction = ThunkAction<void, ApplicationState, null>;
 
@@ -89,9 +90,18 @@ export interface FareFamiliesCombinationsState {
 	[legId: number]: FareFamiliesCombinations;
 }
 
+export interface FareFamiliesPricesState {
+	[legId: number]: {
+		[segmentId: number]: {
+			[familyId: string]: Money;
+		};
+	};
+}
+
 export interface AlternativeFlightsState {
 	selectedFamilies: SelectedFamiliesState;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
+	fareFamiliesPrices: FareFamiliesPricesState;
 }
 
 export interface SortingState {

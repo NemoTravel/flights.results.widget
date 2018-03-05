@@ -98,8 +98,15 @@
 					text-align: center;
 					padding: 10px 0;
 
-					color: #88c43d;
-					font-size: 15px;
+					color: #64b5f6;
+					font-size: 17px;
+
+					.price {
+						&-currency {
+							font-size: 13px;
+							margin-left: 5px;
+						}
+					}
 				}
 
 				&__features {

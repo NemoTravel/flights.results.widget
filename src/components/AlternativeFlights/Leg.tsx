@@ -5,10 +5,12 @@ import Flight from '../../schemas/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../state';
 import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';
+import Money from '../../schemas/Money';
 
 interface Props {
 	id: number;
 	flight: Flight;
+	prices: { [segmentId: number]: { [familyId: string]: Money } };
 	selectedFamilies: SelectedFamiliesState;
 	combinations: FareFamiliesCombinations;
 	selectFamily: SelectFamily;
@@ -30,7 +32,7 @@ class Leg extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { flight, combinations } = this.props;
+		const { flight, combinations, prices } = this.props;
 		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 		const validCombinations = combinations ? combinations.validCombinations : {};
 		const enabledFamiliesBySegments: { [segmentId: number]: EnabledFamilies } = {};
@@ -64,8 +66,9 @@ class Leg extends React.Component<Props> {
 						enabledFamilies={enabledFamilies}
 						initialCombination={initialCombinationsBySegments[index]}
 						families={families}
-						isAvailable={!!combinations}
+						isAvailable={!!combinations && !!families}
 						onChange={this.onChange}
+						prices={prices ? prices[index] : {}}
 					/>;
 				})}
 			</div>

@@ -7,14 +7,19 @@ import Flight from '../schemas/Flight';
 import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';
-import { ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, SelectedFamiliesState } from '../state';
+import {
+	ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, FareFamiliesPricesState,
+	SelectedFamiliesState
+} from '../state';
 import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
+import { getFareFamiliesPrices } from '../store/alternativeFlights/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
 	selectedFamilies: SelectedFamiliesState;
+	fareFamiliesPrices: FareFamiliesPricesState;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
@@ -32,7 +37,7 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilies, selectedFlights, fareFamiliesCombinations, selectFamily } = this.props;
+		const { selectedFamilies, selectedFlights, fareFamiliesCombinations, selectFamily, fareFamiliesPrices } = this.props;
 
 		return <section className="fareFamilies">
 			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
@@ -45,6 +50,7 @@ class AlternativeFlights extends React.Component<Props> {
 						key={flight.id}
 						id={index}
 						flight={flight}
+						prices={fareFamiliesPrices ? fareFamiliesPrices[index] : {}}
 						selectedFamilies={selectedFamilies}
 						combinations={fareFamiliesCombinations[index]}
 						selectFamily={selectFamily}
@@ -58,6 +64,7 @@ class AlternativeFlights extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
+		fareFamiliesPrices: getFareFamiliesPrices(state),
 		fareFamiliesCombinations: state.alternativeFlights.fareFamiliesCombinations,
 		selectedFamilies: state.alternativeFlights.selectedFamilies
 	};

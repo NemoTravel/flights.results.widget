@@ -10,6 +10,8 @@ import MonetizationOn from 'material-ui-icons/AttachMoney';
 
 import FareFamily from '../../schemas/FareFamily';
 import FareFamilyFeature, { FeaturePayment } from '../../schemas/FareFamilyFeature';
+import Money from '../../schemas/Money';
+import Price from '../Price';
 
 const paymentIcons = {
 	[FeaturePayment.Free]: <CheckCircle/>,
@@ -23,6 +25,7 @@ interface Props {
 	isSelected: boolean;
 	isDisabled: boolean;
 	onChange: (familyId: string) => void;
+	price: Money;
 }
 
 class Family extends React.Component<Props> {
@@ -43,18 +46,40 @@ class Family extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return this.props.id !== nextProps.id ||
 			this.props.isSelected !== nextProps.isSelected ||
+			this.props.price !== nextProps.price ||
 			this.props.family !== nextProps.family;
 	}
 
-	render() {
-		const { id, family, isDisabled, isSelected } = this.props;
+	renderPrice(): React.ReactNode {
+		const { isDisabled, isSelected, price } = this.props;
+		let result = null;
+
+		if (isDisabled || !price) {
+			result = '—';
+		}
+		else if (isSelected) {
+			result = 'Выбрано';
+		}
+		else {
+			result = <Price withPlus={price && price.amount > 0} withMinus={price && price.amount < 0} price={price}/>;
+		}
+
+		return result;
+	}
+
+	render(): React.ReactNode {
+		const { id, family, isDisabled, isSelected, price } = this.props;
 		const allFareFeatures: FareFamilyFeature[] = [
 			...family.fareFeatures.baggage,
 			...family.fareFeatures.exare,
 			...family.fareFeatures.misc
 		];
 
-		return <div className={classnames('fareFamilies-leg-segment-family', { 'fareFamilies-leg-segment-family_disabled': isDisabled,  'fareFamilies-leg-segment-family_selected': isSelected })}>
+		return <div className={classnames('fareFamilies-leg-segment-family', {
+			'fareFamilies-leg-segment-family_disabled': isDisabled,
+			'fareFamilies-leg-segment-family_notAvailable': !price,
+			'fareFamilies-leg-segment-family_selected': isSelected
+		})}>
 			<div className="fareFamilies-leg-segment-family__name">
 				<FormControlLabel
 					name="family"
@@ -67,9 +92,7 @@ class Family extends React.Component<Props> {
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__price">
-				{isDisabled ? 'Недоступно' : ''}
-				{isSelected ? 'Выбрано' : ''}
-				{!isSelected && !isDisabled ? '+ 1 700 RUB' : ''}
+				{this.renderPrice()}
 			</div>
 
 			<div className="fareFamilies-leg-segment-family__features">

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
+import Tooltip from 'material-ui/Tooltip';
 
 import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 import { EnabledFamilies } from './Leg';
-import Tooltip from 'material-ui/Tooltip';
+import Money from '../../schemas/Money';
 
 interface Props {
 	enabledFamilies: EnabledFamilies;
@@ -16,6 +17,7 @@ interface Props {
 	onChange: (segmentId: number, familyId: string) => void;
 	families: FareFamily[];
 	isAvailable: boolean;
+	prices: { [familyId: string]: Money };
 }
 
 interface State {
@@ -42,11 +44,11 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	renderContent(): React.ReactNode {
-		const { initialCombination, families, enabledFamilies } = this.props;
+		const { initialCombination, families, enabledFamilies, prices } = this.props;
 		const selectedFamilyId = this.state.selectedFamilyId || initialCombination;
 
 		return <form className="fareFamilies-leg-segment__families">
-			{families.map((family, index) => {
+			{families ? families.map((family, index) => {
 				const familyId = `F${index + 1}`;
 
 				return <Family
@@ -56,8 +58,9 @@ class Segment extends React.Component<Props, State> {
 					family={family}
 					isDisabled={!enabledFamilies.hasOwnProperty(familyId)}
 					isSelected={selectedFamilyId === familyId}
+					price={prices ? prices[familyId] : null}
 				/>;
-			})}
+			}) : null}
 		</form>;
 	}
 
