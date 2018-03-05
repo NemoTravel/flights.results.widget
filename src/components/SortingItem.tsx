@@ -18,7 +18,7 @@ const sortingLabels = {
 	[SortingType.FlightTime]: 'В пути'
 };
 
-class Sorting extends React.Component<Props> {
+class SortingItem extends React.Component<Props> {
 	static defaultProps: Partial<Props> = {
 		isActive: false,
 		direction: SortingDirection.ASC
@@ -28,6 +28,12 @@ class Sorting extends React.Component<Props> {
 		super(props);
 
 		this.onClick = this.onClick.bind(this);
+	}
+
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.isActive !== nextProps.isActive ||
+			this.props.type !== nextProps.type ||
+			this.props.direction !== nextProps.direction;
 	}
 
 	onClick(): void {
@@ -57,4 +63,4 @@ class Sorting extends React.Component<Props> {
 	}
 }
 
-export default Sorting;
+export default SortingItem;

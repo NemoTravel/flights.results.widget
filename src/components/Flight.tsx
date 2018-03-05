@@ -181,7 +181,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 					</svg>
 				</div>
 
-				{this.renderSummaryPlaceholder()}
+				{this.state.isOpen ? this.renderSummaryPlaceholder() : null}
 
 				<div className="flight-summary-logo">
 					{this.renderLogo()}

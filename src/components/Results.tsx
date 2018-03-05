@@ -4,20 +4,16 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
-import Typography from 'material-ui/Typography';
 
-import AirlineFilter from './Filters/Airlines';
-import AirportsFilter from './Filters/Airports';
-import DirectOnlyFilter from './Filters/DirectOnly';
-import TimeFilter from './Filters/Time';
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
 import { ApplicationState, CommonThunkAction, SortingDirection, SortingState, SortingType } from '../state';
 import { startSearch } from '../store/actions';
-import Sorting from './Sorting';
 import { setSorting, SortingAction } from '../store/sorting/actions';
 import FlightsListComponent from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
+import Sortings from './Sortings';
+import Filters from './Filters';
 
 interface StateProps {
 	sorting: SortingState;
@@ -111,54 +107,8 @@ class Results extends React.Component<Props, State> {
 				]}
 			/>
 
-			<section className="scenarios"/>
-
-			<section className="filters">
-				<div className="filters__left">
-					<Typography variant="headline">
-						Выберите рейс {currentLeg.departure} &mdash; {currentLeg.arrival}
-					</Typography>
-				</div>
-
-				<div className="filters__right">
-					<span className="filters-title">Фильтры</span>
-
-					<DirectOnlyFilter/>
-					<AirlineFilter/>
-					<AirportsFilter/>
-					<TimeFilter/>
-				</div>
-			</section>
-
-			<section className="sorting">
-				<Sorting
-					type={SortingType.DepartureTime}
-					isActive={sorting.type === SortingType.DepartureTime}
-					direction={sorting.type === SortingType.DepartureTime ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.setSorting}
-				/>
-
-				<Sorting
-					type={SortingType.FlightTime}
-					isActive={sorting.type === SortingType.FlightTime}
-					direction={sorting.type === SortingType.FlightTime ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.setSorting}
-				/>
-
-				<Sorting
-					type={SortingType.ArrivalTime}
-					isActive={sorting.type === SortingType.ArrivalTime}
-					direction={sorting.type === SortingType.ArrivalTime ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.setSorting}
-				/>
-
-				<Sorting
-					type={SortingType.Price}
-					isActive={sorting.type === SortingType.Price}
-					direction={sorting.type === SortingType.Price ? sorting.direction : SortingDirection.ASC}
-					setSorting={this.setSorting}
-				/>
-			</section>
+			<Filters currentLeg={currentLeg}/>
+			<Sortings currentSorting={sorting} setSorting={this.setSorting}/>
 
 			{legs.map(({ id }) => (
 				<FlightsListComponent
