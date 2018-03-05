@@ -48,12 +48,21 @@ class FlightsList extends React.Component<Props> {
 		super(props);
 
 		this.flightRenderer = this.flightRenderer.bind(this);
+		this.selectFlight = this.selectFlight.bind(this);
 		this.addAirportToFilters = this.addAirportToFilters.bind(this);
 		this.addAirlineToFilters = this.addAirlineToFilters.bind(this);
 	}
 
 	updateGrid(): void {
 		this.listComponent.forceUpdateGrid();
+	}
+
+	selectFlight(flightId: number, legId: number): void {
+		this.props.selectFlight(flightId, legId);
+
+		if (!this.props.isLastLeg) {
+			this.props.showSnackbar('Выберите рейс на следующее направление');
+		}
 	}
 
 	addAirportToFilters(airport: Airport, type: LocationType): void {
@@ -96,7 +105,7 @@ class FlightsList extends React.Component<Props> {
 						onLoad={measure}
 						key={key}
 						flight={this.props.flights[index]}
-						selectFlight={this.props.selectFlight}
+						selectFlight={this.selectFlight}
 						currentLegId={legId}
 						showPricePrefix={!this.props.isLastLeg && this.props.isMultipleLegs}
 						addAirport={this.addAirportToFilters}

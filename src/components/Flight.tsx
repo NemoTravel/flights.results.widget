@@ -8,7 +8,7 @@ import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
-import { CommonThunkAction, LocationType } from '../state';
+import { LocationType } from '../state';
 import { declension } from '../utils';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
@@ -20,7 +20,7 @@ export interface Props {
 	onLoad?: () => void;
 	currentLegId?: number;
 	showPricePrefix?: boolean;
-	selectFlight?: (flightId: number, legId: number) => CommonThunkAction;
+	selectFlight?: (flightId: number, legId: number) => void;
 	addAirport?: (airport: Airport, type: LocationType) => void;
 	addAirline?: (airline: Airline) => void;
 }
