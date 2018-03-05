@@ -6,11 +6,10 @@ import Tooltip from 'material-ui/Tooltip';
 import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
-import { EnabledFamilies } from './Leg';
 import Money from '../../schemas/Money';
 
 interface Props {
-	enabledFamilies: EnabledFamilies;
+	enabledFamilies: { [familyId: string]: boolean };
 	initialCombination: string;
 	segment: SegmentModel;
 	segmentId: string;

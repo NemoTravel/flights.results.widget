@@ -8,18 +8,20 @@ import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';
 import {
-	ApplicationState, CommonThunkAction, FareFamiliesCombinationsState, FareFamiliesPricesState,
+	ApplicationState, CommonThunkAction, FareFamiliesAvailabilityState, FareFamiliesCombinationsState,
+	FareFamiliesPricesState,
 	SelectedFamiliesState
 } from '../state';
 import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
-import { getFareFamiliesPrices } from '../store/alternativeFlights/selectors';
+import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/alternativeFlights/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
 	selectedFamilies: SelectedFamiliesState;
 	fareFamiliesPrices: FareFamiliesPricesState;
+	fareFamiliesAvailability: FareFamiliesAvailabilityState;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
@@ -37,7 +39,7 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilies, selectedFlights, fareFamiliesCombinations, selectFamily, fareFamiliesPrices } = this.props;
+		const { selectedFamilies, selectedFlights, fareFamiliesCombinations, fareFamiliesAvailability, selectFamily, fareFamiliesPrices } = this.props;
 
 		return <section className="fareFamilies">
 			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
@@ -45,14 +47,15 @@ class AlternativeFlights extends React.Component<Props> {
 			<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
 
 			<div className="alternativeFlights__legs">
-				{selectedFlights.map((flight, index) => (
+				{selectedFlights.map((flight, legId) => (
 					<Leg
 						key={flight.id}
-						id={index}
+						id={legId}
 						flight={flight}
-						prices={fareFamiliesPrices ? fareFamiliesPrices[index] : {}}
+						prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
 						selectedFamilies={selectedFamilies}
-						combinations={fareFamiliesCombinations[index]}
+						combinations={fareFamiliesCombinations[legId]}
+						availability={fareFamiliesAvailability[legId]}
 						selectFamily={selectFamily}
 					/>
 				))}
@@ -64,6 +67,7 @@ class AlternativeFlights extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
+		fareFamiliesAvailability: getFareFamiliesAvailability(state),
 		fareFamiliesPrices: getFareFamiliesPrices(state),
 		fareFamiliesCombinations: state.alternativeFlights.fareFamiliesCombinations,
 		selectedFamilies: state.alternativeFlights.selectedFamilies

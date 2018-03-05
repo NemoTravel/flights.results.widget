@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import {
-	ApplicationState, FareFamiliesCombinationsState, FareFamiliesPricesState,
+	ApplicationState, FareFamiliesAvailabilityState, FareFamiliesCombinationsState, FareFamiliesPricesState,
 	SelectedFamiliesState
 } from '../../state';
 import FareFamily from '../../schemas/FareFamily';
@@ -50,9 +50,45 @@ export const combinationsAreValid = createSelector(
 );
 
 /**
+ * Get fare families availability.
+ */
+export const getFareFamiliesAvailability = createSelector(
+	[getFareFamiliesCombinations],
+	(combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesAvailabilityState => {
+		const result: FareFamiliesAvailabilityState = {};
+
+		for (const legId in combinationsByLegs) {
+			if (combinationsByLegs.hasOwnProperty(legId) && combinationsByLegs[legId]) {
+				const combinations = combinationsByLegs[legId];
+
+				if (!result.hasOwnProperty(legId)) {
+					result[legId] = {};
+				}
+
+				for (const combination in combinations.validCombinations) {
+					if (combinations.validCombinations.hasOwnProperty(combination)) {
+						const combinationParts = combination.split('_');
+
+						combinationParts.forEach((familyId, segmentId) => {
+							if (!result[legId][segmentId]) {
+								result[legId][segmentId] = {};
+							}
+
+							result[legId][segmentId][familyId] = true;
+						});
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+);
+
+/**
  * Get price differences for fare families.
  */
-export const getFareFamiliesPrices =  createSelector(
+export const getFareFamiliesPrices = createSelector(
 	[getSelectedCombinations, getFareFamiliesCombinations],
 	(selectedCombinations: string[], combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPricesState => {
 		const result: FareFamiliesPricesState = {};

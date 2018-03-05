@@ -98,10 +98,17 @@ export interface FareFamiliesPricesState {
 	};
 }
 
+export interface FareFamiliesAvailabilityState {
+	[legId: number]: {
+		[segmentId: number]: {
+			[familyId: string]: boolean;
+		};
+	};
+}
+
 export interface AlternativeFlightsState {
 	selectedFamilies: SelectedFamiliesState;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
-	fareFamiliesPrices: FareFamiliesPricesState;
 }
 
 export interface SortingState {
