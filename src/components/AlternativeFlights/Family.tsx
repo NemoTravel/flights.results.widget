@@ -2,22 +2,12 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import Radio from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
-import Tooltip from 'material-ui/Tooltip';
-
-import CheckCircle from 'material-ui-icons/Check';
-import Cancel from 'material-ui-icons/Clear';
-import MonetizationOn from 'material-ui-icons/AttachMoney';
 
 import FareFamily from '../../schemas/FareFamily';
-import FareFamilyFeature, { FeaturePayment } from '../../schemas/FareFamilyFeature';
+import FareFamilyFeature from '../../schemas/FareFamilyFeature';
 import Money from '../../schemas/Money';
 import Price from '../Price';
-
-const paymentIcons = {
-	[FeaturePayment.Free]: <CheckCircle/>,
-	[FeaturePayment.Charge]: <MonetizationOn/>,
-	[FeaturePayment.NotAvailable]: <Cancel/>
-};
+import Features from './Features';
 
 interface Props {
 	id: string;
@@ -69,11 +59,6 @@ class Family extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const { id, family, isDisabled, isSelected, price } = this.props;
-		const allFareFeatures: FareFamilyFeature[] = [
-			...family.fareFeatures.baggage,
-			...family.fareFeatures.exare,
-			...family.fareFeatures.misc
-		];
 
 		return <div className={classnames('fareFamilies-leg-segment-family', {
 			'fareFamilies-leg-segment-family_disabled': isDisabled,
@@ -95,21 +80,11 @@ class Family extends React.Component<Props> {
 				{this.renderPrice()}
 			</div>
 
-			<div className="fareFamilies-leg-segment-family__features">
-				{allFareFeatures.map((feature, index) => (
-					<Tooltip key={index} className="fareFamilies-leg-segment-family-feature__tooltip" title={feature.description} placement="top">
-						<div className="fareFamilies-leg-segment-family-feature">
-							<span className={`fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_${feature.needToPay}`}>
-								{paymentIcons[feature.needToPay]}
-							</span>
-
-							<span className="fareFamilies-leg-segment-family-feature__name">
-								{feature.showTitle ? feature.title + ' — ' : ''}{feature.value}
-							</span>
-						</div>
-					</Tooltip>
-				))}
-			</div>
+			<Features features={[
+				...family.fareFeatures.baggage,
+				...family.fareFeatures.exare,
+				...family.fareFeatures.misc
+			]}/>
 		</div>;
 	}
 }

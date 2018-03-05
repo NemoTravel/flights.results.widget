@@ -24,6 +24,15 @@ class Leg extends React.Component<Props> {
 		this.onChange = this.onChange.bind(this);
 	}
 
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.id !== nextProps.id ||
+			this.props.prices !== nextProps.prices ||
+			this.props.selectedFamilies !== nextProps.selectedFamilies ||
+			this.props.combinations !== nextProps.combinations ||
+			this.props.availability !== nextProps.availability ||
+			this.props.flight !== nextProps.flight;
+	}
+
 	onChange(segmentId: number, familyId: string): void {
 		this.props.selectFamily(this.props.id, segmentId, familyId);
 	}

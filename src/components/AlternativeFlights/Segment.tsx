@@ -34,6 +34,16 @@ class Segment extends React.Component<Props, State> {
 		this.onChange = this.onChange.bind(this);
 	}
 
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.enabledFamilies !== nextProps.enabledFamilies ||
+			this.props.prices !== nextProps.prices ||
+			this.props.segment !== nextProps.segment ||
+			this.props.segmentId !== nextProps.segmentId ||
+			this.props.families !== nextProps.families ||
+			this.props.isAvailable !== nextProps.isAvailable ||
+			this.props.initialCombination !== nextProps.initialCombination;
+	}
+
 	onChange(familyId: string): void {
 		this.setState({
 			selectedFamilyId: familyId

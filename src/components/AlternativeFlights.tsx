@@ -39,7 +39,14 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { selectedFamilies, selectedFlights, fareFamiliesCombinations, fareFamiliesAvailability, selectFamily, fareFamiliesPrices } = this.props;
+		const {
+			selectedFamilies,
+			selectedFlights,
+			fareFamiliesCombinations,
+			fareFamiliesAvailability,
+			selectFamily,
+			fareFamiliesPrices
+		} = this.props;
 
 		return <section className="fareFamilies">
 			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
