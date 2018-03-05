@@ -13,6 +13,7 @@ import Airport from '../schemas/Airport';
 import Airline from '../schemas/Airline';
 import { isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getVisibleFlights } from '../store/selectors';
+import Typography from 'material-ui/Typography';
 
 export interface OwnProps {
 	isVisible: boolean;
@@ -48,6 +49,7 @@ class FlightsList extends React.Component<Props> {
 		super(props);
 
 		this.flightRenderer = this.flightRenderer.bind(this);
+		this.renderNoRows = this.renderNoRows.bind(this);
 		this.selectFlight = this.selectFlight.bind(this);
 		this.addAirportToFilters = this.addAirportToFilters.bind(this);
 		this.addAirlineToFilters = this.addAirlineToFilters.bind(this);
@@ -116,6 +118,10 @@ class FlightsList extends React.Component<Props> {
 		</CellMeasurer>;
 	}
 
+	renderNoRows(): any {
+		return <Typography variant="headline">Нет результатов.</Typography>;
+	}
+
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
 
@@ -137,6 +143,7 @@ class FlightsList extends React.Component<Props> {
 									rowCount={numOfFlights}
 									rowHeight={cache.rowHeight}
 									rowRenderer={this.flightRenderer}
+									noRowsRenderer={this.renderNoRows}
 								/>
 							)}
 						</AutoSizer>
