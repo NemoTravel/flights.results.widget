@@ -15,7 +15,7 @@ export default ({ price, withPlus = false, withMinus = false }: Props) => {
 	const tail = amount.substr(amount.length - THOUSANDS_INDEX);
 
 	return <span className="price">
-		<span className="price-amount">{withPlus ? '+' : ''}{withMinus ? '-' : ''} {head}&nbsp;{tail}</span>
+		<span className="price-amount">{withPlus ? '+' : ''}{withMinus ? '-' : ''} {head ? head + ' ' : ''}{tail}</span>
 		<span className="price-currency">{price.currency}</span>
 	</span>;
 };

@@ -49,49 +49,65 @@ export const combinationsAreValid = createSelector(
 	}
 );
 
+/**
+ * Get price differences for fare families.
+ */
 export const getFareFamiliesPrices =  createSelector(
 	[getSelectedCombinations, getFareFamiliesCombinations],
-	(selectedCombinations: string[], combinations: FareFamiliesCombinationsState): FareFamiliesPricesState => {
+	(selectedCombinations: string[], combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPricesState => {
 		const result: FareFamiliesPricesState = {};
 
-		if (Object.keys(combinations).length === selectedCombinations.length) {
-			selectedCombinations.forEach((selectedLegCombination, legId): void => {
-				const legCombinations = combinations[legId];
-				const selectedFamiliesBySegments = selectedLegCombination.split('_');
-				const familiesBySegments = legCombinations.fareFamiliesBySegments;
-				let currentPrice = legCombinations.combinationsPrices[selectedLegCombination];
+		selectedCombinations.forEach((selectedLegCombination, legId): void => {
+			const
+				dumbPrice = { amount: 0, currency: 'RUB' },
 
-				currentPrice = currentPrice || { amount: 0, currency: 'RUB' };
+				// Fare families combinations information on leg.
+				combinations = combinationsByLegs[legId],
 
-				if (!result.hasOwnProperty(legId)) {
-					result[legId] = {};
-				}
+				// List of selected fare families grouped by segment id.
+				selectedFamiliesBySegments = selectedLegCombination.split('_'),
 
-				for (const segmentKey in familiesBySegments) {
-					if (familiesBySegments.hasOwnProperty(segmentKey)) {
-						const segmentId = parseInt(segmentKey.replace('S', ''));
+				// List of fare families displayed on each segment.
+				familiesBySegments = combinations.fareFamiliesBySegments,
 
-						if (!result[legId].hasOwnProperty(segmentId)) {
-							result[legId][segmentId] = {};
-						}
+				// Price of the current selected combination.
+				currentPrice = combinations.combinationsPrices[selectedLegCombination] ? combinations.combinationsPrices[selectedLegCombination] : dumbPrice;
 
-						familiesBySegments[segmentKey].forEach((family: FareFamily, index: number) => {
-							const familyKey = `F${index + 1}`;
-							const newCombinationParts = [ ...selectedFamiliesBySegments ];
-							newCombinationParts[segmentId] = familyKey;
-							const newCombination = newCombinationParts.join('_');
+			if (!result.hasOwnProperty(legId)) {
+				result[legId] = {};
+			}
 
-							if (legCombinations.combinationsPrices.hasOwnProperty(newCombination)) {
-								result[legId][segmentId][familyKey] = {
-									amount: legCombinations.combinationsPrices[newCombination].amount - currentPrice.amount,
-									currency: currentPrice.currency
-								};
-							}
-						});
+			for (const segmentKey in familiesBySegments) {
+				if (familiesBySegments.hasOwnProperty(segmentKey)) {
+					const segmentId = parseInt(segmentKey.replace('S', ''));
+
+					if (!result[legId].hasOwnProperty(segmentId)) {
+						result[legId][segmentId] = {};
 					}
+
+					// Loop through all families on segment and try to get the price of each family.
+					familiesBySegments[segmentKey].forEach((family: FareFamily, index: number): void => {
+						const familyKey = `F${index + 1}`;
+						const newCombinationParts = [ ...selectedFamiliesBySegments ];
+
+						// Replace family key on the segment with the new test one.
+						newCombinationParts[segmentId] = familyKey;
+
+						// Create new test combination.
+						const newCombination = newCombinationParts.join('_');
+
+						// Check if this test combination is valid and has it's own price.
+						if (combinations.combinationsPrices.hasOwnProperty(newCombination)) {
+							// Calculate difference between new test price and the current one.
+							result[legId][segmentId][familyKey] = {
+								amount: combinations.combinationsPrices[newCombination].amount - currentPrice.amount,
+								currency: currentPrice.currency
+							};
+						}
+					});
 				}
-			});
-		}
+			}
+		});
 
 		return result;
 	}
