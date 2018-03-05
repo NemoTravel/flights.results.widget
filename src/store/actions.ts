@@ -8,6 +8,7 @@ import { addFlights } from './flights/actions';
 import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
+import Money from '../schemas/Money';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
@@ -23,7 +24,18 @@ export const startSearch = (): CommonThunkAction => {
 		});
 
 		Promise.all(promises).then((results: Flight[][]) => {
+			// const flightsByLegs: any = {};
+			const minPrices: any = {};
+
 			results.forEach((flights: Flight[], legId: number) => {
+				if (legId > 0) {
+					const tmpPrice = { amount: 0, currency: 'RUB' };
+
+					minPrices[legId] = flights.reduce<Money>((minPrice, flight): Money => {
+						return flight.totalPrice.amount < minPrice.amount ? flight.totalPrice : minPrice;
+					}, tmpPrice);
+				}
+
 				dispatch(addFlights(flights));
 				dispatch(setFlightsByLeg(flights, legId));
 			});

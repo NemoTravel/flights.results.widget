@@ -19,5 +19,6 @@ export default interface Flight extends CommonModel {
 	serviceFltId: string;
 	tariffFeatures: any;
 	totalPrice: Money;
+	minPrice: Money;
 	validatingCarrier: Airline;
 }
