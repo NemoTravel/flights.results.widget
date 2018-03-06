@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SegmentModel from '../../schemas/Segment';
 import * as moment from 'moment';
-import { declension } from '../../utils';
+import { declension, REQUEST_URL } from '../../utils';
 import * as classnames from 'classnames';
 
 interface Props {
@@ -31,7 +31,7 @@ class Segment extends React.Component<Props> {
 			<div className="flight-details-segment__wrapper">
 				<div className="flight-details-segment__left">
 					<div className="flight-details-segment-logo">
-						<img className="flight-details-segment-logo__image" src={`http://mlsd.ru:9876${segment.airline.logoIcon}`}/>
+						<img className="flight-details-segment-logo__image" src={`${REQUEST_URL}${segment.airline.logoIcon}`}/>
 					</div>
 
 					<div className="flight-details-segment-stage">

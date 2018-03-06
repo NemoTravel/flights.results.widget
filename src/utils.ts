@@ -1,5 +1,7 @@
 import { Language } from './state';
 
+export const REQUEST_URL = 'http://mlsd.ru:9876/';
+
 export const addCodeInList = (list: string[], code: string): string[] => {
 	const result: string[] = [...list];
 

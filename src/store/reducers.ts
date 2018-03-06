@@ -12,6 +12,7 @@ import { selectedFlightsReducer } from './selectedFlights/reducers';
 import { flightsReducer } from './flights/reducers';
 import { alternativeFlightsReducer } from './alternativeFlights/reducers';
 import { sortingReducer } from './sorting/reducers';
+import { pricesReducer } from './prices/reducers';
 
 const initialLegsState = [
 	{
@@ -38,5 +39,6 @@ export const rootReducer = combineReducers<ApplicationState>({
 	selectedFlights: selectedFlightsReducer,
 	alternativeFlights: alternativeFlightsReducer,
 	sorting: sortingReducer,
+	prices: pricesReducer,
 	legs: (state: Leg[] = initialLegsState): Leg[] => state
 });

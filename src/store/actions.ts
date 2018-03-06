@@ -9,31 +9,28 @@ import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
 import Money from '../schemas/Money';
+import { REQUEST_URL } from '../utils';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
-		const firstSearchId = 218183;
-		const secondSearchId = 218184;
+		const firstSearchId = 218644;
+		const secondSearchId = 218646;
+		// const RTSearchId = 218647;
 
 		dispatch(startLoading());
 
-		const promises = [ firstSearchId, secondSearchId ].map(searchId => {
-			return fetch(`http://mlsd.ru:9876/?go=orderAPI/get&uri=flight/search/${searchId}`)
+		const promises = [ firstSearchId, secondSearchId ].map(searchId => (
+			fetch(`${REQUEST_URL}?go=orderAPI/get&uri=flight/search/${searchId}`)
 				.then((response: Response) => response.json())
-				.then((response: any) => parseResults(response, searchId));
-		});
+				.then((response: any) => parseResults(response, searchId))
+		));
 
 		Promise.all(promises).then((results: Flight[][]) => {
-			// const flightsByLegs: any = {};
-			const minPrices: any = {};
-
-			results.forEach((flights: Flight[], legId: number) => {
+			results.forEach((flights: Flight[], legId: number): void => {
 				if (legId > 0) {
-					const tmpPrice = { amount: 0, currency: 'RUB' };
-
-					minPrices[legId] = flights.reduce<Money>((minPrice, flight): Money => {
-						return flight.totalPrice.amount < minPrice.amount ? flight.totalPrice : minPrice;
-					}, tmpPrice);
+					const minPriceOnLeg = flights.reduce((minPrice: Money, flight: Flight) => {
+						return (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
+					}, null);
 				}
 
 				dispatch(addFlights(flights));
@@ -60,7 +57,7 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 		}
 
 		const promises = flightIds.map(flightId => {
-			return fetch(`http://mlsd.ru:9876/index.php?go=orderAPI/get&uri=flight/fareFamilies/${flightId}`)
+			return fetch(`${REQUEST_URL}index.php?go=orderAPI/get&uri=flight/fareFamilies/${flightId}`)
 				.then((response: Response) => response.json())
 				.then((response: any) => parseFareFamilies(response, flightId));
 		});

@@ -10,6 +10,10 @@ interface Props {
 const THOUSANDS_INDEX = 3;
 
 export default ({ price, withPlus = false, withMinus = false }: Props) => {
+	if (!price) {
+		return null;
+	}
+
 	const amount = price.amount.toString().replace(/[+\-]/, '');
 	const head = amount.substr(0, amount.length - THOUSANDS_INDEX);
 	const tail = amount.substr(amount.length - THOUSANDS_INDEX);

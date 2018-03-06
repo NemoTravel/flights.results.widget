@@ -98,6 +98,14 @@ export interface FareFamiliesPricesState {
 	};
 }
 
+export interface FlightsPricesState {
+	[flightId: number]: Money;
+}
+
+export interface PricesState {
+	[legId: number]: FlightsPricesState;
+}
+
 export interface FareFamiliesAvailabilityState {
 	[legId: number]: {
 		[segmentId: number]: {
@@ -121,6 +129,7 @@ export interface ApplicationState {
 	currentLeg: number;
 	filters: FiltersState;
 	flights: FlightsState;
+	prices: PricesState;
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
 	selectedFlights: SelectedFlightsState;

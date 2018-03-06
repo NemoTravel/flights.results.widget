@@ -9,7 +9,7 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { LocationType } from '../state';
-import { declension } from '../utils';
+import { declension, REQUEST_URL } from '../utils';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
 import Airport from '../schemas/Airport';
@@ -100,7 +100,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		return airlinesInFlight.length > 1 ?
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
-			<img className="flight-summary-logo__image" src={`http://mlsd.ru:9876${flight.segments[0].airline.logoIcon}`}/>;
+			<img className="flight-summary-logo__image" src={`${REQUEST_URL}${flight.segments[0].airline.logoIcon}`}/>;
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {
