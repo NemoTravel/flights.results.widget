@@ -28,7 +28,10 @@ import {
 } from '../state';
 import Money from '../schemas/Money';
 import { getCurrentLegId } from './currentLeg/selectors';
-import { getFareFamiliesCombinations, getSelectedCombinations } from './alternativeFlights/selectors';
+import {
+	getFareFamiliesCombinations, getSelectedCombinations,
+	SelectedCombinations
+} from './alternativeFlights/selectors';
 import { getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
 
 const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection) => number } = {
@@ -175,7 +178,7 @@ export const getTotalPrice = createSelector(
 		flightsPool: FlightsState,
 		selectedFlightsIds: SelectedFlightsState,
 		selectionComplete: boolean,
-		selectedCombinations: string[],
+		selectedCombinations: SelectedCombinations,
 		combinations: FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
 		currentLegId: number
