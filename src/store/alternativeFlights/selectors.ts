@@ -41,7 +41,7 @@ export const combinationsAreValid = createSelector(
 			result = !selectedCombinations.find((combination, index): boolean => {
 				const legCombinations = combinations[index];
 
-				return !legCombinations.validCombinations.hasOwnProperty(combination);
+				return legCombinations && !legCombinations.validCombinations.hasOwnProperty(combination);
 			});
 		}
 
