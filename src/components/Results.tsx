@@ -74,6 +74,10 @@ class Results extends React.Component<Props, State> {
 
 	setSorting(type: SortingType, direction: SortingDirection): void {
 		this.props.setSorting(type, direction);
+		this.updateCurrentGrid();
+	}
+
+	updateCurrentGrid(): void {
 		this.flightsLists[this.props.currentLeg.id].wrappedInstance.updateGrid();
 	}
 

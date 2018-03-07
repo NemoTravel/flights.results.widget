@@ -9,10 +9,11 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { LocationType } from '../state';
-import { declension } from '../utils';
+import { declension, REQUEST_URL } from '../utils';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
 import Airport from '../schemas/Airport';
+import Money from '../schemas/Money';
 
 export interface Props {
 	flight: FlightModel;
@@ -20,6 +21,7 @@ export interface Props {
 	onLoad?: () => void;
 	currentLegId?: number;
 	showPricePrefix?: boolean;
+	price?: Money;
 	selectFlight?: (flightId: number, legId: number) => void;
 	addAirport?: (airport: Airport, type: LocationType) => void;
 	addAirline?: (airline: Airline) => void;
@@ -48,7 +50,9 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
-		return this.props.flight.id !== nextProps.flight.id || this.state.isOpen !== nextState.isOpen;
+		return this.props.flight.id !== nextProps.flight.id ||
+			this.props.price !== nextProps.price ||
+			this.state.isOpen !== nextState.isOpen;
 	}
 
 	toggleDetails(): void {
@@ -100,18 +104,18 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		return airlinesInFlight.length > 1 ?
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
-			<img className="flight-summary-logo__image" src={`http://mlsd.ru:9876${flight.segments[0].airline.logoIcon}`}/>;
+			<img className="flight-summary-logo__image" src={`${REQUEST_URL}${flight.segments[0].airline.logoIcon}`}/>;
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {
-		const flight = this.props.flight;
+		const { flight, price } = this.props;
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className="flight-summary-price__amount">
 					{this.props.showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
-					<Price withPlus={this.props.currentLegId !== 0} price={flight.totalPrice}/>
+					<Price withPlus={this.props.currentLegId !== 0} price={price ? price : flight.totalPrice}/>
 				</div>
 
 				<div className="flight-summary-price__route">

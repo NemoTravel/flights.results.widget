@@ -9,10 +9,11 @@ import { ApplicationState, CommonThunkAction } from '../state';
 import LegComponent from './Toolbar/Leg';
 import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
-import { getTotalPrice, isSelectionComplete } from '../store/selectedFlights/selectors';
+import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import { goToLeg, LegAction } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/alternativeFlights/selectors';
 import Tooltip from 'material-ui/Tooltip';
+import { getTotalPrice } from '../store/selectors';
 
 interface StateProps {
 	totalPrice: Money;
