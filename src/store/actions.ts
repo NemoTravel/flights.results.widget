@@ -1,7 +1,6 @@
 import Flight from '../schemas/Flight';
-import Money from '../schemas/Money';
 import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
-import { CommonThunkAction, PricesState } from '../state';
+import { CommonThunkAction } from '../state';
 import { REQUEST_URL } from '../utils';
 import { setFlightsByLeg } from './flightsByLegs/actions';
 import { startLoading, stopLoading } from './isLoading/actions';
@@ -10,19 +9,6 @@ import { parse as parseFareFamilies } from '../services/parsers/fareFamilies';
 import { addFlights } from './flights/actions';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
-import { setPrices } from './prices/actions';
-
-const getPriceForLeg = (legId: number, pricesByLeg: { [legId: number]: Money }): Money => {
-	const price: Money = { amount: 0, currency: 'RUB' };
-
-	for (const priceLegId in pricesByLeg) {
-		if ((parseInt(priceLegId)) > legId && pricesByLeg.hasOwnProperty(priceLegId)) {
-			price.amount += pricesByLeg[priceLegId].amount;
-		}
-	}
-
-	return price;
-};
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
@@ -39,32 +25,11 @@ export const startSearch = (): CommonThunkAction => {
 		));
 
 		Promise.all(promises).then((results: Flight[][]) => {
-			const pricesByLeg: PricesState = {};
-			const minPriceOnLeg: { [legId: number]: Money } = {};
-
 			results.forEach((flights: Flight[], legId: number): void => {
-				pricesByLeg[legId] = {};
-
-				if (legId > 0) {
-					minPriceOnLeg[legId] = flights.reduce((minPrice: Money, flight: Flight) => {
-						return (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
-					}, null);
-				}
-			});
-
-			results.forEach((flights: Flight[], legId: number): void => {
-				flights.forEach(flight => {
-					pricesByLeg[legId][flight.id] = {
-						amount: flight.totalPrice.amount + getPriceForLeg(legId, minPriceOnLeg).amount,
-						currency: flight.totalPrice.currency
-					};
-				});
-
 				dispatch(addFlights(flights));
 				dispatch(setFlightsByLeg(flights, legId));
 			});
 
-			dispatch(setPrices(pricesByLeg));
 			dispatch(stopLoading());
 		});
 	};

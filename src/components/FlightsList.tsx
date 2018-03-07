@@ -12,7 +12,7 @@ import { selectFlight } from '../store/selectedFlights/actions';
 import Airport from '../schemas/Airport';
 import Airline from '../schemas/Airline';
 import { isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { getVisibleFlights } from '../store/selectors';
+import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
 import Typography from 'material-ui/Typography';
 
 export interface OwnProps {
@@ -22,6 +22,7 @@ export interface OwnProps {
 }
 
 interface StateProps {
+	prices: PricesByFlights;
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
 	isLastLeg: boolean;
@@ -92,7 +93,8 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {
-		const { legId } = this.props;
+		const { legId, prices } = this.props;
+		const flight = this.props.flights[index];
 
 		return <CellMeasurer
 			cache={cache}
@@ -106,7 +108,8 @@ class FlightsList extends React.Component<Props> {
 					<Flight
 						onLoad={measure}
 						key={key}
-						flight={this.props.flights[index]}
+						price={prices[flight.id]}
+						flight={flight}
 						selectFlight={this.selectFlight}
 						currentLegId={legId}
 						showPricePrefix={!this.props.isLastLeg && this.props.isMultipleLegs}
@@ -120,6 +123,12 @@ class FlightsList extends React.Component<Props> {
 
 	renderNoRows(): any {
 		return <Typography variant="headline">Нет результатов.</Typography>;
+	}
+
+	componentWillUpdate(nextProps: Props): void {
+		if (this.listComponent && nextProps.prices !== this.props.prices) {
+			this.updateGrid();
+		}
 	}
 
 	render(): React.ReactNode {
@@ -157,6 +166,7 @@ class FlightsList extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps & StateProps => {
 	return {
 		...ownProps,
+		prices: getPricesForCurrentLeg(state),
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
 		isLastLeg: isLastLeg(state)
