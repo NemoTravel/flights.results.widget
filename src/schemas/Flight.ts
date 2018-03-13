@@ -20,4 +20,5 @@ export default interface Flight extends CommonModel {
 	tariffFeatures: any;
 	totalPrice: Money;
 	validatingCarrier: Airline;
+	uid: string; // XX767_1pc__XX767_2pc
 }

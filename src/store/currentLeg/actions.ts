@@ -2,6 +2,7 @@ import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
 import { setSelectedFlight } from '../selectedFlights/actions';
 import { setCombinations } from '../alternativeFlights/fareFamiliesCombinations/actions';
+import { clearAllFilters } from '../filters/actions';
 
 export const NEXT_LEG = 'NEXT_LEG';
 export const SET_LEG = 'SET_LEG';
@@ -38,6 +39,7 @@ export const goToLeg = (newLegId: number): CommonThunkAction => {
 			}
 		}
 
+		dispatch(clearAllFilters());
 		dispatch(setSelectedFlight(null, newLegId));
 		dispatch(setLeg(newLegId));
 	};

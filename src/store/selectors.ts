@@ -4,41 +4,20 @@ import { getFlightsIdsByLegs, ListOfSelectedCodes } from './filters/selectors';
 import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
 import { getIsDirectOnly } from './filters/directOnly/selectors';
-import {
-	getSelectedArrivalTimeIntervals,
-	getSelectedDepartureTimeIntervals,
-	getTimeIntervalForDate
-} from './filters/time/selectors';
+import * as TimeFilter from './filters/time/selectors';
 import { getFlights, getFlightsPool } from './flights/selectors';
-import {
-	arrivalTimeCompareFunction,
-	departureTimeCompareFunction,
-	flightTimeCompareFunction,
-	getCurrentSorting,
-	priceCompareFunction
-} from './sorting/selectors';
-import {
-	FareFamiliesCombinationsState,
-	FlightsByLegsState,
-	FlightsState,
-	SelectedFlightsState,
-	SortingDirection,
-	SortingState,
-	SortingType
-} from '../state';
+import * as Sorting from './sorting/selectors';
+import * as State from '../state';
 import Money from '../schemas/Money';
 import { getCurrentLegId } from './currentLeg/selectors';
-import {
-	getFareFamiliesCombinations, getSelectedCombinations,
-	SelectedCombinations
-} from './alternativeFlights/selectors';
+import * as AlternativeFlights from './alternativeFlights/selectors';
 import { getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
 
-const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection) => number } = {
-	[SortingType.Price]: priceCompareFunction,
-	[SortingType.FlightTime]: flightTimeCompareFunction,
-	[SortingType.DepartureTime]: departureTimeCompareFunction,
-	[SortingType.ArrivalTime]: arrivalTimeCompareFunction
+const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: State.SortingDirection) => number } = {
+	[State.SortingType.Price]: Sorting.priceCompareFunction,
+	[State.SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
+	[State.SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
+	[State.SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
 };
 
 export interface PricesByFlights {
@@ -63,7 +42,7 @@ const getPriceForLeg = (legId: number, pricesByLeg: { [legId: number]: Money }):
 
 export const getMinPricesByLegs = createSelector(
 	[getFlightsPool, getFlightsIdsByLegs],
-	(allFlights: FlightsState, flightsByLegs: FlightsByLegsState): PricesByLegs => {
+	(allFlights: State.FlightsState, flightsByLegs: State.FlightsByLegsState): PricesByLegs => {
 		const result: PricesByLegs = {};
 
 		for (const legId in flightsByLegs) {
@@ -107,10 +86,10 @@ export const getVisibleFlights = createSelector(
 		getSelectedAirlinesList,
 		getSelectedDepartureAirportsList,
 		getSelectedArrivalAirportsList,
-		getSelectedDepartureTimeIntervals,
-		getSelectedArrivalTimeIntervals,
+		TimeFilter.getSelectedDepartureTimeIntervals,
+		TimeFilter.getSelectedArrivalTimeIntervals,
 		getIsDirectOnly,
-		getCurrentSorting
+		Sorting.getCurrentSorting
 	],
 	(
 		flights: Flight[],
@@ -120,7 +99,7 @@ export const getVisibleFlights = createSelector(
 		selectedDepartureTimeIntervals: ListOfSelectedCodes,
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
-		sorting: SortingState
+		sorting: State.SortingState
 	): Flight[] => {
 		let newFlights = flights.filter(flight => {
 			const firstSegment = flight.segments[0];
@@ -142,20 +121,18 @@ export const getVisibleFlights = createSelector(
 				return false;
 			}
 
-			if (Object.keys(selectedDepartureTimeIntervals).length && !(getTimeIntervalForDate(firstSegment.depDate) in selectedDepartureTimeIntervals)) {
+			if (Object.keys(selectedDepartureTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(firstSegment.depDate) in selectedDepartureTimeIntervals)) {
 				return false;
 			}
 
-			if (Object.keys(selectedArrivalTimeIntervals).length && !(getTimeIntervalForDate(lastSegment.arrDate) in selectedArrivalTimeIntervals)) {
+			if (Object.keys(selectedArrivalTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(lastSegment.arrDate) in selectedArrivalTimeIntervals)) {
 				return false;
 			}
 
 			return true;
 		});
 
-		newFlights = newFlights.sort((a, b) => {
-			return sortingFunctionsMap[sorting.type](a, b, sorting.direction);
-		});
+		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction));
 
 		return newFlights;
 	}
@@ -169,17 +146,17 @@ export const getTotalPrice = createSelector(
 		getFlightsPool,
 		getSelectedFlightsIds,
 		isSelectionComplete,
-		getSelectedCombinations,
-		getFareFamiliesCombinations,
+		AlternativeFlights.getSelectedCombinations,
+		AlternativeFlights.getFareFamiliesCombinations,
 		getMinPricesByLegs,
 		getCurrentLegId
 	],
 	(
-		flightsPool: FlightsState,
-		selectedFlightsIds: SelectedFlightsState,
+		flightsPool: State.FlightsState,
+		selectedFlightsIds: State.SelectedFlightsState,
 		selectionComplete: boolean,
-		selectedCombinations: SelectedCombinations,
-		combinations: FareFamiliesCombinationsState,
+		selectedCombinations: AlternativeFlights.SelectedCombinations,
+		combinations: State.FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
 		currentLegId: number
 	): Money => {

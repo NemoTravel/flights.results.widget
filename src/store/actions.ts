@@ -14,11 +14,11 @@ export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
 		const firstSearchId = 218644;
 		const secondSearchId = 218646;
-		// const RTSearchId = 218647;
+		const RTSearchId = 218647;
 
 		dispatch(startLoading());
 
-		const promises = [ firstSearchId, secondSearchId ].map(searchId => (
+		const promises = [ firstSearchId, secondSearchId, RTSearchId ].map(searchId => (
 			fetch(`${REQUEST_URL}?go=orderAPI/get&uri=flight/search/${searchId}`)
 				.then((response: Response) => response.json())
 				.then((response: any) => parseResults(response, searchId))

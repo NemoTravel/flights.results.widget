@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import Flight from '../../schemas/Flight';
 import Date from '../../schemas/Date';
+import Segment from '../../schemas/Segment';
 
 const lastSingleNumber = 9;
 
@@ -28,13 +29,31 @@ const convertNemoDateToMoment = (date: Date): moment.Moment => {
 	return moment(dateString);
 };
 
+/**
+ * Create a part of flight Unique ID (UID) for each segment.
+ *
+ * XX-123_1pc (flight number on the segment + free baggage allowance on the segment).
+ *
+ * @param {Segment} segment
+ * @returns {string}
+ */
+export const createFlightUIDPart = (segment: Segment): string => {
+	return `${segment.airline.IATA}-${segment.flightNumber}_${segment.luggage.value === null ? 0 : segment.luggage.value}${segment.luggage.measurement}`;
+};
+
 export const parse = (flightFromResponse: any): Flight => {
+	const uid: string[] = [];
+
 	flightFromResponse.segments = flightFromResponse.segments.map((segment: any) => {
 		segment.arrDate = convertNemoDateToMoment(segment.arrDate);
 		segment.depDate = convertNemoDateToMoment(segment.depDate);
 
+		uid.push(createFlightUIDPart(segment as Segment));
+
 		return segment;
 	});
 
-	return <Flight>flightFromResponse;
+	flightFromResponse.uid = uid.join('_');
+
+	return flightFromResponse as Flight;
 };

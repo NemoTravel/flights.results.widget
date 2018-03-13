@@ -1,8 +1,7 @@
 import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
-import { LEG_CHANGING_DELAY, nextLeg } from '../currentLeg/actions';
+import { nextLeg } from '../currentLeg/actions';
 import { isLastLeg } from '../currentLeg/selectors';
-import { startLoading, stopLoading } from '../isLoading/actions';
 import { clearAllFilters } from '../filters/actions';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
