@@ -13,7 +13,10 @@
 		"test": "jest",
 		"start": "npm run server"
 	},
-	"pre-commit": [],
+	"pre-commit": [
+		"tslint",
+		"test"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/NemoTravel/results.git"
