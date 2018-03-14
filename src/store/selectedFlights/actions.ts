@@ -3,6 +3,7 @@ import { CommonThunkAction } from '../../state';
 import { nextLeg } from '../currentLeg/actions';
 import { isLastLeg } from '../currentLeg/selectors';
 import { clearAllFilters } from '../filters/actions';
+import { getSelectedFlights } from './selectors';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 
@@ -25,12 +26,22 @@ export const setSelectedFlight = (flightId: number, legId: number): SelectedFlig
 
 export const selectFlight = (flightId: number, legId: number): CommonThunkAction => {
 	return (dispatch, getState) => {
-		const state = getState();
-
 		dispatch(setSelectedFlight(flightId, legId));
 		dispatch(clearAllFilters());
 
-		if (!isLastLeg(state)) {
+		const state = getState();
+
+		if (isLastLeg(state)) {
+			const flightsRT = state.flightsRT;
+			const UID = getSelectedFlights(state).map(flight => flight.uid).join('_');
+
+			console.log(UID);
+
+			if (flightsRT.hasOwnProperty(UID)) {
+				console.log('YES');
+			}
+		}
+		else {
 			dispatch(nextLeg());
 		}
 	};
