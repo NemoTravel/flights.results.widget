@@ -14,25 +14,22 @@ export const startSearch = (): CommonThunkAction => {
 		const firstSearchId = 218644;
 		const secondSearchId = 218646;
 		const RTSearchId = 218647;
-		const RT_LEG_INDEX = 2;
 
 		dispatch(startLoading());
 
+		// Process round trip results.
+		loadSearchResults(RTSearchId).then(flights => dispatch(addFlightsRT(flights)));
+
+		// Process one way results on each leg.
 		Promise
 			.all([
 				loadSearchResults(firstSearchId),
-				loadSearchResults(secondSearchId),
-				loadSearchResults(RTSearchId)
+				loadSearchResults(secondSearchId)
 			])
 			.then(results => {
 				results.forEach((flights: Flight[], legId: number): void => {
-					if (legId === RT_LEG_INDEX) {
-						dispatch(addFlightsRT(flights));
-					}
-					else {
-						dispatch(addFlights(flights));
-						dispatch(setFlightsByLeg(flights, legId));
-					}
+					dispatch(addFlights(flights));
+					dispatch(setFlightsByLeg(flights, legId));
 				});
 
 				dispatch(stopLoading());
