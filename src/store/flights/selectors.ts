@@ -23,7 +23,7 @@ export const hasAnyFlights = createSelector(
  * @param {ApplicationState} state
  * @returns {Flight[]}
  */
-export const getFlights = createSelector(
+export const getFlightsForCurrentLeg = createSelector(
 	[getFlightsPool, getFlightsIdsByLegs, getCurrentLegId],
 	(allFlights: FlightsState, flightsByLegs: FlightsByLegsState, legId: number): Flight[] => {
 		const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];

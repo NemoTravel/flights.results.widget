@@ -3,7 +3,7 @@ import { ApplicationState } from '../../../state';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import Airline from '../../../schemas/Airline';
 import Flight from '../../../schemas/Flight';
-import { getFlights } from '../../flights/selectors';
+import { getFlightsForCurrentLeg } from '../../flights/selectors';
 
 /**
  * Get an array of airlines codes used for filtering.
@@ -19,7 +19,7 @@ export const getSelectedAirlinesList = createSelector([getFilteredAirlines], get
  * Get all airlines participating in all flights.
  */
 export const getAllAirlines = createSelector(
-	[getFlights],
+	[getFlightsForCurrentLeg],
 	(flights: Flight[]): Airline[] => {
 		const airlines: Airline[] = [];
 		const airlinesMap: { [IATA: string]: any } = {};

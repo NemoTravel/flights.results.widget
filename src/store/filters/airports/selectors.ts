@@ -3,7 +3,7 @@ import Airport from '../../../schemas/Airport';
 import Flight from '../../../schemas/Flight';
 import { ApplicationState, LocationType } from '../../../state';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
-import { getFlights } from '../../flights/selectors';
+import { getFlightsForCurrentLeg } from '../../flights/selectors';
 
 /**
  * Get an array of departure airports codes used for filtering.
@@ -61,8 +61,8 @@ export const getAirports = (flights: Flight[], type: LocationType): Airport[] =>
 	});
 };
 
-export const getDepartureAirports = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirports(flights, LocationType.Departure));
-export const getArrivalAirports = createSelector([getFlights], (flights: Flight[]): Airport[] => getAirports(flights, LocationType.Arrival));
+export const getDepartureAirports = createSelector([getFlightsForCurrentLeg], (flights: Flight[]): Airport[] => getAirports(flights, LocationType.Departure));
+export const getArrivalAirports = createSelector([getFlightsForCurrentLeg], (flights: Flight[]): Airport[] => getAirports(flights, LocationType.Arrival));
 
 /**
  * Map of `airportCode` => `airportObject`.

@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import Flight from '../../schemas/Flight';
 import Date from '../../schemas/Date';
 import Segment from '../../schemas/Segment';
+import { UID_LEG_GLUE } from '../../utils';
 
 const lastSingleNumber = 9;
 
@@ -42,18 +43,24 @@ export const createFlightUIDPart = (segment: Segment): string => {
 };
 
 export const parse = (flightFromResponse: any): Flight => {
-	const uid: string[] = [];
+	const UID: string[] = [];
 
-	flightFromResponse.segments = flightFromResponse.segments.map((segment: any) => {
-		segment.arrDate = convertNemoDateToMoment(segment.arrDate);
-		segment.depDate = convertNemoDateToMoment(segment.depDate);
+	flightFromResponse.segmentGroups = flightFromResponse.segmentGroups.map((group: any) => {
+		const groupUID: string[] = [];
 
-		uid.push(createFlightUIDPart(segment as Segment));
+		group.segments = group.segments.map((segment: any) => {
+			segment.arrDate = convertNemoDateToMoment(segment.arrDate);
+			segment.depDate = convertNemoDateToMoment(segment.depDate);
 
-		return segment;
+			groupUID.push(createFlightUIDPart(segment as Segment));
+
+			return segment;
+		});
+
+		UID.push(groupUID.join('_'));
 	});
 
-	flightFromResponse.uid = uid.join('_');
+	flightFromResponse.uid = UID.join(UID_LEG_GLUE);
 
 	return flightFromResponse as Flight;
 };

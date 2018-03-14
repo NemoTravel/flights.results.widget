@@ -1,3 +1,4 @@
+import './ponyfills';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
@@ -25,7 +26,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 // }
 
 export const init = (config: Config) => {
-	const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+	const store = createStore(rootReducer, applyMiddleware(thunk));
 	const theme = createMuiTheme(themeObject);
 
 	store.dispatch(setConfig(config));

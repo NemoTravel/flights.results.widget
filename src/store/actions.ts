@@ -11,9 +11,9 @@ import { addFlightsRT } from './flightsRT/actions';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
-		const firstSearchId = 218644;
-		const secondSearchId = 218646;
-		const RTSearchId = 218647;
+		const firstSearchId = 219683;
+		const secondSearchId = 219684;
+		const RTSearchId = 219682;
 
 		dispatch(startLoading());
 
