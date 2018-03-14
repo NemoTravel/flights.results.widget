@@ -168,6 +168,8 @@ export const getTotalPrice = createSelector(
 		// Loop through selected flights ids.
 		for (const legId in selectedFlightsIds) {
 			if (selectedFlightsIds.hasOwnProperty(legId)) {
+				const flightId = selectedFlightsIds[legId];
+
 				// If main flights have been successfully selected,
 				// then it's time to choose alternative flights (fare families).
 				if (selectionComplete && selectedCombinations[legId] && combinations[legId]) {
@@ -179,8 +181,6 @@ export const getTotalPrice = createSelector(
 					}
 				}
 				else {
-					const flightId = selectedFlightsIds[legId];
-
 					// Get flight and add its price to the total sum.
 					if (flightsPool.hasOwnProperty(flightId)) {
 						totalPrice.amount += flightsPool[flightId].totalPrice.amount;

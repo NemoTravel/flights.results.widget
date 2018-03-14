@@ -5,7 +5,7 @@
 import { getSegment } from '../../../schemas/__mocks__/Segment';
 import { createFlightUIDPart } from '../flight';
 
-describe('services/parsers/flight', () => {
+describe('createFlightUIDPart', () => {
 	it('should return correct part of the flight UID', () => {
 		const segment = getSegment();
 

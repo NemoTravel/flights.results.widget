@@ -1,10 +1,9 @@
 import Flight from '../schemas/Flight';
-import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
 import { CommonThunkAction } from '../state';
 import { setFlightsByLeg } from './flightsByLegs/actions';
 import { startLoading, stopLoading } from './isLoading/actions';
-import { load as loadSearchResults } from '../services/requests/results';
-import { load as loadFareFamilies } from '../services/requests/fareFamilies';
+import loadSearchResults from '../services/requests/results';
+import loadFareFamilies from '../services/requests/fareFamilies';
 import { addFlights } from './flights/actions';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
@@ -23,7 +22,7 @@ export const startSearch = (): CommonThunkAction => {
 				loadSearchResults(secondSearchId),
 				loadSearchResults(RTSearchId)
 			])
-			.then((results: Flight[][]) => {
+			.then(results => {
 				results.forEach((flights: Flight[], legId: number): void => {
 					dispatch(addFlights(flights));
 					dispatch(setFlightsByLeg(flights, legId));
@@ -49,16 +48,17 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 			}
 		}
 
-		const promises = flightIds.map(loadFareFamilies);
+		Promise
+			.all(flightIds.map(loadFareFamilies))
+			.then(results => {
+				results.forEach((combinations, legId) => {
+					dispatch(setCombinations(legId, combinations));
+					const combination = combinations ? combinations.initialCombination.split('_') : [];
+					combination.forEach((familyId, segmentId) => dispatch(setSelectedFamily(legId, segmentId, familyId)));
+				});
 
-		Promise.all(promises).then((results: FareFamiliesCombinations[]) => {
-			results.forEach((combinations, legId) => {
-				dispatch(setCombinations(legId, combinations));
-				const combination = combinations ? combinations.initialCombination.split('_') : [];
-				combination.forEach((familyId, segmentId) => dispatch(setSelectedFamily(legId, segmentId, familyId)));
-			});
-
-			dispatch(stopLoading());
-		});
+				dispatch(stopLoading());
+			}
+		);
 	};
 };
