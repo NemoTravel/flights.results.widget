@@ -78,6 +78,10 @@ export interface FlightsState {
 	[flightId: number]: Flight;
 }
 
+export interface FlightsRTState {
+	[flightUID: string]: Flight;
+}
+
 export interface SelectedFamiliesSegmentCombination {
 	[segmentId: number]: string;
 }
@@ -129,6 +133,7 @@ export interface ApplicationState {
 	currentLeg: number;
 	filters: FiltersState;
 	flights: FlightsState;
+	flightsRT: FlightsRTState;
 	prices: PricesState;
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;

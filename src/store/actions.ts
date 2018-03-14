@@ -7,12 +7,14 @@ import loadFareFamilies from '../services/requests/fareFamilies';
 import { addFlights } from './flights/actions';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
+import { addFlightsRT } from './flightsRT/actions';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
 		const firstSearchId = 218644;
 		const secondSearchId = 218646;
 		const RTSearchId = 218647;
+		const RT_LEG_INDEX = 2;
 
 		dispatch(startLoading());
 
@@ -24,8 +26,13 @@ export const startSearch = (): CommonThunkAction => {
 			])
 			.then(results => {
 				results.forEach((flights: Flight[], legId: number): void => {
-					dispatch(addFlights(flights));
-					dispatch(setFlightsByLeg(flights, legId));
+					if (legId === RT_LEG_INDEX) {
+						dispatch(addFlightsRT(flights));
+					}
+					else {
+						dispatch(addFlights(flights));
+						dispatch(setFlightsByLeg(flights, legId));
+					}
 				});
 
 				dispatch(stopLoading());

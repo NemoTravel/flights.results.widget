@@ -13,6 +13,7 @@ import { flightsReducer } from './flights/reducers';
 import { alternativeFlightsReducer } from './alternativeFlights/reducers';
 import { sortingReducer } from './sorting/reducers';
 import { pricesReducer } from './prices/reducers';
+import { flightsRTReducer } from './flightsRT/reducers';
 
 const initialLegsState = [
 	{
@@ -32,6 +33,7 @@ const initialLegsState = [
 export const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
 	flights: flightsReducer,
+	flightsRT: flightsRTReducer,
 	flightsByLegs: flightsByLegsReducer,
 	filters: filtersReducer,
 	config: configReducer,
