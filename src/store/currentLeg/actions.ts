@@ -3,6 +3,7 @@ import { CommonThunkAction } from '../../state';
 import { setSelectedFlight } from '../selectedFlights/actions';
 import { setCombinations } from '../alternativeFlights/fareFamiliesCombinations/actions';
 import { clearAllFilters } from '../filters/actions';
+import { isSelectionComplete } from '../selectedFlights/selectors';
 
 export const NEXT_LEG = 'NEXT_LEG';
 export const SET_LEG = 'SET_LEG';
@@ -40,5 +41,19 @@ export const goToLeg = (newLegId: number): CommonThunkAction => {
 		dispatch(clearAllFilters());
 		dispatch(setSelectedFlight(null, newLegId));
 		dispatch(setLeg(newLegId));
+	};
+};
+
+export const goBack = (): CommonThunkAction => {
+	return (dispatch, getState): void => {
+		const state = getState();
+		const currentLeg = state.currentLeg;
+		let newLegId = currentLeg - 1;
+
+		if (isSelectionComplete(state)) {
+			newLegId = currentLeg;
+		}
+
+		dispatch(goToLeg(newLegId));
 	};
 };

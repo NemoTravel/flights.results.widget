@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import Flight from '../../schemas/Flight';
 import Date from '../../schemas/Date';
 import Segment from '../../schemas/Segment';
-import { UID_LEG_GLUE } from '../../utils';
+import { UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../../utils';
 
 const lastSingleNumber = 9;
 
@@ -38,28 +38,38 @@ const convertNemoDateToMoment = (date: Date): moment.Moment => {
  * @param {Segment} segment
  * @returns {string}
  */
-export const createFlightUIDPart = (segment: Segment): string => {
+export const createSegmentUID = (segment: Segment): string => {
 	return `${segment.airline.IATA}-${segment.flightNumber}_${segment.luggage.value === null ? 0 : segment.luggage.value}${segment.luggage.measurement}`;
 };
 
+/**
+ * Convert API object to the Flight object.
+ *
+ * @param flightFromResponse
+ * @returns {Flight}
+ */
 export const parse = (flightFromResponse: any): Flight => {
 	const UID: string[] = [];
 
 	flightFromResponse.segmentGroups = flightFromResponse.segmentGroups.map((group: any) => {
-		const groupUID: string[] = [];
+		const legUID: string[] = [];
 
 		group.segments = group.segments.map((segment: any) => {
+			// Convert dates from Nemo object to a Moment.js object.
 			segment.arrDate = convertNemoDateToMoment(segment.arrDate);
 			segment.depDate = convertNemoDateToMoment(segment.depDate);
 
-			groupUID.push(createFlightUIDPart(segment as Segment));
+			// Generate UID for each segment.
+			legUID.push(createSegmentUID(segment as Segment));
 
 			return segment;
 		});
 
-		UID.push(groupUID.join('_'));
+		// Glue together all segment UIDs.
+		UID.push(legUID.join(UID_SEGMENT_GLUE));
 	});
 
+	// Glue together all leg UIDs.
 	flightFromResponse.uid = UID.join(UID_LEG_GLUE);
 
 	return flightFromResponse as Flight;

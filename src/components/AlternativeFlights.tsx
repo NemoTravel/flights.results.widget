@@ -14,8 +14,9 @@ import {
 } from '../state';
 import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
-import { goToLeg } from '../store/currentLeg/actions';
+import { goBack, goToLeg } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/alternativeFlights/selectors';
+import Button from 'material-ui/Button';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -29,13 +30,24 @@ interface DispatchProps {
 	selectFamily: SelectFamily;
 	searchForAlternativeFlights: () => CommonThunkAction;
 	goToLeg: (legId: number) => CommonThunkAction;
+	goBack: () => CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
 
 class AlternativeFlights extends React.Component<Props> {
+	constructor(props: Props) {
+		super(props);
+
+		this.goBack = this.goBack.bind(this);
+	}
+
 	componentDidMount(): void {
 		this.props.searchForAlternativeFlights();
+	}
+
+	goBack(): void {
+		this.props.goBack();
 	}
 
 	render(): React.ReactNode {
@@ -44,12 +56,13 @@ class AlternativeFlights extends React.Component<Props> {
 			selectedFlights,
 			fareFamiliesCombinations,
 			fareFamiliesAvailability,
+			goToLeg,
 			selectFamily,
 			fareFamiliesPrices
 		} = this.props;
 
 		return <section className="fareFamilies">
-			<SelectedFlights flights={selectedFlights} goToLeg={this.props.goToLeg}/>
+			<SelectedFlights flights={selectedFlights} goToLeg={goToLeg}/>
 
 			<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
 
@@ -67,6 +80,8 @@ class AlternativeFlights extends React.Component<Props> {
 					/>
 				))}
 			</div>
+
+			<Button variant="raised" onClick={this.goBack}>Назад</Button>
 		</section>;
 	}
 }
@@ -85,7 +100,8 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
 		selectFamily: bindActionCreators(selectFamily, dispatch),
 		searchForAlternativeFlights: bindActionCreators(searchForAlternativeFlights, dispatch),
-		goToLeg: bindActionCreators(goToLeg, dispatch)
+		goToLeg: bindActionCreators(goToLeg, dispatch),
+		goBack: bindActionCreators(goBack, dispatch)
 	};
 };
 
