@@ -16,7 +16,6 @@ import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../s
 import Typography from 'material-ui/Typography';
 
 export interface OwnProps {
-	isVisible: boolean;
 	legId: number;
 	showSnackbar: (label: string) => void;
 }
@@ -134,32 +133,30 @@ class FlightsList extends React.Component<Props> {
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
 
-		return this.props.isVisible ? (
-			<WindowScroller>
-				{({ height, isScrolling, onChildScroll, scrollTop }) => (
-					<div>
-						<AutoSizer disableHeight>
-							{({ width }) => (
-								<List
-									autoHeight
-									ref={component => this.listComponent = component}
-									deferredMeasurementCache={cache}
-									height={height}
-									width={width}
-									isScrolling={isScrolling}
-									scrollTop={scrollTop}
-									onScroll={onChildScroll}
-									rowCount={numOfFlights}
-									rowHeight={cache.rowHeight}
-									rowRenderer={this.flightRenderer}
-									noRowsRenderer={this.renderNoRows}
-								/>
-							)}
-						</AutoSizer>
-					</div>
-				)}
-			</WindowScroller>
-		) : null;
+		return <WindowScroller>
+			{({ height, isScrolling, onChildScroll, scrollTop }) => (
+				<div>
+					<AutoSizer disableHeight>
+						{({ width }) => (
+							<List
+								autoHeight
+								ref={component => this.listComponent = component}
+								deferredMeasurementCache={cache}
+								height={height}
+								width={width}
+								isScrolling={isScrolling}
+								scrollTop={scrollTop}
+								onScroll={onChildScroll}
+								rowCount={numOfFlights}
+								rowHeight={cache.rowHeight}
+								rowRenderer={this.flightRenderer}
+								noRowsRenderer={this.renderNoRows}
+							/>
+						)}
+					</AutoSizer>
+				</div>
+			)}
+		</WindowScroller>;
 	}
 }
 

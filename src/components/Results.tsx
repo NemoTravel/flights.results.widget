@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
+import SwipeableViews from 'react-swipeable-views';
 
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
@@ -114,15 +115,16 @@ class Results extends React.Component<Props, State> {
 			<Filters currentLeg={currentLeg}/>
 			<Sortings currentSorting={sorting} setSorting={this.setSorting}/>
 
-			{legs.map(({ id }) => (
-				<FlightsListComponent
-					ref={component => this.flightsLists[id] = component}
-					key={id}
-					isVisible={currentLeg.id === id}
-					legId={id}
-					showSnackbar={this.showSnackbar}
-				/>
-			))}
+			<SwipeableViews index={currentLeg.id}>
+				{legs.map(({ id }) => (
+					<FlightsListComponent
+						ref={component => this.flightsLists[id] = component}
+						key={id}
+						legId={id}
+						showSnackbar={this.showSnackbar}
+					/>
+				))}
+			</SwipeableViews>
 		</div>;
 	}
 }
