@@ -12,6 +12,9 @@ import { getCurrentLegId } from '../currentLeg/selectors';
  */
 export const getFlightsPool = (state: ApplicationState): FlightsState => state.flights;
 
+/**
+ * Check if there are any loaded flights.
+ */
 export const hasAnyFlights = createSelector(
 	[getFlightsPool],
 	(allFlights: FlightsState): boolean => !!Object.keys(allFlights).length

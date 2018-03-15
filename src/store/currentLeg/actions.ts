@@ -27,6 +27,10 @@ export const setLeg = (legId: number): LegAction => {
 
 export const goToLeg = (newLegId: number): CommonThunkAction => {
 	return (dispatch, getState): void => {
+		dispatch(setLeg(newLegId));
+		dispatch(clearAllFilters());
+		dispatch(setSelectedFlight(null, newLegId));
+
 		const selectedFlights = getState().selectedFlights;
 
 		for (const legId in selectedFlights) {
@@ -37,10 +41,6 @@ export const goToLeg = (newLegId: number): CommonThunkAction => {
 				dispatch(setCombinations(numberedLegId, null));
 			}
 		}
-
-		dispatch(clearAllFilters());
-		dispatch(setSelectedFlight(null, newLegId));
-		dispatch(setLeg(newLegId));
 	};
 };
 

@@ -31,31 +31,60 @@ interface PricesByLegs {
 	[legId: number]: Money;
 }
 
-const getMinTotalPriceForNextLegs = (legId: number, pricesByLeg: { [legId: number]: Money }): Money => {
-	const price: Money = { amount: 0, currency: 'RUB' };
-
-	for (const priceLegId in pricesByLeg) {
-		if ((parseInt(priceLegId)) > legId && pricesByLeg.hasOwnProperty(priceLegId)) {
-			price.amount += pricesByLeg[priceLegId].amount;
-		}
-	}
-
-	return price;
-};
-
+/**
+ * Get a list of min prices for each leg.
+ */
 export const getMinPricesByLegs = createSelector(
 	[getFlightsPool, getFlightsIdsByLegs],
-	(allFlights: State.FlightsState, flightsByLegs: State.FlightsByLegsState): PricesByLegs => {
+	(flightsPool: State.FlightsState, flightsByLegs: State.FlightsByLegsState): PricesByLegs => {
 		const result: PricesByLegs = {};
 
 		for (const legId in flightsByLegs) {
 			if (flightsByLegs.hasOwnProperty(legId)) {
 				const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
-				const flights = flightsIds.map(flightId => allFlights[flightId]);
 
-				result[legId] = flights.reduce((minPrice: Money, flight: Flight) => {
-					return (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
-				}, null);
+				result[legId] = flightsIds.map(flightId => flightsPool[flightId]).reduce(
+					(minPrice: Money, flight: Flight): Money => {
+						return (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
+					},
+				null);
+			}
+		}
+
+		return result;
+	}
+);
+
+/**
+ * Get a list of min total possible prices for each leg.
+ *
+ * Example:
+ * - leg 1 min price is $120
+ * - leg 2 min price is $80
+ * - leg 3 min price is $100
+ *
+ * Then:
+ * - leg 1 min total possible price is $80 + $100 = 180$
+ * - leg 2 min total possible price is $100
+ * - leg 3 min total possible price is $0
+ */
+export const getMinTotalPossiblePricesByLegs = createSelector(
+	[getMinPricesByLegs],
+	(minPricesByLegs: PricesByLegs): PricesByLegs => {
+		const result: PricesByLegs = {};
+
+		for (const legId in minPricesByLegs) {
+			if (minPricesByLegs.hasOwnProperty(legId)) {
+				if (!result.hasOwnProperty(legId)) {
+					result[legId] = { amount: 0, currency: 'RUB' };
+				}
+
+				// For each leg: loop through all next legs and sum up their min prices.
+				for (const anotherLegId in minPricesByLegs) {
+					if ((parseInt(anotherLegId)) > parseInt(legId) && minPricesByLegs.hasOwnProperty(anotherLegId)) {
+						result[legId].amount += minPricesByLegs[anotherLegId].amount;
+					}
+				}
 			}
 		}
 
@@ -135,6 +164,7 @@ export const getTotalPrice = createSelector(
 		AlternativeFlights.getSelectedCombinations,
 		AlternativeFlights.getFareFamiliesCombinations,
 		getMinPricesByLegs,
+		getMinTotalPossiblePricesByLegs,
 		getCurrentLegId
 	],
 	(
@@ -144,6 +174,7 @@ export const getTotalPrice = createSelector(
 		selectedCombinations: AlternativeFlights.SelectedCombinations,
 		combinations: State.FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
+		minTotalPossiblePricesByLegs: PricesByLegs,
 		currentLegId: number
 	): Money => {
 		const totalPrice: Money = {
@@ -176,8 +207,8 @@ export const getTotalPrice = createSelector(
 		}
 
 		// Some cheating, allowing us to show relative prices on the go.
-		if (currentLegId !== 0 && !selectionComplete) {
-			totalPrice.amount += getMinTotalPriceForNextLegs(currentLegId - 1, minPricesByLegs).amount;
+		if (currentLegId !== 0 && !selectionComplete && minTotalPossiblePricesByLegs[currentLegId - 1]) {
+			totalPrice.amount += minTotalPossiblePricesByLegs[currentLegId - 1].amount;
 		}
 
 		return totalPrice;
@@ -191,7 +222,8 @@ export const getPricesForCurrentLeg = createSelector(
 		getCurrentLegId,
 		getFlightsRT,
 		getSelectedFlights,
-		getTotalPrice
+		getTotalPrice,
+		getMinTotalPossiblePricesByLegs
 	],
 	(
 		flightsForCurrentLeg: Flight[],
@@ -199,10 +231,11 @@ export const getPricesForCurrentLeg = createSelector(
 		currentLegId: number,
 		flightsRT: FlightsRTState,
 		selectedFlights: Flight[],
-		totalPrice: Money
+		totalPrice: Money,
+		minTotalPossiblePricesByLegs: PricesByLegs
 	): PricesByFlights => {
 		const result: PricesByFlights = {};
-		const lowestPricesForNextLegs = getMinTotalPriceForNextLegs(currentLegId, minPricesByLegs).amount;
+		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[currentLegId] ? minTotalPossiblePricesByLegs[currentLegId].amount : 0;
 		const lowestPriceOnCurrentLeg = minPricesByLegs[currentLegId] ? minPricesByLegs[currentLegId].amount : 0;
 		const totalPriceForSelectedFlights = selectedFlights.reduce((result: number, flight: Flight): number => flight.totalPrice.amount + result, 0);
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);

@@ -26,23 +26,23 @@ export const setSelectedFlight = (flightId: number, legId: number): SelectedFlig
 
 export const selectFlight = (flightId: number, legId: number): CommonThunkAction => {
 	return (dispatch, getState) => {
-		dispatch(setSelectedFlight(flightId, legId));
-		dispatch(clearAllFilters());
-
 		const state = getState();
 
 		if (isLastLeg(state)) {
-			const flightsRT = state.flightsRT;
-			const UID = getSelectedFlights(state).map(flight => flight.uid).join('_');
-
-			console.log(UID);
-
-			if (flightsRT.hasOwnProperty(UID)) {
-				console.log('YES');
-			}
+			// const flightsRT = state.flightsRT;
+			// const UID = getSelectedFlights(state).map(flight => flight.uid).join('_');
+			//
+			// console.log(UID);
+			//
+			// if (flightsRT.hasOwnProperty(UID)) {
+			// 	console.log('YES');
+			// }
 		}
 		else {
 			dispatch(nextLeg());
 		}
+
+		dispatch(setSelectedFlight(flightId, legId));
+		dispatch(clearAllFilters());
 	};
 };
