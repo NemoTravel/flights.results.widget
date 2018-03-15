@@ -1,36 +1,32 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
+import * as State from '../state';
 import Flight from '../schemas/Flight';
 import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';
-import {
-	ApplicationState, CommonThunkAction, FareFamiliesAvailabilityState, FareFamiliesCombinationsState,
-	FareFamiliesPricesState,
-	SelectedFamiliesState
-} from '../state';
 import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/alternativeFlights/selectors';
-import Button from 'material-ui/Button';
 
 interface StateProps {
 	selectedFlights: Flight[];
-	selectedFamilies: SelectedFamiliesState;
-	fareFamiliesPrices: FareFamiliesPricesState;
-	fareFamiliesAvailability: FareFamiliesAvailabilityState;
-	fareFamiliesCombinations: FareFamiliesCombinationsState;
+	selectedFamilies: State.SelectedFamiliesState;
+	fareFamiliesPrices: State.FareFamiliesPricesState;
+	fareFamiliesAvailability: State.FareFamiliesAvailabilityState;
+	fareFamiliesCombinations: State.FareFamiliesCombinationsState;
 }
 
 interface DispatchProps {
 	selectFamily: SelectFamily;
-	searchForAlternativeFlights: () => CommonThunkAction;
-	goToLeg: (legId: number) => CommonThunkAction;
-	goBack: () => CommonThunkAction;
+	searchForAlternativeFlights: () => State.CommonThunkAction;
+	goToLeg: (legId: number) => State.CommonThunkAction;
+	goBack: () => State.CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
@@ -86,7 +82,7 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: State.ApplicationState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
 		fareFamiliesAvailability: getFareFamiliesAvailability(state),
