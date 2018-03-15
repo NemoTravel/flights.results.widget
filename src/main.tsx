@@ -26,7 +26,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 // }
 
 export const init = (config: Config) => {
-	const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+	const store = createStore(rootReducer, applyMiddleware(thunk));
 	const theme = createMuiTheme(themeObject);
 
 	store.dispatch(setConfig(config));

@@ -49,6 +49,15 @@
 		cursor: pointer;
 		border-bottom: 1px solid #d7d7d7;
 		background-color: #fff;
+		transition: background-color 0.15s;
+
+		&:hover {
+			background: #fafafa;
+
+			.flight-summary-stage-routeInfo__flightTime, .flight-details-segment-stage-routeInfo__flightTime {
+				background: #fafafa;
+			}
+		}
 
 		&__left, &__middle, &__right {
 			display: flex;
@@ -114,12 +123,15 @@
 
 		&-logo {
 			width: 180px;
-			display: flex;
 			font-size: 15px;
+
+			display: flex;
+			justify-content: center;
 
 			&__image {
 				max-width: 110px;
 				max-height: 25px;
+				margin-left: -15px;
 			}
 
 			&__text {
@@ -198,6 +210,7 @@
 					font-size: 11px;
 
 					background: #fff;
+					transition: background-color 0.15s;
 				}
 			}
 		}

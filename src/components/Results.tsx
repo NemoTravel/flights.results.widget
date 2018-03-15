@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import Snackbar from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
 import SwipeableViews from 'react-swipeable-views';
 
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
@@ -15,6 +12,7 @@ import FlightsListComponent from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
+import Snackbar from './Snackbar';
 
 interface StateProps {
 	sorting: SortingState;
@@ -29,21 +27,10 @@ interface DispatchProps {
 	startSearch: () => CommonThunkAction;
 }
 
-interface State {
-	snackbarIsVisible: boolean;
-	snackbarLabel: string;
-}
-
 type Props = StateProps & DispatchProps;
 
-const snackbarAutohideTime = 5000;
-
-class Results extends React.Component<Props, State> {
-	state: State = {
-		snackbarIsVisible: false,
-		snackbarLabel: ''
-	};
-
+class Results extends React.Component<Props> {
+	protected snackbar: Snackbar = null;
 	protected flightsLists: { [legId: string]: any } = {};
 
 	constructor(props: Props) {
@@ -51,7 +38,6 @@ class Results extends React.Component<Props, State> {
 
 		this.setSorting = this.setSorting.bind(this);
 		this.showSnackbar = this.showSnackbar.bind(this);
-		this.onSnackbarClose = this.onSnackbarClose.bind(this);
 	}
 
 	componentDidMount(): void {
@@ -61,16 +47,7 @@ class Results extends React.Component<Props, State> {
 	}
 
 	showSnackbar(label: string): void {
-		this.setState({
-			snackbarIsVisible: true,
-			snackbarLabel: label
-		});
-	}
-
-	onSnackbarClose(): void {
-		this.setState({
-			snackbarIsVisible: false
-		});
+		this.snackbar.showSnackbar(label);
 	}
 
 	setSorting(type: SortingType, direction: SortingDirection): void {
@@ -86,31 +63,7 @@ class Results extends React.Component<Props, State> {
 		const { currentLeg, sorting, legs } = this.props;
 
 		return <div>
-			<Snackbar
-				className="snackbar"
-				open={this.state.snackbarIsVisible}
-				autoHideDuration={snackbarAutohideTime}
-				onClose={this.onSnackbarClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left'
-				}}
-				SnackbarContentProps={{
-					'aria-describedby': 'message-id'
-				}}
-				message={<span id="message-id">{this.state.snackbarLabel}</span>}
-				action={[
-					<IconButton
-						className="snackbar-close"
-						key="close"
-						aria-label="Close"
-						color="inherit"
-						onClick={this.onSnackbarClose}
-					>
-						<CloseIcon />
-					</IconButton>
-				]}
-			/>
+			<Snackbar ref={component => this.snackbar = component}/>
 
 			<Filters currentLeg={currentLeg}/>
 			<Sortings currentSorting={sorting} setSorting={this.setSorting}/>
