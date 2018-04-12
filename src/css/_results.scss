@@ -10,7 +10,7 @@
 
 	&_isLoading {
 		.results-loader {
-			display: flex;
+			display: block;
 		}
 	}
 
@@ -22,18 +22,8 @@
 
 	&-loader {
 		display: none;
-		justify-content: center;
-		align-items: center;
-		position: fixed;
-		
-		background: rgba(255, 255, 255, 0.5);
-		cursor: wait;
-
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: 0;
-		z-index: 2000;
+		text-align: center;
+		padding-top: 30px;
 	}
 }
 

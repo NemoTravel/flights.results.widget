@@ -81,9 +81,7 @@
 }
 
 .results_isLoading .results-loader {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: block;
 }
 
 .results .ReactVirtualized__List,
@@ -95,20 +93,8 @@
 
 .results-loader {
   display: none;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: fixed;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: wait;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  z-index: 2000;
+  text-align: center;
+  padding-top: 30px;
 }
 
 .snackbar {

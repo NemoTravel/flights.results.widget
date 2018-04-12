@@ -11,25 +11,68 @@ import { addFlightsRT } from './flightsRT/actions';
 
 export const startSearch = (): CommonThunkAction => {
 	return (dispatch): void => {
-		const firstSearchId = 219683;
-		const secondSearchId = 219684;
-		const RTSearchId = 219682;
+		const commonParams = {
+			passengers: [ { type: 'ADT', count: 1 } ],
+			parameters: {
+				direct: false,
+				aroundDates: 0,
+				serviceClass: 'Economy',
+				delayed: false
+			}
+		};
+
+		const firstSegment = {
+			departure: { IATA: 'MOW', isCity: true },
+			arrival: { IATA: 'LED', isCity: false },
+			departureDate: '2018-05-25T00:00:00'
+		};
+
+		const secondSegment = {
+			departure: { IATA: 'LED', isCity: false },
+			arrival: { IATA: 'MOW', isCity: false },
+			departureDate: '2018-05-26T00:00:00'
+		};
+
+		const legs = [
+			{
+				request: {
+					segments: [ firstSegment ],
+					...commonParams
+				},
+				isRT: false
+			},
+			{
+				request: {
+					segments: [ secondSegment ],
+					...commonParams
+				},
+				isRT: false
+			},
+			{
+				request: {
+					segments: [ firstSegment, secondSegment ],
+					...commonParams
+				},
+				isRT: true
+			}
+		];
 
 		dispatch(startLoading());
 
-		// Process round trip results.
-		loadSearchResults(RTSearchId).then(flights => dispatch(addFlightsRT(flights)));
-
 		// Process one way results on each leg.
 		Promise
-			.all([
-				loadSearchResults(firstSearchId),
-				loadSearchResults(secondSearchId)
-			])
+			.all(legs.map(legData => loadSearchResults(legData.request)))
 			.then(results => {
-				results.forEach((flights: Flight[], legId: number): void => {
-					dispatch(addFlights(flights));
-					dispatch(setFlightsByLeg(flights, legId));
+				results.forEach((flights: Flight[], index: number): void => {
+					const legData = legs[index];
+
+					if (legData.isRT) {
+						dispatch(addFlightsRT(flights));
+					}
+					else {
+						dispatch(addFlights(flights));
+						dispatch(setFlightsByLeg(flights, index));
+					}
 				});
 
 				dispatch(stopLoading());
