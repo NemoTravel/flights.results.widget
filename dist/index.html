@@ -95,22 +95,11 @@
         </div>
     </header>
 
-    <section id="searchFormRoot"></section>
     <section id="searchResultsRoot"></section>
 
     <script src="flights.results.widget.min.js"></script>
     <script src="http://search.mlsd.ru/flights.search.widget.min.js"></script>
     <script>
-        FlightsSearchWidget.init({
-            nemoURL: 'http://sys.nemo.travel',
-            rootElement: document.getElementById('searchFormRoot'),
-            locale: 'ru',
-            defaultArrivalAirport: 'MOW',
-            defaultDepartureAirport: 'RTW',
-            defaultDepartureDate: '2018-02-19',
-            defaultReturnDate: '2018-02-21'
-        });
-
         FlightsResultsWidget.init({
             rootElement: document.getElementById('searchResultsRoot'),
             locale: 'ru'

@@ -1,12 +1,7 @@
 @import "variable";
 
 .results {
-	width: 1280px;
-	margin: 0 auto;
-	padding-bottom: 80px;
-
-	display: flex;
-	flex-direction: column;
+	flex: 1;
 
 	&_isLoading {
 		.results-loader {
@@ -18,6 +13,15 @@
 		outline: none !important;
 		overflow: visible !important;
 		padding-bottom: 100px;
+	}
+
+	&__inner {
+		width: 1280px;
+		margin: 0 auto;
+		padding-bottom: 80px;
+
+		display: flex;
+		flex-direction: column;
 	}
 
 	&-loader {
