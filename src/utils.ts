@@ -1,6 +1,6 @@
 import { Language } from './state';
 
-export const REQUEST_URL = 'http://nemo1/';
+export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
 

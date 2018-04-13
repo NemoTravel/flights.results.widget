@@ -34,45 +34,23 @@ export const startSearch = (): CommonThunkAction => {
 		};
 
 		const legs = [
-			{
-				request: {
-					segments: [ firstSegment ],
-					...commonParams
-				},
-				isRT: false
-			},
-			{
-				request: {
-					segments: [ secondSegment ],
-					...commonParams
-				},
-				isRT: false
-			},
-			{
-				request: {
-					segments: [ firstSegment, secondSegment ],
-					...commonParams
-				},
-				isRT: true
-			}
+			{ segments: [ firstSegment ], ...commonParams },
+			{ segments: [ secondSegment ], ...commonParams }
 		];
+
+		const RTLeg = { segments: [ firstSegment, secondSegment ], ...commonParams };
 
 		dispatch(startLoading());
 
+		loadSearchResults(RTLeg).then(results => dispatch(addFlightsRT(results)));
+
 		// Process one way results on each leg.
 		Promise
-			.all(legs.map(legData => loadSearchResults(legData.request)))
+			.all(legs.map(loadSearchResults))
 			.then(results => {
 				results.forEach((flights: Flight[], index: number): void => {
-					const legData = legs[index];
-
-					if (legData.isRT) {
-						dispatch(addFlightsRT(flights));
-					}
-					else {
-						dispatch(addFlights(flights));
-						dispatch(setFlightsByLeg(flights, index));
-					}
+					dispatch(addFlights(flights));
+					dispatch(setFlightsByLeg(flights, index));
 				});
 
 				dispatch(stopLoading());
