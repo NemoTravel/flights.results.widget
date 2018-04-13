@@ -62,7 +62,7 @@ class Results extends React.Component<Props> {
 	render(): React.ReactNode {
 		const { currentLeg, sorting, legs } = this.props;
 
-		return <div>
+		return <div className="results__inner-content">
 			<Snackbar ref={component => this.snackbar = component}/>
 
 			<Filters currentLeg={currentLeg}/>

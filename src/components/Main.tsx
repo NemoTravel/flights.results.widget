@@ -27,9 +27,7 @@ class Main extends React.Component<StateProps> {
 						<CircularProgress color="secondary" variant="indeterminate"/>
 					</div>
 
-					{!this.props.isLoading ? (
-						this.props.isSelectionComplete ? <AlternativeFlights/> : <Results/>
-					) : null}
+					{this.props.isSelectionComplete ? <AlternativeFlights/> : <Results/>}
 
 					<Toolbar/>
 				</div>

@@ -7,6 +7,10 @@
 		.results-loader {
 			display: block;
 		}
+
+		.fareFamilies, .results__inner-content {
+			display: none;
+		}
 	}
 
 	.ReactVirtualized__List, .ReactVirtualized__Grid__innerScrollContainer {

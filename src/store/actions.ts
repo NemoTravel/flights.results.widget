@@ -83,7 +83,6 @@ export const searchForAlternativeFlights = (): CommonThunkAction => {
 				});
 
 				dispatch(stopLoading());
-			}
-		);
+			});
 	};
 };
