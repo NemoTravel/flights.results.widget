@@ -3,6 +3,7 @@ import { Language } from './state';
 export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
+export const ISO_DATE_LENGTH = 19;
 
 export const addCodeInList = (list: string[], code: string): string[] => {
 	const result: string[] = [...list];

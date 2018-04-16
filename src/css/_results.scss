@@ -2,6 +2,9 @@
 
 .results {
 	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
 	&_isLoading {
 		.results-loader {
@@ -22,9 +25,10 @@
 	&__inner {
 		width: 1280px;
 		margin: 0 auto;
+
+		padding-top: 50px;
 		padding-bottom: 80px;
 
-		display: flex;
 		flex-direction: column;
 	}
 

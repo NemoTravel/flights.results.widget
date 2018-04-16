@@ -5,8 +5,7 @@ import SwipeableViews from 'react-swipeable-views';
 
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { ApplicationState, CommonThunkAction, SortingDirection, SortingState, SortingType } from '../state';
-import { startSearch } from '../store/actions';
+import { ApplicationState, SortingDirection, SortingState, SortingType } from '../state';
 import { setSorting, SortingAction } from '../store/sorting/actions';
 import FlightsListComponent from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
@@ -24,7 +23,6 @@ interface StateProps {
 
 interface DispatchProps {
 	setSorting: (type: SortingType, direction: SortingDirection) => SortingAction;
-	startSearch: () => CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
@@ -38,12 +36,6 @@ class Results extends React.Component<Props> {
 
 		this.setSorting = this.setSorting.bind(this);
 		this.showSnackbar = this.showSnackbar.bind(this);
-	}
-
-	componentDidMount(): void {
-		if (!this.props.hasAnyFlights) {
-			this.props.startSearch();
-		}
 	}
 
 	showSnackbar(label: string): void {
@@ -94,8 +86,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
 	return {
-		setSorting: bindActionCreators(setSorting, dispatch),
-		startSearch: bindActionCreators(startSearch, dispatch)
+		setSorting: bindActionCreators(setSorting, dispatch)
 	};
 };
 

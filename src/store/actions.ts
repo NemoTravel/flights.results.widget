@@ -8,45 +8,49 @@ import { addFlights } from './flights/actions';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
 import { addFlightsRT } from './flightsRT/actions';
+import RequestInfo from '../schemas/RequestInfo';
+import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
+import { ISO_DATE_LENGTH } from '../utils';
 
-export const startSearch = (): CommonThunkAction => {
+export const startSearch = (searchInfo: SearchInfo): CommonThunkAction => {
 	return (dispatch): void => {
+		dispatch(startLoading());
+
+		let requests: RequestInfo[] = [];
+		const segments = searchInfo.segments.map(segment => {
+			segment.departureDate = segment.departureDate.substr(0, ISO_DATE_LENGTH);
+			segment.returnDate = segment.returnDate.substr(0, ISO_DATE_LENGTH);
+
+			return segment;
+		});
 		const commonParams = {
-			passengers: [ { type: 'ADT', count: 1 } ],
+			passengers: searchInfo.passengers,
 			parameters: {
-				direct: false,
-				aroundDates: 0,
-				serviceClass: 'Economy',
-				delayed: false
+				delayed: false,
+				serviceClass: searchInfo.serviceClass
 			}
 		};
 
-		const firstSegment = {
-			departure: { IATA: 'MOW', isCity: true },
-			arrival: { IATA: 'LED', isCity: false },
-			departureDate: '2018-05-25T00:00:00'
-		};
+		if (segments.length === 1 && segments[0].returnDate) {
+			// RT search
+			const segment = segments[0];
+			const returnSegment = { departure: segment.arrival, arrival: segment.departure, departureDate: segment.returnDate };
 
-		const secondSegment = {
-			departure: { IATA: 'LED', isCity: false },
-			arrival: { IATA: 'MOW', isCity: false },
-			departureDate: '2018-05-26T00:00:00'
-		};
+			requests.push({ ...commonParams, segments: [ segment ] });
+			requests.push({ ...commonParams, segments: [ returnSegment ] });
 
-		const legs = [
-			{ segments: [ firstSegment ], ...commonParams },
-			{ segments: [ secondSegment ], ...commonParams }
-		];
+			loadSearchResults({ ...commonParams, segments: [ segment, returnSegment ] }).then(results => dispatch(addFlightsRT(results)));
+		}
+		else {
+			// OW and CR search
+			requests = segments.map((segment: SearchInfoSegment): RequestInfo => ({
+				...commonParams,
+				segments: [ segment ]
+			}));
+		}
 
-		const RTLeg = { segments: [ firstSegment, secondSegment ], ...commonParams };
-
-		dispatch(startLoading());
-
-		loadSearchResults(RTLeg).then(results => dispatch(addFlightsRT(results)));
-
-		// Process one way results on each leg.
 		Promise
-			.all(legs.map(loadSearchResults))
+			.all(requests.map(loadSearchResults))
 			.then(results => {
 				results.forEach((flights: Flight[], index: number): void => {
 					dispatch(addFlights(flights));
