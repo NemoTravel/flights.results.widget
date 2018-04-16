@@ -1,7 +1,5 @@
-import * as moment from 'moment';
 import { combineReducers } from 'redux';
 
-import Leg from '../schemas/Leg';
 import { ApplicationState } from '../state';
 import { flightsByLegsReducer } from './flightsByLegs/reducers';
 import { loadingReducer } from './isLoading/reducers';
@@ -14,21 +12,7 @@ import { alternativeFlightsReducer } from './alternativeFlights/reducers';
 import { sortingReducer } from './sorting/reducers';
 import { pricesReducer } from './prices/reducers';
 import { flightsRTReducer } from './flightsRT/reducers';
-
-const initialLegsState = [
-	{
-		id: 0,
-		date: moment('2018-06-22').locale('ru'),
-		departure: 'Москва',
-		arrival: 'Санкт-Петербург'
-	},
-	{
-		id: 1,
-		date: moment('2018-06-22').locale('ru'),
-		departure: 'Санкт-Петербург',
-		arrival: 'Мадрид'
-	}
-];
+import { legsReducer } from './legs/reducers';
 
 export const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
@@ -42,5 +26,5 @@ export const rootReducer = combineReducers<ApplicationState>({
 	alternativeFlights: alternativeFlightsReducer,
 	sorting: sortingReducer,
 	prices: pricesReducer,
-	legs: (state: Leg[] = initialLegsState): Leg[] => state
+	legs: legsReducer
 });
