@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import Flight from '../schemas/Flight';
 import { CommonThunkAction } from '../state';
 import { setFlightsByLeg } from './flightsByLegs/actions';
@@ -11,18 +12,22 @@ import { addFlightsRT } from './flightsRT/actions';
 import RequestInfo from '../schemas/RequestInfo';
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
 import { ISO_DATE_LENGTH } from '../utils';
+import { setLegs } from './legs/actions';
+import Leg from '../schemas/Leg';
 
 export const startSearch = (searchInfo: SearchInfo): CommonThunkAction => {
 	return (dispatch): void => {
 		dispatch(startLoading());
 
 		let requests: RequestInfo[] = [];
+
 		const segments = searchInfo.segments.map(segment => {
 			segment.departureDate = segment.departureDate.substr(0, ISO_DATE_LENGTH);
 			segment.returnDate = segment.returnDate.substr(0, ISO_DATE_LENGTH);
 
 			return segment;
 		});
+
 		const commonParams = {
 			passengers: searchInfo.passengers,
 			parameters: {
@@ -48,6 +53,15 @@ export const startSearch = (searchInfo: SearchInfo): CommonThunkAction => {
 				segments: [ segment ]
 			}));
 		}
+
+		dispatch(setLegs(requests.map((requestInfo: RequestInfo, index: number): Leg => {
+			return {
+				id: index,
+				departure: requestInfo.segments[0].departure.IATA,
+				arrival: requestInfo.segments[0].arrival.IATA,
+				date: moment(requestInfo.segments[0].departureDate)
+			};
+		})));
 
 		Promise
 			.all(requests.map(loadSearchResults))
