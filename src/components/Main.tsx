@@ -3,6 +3,7 @@ import * as classNames from 'classnames';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import { Component as SearchForm, SearchInfo } from '@nemo.travel/search-widget';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
 import AlternativeFlights from './AlternativeFlights';
@@ -25,19 +26,23 @@ interface DispatchProps {
 class Main extends React.Component<StateProps & DispatchProps> {
 	render(): React.ReactNode {
 		return (
-			<div className={classNames('results', { results_isLoading: this.props.isLoading })}>
-				<SearchForm nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.props.startSearch}/>
+			<Router>
+				<div className={classNames('results', { results_isLoading: this.props.isLoading })}>
+					<SearchForm nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.props.startSearch}/>
 
-				<div className="results__inner">
-					<div className="results-loader">
-						<CircularProgress color="secondary" variant="indeterminate"/>
-					</div>
+					<Route path="/results" render={() => (
+						<div className="results__inner">
+							<div className="results-loader">
+								<CircularProgress color="secondary" variant="indeterminate"/>
+							</div>
 
-					{this.props.isSelectionComplete ? <AlternativeFlights/> : <Results/>}
+							{this.props.isSelectionComplete ? <AlternativeFlights/> : <Results/>}
 
-					<Toolbar/>
+							<Toolbar/>
+						</div>
+					)}/>
 				</div>
-			</div>
+			</Router>
 		);
 	}
 }

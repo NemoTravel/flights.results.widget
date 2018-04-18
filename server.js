@@ -12,5 +12,9 @@ server.get('/', (req, res) => {
 	res.sendFile(path.resolve(__dirname, './dist/index.html'));
 });
 
+server.get('/results', (req, res) => {
+	res.sendFile(path.resolve(__dirname, './dist/index.html'));
+});
+
 server.listen(port);
 opn('http://localhost:' + port);
