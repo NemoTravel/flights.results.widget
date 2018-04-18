@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowScroller } from 'react-virtualized';
-import Typography from 'material-ui/Typography';
 
 import FlightModel from '../schemas/Flight';
 import Flight from './Flight';
@@ -49,7 +48,6 @@ class FlightsList extends React.Component<Props> {
 		super(props);
 
 		this.flightRenderer = this.flightRenderer.bind(this);
-		this.renderNoRows = this.renderNoRows.bind(this);
 		this.selectFlight = this.selectFlight.bind(this);
 		this.addAirportToFilters = this.addAirportToFilters.bind(this);
 		this.addAirlineToFilters = this.addAirlineToFilters.bind(this);
