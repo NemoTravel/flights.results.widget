@@ -2,17 +2,17 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
-import { Component as SearchForm, SearchInfo } from '@nemo.travel/search-widget';
+import { SearchInfo } from '@nemo.travel/search-widget';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
 import AlternativeFlights from './AlternativeFlights';
-import { ApplicationState, CommonThunkAction, Language } from '../state';
+import { ApplicationState, CommonThunkAction } from '../state';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import Toolbar from './Toolbar';
-import { REQUEST_URL } from '../utils';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { startSearch } from '../store/actions';
+import SearchForm from './SearchForm';
 
 interface StateProps {
 	isLoading: boolean;
@@ -25,10 +25,12 @@ interface DispatchProps {
 
 class Main extends React.Component<StateProps & DispatchProps> {
 	render(): React.ReactNode {
+		const wrapperClassName = classNames('results', { results_isLoading: this.props.isLoading });
+
 		return (
 			<Router>
-				<div className={classNames('results', { results_isLoading: this.props.isLoading })}>
-					<SearchForm nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.props.startSearch}/>
+				<div className={wrapperClassName}>
+					<SearchForm onSearch={this.props.startSearch}/>
 
 					<Route path="/results" render={() => (
 						<div className="results__inner">
