@@ -3,9 +3,25 @@
 .sorting {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 
 	padding-left: 246px;
 	margin: 10px 0;
+
+	&__left, &__middle, &__right {
+		display: flex;
+		align-items: center;
+	}
+
+	&__middle {
+		width: 320px;
+	}
+
+	&__right {
+		width: 270px;
+		padding-right: 162px;
+		justify-content: flex-end;
+	}
 
 	&-item {
 		display: flex;
@@ -74,7 +90,6 @@
 
 		&_ArrivalTime {
 			width: 65px;
-			margin-right: 495px;
 		}
 
 		&_Price {

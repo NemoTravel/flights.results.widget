@@ -17,33 +17,39 @@ class Sorting extends React.Component<Props> {
 		const { currentSorting, setSorting } = this.props;
 
 		return <section className="sorting">
-			<SortingItem
-				type={SortingType.DepartureTime}
-				isActive={currentSorting.type === SortingType.DepartureTime}
-				direction={currentSorting.type === SortingType.DepartureTime ? currentSorting.direction : SortingDirection.ASC}
-				setSorting={setSorting}
-			/>
+			<div className="sorting__left">
+				<SortingItem
+					type={SortingType.DepartureTime}
+					isActive={currentSorting.type === SortingType.DepartureTime}
+					direction={currentSorting.type === SortingType.DepartureTime ? currentSorting.direction : SortingDirection.ASC}
+					setSorting={setSorting}
+				/>
 
-			<SortingItem
-				type={SortingType.FlightTime}
-				isActive={currentSorting.type === SortingType.FlightTime}
-				direction={currentSorting.type === SortingType.FlightTime ? currentSorting.direction : SortingDirection.ASC}
-				setSorting={setSorting}
-			/>
+				<SortingItem
+					type={SortingType.FlightTime}
+					isActive={currentSorting.type === SortingType.FlightTime}
+					direction={currentSorting.type === SortingType.FlightTime ? currentSorting.direction : SortingDirection.ASC}
+					setSorting={setSorting}
+				/>
 
-			<SortingItem
-				type={SortingType.ArrivalTime}
-				isActive={currentSorting.type === SortingType.ArrivalTime}
-				direction={currentSorting.type === SortingType.ArrivalTime ? currentSorting.direction : SortingDirection.ASC}
-				setSorting={setSorting}
-			/>
+				<SortingItem
+					type={SortingType.ArrivalTime}
+					isActive={currentSorting.type === SortingType.ArrivalTime}
+					direction={currentSorting.type === SortingType.ArrivalTime ? currentSorting.direction : SortingDirection.ASC}
+					setSorting={setSorting}
+				/>
+			</div>
 
-			<SortingItem
-				type={SortingType.Price}
-				isActive={currentSorting.type === SortingType.Price}
-				direction={currentSorting.type === SortingType.Price ? currentSorting.direction : SortingDirection.ASC}
-				setSorting={setSorting}
-			/>
+			<div className="sorting__middle"/>
+
+			<div className="sorting__right">
+				<SortingItem
+					type={SortingType.Price}
+					isActive={currentSorting.type === SortingType.Price}
+					direction={currentSorting.type === SortingType.Price ? currentSorting.direction : SortingDirection.ASC}
+					setSorting={setSorting}
+				/>
+			</div>
 		</section>;
 	}
 }

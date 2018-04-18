@@ -29,6 +29,6 @@ export const getSelectedFlights = createSelector(
 export const isSelectionComplete = createSelector(
 	[getLegs, getSelectedFlightsIds],
 	(legs: Leg[], selectedFlightsIds: SelectedFlightsState) => {
-		return !legs.find(leg => !selectedFlightsIds.hasOwnProperty(leg.id));
+		return !!legs.length && !legs.find(leg => !selectedFlightsIds.hasOwnProperty(leg.id));
 	}
 );

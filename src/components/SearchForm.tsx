@@ -23,7 +23,7 @@ class SearchForm extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const isResultsPage = this.props.location.pathname === '/results';
+		const isResultsPage = this.props.location.pathname !== '/';
 
 		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage })}>
 			<SearchFormComponent nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.onSearch}/>
