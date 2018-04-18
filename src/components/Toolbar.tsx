@@ -14,6 +14,7 @@ import { goToLeg, LegAction } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/alternativeFlights/selectors';
 import Tooltip from 'material-ui/Tooltip';
 import { getTotalPrice } from '../store/selectors';
+import { hasAnyFlights } from '../store/flights/selectors';
 
 interface StateProps {
 	totalPrice: Money;
@@ -21,6 +22,7 @@ interface StateProps {
 	currentLeg: number;
 	combinationsAreValid: boolean;
 	legs: Leg[];
+	hasAnyFlights: boolean;
 }
 
 interface DispatchProps {
@@ -75,9 +77,9 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { isSelectionComplete, combinationsAreValid } = this.props;
+		const { isSelectionComplete, combinationsAreValid, hasAnyFlights } = this.props;
 
-		return <section className="toolbar">
+		return hasAnyFlights ? <section className="toolbar">
 			<div className="toolbar__inner">
 				<div className="toolbar-legs">
 					{this.props.legs.map(this.renderLeg)}
@@ -102,7 +104,7 @@ class Toolbar extends React.Component<Props> {
 					) : ''}
 				</div>
 			</div>
-		</section>;
+		</section> : null;
 	}
 }
 
@@ -111,6 +113,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
 		currentLeg: state.currentLeg,
+		hasAnyFlights: hasAnyFlights(state),
 		combinationsAreValid: combinationsAreValid(state),
 		isSelectionComplete: isSelectionComplete(state)
 	};

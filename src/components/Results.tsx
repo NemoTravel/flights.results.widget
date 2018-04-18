@@ -2,6 +2,7 @@ import * as React from 'react';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
+import Typography from 'material-ui/Typography';
 
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
@@ -51,10 +52,14 @@ class Results extends React.Component<Props> {
 		this.flightsLists[this.props.currentLeg.id].wrappedInstance.updateGrid();
 	}
 
-	render(): React.ReactNode {
-		const { currentLeg, sorting, legs } = this.props;
+	renderNoFlights(): React.ReactNode {
+		return this.props.isLoading ? null : <Typography variant="headline">Нет результатов.</Typography>;
+	}
 
-		return <div className="results__inner-content">
+	render(): React.ReactNode {
+		const { currentLeg, sorting, legs, hasAnyFlights, isLoading } = this.props;
+
+		return hasAnyFlights ? <div className="results__inner-content">
 			<Snackbar ref={component => this.snackbar = component}/>
 
 			<Filters currentLeg={currentLeg}/>
@@ -70,7 +75,7 @@ class Results extends React.Component<Props> {
 					/>
 				))}
 			</SwipeableViews>
-		</div>;
+		</div> : this.renderNoFlights();
 	}
 }
 

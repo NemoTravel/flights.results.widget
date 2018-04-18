@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowScroller } from 'react-virtualized';
+import Typography from 'material-ui/Typography';
 
 import FlightModel from '../schemas/Flight';
 import Flight from './Flight';
@@ -13,7 +14,6 @@ import Airport from '../schemas/Airport';
 import Airline from '../schemas/Airline';
 import { isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
-import Typography from 'material-ui/Typography';
 
 export interface OwnProps {
 	legId: number;
@@ -120,10 +120,6 @@ class FlightsList extends React.Component<Props> {
 		</CellMeasurer>;
 	}
 
-	renderNoRows(): any {
-		return <Typography variant="headline">Нет результатов.</Typography>;
-	}
-
 	componentWillUpdate(nextProps: Props): void {
 		if (this.listComponent && nextProps.prices !== this.props.prices) {
 			this.updateGrid();
@@ -150,7 +146,6 @@ class FlightsList extends React.Component<Props> {
 								rowCount={numOfFlights}
 								rowHeight={cache.rowHeight}
 								rowRenderer={this.flightRenderer}
-								noRowsRenderer={this.renderNoRows}
 							/>
 						)}
 					</AutoSizer>
