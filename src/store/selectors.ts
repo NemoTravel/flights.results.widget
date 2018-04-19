@@ -154,6 +154,14 @@ export const getVisibleFlights = createSelector(
 );
 
 /**
+ * Check if there are any visible flights for current leg.
+ */
+export const hasAnyVisibleFlights = createSelector(
+	[getVisibleFlights],
+	(flights: Flight[]): boolean => !!flights.length
+);
+
+/**
  * Calculating total price.
  */
 export const getTotalPrice = createSelector(

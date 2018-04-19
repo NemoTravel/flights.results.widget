@@ -13,11 +13,13 @@ import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
 import Snackbar from './Snackbar';
+import { hasAnyVisibleFlights } from '../store/selectors';
 
 interface StateProps {
 	sorting: SortingState;
 	isLoading: boolean;
 	hasAnyFlights: boolean;
+	hasAnyVisibleFlights: boolean;
 	currentLeg: Leg;
 	legs: Leg[];
 }
@@ -57,13 +59,14 @@ class Results extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, sorting, legs, hasAnyFlights, isLoading } = this.props;
+		const { currentLeg, sorting, legs, hasAnyFlights, hasAnyVisibleFlights } = this.props;
 
 		return hasAnyFlights ? <div className="results__inner-content">
 			<Snackbar ref={component => this.snackbar = component}/>
 
 			<Filters currentLeg={currentLeg}/>
-			<Sortings currentSorting={sorting} setSorting={this.setSorting}/>
+
+			{hasAnyVisibleFlights ? <Sortings currentSorting={sorting} setSorting={this.setSorting}/> : ''}
 
 			<SwipeableViews index={currentLeg.id}>
 				{legs.map(({ id }) => (
@@ -85,6 +88,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 		sorting: state.sorting,
 		isLoading: state.isLoading,
 		hasAnyFlights: hasAnyFlights(state),
+		hasAnyVisibleFlights: hasAnyVisibleFlights(state),
 		currentLeg: getCurrentLeg(state)
 	};
 };

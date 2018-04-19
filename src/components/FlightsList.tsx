@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import Typography from 'material-ui/Typography';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowScroller } from 'react-virtualized';
 
 import FlightModel from '../schemas/Flight';
@@ -124,6 +125,10 @@ class FlightsList extends React.Component<Props> {
 		}
 	}
 
+	renderNoFlights(): JSX.Element {
+		return <Typography variant="headline">Нет результатов.</Typography>;
+	}
+
 	render(): React.ReactNode {
 		const numOfFlights = this.props.flights.length;
 
@@ -144,6 +149,7 @@ class FlightsList extends React.Component<Props> {
 								rowCount={numOfFlights}
 								rowHeight={cache.rowHeight}
 								rowRenderer={this.flightRenderer}
+								noRowsRenderer={this.renderNoFlights}
 							/>
 						)}
 					</AutoSizer>
