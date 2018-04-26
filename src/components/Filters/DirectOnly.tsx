@@ -5,9 +5,11 @@ import { Action, bindActionCreators, Dispatch } from 'redux';
 import { ApplicationState } from '../../state';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
 import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
+import { hasAnyTransferFlights } from '../../store/selectors';
 
 interface StateProps {
 	directOnly: boolean;
+	hasAnyTransferFlights: boolean;
 }
 
 interface DispatchProps {
@@ -23,6 +25,7 @@ class DirectOnly extends Filter<Props, FilterState> {
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.directOnly !== nextProps.directOnly ||
 			this.state.isActive !== nextState.isActive ||
+			this.props.hasAnyTransferFlights !== nextProps.hasAnyTransferFlights ||
 			this.state.chipLabel !== nextState.chipLabel;
 	}
 
@@ -39,11 +42,16 @@ class DirectOnly extends Filter<Props, FilterState> {
 	onClear(): void {
 		this.props.toggleDirectFlights();
 	}
+
+	isVisible(): boolean {
+		return this.props.hasAnyTransferFlights;
+	}
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
-		directOnly: getIsDirectOnly(state)
+		directOnly: getIsDirectOnly(state),
+		hasAnyTransferFlights: hasAnyTransferFlights(state)
 	};
 };
 

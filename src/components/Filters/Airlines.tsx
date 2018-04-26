@@ -78,6 +78,10 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 		});
 	}
 
+	isVisible(): boolean {
+		return this.props.airlines.length > 1;
+	}
+
 	renderPopover(): React.ReactNode {
 		return <FormControl component="fieldset">
 			<FormLabel className="filters-filter-popover-legend" component="legend">

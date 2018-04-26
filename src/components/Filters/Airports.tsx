@@ -107,6 +107,10 @@ class Airports extends WithPopover<Props, FilterState> {
 		this.props.removeAllAirports();
 	}
 
+	isVisible(): boolean {
+		return this.props.departureAirports.length > 1 || this.props.arrivalAirports.length > 1;
+	}
+
 	renderPopover(): React.ReactNode {
 		return <div className="filters-filter-popover__columns">
 			{this.props.departureAirports.length > 1 ? (

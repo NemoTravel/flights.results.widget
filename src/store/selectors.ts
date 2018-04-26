@@ -161,6 +161,15 @@ export const hasAnyVisibleFlights = createSelector(
 	(flights: Flight[]): boolean => !!flights.length
 );
 
+export const hasAnyTransferFlights = createSelector(
+	[getFlightsForCurrentLeg],
+	(flights: Flight[]): boolean => {
+		const numOfTransferFlights = flights.filter(flight => flight.segments.length > 1).length;
+
+		return numOfTransferFlights > 1 && numOfTransferFlights !== flights.length;
+	}
+);
+
 /**
  * Calculating total price.
  */

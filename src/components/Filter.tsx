@@ -33,6 +33,7 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 
 	abstract onClick(): void;
 	abstract onClear(): void;
+	abstract isVisible(): boolean;
 
 	componentDidMount(): void {
 		this.setState({
@@ -52,9 +53,9 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 			chipProps.onClick = this.onClick;
 		}
 
-		return <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+		return this.isVisible() ? <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
 			<Chip className="filters-filter-chip" {...chipProps}/>
-		</div>;
+		</div> : null;
 	}
 }
 

@@ -114,6 +114,10 @@ class Time extends WithPopover<Props, FilterState> {
 		this.props.removeAllTimeIntervals();
 	}
 
+	isVisible(): boolean {
+		return true;
+	}
+
 	renderPopover(): React.ReactNode {
 		return <div className="filters-filter-popover__columns">
 			<TimeColumn
