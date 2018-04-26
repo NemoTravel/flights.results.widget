@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import AppBar from 'material-ui/AppBar';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import SwipeableViews from 'react-swipeable-views';
 
 import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
-import AirportTab from './Airports/Tab';
+import AirportColumn from './Airports/Column';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
@@ -144,39 +141,24 @@ class Airports extends WithPopover<Props, State> {
 	}
 
 	renderPopover(): React.ReactNode {
-		return <div className="filters-filter-popover-tabsSelector">
-			<AppBar className="filters-filter-popover-tabsSelector-tabs" position="static" color="default">
-				<Tabs
-					fullWidth={true}
-					value={this.state.activeTab}
-					onChange={this.changeTab}
-					indicatorColor="primary"
-					textColor="primary"
-				>
-					<Tab className="filters-filter-popover-tabsSelector-tab" label="Вылет" value={0}/>
-					<Tab className="filters-filter-popover-tabsSelector-tab" label="Прилет" value={1}/>
-				</Tabs>
-			</AppBar>
-
-			<SwipeableViews
-				className="filters-filter-popover-tabsSelector-content"
-				index={this.state.activeTab}
-				onChangeIndex={this.changeTabFromSwipe}
-			>
-				<AirportTab
+		return <div className="filters-filter-popover__columns">
+			{this.props.departureAirports.length > 1 ? (
+				<AirportColumn
 					selectedAirports={this.props.selectedDepartureAirports}
 					airports={this.props.departureAirports}
 					onChange={this.onDepartureChange}
 					title="Аэропорты вылета"
 				/>
+			) : null}
 
-				<AirportTab
+			{this.props.arrivalAirports.length > 1 ? (
+				<AirportColumn
 					selectedAirports={this.props.selectedArrivalAirports}
 					airports={this.props.arrivalAirports}
 					onChange={this.onArrivalChange}
 					title="Аэропорты прилета"
 				/>
-			</SwipeableViews>
+			) : null}
 		</div>;
 	}
 }

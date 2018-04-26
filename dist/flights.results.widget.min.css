@@ -51,13 +51,18 @@
   padding: 20px 20px 5px;
 }
 
-.filters-filter-popover__wrapper_airports,
-.filters-filter-popover__wrapper_time {
-  padding: 0;
-}
-
 .filters-filter-popover-legend {
   margin-bottom: 10px;
+}
+
+.filters-filter-popover__columns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.filters-filter-popover-column:not(:last-of-type) {
+  margin-right: 50px;
 }
 
 .filters-filter-popover .filters-filter-popover-group {
@@ -77,14 +82,6 @@
   flex: 0 0 50%;
   max-width: 250px;
   margin-right: 0;
-}
-
-.filters-filter-popover-tabsSelector-tab {
-  font-weight: 600 !important;
-}
-
-.filters-filter-popover-tabsSelector-content__wrapper {
-  padding: 20px 20px 10px;
 }
 
 .results {

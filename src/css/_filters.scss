@@ -42,14 +42,20 @@
 
 			&__wrapper {
 				padding: 20px 20px 5px;
-
-				&_airports, &_time {
-					padding: 0;
-				}
 			}
 
 			&-legend {
 				margin-bottom: 10px;
+			}
+
+			&__columns {
+				display: flex;
+			}
+
+			&-column {
+				&:not(:last-of-type) {
+					margin-right: 50px;
+				}
 			}
 
 			& &-group {
@@ -61,18 +67,6 @@
 					flex: 0 0 50%;
 					max-width: 250px;
 					margin-right: 0;
-				}
-			}
-
-			&-tabsSelector {
-				&-tab {
-					font-weight: 600 !important;
-				}
-
-				&-content {
-					&__wrapper {
-						padding: 20px 20px 10px;
-					}
 				}
 			}
 		}

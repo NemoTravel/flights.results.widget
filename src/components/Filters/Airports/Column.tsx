@@ -11,13 +11,13 @@ interface Props {
 	onChange: (event: React.FormEvent<HTMLInputElement>, checked: boolean) => void;
 }
 
-class Tab extends React.Component<Props> {
+class Column extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return this.props.selectedAirports !== nextProps.selectedAirports;
 	}
 
 	render(): React.ReactNode {
-		return <div className="filters-filter-popover-tabsSelector-content__wrapper">
+		return <div className="filters-filter-popover-column">
 			<FormControl component="fieldset">
 				<FormLabel className="filters-filter-popover-legend" component="legend">{this.props.title}</FormLabel>
 				<FormGroup>
@@ -41,4 +41,4 @@ class Tab extends React.Component<Props> {
 	}
 }
 
-export default Tab;
+export default Column;
