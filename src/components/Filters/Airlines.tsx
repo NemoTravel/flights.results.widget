@@ -84,10 +84,11 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 				{this.label}
 			</FormLabel>
 
-			<FormGroup>
+			<FormGroup className="filters-filter-popover-group">
 				{this.props.airlines.map((airline, index) => (
 					<FormControlLabel
 						key={index}
+						className="filters-filter-popover-group__label"
 						control={
 							<Checkbox
 								color="primary"
