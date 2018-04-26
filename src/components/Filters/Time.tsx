@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import AppBar from 'material-ui/AppBar';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import SwipeableViews from 'react-swipeable-views';
 
-import TimeTab from './Time/Tab';
+import TimeColumn from './Time/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { ApplicationState, FlightTimeInterval, LocationType } from '../../state';
@@ -35,37 +32,22 @@ interface DispatchProps {
 	removeAllTimeIntervals: () => Action;
 }
 
-interface State extends FilterState {
-	activeTab: number;
-}
-
 type Props = StateProps & DispatchProps;
 
-class Time extends WithPopover<Props, State> {
-	state: State = {
-		chipLabel: '',
-		isActive: false,
-		isOpen: false,
-		element: null,
-		activeTab: 0
-	};
-
+class Time extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Time;
 	protected label = 'Время';
 
 	constructor(props: Props) {
 		super(props);
 
-		this.changeTab = this.changeTab.bind(this);
-		this.changeTabFromSwipe = this.changeTabFromSwipe.bind(this);
 		this.onArrivalChange = this.onArrivalChange.bind(this);
 		this.onDepartureChange = this.onDepartureChange.bind(this);
 	}
 
-	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.selectedDepartureTimeIntervals !== nextProps.selectedDepartureTimeIntervals ||
 			this.props.selectedArrivalTimeIntervals !== nextProps.selectedArrivalTimeIntervals ||
-			this.state.activeTab !== nextState.activeTab ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
@@ -132,56 +114,19 @@ class Time extends WithPopover<Props, State> {
 		this.props.removeAllTimeIntervals();
 	}
 
-	changeTab(event: React.ChangeEvent<{}>, value: number): void {
-		this.setState({
-			isActive: this.state.isActive,
-			isOpen: this.state.isOpen,
-			element: this.state.element,
-			activeTab: value
-		} as State);
-	}
-
-	changeTabFromSwipe(value: number): void {
-		this.setState({
-			isActive: this.state.isActive,
-			isOpen: this.state.isOpen,
-			element: this.state.element,
-			activeTab: value
-		} as State);
-	}
-
 	renderPopover(): React.ReactNode {
-		return <div className="filters-filter-popover-tabsSelector">
-			<AppBar className="filters-filter-popover-tabsSelector-tabs" position="static" color="default">
-				<Tabs
-					fullWidth={true}
-					value={this.state.activeTab}
-					onChange={this.changeTab}
-					indicatorColor="primary"
-					textColor="primary"
-				>
-					<Tab className="filters-filter-popover-tabsSelector-tab" label="Вылет" value={0}/>
-					<Tab className="filters-filter-popover-tabsSelector-tab" label="Прилет" value={1}/>
-				</Tabs>
-			</AppBar>
+		return <div className="filters-filter-popover__columns">
+			<TimeColumn
+				selectedTime={this.props.selectedDepartureTimeIntervals}
+				onChange={this.onDepartureChange}
+				title="Время вылета"
+			/>
 
-			<SwipeableViews
-				className="filters-filter-popover-tabsSelector-content"
-				index={this.state.activeTab}
-				onChangeIndex={this.changeTabFromSwipe}
-			>
-				<TimeTab
-					selectedTime={this.props.selectedDepartureTimeIntervals}
-					onChange={this.onDepartureChange}
-					title="Время вылета"
-				/>
-
-				<TimeTab
-					selectedTime={this.props.selectedArrivalTimeIntervals}
-					onChange={this.onArrivalChange}
-					title="Время прилета"
-				/>
-			</SwipeableViews>
+			<TimeColumn
+				selectedTime={this.props.selectedArrivalTimeIntervals}
+				onChange={this.onArrivalChange}
+				title="Время прилета"
+			/>
 		</div>;
 	}
 }

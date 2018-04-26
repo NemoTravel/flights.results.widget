@@ -38,40 +38,25 @@ interface DispatchProps {
 	removeAllAirports: () => Action;
 }
 
-interface State extends FilterState {
-	activeTab: number;
-}
-
 type Props = StateProps & DispatchProps;
 
-class Airports extends WithPopover<Props, State> {
-	state: State = {
-		chipLabel: '',
-		isActive: false,
-		isOpen: false,
-		element: null,
-		activeTab: 0
-	};
-
+class Airports extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Airports;
 	protected label = 'Аэропорты';
 
 	constructor(props: Props) {
 		super(props);
 
-		this.changeTab = this.changeTab.bind(this);
-		this.changeTabFromSwipe = this.changeTabFromSwipe.bind(this);
 		this.onArrivalChange = this.onArrivalChange.bind(this);
 		this.onDepartureChange = this.onDepartureChange.bind(this);
 	}
 
-	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.departureAirports !== nextProps.departureAirports ||
 			this.props.arrivalAirports !== nextProps.arrivalAirports ||
 			this.props.selectedDepartureAirports !== nextProps.selectedArrivalAirports ||
 			this.props.selectedDepartureAirportsObject !== nextProps.selectedDepartureAirportsObject ||
 			this.props.selectedArrivalAirportsObject !== nextProps.selectedArrivalAirportsObject ||
-			this.state.activeTab !== nextState.activeTab ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
@@ -120,24 +105,6 @@ class Airports extends WithPopover<Props, State> {
 
 	onClear(): void {
 		this.props.removeAllAirports();
-	}
-
-	changeTab(event: React.ChangeEvent<{}>, value: number): void {
-		this.setState({
-			isActive: this.state.isActive,
-			isOpen: this.state.isOpen,
-			element: this.state.element,
-			activeTab: value
-		} as State);
-	}
-
-	changeTabFromSwipe(value: number): void {
-		this.setState({
-			isActive: this.state.isActive,
-			isOpen: this.state.isOpen,
-			element: this.state.element,
-			activeTab: value
-		} as State);
 	}
 
 	renderPopover(): React.ReactNode {
