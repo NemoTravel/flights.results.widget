@@ -20,10 +20,11 @@ class Column extends React.Component<Props> {
 		return <div className="filters-filter-popover-column">
 			<FormControl component="fieldset">
 				<FormLabel className="filters-filter-popover-legend" component="legend">{this.props.title}</FormLabel>
-				<FormGroup>
+				<FormGroup className="filters-filter-popover-group">
 					{this.props.airports.map((airport, index) => (
 						<FormControlLabel
 							key={index}
+							className="filters-filter-popover-group__label"
 							control={
 								<Checkbox
 									color="primary"

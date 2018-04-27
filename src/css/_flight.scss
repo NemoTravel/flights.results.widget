@@ -131,9 +131,22 @@
 			justify-content: center;
 
 			&__image {
-				max-width: 110px;
-				max-height: 25px;
-				margin-left: -15px;
+				max-width: 70px;
+				max-height: 19px;
+				margin-right: 15px;
+
+				&:first-of-type {
+					margin-left: -10px;
+				}
+
+				&:last-of-type {
+					margin-right: 0;
+				}
+
+				&:only-child {
+					max-width: 160px;
+					max-height: 23px;
+				}
 			}
 
 			&__text {

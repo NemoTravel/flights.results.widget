@@ -31,13 +31,15 @@ interface State {
 	isOpen: boolean;
 }
 
+const MAX_NUM_OF_LOGO_INLINE = 2;
+
 const createURLForLogo = (baseURL: string, imageURL: string): string => {
 	let result: string;
 
 	// If base URL ends with '/' - leave it as is.
 	result = baseURL[baseURL.length - 1] === '/' ? baseURL : baseURL + '/';
 	// If images URL starts with '/' - remove it (prevent double-slash bug).
-	result += imageURL[0] === '/' ? imageURL.substr(1) : imageURL;
+	result += imageURL && imageURL[0] === '/' ? imageURL.substr(1) : imageURL;
 
 	return result;
 };
@@ -113,9 +115,13 @@ class Flight<P> extends React.Component<Props & P, State> {
 			}
 		});
 
-		return airlinesInFlight.length > 1 ?
+		return airlinesInFlight.length > MAX_NUM_OF_LOGO_INLINE ?
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
-			<img className="flight-summary-logo__image" src={createURLForLogo(REQUEST_URL, flight.segments[0].airline.logoIcon)}/>;
+			airlinesInFlight.map((airline, index) => {
+				return airline.logoIcon ?
+					<img key={index} className="flight-summary-logo__image" src={createURLForLogo(REQUEST_URL, airline.logoIcon)}/> :
+					<div key={index} className="flight-summary-logo__text">{airline.name}</div>;
+			});
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {

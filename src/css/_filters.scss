@@ -40,10 +40,6 @@
 		&-popover {
 			margin-top: 5px;
 
-			&__wrapper {
-				padding: 20px 20px 5px;
-			}
-
 			&-legend {
 				margin-bottom: 10px;
 			}
@@ -69,6 +65,18 @@
 					flex: 0 0 50%;
 					max-width: 250px;
 					margin-right: 0;
+					user-select: none;
+				}
+			}
+
+			&__wrapper {
+				padding: 20px 20px 5px;
+
+				&_airports {
+					.filters-filter-popover-group {
+						min-width: 0;
+						flex-direction: column;
+					}
 				}
 			}
 		}
