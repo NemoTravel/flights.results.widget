@@ -61,7 +61,9 @@
 			& &-group {
 				flex-direction: row;
 				justify-content: space-between;
+
 				max-width: 450px;
+				min-width: 250px;
 
 				&__label {
 					flex: 0 0 50%;
