@@ -13,7 +13,7 @@ interface Props {
 
 class Filters extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.currentLeg.id !== nextProps.currentLeg.id;
+		return this.props.currentLeg !== nextProps.currentLeg;
 	}
 
 	render(): React.ReactNode {

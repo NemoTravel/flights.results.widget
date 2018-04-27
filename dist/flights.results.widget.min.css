@@ -47,10 +47,6 @@
   margin-top: 5px;
 }
 
-.filters-filter-popover__wrapper {
-  padding: 20px 20px 5px;
-}
-
 .filters-filter-popover-legend {
   margin-bottom: 10px;
 }
@@ -83,6 +79,22 @@
   flex: 0 0 50%;
   max-width: 250px;
   margin-right: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.filters-filter-popover__wrapper {
+  padding: 20px 20px 5px;
+}
+
+.filters-filter-popover__wrapper_airports .filters-filter-popover-group {
+  min-width: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 .results {
@@ -327,9 +339,25 @@
 
 .flight-summary-logo__image,
 .flight-details-segment-logo__image {
-  max-width: 110px;
-  max-height: 25px;
-  margin-left: -15px;
+  max-width: 70px;
+  max-height: 19px;
+  margin-right: 15px;
+}
+
+.flight-summary-logo__image:first-of-type,
+.flight-details-segment-logo__image:first-of-type {
+  margin-left: -10px;
+}
+
+.flight-summary-logo__image:last-of-type,
+.flight-details-segment-logo__image:last-of-type {
+  margin-right: 0;
+}
+
+.flight-summary-logo__image:only-child,
+.flight-details-segment-logo__image:only-child {
+  max-width: 160px;
+  max-height: 23px;
 }
 
 .flight-summary-logo__text {

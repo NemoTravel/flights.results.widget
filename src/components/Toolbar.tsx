@@ -41,6 +41,7 @@ class Toolbar extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return nextProps.currentLeg !== this.props.currentLeg ||
 			nextProps.hasAnyFlights !== this.props.hasAnyFlights ||
+			nextProps.legs !== this.props.legs ||
 			nextProps.isSelectionComplete !== this.props.isSelectionComplete ||
 			nextProps.combinationsAreValid !== this.props.combinationsAreValid ||
 			nextProps.totalPrice.amount !== this.props.totalPrice.amount;
