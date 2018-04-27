@@ -23,12 +23,17 @@ class Segment extends React.Component<Props> {
 		const segment = this.props.segment;
 		const totalFlightTime = segment.flightTime + segment.waitingTime;
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
-		const isDirect = !segment.nextSegment;
-		const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
-		const brandName = segment.fareFamilyFeatures ? segment.fareFamilyFeatures.fareFamilyName : '';
+		const hasTransfer = !!segment.prevSegment;
+		const waitingTime = moment.duration(segment.prevSegment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const arrivalAtNextDay = segment.depDate.date() !== segment.arrDate.date();
 
 		return <div className="flight-details-segment">
+			{hasTransfer ? (
+				<div className="flight-details-segment-transfer">
+					{TransferIcon} {waitingTime} пересадка в {declension(segment.prevSegment.arrAirport.city.name)}
+				</div>
+			) : null}
+
 			<div className="flight-details-segment__wrapper">
 				<div className="flight-details-segment__left">
 					<div className="flight-details-segment-logo">
@@ -72,15 +77,9 @@ class Segment extends React.Component<Props> {
 				</div>
 
 				<div className="flight-details-segment__right">
-					{brandName ? `Тариф «${brandName}»` : ''}
+
 				</div>
 			</div>
-
-			{isDirect ? null : (
-				<div className="flight-details-segment-transfer">
-					{TransferIcon} {waitingTime} пересадка в {declension(segment.arrAirport.city.name)}
-				</div>
-			)}
 		</div>;
 	}
 }

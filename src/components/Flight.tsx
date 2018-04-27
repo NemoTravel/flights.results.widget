@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import * as moment from 'moment';
 import * as classnames from 'classnames';
 
@@ -186,9 +187,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 	renderSummary(): React.ReactNode {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
-		const lastSegment = flight.segments[flight.segments.length - 1];
+		const lastSegment = this.state.isOpen ? firstSegment : flight.segments[flight.segments.length - 1];
 		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
-		const isDirect = flight.segments.length === 1;
 		const arrivalAtNextDay = firstSegment.depDate.date() !== lastSegment.arrDate.date();
 
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
@@ -201,8 +201,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 						<path d="M0-.75h24v24H0z" fill="none"/>
 					</svg>
 				</div>
-
-				{this.state.isOpen ? this.renderSummaryPlaceholder() : null}
 
 				<div className="flight-summary-logo">
 					{this.renderLogo()}
@@ -235,29 +233,52 @@ class Flight<P> extends React.Component<Props & P, State> {
 			</div>
 
 			<div className="flight-summary__middle">
-				<div className="flight-summary-transfers">
-					{isDirect ? 'прямой' : flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
-						const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
-
-						return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в {declension(segment.arrAirport.city.name)}</div>;
-					})}
-				</div>
-
-				<div className="flight-summary-route">
-					{firstSegment.depAirport.name} &mdash; {lastSegment.arrAirport.name}
-				</div>
+				{this.state.isOpen ? this.renderSummaryOpen(firstSegment) : this.renderSummaryClosed()}
 			</div>
 
 			{this.renderSummaryButtonsBlock()}
 		</div>;
 	}
 
-	renderDetails(): React.ReactNode {
-		return this.state.isOpen ? <div className="flight-details__wrapper">
-			<div className="flight-details">
-				{this.props.flight.segments.map((segment, index) => <Segment key={index} segment={segment}/>)}
+	renderSummaryClosed(): React.ReactNode {
+		const flight = this.props.flight;
+		const isDirect = flight.segments.length === 1;
+		const firstSegment = flight.segments[0];
+		const lastSegment = this.state.isOpen ? firstSegment : flight.segments[flight.segments.length - 1];
+
+		return <>
+			<div className="flight-summary-transfers">
+				{isDirect ? 'прямой' : flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
+					const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
+
+					return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в {declension(segment.arrAirport.city.name)}</div>;
+				})}
 			</div>
-		</div> : null;
+
+			<div className="flight-summary-route">
+				{firstSegment.depAirport.name} &mdash; {lastSegment.arrAirport.name}
+			</div>
+		</>;
+	}
+
+	renderSummaryOpen(segment: SegmentModel): React.ReactNode {
+		return <>
+			<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
+
+			<div className="flight-details-segment-route">
+				{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}
+				&nbsp;&mdash;&nbsp;
+				{segment.arrAirport.city.name}{segment.arrAirport.city.name !== segment.arrAirport.name ? ', ' + segment.arrAirport.name : null}
+			</div>
+		</>;
+	}
+
+	renderDetails(): React.ReactNode {
+		return <div className="flight-details__wrapper">
+			<div className="flight-details">
+				{this.props.flight.segments.slice(1).map((segment, index) => <Segment key={index} segment={segment}/>)}
+			</div>
+		</div>;
 	}
 
 	componentDidMount(): void {
@@ -273,7 +294,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 			<div className={classnames('flight__wrapper', { flight__wrapper_open: this.state.isOpen })}>
 				<div className="flight__shadow">
 					{this.renderSummary()}
-					{this.renderDetails()}
+
+					{this.state.isOpen ? this.renderDetails() : null}
 				</div>
 			</div>
 		</div>;

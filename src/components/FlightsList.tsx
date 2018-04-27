@@ -169,7 +169,7 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
 	return {
 		addAirline: bindActionCreators(addAirline, dispatch),
 		addAirport: bindActionCreators(addAirport, dispatch),

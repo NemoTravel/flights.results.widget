@@ -121,7 +121,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<LegAction>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<LegAction, any>): DispatchProps => {
 	return {
 		goToLeg: bindActionCreators(goToLeg, dispatch)
 	};

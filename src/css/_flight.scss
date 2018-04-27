@@ -6,6 +6,7 @@
 	}
 
 	&__shadow {
+		background-color: #ffffff;
 		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 	}
 
@@ -51,7 +52,7 @@
 		cursor: pointer;
 		border-bottom: 1px solid #d7d7d7;
 		background-color: #fff;
-		transition: background-color 0.15s;
+		transition: background-color 0.15s, border 0.15s;
 
 		&:hover {
 			background: #fcfcfc;
@@ -79,16 +80,12 @@
 		}
 
 		&_open {
-			border-bottom: 1px solid #e0e0e0;
+			border-bottom: 1px solid #fff;
 			border-top-left-radius: 2px;
 			border-top-right-radius: 2px;
 
-			.flight-summary-logo, .flight-summary-stage, .flight-summary-stage-routeInfo, .flight-summary__middle {
-				display: none;
-			}
-
-			.flight-summary-placeholder {
-				display: block;
+			&:hover {
+				background: #fff;
 			}
 		}
 
@@ -290,7 +287,8 @@
 	}
 
 	&-details {
-		padding: 15px 0;
+		margin-top: -15px;
+		padding: 0 0 15px 0;
 
 		&__wrapper {
 			background-color: #fff;

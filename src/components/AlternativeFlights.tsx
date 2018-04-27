@@ -92,7 +92,7 @@ const mapStateToProps = (state: State.ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
 	return {
 		selectFamily: bindActionCreators(selectFamily, dispatch),
 		searchForAlternativeFlights: bindActionCreators(searchForAlternativeFlights, dispatch),

@@ -55,7 +55,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Action, any>): DispatchProps => {
 	return {
 		toggleDirectFlights: bindActionCreators(toggleDirectFlights, dispatch)
 	};

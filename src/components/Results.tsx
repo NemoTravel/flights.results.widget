@@ -93,7 +93,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
 	return {
 		setSorting: bindActionCreators(setSorting, dispatch)
 	};
