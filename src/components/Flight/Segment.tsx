@@ -25,7 +25,7 @@ class Segment extends React.Component<Props> {
 		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const isDirect = !segment.nextSegment;
 		const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
-		const brandName = segment.fareFamily ? segment.fareFamily.fareFamilyName : '';
+		const brandName = segment.fareFamilyFeatures ? segment.fareFamilyFeatures.fareFamilyName : '';
 		const arrivalAtNextDay = segment.depDate.date() !== segment.arrDate.date();
 
 		return <div className="flight-details-segment">
@@ -63,6 +63,7 @@ class Segment extends React.Component<Props> {
 
 				<div className="flight-details-segment__middle">
 					<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
+
 					<div className="flight-details-segment-route">
 						{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}
 						&nbsp;&mdash;&nbsp;

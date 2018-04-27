@@ -35,6 +35,6 @@ export default interface Segment {
 	stopQuantity: number;
 	sunPercentLeft: number;
 	sunPercentRight: number;
-	fareFamily: FareFamily;
+	fareFamilyFeatures: FareFamily;
 	waitingTime: number;
 }

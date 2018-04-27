@@ -32,7 +32,7 @@ export const getSegment = (): Segment => {
 		stopQuantity: null,
 		sunPercentLeft: null,
 		sunPercentRight: null,
-		fareFamily: null,
+		fareFamilyFeatures: null,
 		waitingTime: 3600
 	};
 };
