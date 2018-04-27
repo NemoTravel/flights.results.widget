@@ -33,7 +33,7 @@ interface State {
 
 const MAX_NUM_OF_LOGO_INLINE = 2;
 
-const createURLForLogo = (baseURL: string, imageURL: string): string => {
+export const createURLForLogo = (baseURL: string, imageURL: string): string => {
 	let result: string;
 
 	// If base URL ends with '/' - leave it as is.
@@ -119,7 +119,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
 			airlinesInFlight.map((airline, index) => {
 				return airline.logoIcon ?
-					<img key={index} className="flight-summary-logo__image" src={createURLForLogo(REQUEST_URL, airline.logoIcon)}/> :
+					<img key={index} className="flight-summary-logo__image" title={airline.name} src={createURLForLogo(REQUEST_URL, airline.logoIcon)}/> :
 					<div key={index} className="flight-summary-logo__text">{airline.name}</div>;
 			});
 	}
