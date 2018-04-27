@@ -1,5 +1,6 @@
 .fareFamilies {
 	margin-bottom: 60px;
+	padding: 0 24px;
 
 	&-title {
 		margin-top: 20px !important;
@@ -163,6 +164,10 @@
 	}
 
 	&-selectedFlights {
+		.flight__holder {
+			padding: 0;
+		}
+
 		&-title {
 			@extend .fareFamilies-title;
 			margin-bottom: 20px !important;

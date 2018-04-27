@@ -35,3 +35,8 @@ export const isLastLeg = createSelector(
 	[getCurrentLegId, getLegs],
 	(currentLegId: number, legs: Leg[]): boolean => currentLegId === legs.length - 1
 );
+
+export const isFirstLeg = createSelector(
+	[getCurrentLegId],
+	(currentLegId: number): boolean => currentLegId === 0
+);

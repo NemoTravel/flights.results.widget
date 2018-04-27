@@ -12,7 +12,7 @@ import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import Airport from '../schemas/Airport';
 import Airline from '../schemas/Airline';
-import { isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
+import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
 
 export interface OwnProps {
@@ -24,7 +24,7 @@ interface StateProps {
 	prices: PricesByFlights;
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
-	isLastLeg: boolean;
+	isFirstLeg: boolean;
 }
 
 interface DispatchProps {
@@ -61,7 +61,7 @@ class FlightsList extends React.Component<Props> {
 	selectFlight(flightId: number, legId: number): void {
 		this.props.selectFlight(flightId, legId);
 
-		if (!this.props.isLastLeg) {
+		if (!this.props.isFirstLeg) {
 			this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
 	}
@@ -110,7 +110,7 @@ class FlightsList extends React.Component<Props> {
 						flight={flight}
 						selectFlight={this.selectFlight}
 						currentLegId={legId}
-						showPricePrefix={!this.props.isLastLeg && this.props.isMultipleLegs}
+						showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
 						addAirport={this.addAirportToFilters}
 						addAirline={this.addAirlineToFilters}
 					/>
@@ -165,7 +165,7 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 		prices: getPricesForCurrentLeg(state),
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
-		isLastLeg: isLastLeg(state)
+		isFirstLeg: isFirstLeg(state)
 	};
 };
 
