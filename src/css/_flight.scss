@@ -151,24 +151,6 @@
 			}
 		}
 		
-		&-placeholder {
-			display: none;
-			font-size: 1rem;
-
-			&-chip {
-				margin-left: 10px;
-
-				&:first-of-type {
-					margin-left: 15px;
-				}
-			}
-
-			&__route {
-				margin-left: 15px;
-				color: $light-font-color;
-			}
-		}
-
 		&-stage {
 			width: 65px;
 			text-align: center;
@@ -372,6 +354,20 @@
 					height: 18px;
 					margin-right: 8px;
 					fill: rgba(0, 0, 0, 0.87);
+				}
+			}
+		}
+
+		&-filters {
+			font-size: 1rem;
+			border-top: 1px solid #e0e0e0;
+			padding: 15px 0 15px 43px;
+
+			&-chip {
+				margin-left: 10px;
+
+				&:first-of-type {
+					margin-left: 0;
 				}
 			}
 		}
