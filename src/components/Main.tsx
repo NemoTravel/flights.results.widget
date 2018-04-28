@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui/Progress';
 import { SearchInfo } from '@nemo.travel/search-widget';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
 import AlternativeFlights from './AlternativeFlights';

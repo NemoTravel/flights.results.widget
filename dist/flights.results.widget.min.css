@@ -355,24 +355,6 @@
   padding-right: 15px;
 }
 
-.flight-summary-placeholder {
-  display: none;
-  font-size: 1rem;
-}
-
-.flight-summary-placeholder-chip {
-  margin-left: 10px;
-}
-
-.flight-summary-placeholder-chip:first-of-type {
-  margin-left: 15px;
-}
-
-.flight-summary-placeholder__route {
-  margin-left: 15px;
-  color: rgba(0, 0, 0, 0.54);
-}
-
 .flight-summary-stage,
 .flight-details-segment-stage {
   width: 65px;
@@ -563,6 +545,20 @@
   height: 18px;
   margin-right: 8px;
   fill: rgba(0, 0, 0, 0.87);
+}
+
+.flight-details-filters {
+  font-size: 1rem;
+  border-top: 1px solid #e0e0e0;
+  padding: 15px 0 15px 43px;
+}
+
+.flight-details-filters-chip {
+  margin-left: 10px;
+}
+
+.flight-details-filters-chip:first-of-type {
+  margin-left: 0;
 }
 
 .toolbar {
