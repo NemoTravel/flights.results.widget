@@ -97,7 +97,7 @@ class FlightsList extends React.Component<Props> {
 		return <CellMeasurer
 			cache={cache}
 			columnIndex={0}
-			key={key}
+			key={flight.id}
 			parent={parent as any}
 			rowIndex={index}
 		>
@@ -105,7 +105,7 @@ class FlightsList extends React.Component<Props> {
 				<div className="flight__holder" style={style}>
 					<Flight
 						onLoad={measure}
-						key={key}
+						key={flight.id}
 						price={prices[flight.id]}
 						flight={flight}
 						selectFlight={this.selectFlight}

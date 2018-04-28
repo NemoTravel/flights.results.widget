@@ -45,17 +45,17 @@ export const createURLForLogo = (baseURL: string, imageURL: string): string => {
 	return result;
 };
 
+const stateByFlights: { [flightId: number]: State } = {};
+
 class Flight<P> extends React.Component<Props & P, State> {
 	static defaultProps: Partial<Props> = {
 		onLoad: () => {}
 	};
 
-	state: State = {
-		isOpen: false
-	};
-
 	constructor(props: Props & P) {
 		super(props);
+
+		this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
 
 		this.toggleDetails = this.toggleDetails.bind(this);
 		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
@@ -75,6 +75,10 @@ class Flight<P> extends React.Component<Props & P, State> {
 		} as State);
 	}
 
+	componentWillUnmount(): void {
+		stateByFlights[this.props.flight.id] = this.state;
+	}
+
 	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
@@ -87,7 +91,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
 		this.props.addAirport(firstSegment.depAirport, LocationType.Departure);
-		this.setState({ isOpen: false } as State);
 	}
 
 	onArrivalAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
@@ -96,20 +99,19 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight = this.props.flight;
 		const lastSegment = flight.segments[flight.segments.length - 1];
 		this.props.addAirport(lastSegment.arrAirport, LocationType.Arrival);
-		this.setState({ isOpen: false } as State);
 	}
 
 	onAirlineClick(airline: Airline): void {
 		this.props.addAirline(airline);
-		this.setState({ isOpen: false } as State);
 	}
 
-	renderLogo(): React.ReactNode {
+	renderLogo(firstOnly = false): React.ReactNode {
 		const { flight } = this.props;
 		const airlinesMap: ObjectsMap<Airline> = {};
 		const airlinesInFlight: Airline[] = [];
+		const segments: SegmentModel[] = firstOnly ? [ flight.segments[0] ] : flight.segments;
 
-		flight.segments.forEach(segment => {
+		segments.forEach(segment => {
 			if (!airlinesMap.hasOwnProperty(segment.airline.IATA)) {
 				airlinesMap[segment.airline.IATA] = segment.airline;
 				airlinesInFlight.push(segment.airline);
@@ -201,7 +203,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 				</div>
 
 				<div className="flight-summary-logo">
-					{this.renderLogo()}
+					{this.renderLogo(this.state.isOpen)}
 				</div>
 
 				<div className="flight-summary-stage">
