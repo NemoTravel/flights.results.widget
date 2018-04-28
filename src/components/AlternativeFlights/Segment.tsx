@@ -7,7 +7,7 @@ import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 import Money from '../../schemas/Money';
-import { REQUEST_URL } from '../../utils';
+import { fixImageURL, REQUEST_URL } from '../../utils';
 
 interface Props {
 	enabledFamilies: { [familyId: string]: boolean };
@@ -82,7 +82,7 @@ class Segment extends React.Component<Props, State> {
 				<div className="fareFamilies-leg-segment-title__left">
 					<div className="fareFamilies-leg-segment-title-logo">
 						<Tooltip title={segment.airline.name} placement="top">
-							<img src={`${REQUEST_URL}${segment.airline.logoIcon}`}/>
+							<img src={fixImageURL(segment.airline.logoIcon)}/>
 						</Tooltip>
 					</div>
 

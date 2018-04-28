@@ -21,13 +21,8 @@ class SelectedFlight extends Flight<Props> {
 		</div>;
 	}
 
-	renderSummaryPlaceholder(): React.ReactNode {
-		const flight = this.props.flight;
-		const firstSegment = flight.segments[0];
-
-		return <div className="flight-summary-placeholder">
-			<span className="flight-summary-placeholder__date">{firstSegment.depDate.format('D MMMM, dddd')}</span>
-		</div>;
+	renderFilters(): React.ReactNode {
+		return null;
 	}
 }
 

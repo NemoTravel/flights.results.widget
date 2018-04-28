@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import * as classnames from 'classnames';
 
 import Segment from './Flight/Segment';
+import Filters from './Flight/Filters';
 import Price from './Price';
 import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
@@ -10,11 +11,8 @@ import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { FlightTimeInterval, LocationType } from '../state';
 import { declension, fixImageURL } from '../utils';
-import Chip from 'material-ui/Chip';
-import Tooltip from 'material-ui/Tooltip';
 import Airport from '../schemas/Airport';
 import Money from '../schemas/Money';
-import { getTimeIntervalForDate, getTimeIntervalName } from '../store/filters/time/selectors';
 
 export interface Props {
 	flight: FlightModel;
@@ -37,8 +35,6 @@ const MAX_NUM_OF_LOGO_INLINE = 2;
 const stateByFlights: { [flightId: number]: State } = {};
 
 class Flight<P> extends React.Component<Props & P, State> {
-	protected flightElement: HTMLElement = null;
-
 	constructor(props: Props & P) {
 		super(props);
 
@@ -46,10 +42,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		this.toggleDetails = this.toggleDetails.bind(this);
 		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
-		this.onDepartureAirportClick = this.onDepartureAirportClick.bind(this);
-		this.onArrivalAirportClick = this.onArrivalAirportClick.bind(this);
-		this.onDepartureTimeIntervalClick = this.onDepartureTimeIntervalClick.bind(this);
-		this.onArrivalTimeIntervalClick = this.onArrivalTimeIntervalClick.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
@@ -72,53 +64,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 		event.stopPropagation();
 		event.preventDefault();
 		this.props.selectFlight(this.props.flight.id, this.props.currentLegId);
-	}
-
-	onDepartureAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
-		event.stopPropagation();
-		event.preventDefault();
-		const flight = this.props.flight;
-		const firstSegment = flight.segments[0];
-		this.props.addAirport(firstSegment.depAirport, LocationType.Departure);
-		this.flightElement.scrollIntoView({
-			behavior: 'smooth'
-		});
-	}
-
-	onArrivalAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
-		event.stopPropagation();
-		event.preventDefault();
-		const flight = this.props.flight;
-		const lastSegment = flight.segments[flight.segments.length - 1];
-		this.props.addAirport(lastSegment.arrAirport, LocationType.Arrival);
-		this.flightElement.scrollIntoView({
-			behavior: 'smooth'
-		});
-	}
-
-	onDepartureTimeIntervalClick(event: React.MouseEvent<HTMLDivElement>): void {
-		event.stopPropagation();
-		event.preventDefault();
-		this.props.addTimeInterval(getTimeIntervalForDate(this.props.flight.segments[0].depDate), LocationType.Departure);
-		this.flightElement.scrollIntoView({
-			behavior: 'smooth'
-		});
-	}
-
-	onArrivalTimeIntervalClick(event: React.MouseEvent<HTMLDivElement>): void {
-		event.stopPropagation();
-		event.preventDefault();
-		this.props.addTimeInterval(getTimeIntervalForDate(this.props.flight.segments[this.props.flight.segments.length - 1].arrDate), LocationType.Arrival);
-		this.flightElement.scrollIntoView({
-			behavior: 'smooth'
-		});
-	}
-
-	onAirlineClick(airline: Airline): void {
-		this.props.addAirline(airline);
-		this.flightElement.scrollIntoView({
-			behavior: 'smooth'
-		});
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {
@@ -165,53 +110,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 		</div>;
 	}
 
-	renderSummaryPlaceholder(): React.ReactNode {
-		const flight: FlightModel = this.props.flight;
-		const firstSegment: SegmentModel = flight.segments[0];
-		const lastSegment: SegmentModel = flight.segments[flight.segments.length - 1];
-		const allAirlines: Airline[] = [];
-		const allAirlinesMap: { [IATA: string]: boolean } = {};
-
-		flight.segments.forEach(segment => {
-			if (!allAirlinesMap.hasOwnProperty(segment.airline.IATA)) {
-				allAirlines.push(segment.airline);
-				allAirlinesMap[segment.airline.IATA] = true;
-			}
-		});
-
-		return <div className="flight-details-filters">
-			<span className="flight-details-filters-label">Вылет:</span>
-
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
-			</Tooltip>
-
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${getTimeIntervalName(getTimeIntervalForDate(firstSegment.depDate))}`} onClick={this.onDepartureTimeIntervalClick}/>
-			</Tooltip>
-
-			<span className="flight-details-filters-label">Прилёт:</span>
-
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
-			</Tooltip>
-
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${getTimeIntervalName(getTimeIntervalForDate(lastSegment.arrDate))}`} onClick={this.onArrivalTimeIntervalClick}/>
-			</Tooltip>
-
-			<span className="flight-details-filters-label">Авиакомпании:</span>
-
-			{allAirlines.map((airline, index) => (
-				<Tooltip key={index} className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-					<Chip label={airline.name} onClick={event => {
-						event.stopPropagation();
-						event.preventDefault();
-						this.onAirlineClick(airline);
-					}}/>
-				</Tooltip>
-			))}
-		</div>;
+	renderFilters(): React.ReactNode {
+		return <Filters flight={this.props.flight}/>;
 	}
 
 	renderSummary(): React.ReactNode {
@@ -263,14 +163,14 @@ class Flight<P> extends React.Component<Props & P, State> {
 			</div>
 
 			<div className="flight-summary__middle">
-				{this.state.isOpen ? this.renderSummaryOpen(firstSegment) : this.renderSummaryClosed()}
+				{this.state.isOpen ? this.renderSummaryMiddleOpened(firstSegment) : this.renderSummaryMiddleClosed()}
 			</div>
 
 			{this.renderSummaryButtonsBlock()}
 		</div>;
 	}
 
-	renderSummaryClosed(): React.ReactNode {
+	renderSummaryMiddleClosed(): React.ReactNode {
 		const flight = this.props.flight;
 		const isDirect = flight.segments.length === 1;
 		const firstSegment = flight.segments[0];
@@ -291,7 +191,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		</>;
 	}
 
-	renderSummaryOpen(segment: SegmentModel): React.ReactNode {
+	renderSummaryMiddleOpened(segment: SegmentModel): React.ReactNode {
 		return <>
 			<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
 
@@ -304,23 +204,20 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return <div className="flight-details__wrapper">
+		return this.state.isOpen ? <div className="flight-details__wrapper">
 			<div className="flight-details">
 				{this.props.flight.segments.slice(1).map((segment, index) => <Segment key={index} segment={segment}/>)}
 			</div>
 
-			{this.renderSummaryPlaceholder()}
-		</div>;
+			{this.renderFilters()}
+		</div> : null;
 	}
 
 	render(): React.ReactNode {
-		return <div className="flight" style={this.props.style} ref={component => this.flightElement = component}>
-			<div className={classnames('flight__wrapper', { flight__wrapper_open: this.state.isOpen })}>
-				<div className="flight__shadow">
-					{this.renderSummary()}
-
-					{this.state.isOpen ? this.renderDetails() : null}
-				</div>
+		return <div className={classnames('flight', { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
+			<div className="flight__shadow">
+				{this.renderSummary()}
+				{this.renderDetails()}
 			</div>
 		</div>;
 	}

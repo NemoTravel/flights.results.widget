@@ -78,18 +78,17 @@ class FlightsList extends React.Component<Props> {
 
 		return this.props.flights.length ?
 			this.props.flights.map(flight => (
-				<div key={flight.id} className="flight__holder">
-					<Flight
-						price={prices[flight.id]}
-						flight={flight}
-						selectFlight={this.selectFlight}
-						currentLegId={legId}
-						showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
-						addAirport={this.addAirportToFilters}
-						addTimeInterval={this.addTimeInterval}
-						addAirline={this.addAirlineToFilters}
-					/>
-				</div>
+				<Flight
+					key={flight.id}
+					price={prices[flight.id]}
+					flight={flight}
+					selectFlight={this.selectFlight}
+					currentLegId={legId}
+					showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
+					addAirport={this.addAirportToFilters}
+					addTimeInterval={this.addTimeInterval}
+					addAirline={this.addAirlineToFilters}
+				/>
 			)) :
 			(
 				<Typography variant="headline">Нет результатов.</Typography>
