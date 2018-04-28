@@ -12,6 +12,7 @@ import { FlightTimeInterval, LocationType } from '../../state';
 import { addTimeInterval, FilterTimeAction } from '../../store/filters/time/actions';
 import { addAirport, FilterAirportsAction } from '../../store/filters/airports/actions';
 import { addAirline, FilterAirlinesAction } from '../../store/filters/airlines/actions';
+import { SnackbarProps, withSnackbar } from '../Snackbar';
 
 interface OwnProps {
 	flight: Flight;
@@ -23,7 +24,7 @@ interface DispatchProps {
 	addTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
 }
 
-type Props = OwnProps & DispatchProps;
+type Props = OwnProps & DispatchProps & SnackbarProps;
 
 class Filters extends React.Component<Props> {
 	constructor(props: Props) {
@@ -51,6 +52,7 @@ class Filters extends React.Component<Props> {
 		const firstSegment = flight.segments[0];
 
 		this.props.addAirport(firstSegment.depAirport.IATA, LocationType.Departure);
+		this.props.showSnackbar(`Аэропорт «${firstSegment.depAirport.name}» был добавлен в фильтры`);
 
 		this.scrollToElement();
 	}
@@ -63,6 +65,7 @@ class Filters extends React.Component<Props> {
 		const lastSegment = flight.segments[flight.segments.length - 1];
 
 		this.props.addAirport(lastSegment.arrAirport.IATA, LocationType.Arrival);
+		this.props.showSnackbar(`Аэропорт «${lastSegment.arrAirport.name}» был добавлен в фильтры`);
 
 		this.scrollToElement();
 	}
@@ -73,8 +76,11 @@ class Filters extends React.Component<Props> {
 
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
+		const interval = getTimeIntervalForDate(firstSegment.depDate);
+		const intervalName = getTimeIntervalName(interval);
 
-		this.props.addTimeInterval(getTimeIntervalForDate(firstSegment.depDate), LocationType.Departure);
+		this.props.addTimeInterval(interval, LocationType.Departure);
+		this.props.showSnackbar(`Время вылета «${intervalName}» было добавлено в фильтры`);
 
 		this.scrollToElement();
 	}
@@ -85,14 +91,18 @@ class Filters extends React.Component<Props> {
 
 		const flight = this.props.flight;
 		const lastSegment = flight.segments[flight.segments.length - 1];
+		const interval = getTimeIntervalForDate(lastSegment.arrDate);
+		const intervalName = getTimeIntervalName(interval);
 
-		this.props.addTimeInterval(getTimeIntervalForDate(lastSegment.arrDate), LocationType.Arrival);
+		this.props.addTimeInterval(interval, LocationType.Arrival);
+		this.props.showSnackbar(`Время прилета «${intervalName}» было добавлено в фильтры`);
 
 		this.scrollToElement();
 	}
 
 	onAirlineClick(airline: Airline): void {
 		this.props.addAirline(airline.IATA);
+		this.props.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
 
 		this.scrollToElement();
 	}
@@ -160,4 +170,4 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps =
 	};
 };
 
-export default connect(null, mapDispatchToProps)(Filters);
+export default withSnackbar<OwnProps>(connect<Props>(null, mapDispatchToProps)(Filters));

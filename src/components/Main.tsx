@@ -13,6 +13,7 @@ import Toolbar from './Toolbar';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
+import Snackbar from './Snackbar';
 
 interface StateProps {
 	isLoading: boolean;
@@ -43,6 +44,8 @@ class Main extends React.Component<StateProps & DispatchProps> {
 							<Toolbar/>
 						</div>
 					)}/>
+
+					{Snackbar}
 				</div>
 			</Router>
 		);

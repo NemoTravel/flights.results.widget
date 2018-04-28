@@ -69,4 +69,17 @@ class Snackbar extends React.Component<any, State> {
 	}
 }
 
-export default Snackbar;
+let snackbarRef: Snackbar = null;
+const snackbarInstance = <Snackbar ref={ref => snackbarRef = ref}/>;
+
+export interface SnackbarProps {
+	showSnackbar: (label: string) => void;
+}
+
+export function withSnackbar<P>(Component: React.ComponentType<P>): React.ComponentType<P> {
+	return (props: any) => {
+		return <Component {...props} showSnackbar={snackbarRef.showSnackbar}/>;
+	};
+}
+
+export default snackbarInstance;

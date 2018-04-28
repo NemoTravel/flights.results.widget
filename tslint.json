@@ -14,7 +14,7 @@
 		"no-parameter-reassignment": true,
 		"no-reference": true,
 		"no-var-requires": false,
-		"only-arrow-functions": true,
+		"only-arrow-functions": false,
 		"prefer-for-of": true,
 		"typedef": true,
 		"typedef-whitespace": [

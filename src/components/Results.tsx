@@ -31,7 +31,6 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 class Results extends React.Component<Props> {
-	protected snackbar: Snackbar = null;
 	protected flightsLists: { [legId: string]: any } = {};
 
 	constructor(props: Props) {
@@ -42,7 +41,7 @@ class Results extends React.Component<Props> {
 	}
 
 	showSnackbar(label: string): void {
-		this.snackbar.showSnackbar(label);
+		// this.snackbar.showSnackbar(label);
 	}
 
 	setSorting(type: SortingType, direction: SortingDirection): void {
@@ -57,8 +56,6 @@ class Results extends React.Component<Props> {
 		const { currentLeg, sorting, legs, hasAnyFlights, hasAnyVisibleFlights } = this.props;
 
 		return hasAnyFlights ? <div className="results__inner-content">
-			<Snackbar ref={component => this.snackbar = component}/>
-
 			<Filters currentLeg={currentLeg}/>
 
 			{hasAnyVisibleFlights ? <Sortings currentSorting={sorting} setSorting={this.setSorting}/> : ''}

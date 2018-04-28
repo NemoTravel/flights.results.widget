@@ -9,9 +9,7 @@ import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
-import { FlightTimeInterval, LocationType } from '../state';
 import { declension, fixImageURL } from '../utils';
-import Airport from '../schemas/Airport';
 import Money from '../schemas/Money';
 
 export interface Props {
@@ -21,9 +19,6 @@ export interface Props {
 	showPricePrefix?: boolean;
 	price?: Money;
 	selectFlight?: (flightId: number, legId: number) => void;
-	addAirport?: (airport: Airport, type: LocationType) => void;
-	addAirline?: (airline: Airline) => void;
-	addTimeInterval?: (time: FlightTimeInterval, type: LocationType) => void;
 }
 
 interface State {
