@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Typography from 'material-ui/Typography';
-// import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowScroller } from 'react-virtualized';
 
 import FlightModel from '../schemas/Flight';
 import Flight from './Flight';
@@ -38,16 +37,10 @@ interface DispatchProps {
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-// const cache = new CellMeasurerCache({
-// 	defaultHeight: rowHeight,
-// 	fixedWidth: true
-// });
-
 class FlightsList extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 
-		this.flightRenderer = this.flightRenderer.bind(this);
 		this.selectFlight = this.selectFlight.bind(this);
 		this.addAirportToFilters = this.addAirportToFilters.bind(this);
 		this.addTimeInterval = this.addTimeInterval.bind(this);
@@ -80,29 +73,27 @@ class FlightsList extends React.Component<Props> {
 		this.props.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
 	}
 
-	flightRenderer(flight: FlightModel): React.ReactNode {
+	render(): React.ReactNode {
 		const { legId, prices } = this.props;
 
-		return <div key={flight.id} className="flight__holder">
-			<Flight
-				price={prices[flight.id]}
-				flight={flight}
-				selectFlight={this.selectFlight}
-				currentLegId={legId}
-				showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
-				addAirport={this.addAirportToFilters}
-				addTimeInterval={this.addTimeInterval}
-				addAirline={this.addAirlineToFilters}
-			/>
-		</div>;
-	}
-
-	renderNoFlights(): JSX.Element {
-		return <Typography variant="headline">Нет результатов.</Typography>;
-	}
-
-	render(): React.ReactNode {
-		return this.props.flights.map(this.flightRenderer);
+		return this.props.flights.length ?
+			this.props.flights.map(flight => (
+				<div key={flight.id} className="flight__holder">
+					<Flight
+						price={prices[flight.id]}
+						flight={flight}
+						selectFlight={this.selectFlight}
+						currentLegId={legId}
+						showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
+						addAirport={this.addAirportToFilters}
+						addTimeInterval={this.addTimeInterval}
+						addAirline={this.addAirlineToFilters}
+					/>
+				</div>
+			)) :
+			(
+				<Typography variant="headline">Нет результатов.</Typography>
+			);
 	}
 }
 
