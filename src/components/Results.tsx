@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import SwipeableViews from 'react-swipeable-views';
 import Typography from 'material-ui/Typography';
 
 import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
@@ -12,7 +11,6 @@ import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
-import Snackbar from './Snackbar';
 import { hasAnyVisibleFlights } from '../store/selectors';
 
 interface StateProps {
@@ -31,17 +29,10 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 class Results extends React.Component<Props> {
-	protected flightsLists: { [legId: string]: any } = {};
-
 	constructor(props: Props) {
 		super(props);
 
 		this.setSorting = this.setSorting.bind(this);
-		this.showSnackbar = this.showSnackbar.bind(this);
-	}
-
-	showSnackbar(label: string): void {
-		// this.snackbar.showSnackbar(label);
 	}
 
 	setSorting(type: SortingType, direction: SortingDirection): void {
@@ -60,16 +51,9 @@ class Results extends React.Component<Props> {
 
 			{hasAnyVisibleFlights ? <Sortings currentSorting={sorting} setSorting={this.setSorting}/> : ''}
 
-			<SwipeableViews slideClassName="results__flights" index={currentLeg.id}>
-				{legs.map(({ id }) => (
-					<FlightsList
-						ref={component => this.flightsLists[id] = component}
-						key={id}
-						legId={id}
-						showSnackbar={this.showSnackbar}
-					/>
-				))}
-			</SwipeableViews>
+			<div className="results__flights">
+				<FlightsList legId={currentLeg.id}/>
+			</div>
 		</div> : this.renderNoFlights();
 	}
 }

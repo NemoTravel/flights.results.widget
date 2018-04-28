@@ -127,11 +127,6 @@
 }
 
 .results__inner {
-  width: 100%;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
   padding-top: 50px;
   padding-bottom: 80px;
 }

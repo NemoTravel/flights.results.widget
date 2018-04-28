@@ -12,7 +12,6 @@ import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../s
 
 export interface OwnProps {
 	legId: number;
-	showSnackbar: (label: string) => void;
 }
 
 interface StateProps {
@@ -39,7 +38,7 @@ class FlightsList extends React.Component<Props> {
 		this.props.selectFlight(flightId, legId);
 
 		if (!this.props.isFirstLeg) {
-			this.props.showSnackbar('Выберите рейс на следующее направление');
+			// this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
 	}
 
