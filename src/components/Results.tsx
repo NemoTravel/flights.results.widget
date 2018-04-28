@@ -63,7 +63,7 @@ class Results extends React.Component<Props> {
 
 			{hasAnyVisibleFlights ? <Sortings currentSorting={sorting} setSorting={this.setSorting}/> : ''}
 
-			<SwipeableViews className="results__flights" index={currentLeg.id}>
+			<SwipeableViews slideClassName="results__flights" index={currentLeg.id}>
 				{legs.map(({ id }) => (
 					<FlightsList
 						ref={component => this.flightsLists[id] = component}

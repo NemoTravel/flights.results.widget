@@ -175,25 +175,24 @@
   display: none;
 }
 
+.flight_open {
+  margin: 15px 0;
+}
+
+.flight:first-of-type {
+  margin-top: 0;
+}
+
 .flight__shadow {
   background-color: #ffffff;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
-.flight__wrapper_open {
-  border-bottom: none;
-  padding: 16px 0;
-}
-
 .flight__holder:first-of-type .flight__shadow,
 .flight__holder:first-of-type .flight-summary {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-}
-
-.flight__holder:first-of-type .flight__wrapper {
-  padding-top: 0;
 }
 
 .flight__holder:last-of-type .flight__shadow,
