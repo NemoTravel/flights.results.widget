@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Fragment } from 'react';
 import * as moment from 'moment';
 import * as classnames from 'classnames';
 
@@ -15,13 +14,11 @@ import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
 import Airport from '../schemas/Airport';
 import Money from '../schemas/Money';
-import { Moment } from 'moment';
 import { getTimeIntervalForDate, getTimeIntervalName } from '../store/filters/time/selectors';
 
 export interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
-	onLoad?: () => void;
 	currentLegId?: number;
 	showPricePrefix?: boolean;
 	price?: Money;
@@ -51,10 +48,6 @@ export const createURLForLogo = (baseURL: string, imageURL: string): string => {
 const stateByFlights: { [flightId: number]: State } = {};
 
 class Flight<P> extends React.Component<Props & P, State> {
-	static defaultProps: Partial<Props> = {
-		onLoad: () => {}
-	};
-
 	protected flightElement: HTMLElement = null;
 
 	constructor(props: Props & P) {
@@ -329,14 +322,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 			{this.renderSummaryPlaceholder()}
 		</div>;
-	}
-
-	componentDidMount(): void {
-		this.props.onLoad();
-	}
-
-	componentDidUpdate(): void {
-		this.props.onLoad();
 	}
 
 	render(): React.ReactNode {

@@ -8,7 +8,7 @@ import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
 import { ApplicationState, SortingDirection, SortingState, SortingType } from '../state';
 import { setSorting, SortingAction } from '../store/sorting/actions';
-import FlightsListComponent from './FlightsList';
+import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
@@ -47,11 +47,6 @@ class Results extends React.Component<Props> {
 
 	setSorting(type: SortingType, direction: SortingDirection): void {
 		this.props.setSorting(type, direction);
-		this.updateCurrentGrid();
-	}
-
-	updateCurrentGrid(): void {
-		this.flightsLists[this.props.currentLeg.id].wrappedInstance.updateGrid();
 	}
 
 	renderNoFlights(): React.ReactNode {
@@ -70,7 +65,7 @@ class Results extends React.Component<Props> {
 
 			<SwipeableViews index={currentLeg.id}>
 				{legs.map(({ id }) => (
-					<FlightsListComponent
+					<FlightsList
 						ref={component => this.flightsLists[id] = component}
 						key={id}
 						legId={id}
