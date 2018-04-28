@@ -9,12 +9,14 @@ import FlightModel from '../schemas/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
-import { LocationType } from '../state';
+import { FlightTimeInterval, LocationType } from '../state';
 import { declension, REQUEST_URL } from '../utils';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
 import Airport from '../schemas/Airport';
 import Money from '../schemas/Money';
+import { Moment } from 'moment';
+import { getTimeIntervalForDate, getTimeIntervalName } from '../store/filters/time/selectors';
 
 export interface Props {
 	flight: FlightModel;
@@ -26,6 +28,7 @@ export interface Props {
 	selectFlight?: (flightId: number, legId: number) => void;
 	addAirport?: (airport: Airport, type: LocationType) => void;
 	addAirline?: (airline: Airline) => void;
+	addTimeInterval?: (time: FlightTimeInterval, type: LocationType) => void;
 }
 
 interface State {
@@ -52,6 +55,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 		onLoad: () => {}
 	};
 
+	protected flightElement: HTMLElement = null;
+
 	constructor(props: Props & P) {
 		super(props);
 
@@ -61,6 +66,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
 		this.onDepartureAirportClick = this.onDepartureAirportClick.bind(this);
 		this.onArrivalAirportClick = this.onArrivalAirportClick.bind(this);
+		this.onDepartureTimeIntervalClick = this.onDepartureTimeIntervalClick.bind(this);
+		this.onArrivalTimeIntervalClick = this.onArrivalTimeIntervalClick.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
@@ -91,6 +98,9 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight = this.props.flight;
 		const firstSegment = flight.segments[0];
 		this.props.addAirport(firstSegment.depAirport, LocationType.Departure);
+		this.flightElement.scrollIntoView({
+			behavior: 'smooth'
+		});
 	}
 
 	onArrivalAirportClick(event: React.MouseEvent<HTMLDivElement>): void {
@@ -99,10 +109,34 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight = this.props.flight;
 		const lastSegment = flight.segments[flight.segments.length - 1];
 		this.props.addAirport(lastSegment.arrAirport, LocationType.Arrival);
+		this.flightElement.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+
+	onDepartureTimeIntervalClick(event: React.MouseEvent<HTMLDivElement>): void {
+		event.stopPropagation();
+		event.preventDefault();
+		this.props.addTimeInterval(getTimeIntervalForDate(this.props.flight.segments[0].depDate), LocationType.Departure);
+		this.flightElement.scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
+
+	onArrivalTimeIntervalClick(event: React.MouseEvent<HTMLDivElement>): void {
+		event.stopPropagation();
+		event.preventDefault();
+		this.props.addTimeInterval(getTimeIntervalForDate(this.props.flight.segments[this.props.flight.segments.length - 1].arrDate), LocationType.Arrival);
+		this.flightElement.scrollIntoView({
+			behavior: 'smooth'
+		});
 	}
 
 	onAirlineClick(airline: Airline): void {
 		this.props.addAirline(airline);
+		this.flightElement.scrollIntoView({
+			behavior: 'smooth'
+		});
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {
@@ -150,9 +184,9 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummaryPlaceholder(): React.ReactNode {
-		const flight = this.props.flight;
-		const firstSegment = flight.segments[0];
-		const lastSegment = flight.segments[flight.segments.length - 1];
+		const flight: FlightModel = this.props.flight;
+		const firstSegment: SegmentModel = flight.segments[0];
+		const lastSegment: SegmentModel = flight.segments[flight.segments.length - 1];
 		const allAirlines: Airline[] = [];
 		const allAirlinesMap: { [IATA: string]: boolean } = {};
 
@@ -164,13 +198,27 @@ class Flight<P> extends React.Component<Props & P, State> {
 		});
 
 		return <div className="flight-details-filters">
+			<span className="flight-details-filters-label">Вылет:</span>
+
 			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`Вылет: ${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
+				<Chip label={`${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
 			</Tooltip>
 
 			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`Прилет: ${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
+				<Chip label={`${getTimeIntervalName(getTimeIntervalForDate(firstSegment.depDate))}`} onClick={this.onDepartureTimeIntervalClick}/>
 			</Tooltip>
+
+			<span className="flight-details-filters-label">Прилёт:</span>
+
+			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
+				<Chip label={`${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
+			</Tooltip>
+
+			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
+				<Chip label={`${getTimeIntervalName(getTimeIntervalForDate(lastSegment.arrDate))}`} onClick={this.onArrivalTimeIntervalClick}/>
+			</Tooltip>
+
+			<span className="flight-details-filters-label">Авиакомпании:</span>
 
 			{allAirlines.map((airline, index) => (
 				<Tooltip key={index} className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
@@ -292,7 +340,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	render(): React.ReactNode {
-		return <div className="flight" style={this.props.style}>
+		return <div className="flight" style={this.props.style} ref={component => this.flightElement = component}>
 			<div className={classnames('flight__wrapper', { flight__wrapper_open: this.state.isOpen })}>
 				<div className="flight__shadow">
 					{this.renderSummary()}

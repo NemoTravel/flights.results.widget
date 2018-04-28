@@ -548,17 +548,22 @@
 }
 
 .flight-details-filters {
-  font-size: 1rem;
   border-top: 1px solid #e0e0e0;
   padding: 15px 0 15px 43px;
 }
 
-.flight-details-filters-chip {
-  margin-left: 10px;
+.flight-details-filters-label {
+  margin-left: 20px;
+  margin-right: 10px;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.flight-details-filters-chip:first-of-type {
+.flight-details-filters-label:first-of-type {
   margin-left: 0;
+}
+
+.flight-details-filters-chip {
+  margin-right: 10px;
 }
 
 .toolbar {

@@ -26,6 +26,22 @@ export const getTimeIntervalForDate = (date: Moment): FlightTimeInterval => {
 	return result;
 };
 
+export const getTimeIntervalName = (interval: FlightTimeInterval): string => {
+	switch (interval) {
+		case FlightTimeInterval.Afternoon:
+			return 'Днём';
+
+		case FlightTimeInterval.Morning:
+			return 'Утром';
+
+		case FlightTimeInterval.Evening:
+			return 'Вечером';
+
+		case FlightTimeInterval.Night:
+			return 'Ночью';
+	}
+};
+
 export const getFilteredDepartureTimeIntervals = (state: ApplicationState): FlightTimeInterval[] => state.filters.time[LocationType.Departure];
 export const getFilteredArrivalTimeIntervals = (state: ApplicationState): FlightTimeInterval[] => state.filters.time[LocationType.Arrival];
 

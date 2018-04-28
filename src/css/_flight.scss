@@ -359,16 +359,21 @@
 		}
 
 		&-filters {
-			font-size: 1rem;
 			border-top: 1px solid #e0e0e0;
 			padding: 15px 0 15px 43px;
 
-			&-chip {
-				margin-left: 10px;
+			&-label {
+				margin-left: 20px;
+				margin-right: 10px;
+				color: rgba(0, 0, 0, 0.54);
 
 				&:first-of-type {
 					margin-left: 0;
 				}
+			}
+
+			&-chip {
+				margin-right: 10px;
 			}
 		}
 	}

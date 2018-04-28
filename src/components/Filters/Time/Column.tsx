@@ -29,7 +29,7 @@ class Column extends React.Component<Props> {
 								value={FlightTimeInterval.Morning}
 							/>
 						}
-						label="Утро (06:00 - 12:00)"
+						label="Утром (06:00 - 12:00)"
 					/>
 					<FormControlLabel
 						control={
@@ -40,7 +40,7 @@ class Column extends React.Component<Props> {
 								value={FlightTimeInterval.Afternoon}
 							/>
 						}
-						label="День (12:00 - 18:00)"
+						label="Днём (12:00 - 18:00)"
 					/>
 					<FormControlLabel
 						control={
@@ -51,7 +51,7 @@ class Column extends React.Component<Props> {
 								value={FlightTimeInterval.Evening}
 							/>
 						}
-						label="Вечер (18:00 - 00:00)"
+						label="Вечером (18:00 - 00:00)"
 					/>
 					<FormControlLabel
 						control={
@@ -62,7 +62,7 @@ class Column extends React.Component<Props> {
 								value={FlightTimeInterval.Night}
 							/>
 						}
-						label="Ночь (00:00 - 06:00)"
+						label="Ночью (00:00 - 06:00)"
 					/>
 				</FormGroup>
 			</FormControl>

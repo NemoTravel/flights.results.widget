@@ -5,7 +5,7 @@ import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListRowProps, WindowS
 
 import FlightModel from '../schemas/Flight';
 import Flight from './Flight';
-import { ApplicationState, CommonThunkAction, LocationType } from '../state';
+import { ApplicationState, CommonThunkAction, FlightTimeInterval, LocationType } from '../state';
 import { addAirline, FilterAirlinesAction } from '../store/filters/airlines/actions';
 import { addAirport, FilterAirportsAction } from '../store/filters/airports/actions';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
@@ -14,6 +14,8 @@ import Airport from '../schemas/Airport';
 import Airline from '../schemas/Airline';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
+import { addTimeInterval, FilterTimeAction } from '../store/filters/time/actions';
+import { getTimeIntervalName } from '../store/filters/time/selectors';
 
 export interface OwnProps {
 	legId: number;
@@ -31,6 +33,7 @@ interface DispatchProps {
 	addAirline: (IATA: string) => FilterAirlinesAction;
 	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+	addTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -51,6 +54,7 @@ class FlightsList extends React.Component<Props> {
 		this.flightRenderer = this.flightRenderer.bind(this);
 		this.selectFlight = this.selectFlight.bind(this);
 		this.addAirportToFilters = this.addAirportToFilters.bind(this);
+		this.addTimeInterval = this.addTimeInterval.bind(this);
 		this.addAirlineToFilters = this.addAirlineToFilters.bind(this);
 	}
 
@@ -69,25 +73,19 @@ class FlightsList extends React.Component<Props> {
 	addAirportToFilters(airport: Airport, type: LocationType): void {
 		this.props.addAirport(airport.IATA, type);
 		this.props.showSnackbar(`Аэропорт «${airport.name}» был добавлен в фильтры`);
+	}
 
-		setTimeout(() => {
-			window.scroll({
-				top: 0,
-				behavior: 'smooth'
-			});
-		}, 0);
+	addTimeInterval(timeInterval: FlightTimeInterval, type: LocationType): void {
+		const typeName = type === LocationType.Arrival ? 'прилета' : 'вылета';
+		const intervalName = getTimeIntervalName(timeInterval);
+
+		this.props.addTimeInterval(timeInterval, type);
+		this.props.showSnackbar(`Время ${typeName} «${intervalName}» было добавлено в фильтры`);
 	}
 
 	addAirlineToFilters(airline: Airline): void {
 		this.props.addAirline(airline.IATA);
 		this.props.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
-
-		setTimeout(() => {
-			window.scroll({
-				top: 0,
-				behavior: 'smooth'
-			});
-		}, 0);
 	}
 
 	flightRenderer({ index, isScrolling, key, style, parent }: ListRowProps): React.ReactNode {
@@ -97,7 +95,7 @@ class FlightsList extends React.Component<Props> {
 		return <CellMeasurer
 			cache={cache}
 			columnIndex={0}
-			key={flight.id}
+			key={flight.id.toString() + key}
 			parent={parent as any}
 			rowIndex={index}
 		>
@@ -112,6 +110,7 @@ class FlightsList extends React.Component<Props> {
 						currentLegId={legId}
 						showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
 						addAirport={this.addAirportToFilters}
+						addTimeInterval={this.addTimeInterval}
 						addAirline={this.addAirlineToFilters}
 					/>
 				</div>
@@ -173,6 +172,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps =
 	return {
 		addAirline: bindActionCreators(addAirline, dispatch),
 		addAirport: bindActionCreators(addAirport, dispatch),
+		addTimeInterval: bindActionCreators(addTimeInterval, dispatch),
 		selectFlight: bindActionCreators(selectFlight, dispatch)
 	};
 };
