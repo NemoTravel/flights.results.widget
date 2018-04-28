@@ -9,7 +9,7 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { FlightTimeInterval, LocationType } from '../state';
-import { declension, REQUEST_URL } from '../utils';
+import { declension, fixImageURL } from '../utils';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
 import Airport from '../schemas/Airport';
@@ -33,17 +33,6 @@ interface State {
 }
 
 const MAX_NUM_OF_LOGO_INLINE = 2;
-
-export const createURLForLogo = (baseURL: string, imageURL: string): string => {
-	let result: string;
-
-	// If base URL ends with '/' - leave it as is.
-	result = baseURL[baseURL.length - 1] === '/' ? baseURL : baseURL + '/';
-	// If images URL starts with '/' - remove it (prevent double-slash bug).
-	result += imageURL && imageURL[0] === '/' ? imageURL.substr(1) : imageURL;
-
-	return result;
-};
 
 const stateByFlights: { [flightId: number]: State } = {};
 
@@ -149,7 +138,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
 			airlinesInFlight.map((airline, index) => {
 				return airline.logoIcon ?
-					<img key={index} className="flight-summary-logo__image" title={airline.name} src={createURLForLogo(REQUEST_URL, airline.logoIcon)}/> :
+					<img key={index} className="flight-summary-logo__image" title={airline.name} src={fixImageURL(airline.logoIcon)}/> :
 					<div key={index} className="flight-summary-logo__text">{airline.name}</div>;
 			});
 	}

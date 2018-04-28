@@ -1,7 +1,7 @@
 /* global describe */
 /* global it */
 /* global expect */
-import { addCodeInList, declension, removeCodeFromList } from '../utils';
+import { addCodeInList, declension, removeCodeFromList, fixImageURL, REQUEST_URL } from '../utils';
 
 describe('utils', () => {
 	describe('addCodeInList', () => {
@@ -26,6 +26,15 @@ describe('utils', () => {
 			const newList = removeCodeFromList(list, 'code_2');
 
 			expect(newList.length).toEqual(list.length - 1);
+		});
+	});
+
+	describe('fixImageURL', () => {
+		it('should create valid URL without double slashes', () => {
+			const expectedURL = `${REQUEST_URL}image.jpg`;
+
+			expect(fixImageURL('image.jpg')).toEqual(expectedURL);
+			expect(fixImageURL('/image.jpg')).toEqual(expectedURL);
 		});
 	});
 

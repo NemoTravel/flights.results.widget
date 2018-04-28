@@ -5,6 +5,18 @@ export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
 export const ISO_DATE_LENGTH = 19;
 
+export const fixImageURL = (url: string): string => {
+	let result: string;
+
+	// If base URL ends with '/' - leave it as is.
+	result = REQUEST_URL[REQUEST_URL.length - 1] === '/' ? REQUEST_URL : REQUEST_URL + '/';
+
+	// If images URL starts with '/' - remove it (prevent double-slash bug).
+	result += url && url[0] === '/' ? url.substr(1) : url;
+
+	return result;
+};
+
 export const addCodeInList = (list: string[], code: string): string[] => {
 	const result: string[] = [...list];
 
