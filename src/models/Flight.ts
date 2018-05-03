@@ -1,9 +1,10 @@
+import * as moment from 'moment';
 import FlightSchema from '../schemas/Flight';
 import Airline from '../schemas/Airline';
 import SegmentGroup from '../schemas/SegmentGroup';
 import Segment from '../schemas/Segment';
 import Money from '../schemas/Money';
-import { convertNemoDateToMoment, UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../utils';
+import { convertNemoDateToMoment, declension, UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../utils';
 import Date from '../schemas/Date';
 
 export default class Flight implements FlightSchema {
@@ -22,7 +23,14 @@ export default class Flight implements FlightSchema {
 	serviceFltId: string;
 	totalPrice: Money;
 	validatingCarrier: Airline;
+
 	uid: string; // XX767_1pc__XX767_2pc
+	totalFlightTime: number;
+	totalFlightTimeHuman: string;
+	arrivalAtNextDay: boolean;
+	firstSegment: Segment;
+	lastSegment: Segment;
+	transferInfo: string[];
 
 	constructor(flightSource: FlightSchema) {
 		this.fill(flightSource);
@@ -30,6 +38,7 @@ export default class Flight implements FlightSchema {
 
 	fill(flightSource: FlightSchema): void {
 		const UID: string[] = [];
+		let totalFlightTime = 0;
 
 		this.id = flightSource.id;
 		this.altFlightHasBeenChosen = flightSource.altFlightHasBeenChosen;
@@ -68,6 +77,23 @@ export default class Flight implements FlightSchema {
 
 		// Glue together all leg UIDs.
 		this.uid = UID.join(UID_LEG_GLUE);
+
+		this.segments.forEach(segment => {
+			totalFlightTime += segment.flightTime + segment.waitingTime;
+		});
+
+		this.totalFlightTime = totalFlightTime;
+		this.totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
+
+		this.firstSegment = this.segments[0];
+		this.lastSegment = this.segments[this.segments.length - 1];
+		this.arrivalAtNextDay = this.firstSegment.depDate.date() !== this.lastSegment.arrDate.date();
+
+		this.transferInfo = this.segments.slice(0, this.segments.length - 1).map(segment => {
+			const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
+
+			return `${waitingTime} пересадка в ${declension(segment.arrAirport.city.name)}`;
+		});
 	}
 
 	/**

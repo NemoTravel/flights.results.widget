@@ -110,13 +110,9 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummary(): React.ReactNode {
-		const flight = this.props.flight;
-		const firstSegment = flight.segments[0];
-		const lastSegment = this.state.isOpen ? firstSegment : flight.segments[flight.segments.length - 1];
-		const totalFlightTime = flight.segments.reduce((result: number, segment: SegmentModel) => result + segment.flightTime + segment.waitingTime, 0);
-		const arrivalAtNextDay = firstSegment.depDate.date() !== lastSegment.arrDate.date();
-
-		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
+		const flight: FlightModel = this.props.flight;
+		const firstSegment = flight.firstSegment;
+		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
 
 		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen })} onClick={this.toggleDetails}>
 			<div className="flight-summary__left">
@@ -143,7 +139,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 				<div className="flight-summary-stage-routeInfo">
 					<div className="flight-summary-stage-routeInfo__arrow"/>
-					<span className="flight-summary-stage-routeInfo__flightTime">{totalFlightTimeHuman}</span>
+					<span className="flight-summary-stage-routeInfo__flightTime">{flight.totalFlightTimeHuman}</span>
 				</div>
 
 				<div className="flight-summary-stage">
@@ -151,7 +147,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 						{lastSegment.arrDate.format('HH:mm')}
 					</div>
 
-					<div className={classnames('flight-summary-stage__date', { 'flight-summary-stage__date_warning': arrivalAtNextDay })}>
+					<div className={classnames('flight-summary-stage__date', { 'flight-summary-stage__date_warning': flight.arrivalAtNextDay })}>
 						{lastSegment.arrDate.format('DD MMM')}
 					</div>
 				</div>
@@ -166,18 +162,16 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummaryMiddleClosed(): React.ReactNode {
-		const flight = this.props.flight;
+		const flight: FlightModel = this.props.flight;
 		const isDirect = flight.segments.length === 1;
-		const firstSegment = flight.segments[0];
-		const lastSegment = this.state.isOpen ? firstSegment : flight.segments[flight.segments.length - 1];
+		const firstSegment = flight.firstSegment;
+		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
 
 		return <>
 			<div className="flight-summary-transfers">
-				{isDirect ? 'прямой' : flight.segments.slice(0, flight.segments.length - 1).map((segment, index) => {
-					const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
-
-					return <div className="flight-summary-transfers__item" key={index}>{waitingTime} пересадка в {declension(segment.arrAirport.city.name)}</div>;
-				})}
+				{isDirect ? 'прямой' : flight.transferInfo.map((info, index) => (
+					<div className="flight-summary-transfers__item" key={index}>{info}</div>
+				))}
 			</div>
 
 			<div className="flight-summary-route">
