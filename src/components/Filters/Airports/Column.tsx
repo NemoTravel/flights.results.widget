@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
+import FormGroup from 'material-ui/Form/FormGroup';
+import FormControl from 'material-ui/Form/FormControl';
+import FormLabel from 'material-ui/Form/FormLabel';
+
+import Checkbox from '../Checkbox';
 import Airport from '../../../schemas/Airport';
 import { ListOfSelectedCodes } from '../../../store/filters/selectors';
 
@@ -22,18 +25,12 @@ class Column extends React.Component<Props> {
 				<FormLabel className="filters-filter-popover-legend" component="legend">{this.props.title}</FormLabel>
 				<FormGroup className="filters-filter-popover-group">
 					{this.props.airports.map((airport, index) => (
-						<FormControlLabel
+						<Checkbox
 							key={index}
-							className="filters-filter-popover-group__label"
-							control={
-								<Checkbox
-									color="primary"
-									onChange={this.props.onChange}
-									checked={airport.IATA in this.props.selectedAirports}
-									value={airport.IATA}
-								/>
-							}
 							label={airport.name}
+							onChange={this.props.onChange}
+							checked={airport.IATA in this.props.selectedAirports}
+							value={airport.IATA}
 						/>
 					))}
 				</FormGroup>
