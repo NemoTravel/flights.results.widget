@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { ApplicationState } from '../../../state';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import Airline from '../../../schemas/Airline';
-import Flight from '../../../schemas/Flight';
+import Flight from '../../../models/Flight';
 import { getFlightsForCurrentLeg } from '../../flights/selectors';
 
 /**

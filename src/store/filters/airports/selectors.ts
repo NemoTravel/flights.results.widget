@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import Airport from '../../../schemas/Airport';
-import Flight from '../../../schemas/Flight';
+import Flight from '../../../models/Flight';
 import { ApplicationState, LocationType } from '../../../state';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import { getFlightsForCurrentLeg } from '../../flights/selectors';

@@ -1,8 +1,6 @@
 import { ApplicationState, SortingDirection, SortingState } from '../../state';
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import SegmentModel from '../../schemas/Segment';
-
-const MINUTES_IN_HOUR = 60;
 
 /**
  * Compare two objects considering the sorting direction.

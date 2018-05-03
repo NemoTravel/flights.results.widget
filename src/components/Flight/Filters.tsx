@@ -7,7 +7,7 @@ import Tooltip from 'material-ui/Tooltip';
 import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
 import Airline from '../../schemas/Airline';
 import SegmentModel from '../../schemas/Segment';
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import { FlightTimeInterval, LocationType } from '../../state';
 import { addTimeInterval, FilterTimeAction } from '../../store/filters/time/actions';
 import { addAirport, FilterAirportsAction } from '../../store/filters/airports/actions';

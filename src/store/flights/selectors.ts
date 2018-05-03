@@ -1,6 +1,6 @@
 import { getFlightsIdsByLegs } from '../filters/selectors';
 import { createSelector } from 'reselect';
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import { ApplicationState, FlightsByLegsState, FlightsState } from '../../state';
 import { getCurrentLegId } from '../currentLeg/selectors';
 

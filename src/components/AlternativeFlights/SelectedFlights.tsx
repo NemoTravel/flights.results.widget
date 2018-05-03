@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Typography from 'material-ui/Typography';
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import SelectedFlight from './SelectedFlight';
 import { CommonThunkAction } from '../../state';
 

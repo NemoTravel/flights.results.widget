@@ -2,9 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Typography from 'material-ui/Typography';
 
-import FlightModel from '../schemas/Flight';
+import FlightModel from '../models/Flight';
 import Flight from './Flight';
-import { ApplicationState, CommonThunkAction, LocationType } from '../state';
+import { ApplicationState, CommonThunkAction } from '../state';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';

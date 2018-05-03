@@ -1,4 +1,4 @@
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import { Action } from 'redux';
 
 export const SET_FLIGHTS_BY_LEGS = 'SET_FLIGHTS_BY_LEGS';

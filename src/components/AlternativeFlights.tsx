@@ -5,7 +5,7 @@ import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
 import * as State from '../state';
-import Flight from '../schemas/Flight';
+import Flight from '../models/Flight';
 import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
 import { searchForAlternativeFlights } from '../store/actions';

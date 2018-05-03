@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import Flight from '../schemas/Flight';
+import Flight from '../models/Flight';
 import { getFlightsIdsByLegs, ListOfSelectedCodes } from './filters/selectors';
 import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';

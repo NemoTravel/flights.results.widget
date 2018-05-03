@@ -1,6 +1,4 @@
-import { ApplicationState, FlightsByLegsState, FlightsState } from '../../state';
-import Flight from '../../schemas/Flight';
-import { createSelector } from 'reselect';
+import { ApplicationState, FlightsByLegsState } from '../../state';
 
 export interface ListOfSelectedCodes {
 	[code: string]: boolean;

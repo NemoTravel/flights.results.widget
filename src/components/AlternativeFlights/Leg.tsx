@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import Segment from './Segment';
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../state';
 import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';

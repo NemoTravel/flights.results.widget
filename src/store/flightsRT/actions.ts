@@ -1,4 +1,4 @@
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import { FlightsAction } from '../flights/actions';
 
 export const ADD_FLIGHTS_RT = 'ADD_FLIGHTS_RT';

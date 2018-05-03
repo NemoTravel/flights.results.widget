@@ -1,24 +1,23 @@
-import CommonModel from './CommonModel';
 import Airline from './Airline';
 import Money from './Money';
 import Segment from './Segment';
 import SegmentGroup from './SegmentGroup';
+import FlightModel from '../models/Flight';
 
-export default interface Flight extends CommonModel {
+export default interface Flight {
+	id: number;
 	altFlightHasBeenChosen: boolean;
-	altFlights: Flight[];
+	altFlights: FlightModel[];
 	codeShareAirlines: Airline[];
 	isInternational: boolean;
-	isRefundable: false;
-	isTranslitRequired: true;
+	isRefundable: boolean;
+	isTranslitRequired: boolean;
 	originalCurrency: string;
 	searchId: number;
 	segmentGroups: SegmentGroup[];
 	segments: Segment[];
 	service: string;
 	serviceFltId: string;
-	tariffFeatures: any;
 	totalPrice: Money;
 	validatingCarrier: Airline;
-	uid: string; // XX767_1pc__XX767_2pc
 }

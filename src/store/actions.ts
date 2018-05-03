@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import Flight from '../schemas/Flight';
+import Flight from '../models/Flight';
 import { CommonThunkAction } from '../state';
 import { setFlightsByLeg } from './flightsByLegs/actions';
 import { startLoading, stopLoading } from './isLoading/actions';

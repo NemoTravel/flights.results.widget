@@ -5,7 +5,7 @@ import * as classnames from 'classnames';
 import Segment from './Flight/Segment';
 import Filters from './Flight/Filters';
 import Price from './Price';
-import FlightModel from '../schemas/Flight';
+import FlightModel from '../models/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';

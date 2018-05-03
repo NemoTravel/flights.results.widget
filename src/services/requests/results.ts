@@ -1,4 +1,4 @@
-import Flight from '../../schemas/Flight';
+import Flight from '../../models/Flight';
 import { REQUEST_URL } from '../../utils';
 import { parse as parseResults } from '../parsers/results';
 
@@ -11,5 +11,5 @@ export default async (requestParams: any): Promise<Flight[]> => {
 		body: data
 	});
 
-	return parseResults(await response.json(), requestParams);
+	return parseResults(await response.json());
 };
