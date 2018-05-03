@@ -6,8 +6,9 @@ import Segment from '../schemas/Segment';
 import Money from '../schemas/Money';
 import { convertNemoDateToMoment, declension, UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../utils';
 import Date from '../schemas/Date';
+import Fillable from '../models/Fillable';
 
-export default class Flight implements FlightSchema {
+export default class Flight extends Fillable<FlightSchema> implements FlightSchema {
 	id: number;
 	altFlightHasBeenChosen: boolean;
 	altFlights: Flight[];
@@ -32,28 +33,11 @@ export default class Flight implements FlightSchema {
 	lastSegment: Segment;
 	transferInfo: string[];
 
-	constructor(flightSource: FlightSchema) {
-		this.fill(flightSource);
-	}
-
 	fill(flightSource: FlightSchema): void {
+		super.fill(flightSource);
+
 		const UID: string[] = [];
 		let totalFlightTime = 0;
-
-		this.id = flightSource.id;
-		this.altFlightHasBeenChosen = flightSource.altFlightHasBeenChosen;
-		this.altFlights = flightSource.altFlights;
-		this.codeShareAirlines = flightSource.codeShareAirlines;
-		this.isInternational = flightSource.isInternational;
-		this.isRefundable = flightSource.isRefundable;
-		this.isTranslitRequired = flightSource.isTranslitRequired;
-		this.originalCurrency = flightSource.originalCurrency;
-		this.searchId = flightSource.searchId;
-		this.segments = flightSource.segments;
-		this.service = flightSource.service;
-		this.serviceFltId = flightSource.serviceFltId;
-		this.totalPrice = flightSource.totalPrice;
-		this.validatingCarrier = flightSource.validatingCarrier;
 
 		this.segmentGroups = flightSource.segmentGroups.map(group => {
 			const legUID: string[] = [];
