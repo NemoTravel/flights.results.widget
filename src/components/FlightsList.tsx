@@ -78,4 +78,4 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps =
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(FlightsList);
+export default connect(mapStateToProps, mapDispatchToProps)(FlightsList);
