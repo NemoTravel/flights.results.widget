@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Typography from 'material-ui/Typography';
 
-import { getCurrentLeg, getLegs } from '../store/currentLeg/selectors';
+import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { ApplicationState, SortingDirection, SortingState, SortingType } from '../state';
-import { setSorting, SortingAction } from '../store/sorting/actions';
+import { ApplicationState } from '../state';
 import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
@@ -14,42 +12,24 @@ import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 
 interface StateProps {
-	sorting: SortingState;
 	isLoading: boolean;
 	hasAnyFlights: boolean;
 	hasAnyVisibleFlights: boolean;
 	currentLeg: Leg;
-	legs: Leg[];
 }
 
-interface DispatchProps {
-	setSorting: (type: SortingType, direction: SortingDirection) => SortingAction;
-}
-
-type Props = StateProps & DispatchProps;
-
-class Results extends React.Component<Props> {
-	constructor(props: Props) {
-		super(props);
-
-		this.setSorting = this.setSorting.bind(this);
-	}
-
-	setSorting(type: SortingType, direction: SortingDirection): void {
-		this.props.setSorting(type, direction);
-	}
-
+class Results extends React.Component<StateProps> {
 	renderNoFlights(): React.ReactNode {
 		return this.props.isLoading ? null : <Typography variant="headline">Нет результатов.</Typography>;
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, sorting, legs, hasAnyFlights, hasAnyVisibleFlights } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights } = this.props;
 
 		return hasAnyFlights ? <div className="results__inner-content">
 			<Filters currentLeg={currentLeg}/>
 
-			{hasAnyVisibleFlights ? <Sortings currentSorting={sorting} setSorting={this.setSorting}/> : ''}
+			{hasAnyVisibleFlights ? <Sortings/> : ''}
 
 			<div className="results__flights">
 				<FlightsList legId={currentLeg.id}/>
@@ -60,8 +40,6 @@ class Results extends React.Component<Props> {
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
-		legs: getLegs(state),
-		sorting: state.sorting,
 		isLoading: state.isLoading,
 		hasAnyFlights: hasAnyFlights(state),
 		hasAnyVisibleFlights: hasAnyVisibleFlights(state),
@@ -69,10 +47,4 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		setSorting: bindActionCreators(setSorting, dispatch)
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Results);
+export default connect(mapStateToProps)(Results);
