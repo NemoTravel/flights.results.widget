@@ -39,12 +39,13 @@ export const startSearch = (searchInfo: SearchInfo): CommonThunkAction => {
 		if (segments.length === 1 && segments[0].returnDate) {
 			// RT search
 			const segment = segments[0];
-			const returnSegment = { departure: segment.arrival, arrival: segment.departure, departureDate: segment.returnDate };
+			const departureSegment: SearchInfoSegment = { departure: segment.departure, arrival: segment.arrival, departureDate: segment.departureDate };
+			const returnSegment: SearchInfoSegment = { departure: segment.arrival, arrival: segment.departure, departureDate: segment.returnDate };
 
-			requests.push({ ...commonParams, segments: [ segment ] });
+			requests.push({ ...commonParams, segments: [ departureSegment ] });
 			requests.push({ ...commonParams, segments: [ returnSegment ] });
 
-			loadSearchResults({ ...commonParams, segments: [ segment, returnSegment ] }).then(results => dispatch(addFlightsRT(results)));
+			loadSearchResults({ ...commonParams, segments: [ departureSegment, returnSegment ] }).then(results => dispatch(addFlightsRT(results)));
 		}
 		else {
 			// OW and CR search
