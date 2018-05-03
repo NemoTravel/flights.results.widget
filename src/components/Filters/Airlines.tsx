@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { FormLabel, FormControl, FormGroup, FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
+import FormGroup from 'material-ui/Form/FormGroup';
+import FormControl from 'material-ui/Form/FormControl';
+import FormLabel from 'material-ui/Form/FormLabel';
 
+import Checkbox from './Checkbox';
 import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
@@ -90,18 +92,12 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 
 			<FormGroup className="filters-filter-popover-group">
 				{this.props.airlines.map((airline, index) => (
-					<FormControlLabel
+					<Checkbox
 						key={index}
-						className="filters-filter-popover-group__label"
-						control={
-							<Checkbox
-								color="primary"
-								onChange={this.onChange}
-								checked={airline.IATA in this.props.selectedAirlines}
-								value={airline.IATA}
-							/>
-						}
 						label={airline.name}
+						onChange={this.onChange}
+						checked={airline.IATA in this.props.selectedAirlines}
+						value={airline.IATA}
 					/>
 				))}
 			</FormGroup>
