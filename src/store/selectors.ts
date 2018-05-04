@@ -15,7 +15,7 @@ import { getSelectedFlights, getSelectedFlightsIds, isSelectionComplete } from '
 import { getFlightsRT } from './flightsRT/selectors';
 import { FlightsRTState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
-import { getShowAllFlights } from './showAllFlights/selectors';
+import { ApplicationState } from '../state';
 
 const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: State.SortingDirection) => number } = {
 	[State.SortingType.Price]: Sorting.priceCompareFunction,
@@ -31,6 +31,8 @@ export interface PricesByFlights {
 interface PricesByLegs {
 	[legId: number]: Money;
 }
+
+export const getShowAllFlights = (state: ApplicationState): boolean => state.showAllFlights;
 
 /**
  * Get a list of min prices for each leg.

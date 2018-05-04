@@ -9,7 +9,7 @@ import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
-import { shouldHideFlights } from '../store/showAllFlights/selectors';
+import { showAllIsVisible } from '../store/showAllFlights/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
 
@@ -22,7 +22,7 @@ interface StateProps {
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
-	hideFlights: boolean;
+	showAllIsVisible: boolean;
 }
 
 interface DispatchProps {
@@ -53,7 +53,7 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { legId, prices, hideFlights } = this.props;
+		const { legId, prices, showAllIsVisible } = this.props;
 
 		return this.props.flights.length ?
 			<>
@@ -68,7 +68,7 @@ class FlightsList extends React.Component<Props> {
 					/>
 				))}
 
-				{hideFlights ? <div className="results__flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
+				{showAllIsVisible ? <div className="results__flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
 			</> :
 			(
 				<Typography variant="headline">Нет результатов.</Typography>
@@ -83,7 +83,7 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),
-		hideFlights: shouldHideFlights(state)
+		showAllIsVisible: showAllIsVisible(state)
 	};
 };
 
