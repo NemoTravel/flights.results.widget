@@ -19,29 +19,23 @@
 	&:first-of-type {
 		border-top: none;
 		margin-top: 0;
+
+		.flight__shadow {
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
+		}
+	}
+
+	&:last-of-type {
+		.flight__shadow {
+			border-bottom-left-radius: 2px;
+			border-bottom-right-radius: 2px;
+		}
 	}
 
 	&__shadow {
 		background-color: #ffffff;
 		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-	}
-
-	&__holder {
-		&:first-of-type {
-			.flight {
-				&__shadow, &-summary {
-					border-top-left-radius: 2px;
-					border-top-right-radius: 2px;
-				}
-			}
-		}
-
-		&:last-of-type {
-			.flight__shadow, .flight-summary {
-				border-bottom-left-radius: 2px;
-				border-bottom-right-radius: 2px;
-			}
-		}
 	}
 
 	&-summary {
@@ -53,7 +47,6 @@
 		padding: 12px 24px;
 
 		cursor: pointer;
-		background-color: #fff;
 		transition: background-color 0.15s, border 0.15s;
 
 		&:hover {
@@ -241,8 +234,11 @@
 		}
 
 		&-buy {
-			font-size: 15px;
+			font-size: 0.875rem;
+			font-weight: 500;
 			line-height: 40px;
+			text-transform: uppercase;
+
 			padding: 0 15px;
 			border-radius: 0;
 
@@ -261,7 +257,7 @@
 
 			&:active {
 				background: #94ca51;
-				box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+				box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 			}
 		}
 	}
