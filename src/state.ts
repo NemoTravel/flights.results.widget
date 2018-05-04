@@ -139,4 +139,5 @@ export interface ApplicationState {
 	alternativeFlights: AlternativeFlightsState;
 	legs: Leg[];
 	sorting: SortingState;
+	showAllFlights: boolean;
 }

@@ -14,7 +14,8 @@ import * as AlternativeFlights from './alternativeFlights/selectors';
 import { getSelectedFlights, getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
 import { FlightsRTState } from '../state';
-import { UID_LEG_GLUE } from '../utils';
+import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
+import { getShowAllFlights } from './showAllFlights/selectors';
 
 const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: State.SortingDirection) => number } = {
 	[State.SortingType.Price]: Sorting.priceCompareFunction,
@@ -104,6 +105,7 @@ export const getVisibleFlights = createSelector(
 		TimeFilter.getSelectedDepartureTimeIntervals,
 		TimeFilter.getSelectedArrivalTimeIntervals,
 		getIsDirectOnly,
+		getShowAllFlights,
 		Sorting.getCurrentSorting
 	],
 	(
@@ -114,6 +116,7 @@ export const getVisibleFlights = createSelector(
 		selectedDepartureTimeIntervals: ListOfSelectedCodes,
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
+		showAllFlights: boolean,
 		sorting: State.SortingState
 	): Flight[] => {
 		let newFlights = flights.filter(flight => {
@@ -148,6 +151,10 @@ export const getVisibleFlights = createSelector(
 		});
 
 		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction));
+
+		if (!showAllFlights) {
+			newFlights = newFlights.slice(0, MAX_VISIBLE_FLIGHTS);
+		}
 
 		return newFlights;
 	}

@@ -28,6 +28,11 @@
 
 	&__flights {
 		padding: 0 24px;
+
+		&-showAllButton {
+			text-align: center;
+			margin: 15px 0;
+		}
 	}
 
 	&-loader {

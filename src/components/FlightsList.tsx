@@ -5,10 +5,13 @@ import Typography from 'material-ui/Typography';
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
 import { ApplicationState, CommonThunkAction } from '../state';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
+import { shouldHideFlights } from '../store/showAllFlights/selectors';
+import Button from 'material-ui/Button/Button';
+import { showAllFlights } from '../store/showAllFlights/actions';
 
 export interface OwnProps {
 	legId: number;
@@ -19,10 +22,12 @@ interface StateProps {
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
+	hideFlights: boolean;
 }
 
 interface DispatchProps {
 	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+	showAllFlights: () => Action;
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -32,6 +37,7 @@ class FlightsList extends React.Component<Props> {
 		super(props);
 
 		this.selectFlight = this.selectFlight.bind(this);
+		this.showAll = this.showAll.bind(this);
 	}
 
 	selectFlight(flightId: number, legId: number): void {
@@ -42,20 +48,28 @@ class FlightsList extends React.Component<Props> {
 		}
 	}
 
+	showAll(): void {
+		this.props.showAllFlights();
+	}
+
 	render(): React.ReactNode {
-		const { legId, prices } = this.props;
+		const { legId, prices, hideFlights } = this.props;
 
 		return this.props.flights.length ?
-			this.props.flights.map(flight => (
-				<Flight
-					key={flight.id}
-					price={prices[flight.id]}
-					flight={flight}
-					selectFlight={this.selectFlight}
-					currentLegId={legId}
-					showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
-				/>
-			)) :
+			<>
+				{this.props.flights.map(flight => (
+					<Flight
+						key={flight.id}
+						price={prices[flight.id]}
+						flight={flight}
+						selectFlight={this.selectFlight}
+						currentLegId={legId}
+						showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
+					/>
+				))}
+
+				{hideFlights ? <div className="results__flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
+			</> :
 			(
 				<Typography variant="headline">Нет результатов.</Typography>
 			);
@@ -68,13 +82,15 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 		prices: getPricesForCurrentLeg(state),
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
-		isFirstLeg: isFirstLeg(state)
+		isFirstLeg: isFirstLeg(state),
+		hideFlights: shouldHideFlights(state)
 	};
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
 	return {
-		selectFlight: bindActionCreators(selectFlight, dispatch)
+		selectFlight: bindActionCreators(selectFlight, dispatch),
+		showAllFlights: bindActionCreators(showAllFlights, dispatch)
 	};
 };
 

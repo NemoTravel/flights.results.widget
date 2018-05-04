@@ -13,6 +13,7 @@ import { sortingReducer } from './sorting/reducers';
 import { pricesReducer } from './prices/reducers';
 import { flightsRTReducer } from './flightsRT/reducers';
 import { legsReducer } from './legs/reducers';
+import { showAllFlightsReducer } from './showAllFlights/reducers';
 
 export const rootReducer = combineReducers<ApplicationState>({
 	isLoading: loadingReducer,
@@ -26,5 +27,6 @@ export const rootReducer = combineReducers<ApplicationState>({
 	alternativeFlights: alternativeFlightsReducer,
 	sorting: sortingReducer,
 	prices: pricesReducer,
-	legs: legsReducer
+	legs: legsReducer,
+	showAllFlights: showAllFlightsReducer
 });
