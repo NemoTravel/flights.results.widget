@@ -6,7 +6,7 @@ export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
 export const ISO_DATE_LENGTH = 19;
-export const MAX_VISIBLE_FLIGHTS = 30;
+export const MAX_VISIBLE_FLIGHTS = 15;
 
 const lastSingleNumber = 9;
 
