@@ -1,7 +1,8 @@
-import { ApplicationState, SortingDirection, SortingState } from '../../state';
+import { ApplicationState, SortingState } from '../../state';
 import Flight from '../../models/Flight';
 import SegmentModel from '../../schemas/Segment';
 import { PricesByFlights } from '../selectors';
+import { SortingDirection } from '../../enums';
 
 /**
  * Compare two objects considering the sorting direction.

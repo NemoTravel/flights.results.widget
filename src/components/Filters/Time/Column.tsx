@@ -5,7 +5,7 @@ import FormLabel from 'material-ui/Form/FormLabel';
 
 import Checkbox from '../Checkbox';
 import { ListOfSelectedCodes } from '../../../store/filters/selectors';
-import { FlightTimeInterval } from '../../../state';
+import { FlightTimeInterval } from '../../../enums';
 
 interface Props {
 	selectedTime: ListOfSelectedCodes;

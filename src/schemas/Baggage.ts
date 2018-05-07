@@ -1,4 +1,4 @@
-import { PassengerType } from '../state';
+import { PassengerType } from '../enums';
 
 export interface RealBaggage {
 	description: string;

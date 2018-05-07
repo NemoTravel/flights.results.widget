@@ -25,7 +25,7 @@ export const setSelectedFamily = (legId: number, segmentId: number, familyId: st
 };
 
 export const selectFamily = (legId: number, segmentId: number, familyId: string): CommonThunkAction => {
-	return (dispatch, getState) => {
+	return dispatch => {
 		dispatch(setSelectedFamily(legId, segmentId, familyId));
 	};
 };

@@ -1,6 +1,7 @@
-import { LocationType, TimeFilterState } from '../../../state';
+import { TimeFilterState } from '../../../state';
 import { FILTERS_ADD_TIME, FILTERS_REMOVE_ALL_TIME, FILTERS_REMOVE_TIME, FilterTimeAction } from './actions';
 import { addCodeInList, removeCodeFromList } from '../../../utils';
+import { LocationType } from '../../../enums';
 
 const initialTimeFiltersState: TimeFilterState = {
 	[LocationType.Departure]: [],

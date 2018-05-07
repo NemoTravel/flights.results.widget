@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LocationType, FlightTimeInterval } from '../../../state';
+import { LocationType, FlightTimeInterval } from '../../../enums';
 
 export const FILTERS_ADD_TIME = 'FILTERS_ADD_TIME';
 export const FILTERS_REMOVE_TIME = 'FILTERS_REMOVE_TIME';

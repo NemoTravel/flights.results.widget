@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import ArrowDown from 'material-ui-icons/ArrowDownward';
-
-import { SortingDirection, SortingType } from '../state';
+import { SortingDirection, SortingType } from '../enums';
 
 interface Props {
 	isActive?: boolean;

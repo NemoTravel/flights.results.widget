@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
 import Airport from '../../../schemas/Airport';
 import Flight from '../../../models/Flight';
-import { ApplicationState, LocationType } from '../../../state';
+import { ApplicationState } from '../../../state';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import { getFlightsForCurrentLeg } from '../../flights/selectors';
+import { LocationType } from '../../../enums';
 
 /**
  * Get an array of departure airports codes used for filtering.

@@ -8,11 +8,11 @@ import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters
 import Airline from '../../schemas/Airline';
 import SegmentModel from '../../schemas/Segment';
 import Flight from '../../models/Flight';
-import { FlightTimeInterval, LocationType } from '../../state';
 import { addTimeInterval, FilterTimeAction } from '../../store/filters/time/actions';
 import { addAirport, FilterAirportsAction } from '../../store/filters/airports/actions';
 import { addAirline, FilterAirlinesAction } from '../../store/filters/airlines/actions';
 import { SnackbarProps, withSnackbar } from '../Snackbar';
+import { FlightTimeInterval, LocationType } from '../../enums';
 
 interface OwnProps {
 	flight: Flight;

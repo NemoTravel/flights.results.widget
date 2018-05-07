@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
-import { ApplicationState, FlightTimeInterval, LocationType } from '../../../state';
+import { ApplicationState } from '../../../state';
 import { getListOfSelectedCodes } from '../selectors';
 import { Moment } from 'moment';
+import { FlightTimeInterval, LocationType } from '../../../enums';
 
 export const getTimeIntervalForDate = (date: Moment): FlightTimeInterval => {
 	const hours = date.hours();

@@ -7,7 +7,7 @@ import AirportColumn from './Airports/Column';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import { ApplicationState, LocationType } from '../../state';
+import { ApplicationState } from '../../state';
 import {
 	FilterAirportsAction,
 	addAirport,
@@ -22,6 +22,7 @@ import {
 	getSelectedDepartureAirportsList,
 	getSelectedDepartureAirportsObjects
 } from '../../store/filters/airports/selectors';
+import { LocationType } from '../../enums';
 
 interface StateProps {
 	departureAirports: Airport[];

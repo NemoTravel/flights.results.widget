@@ -3,41 +3,9 @@ import Flight from './models/Flight';
 import Leg from './schemas/Leg';
 import FareFamiliesCombinations from './schemas/FareFamiliesCombinations';
 import Money from './schemas/Money';
+import { FlightTimeInterval, Language, LocationType, SortingDirection, SortingType } from './enums';
 
 export type CommonThunkAction = ThunkAction<void, ApplicationState, null>;
-
-export enum Language {
-	Russian = 'ru',
-	English = 'en'
-}
-
-export enum PassengerType {
-	Adult = 'ADT',
-	Child = 'CLD',
-	Infant = 'INF',
-	InfantWithSeat = 'INS'
-}
-
-export enum Currency {
-	RUB = 'RUB'
-}
-
-export enum LocationType {
-	Departure = 'departure',
-	Arrival = 'arrival'
-}
-
-export enum SortingType {
-	DepartureTime = 'DepartureTime',
-	ArrivalTime = 'ArrivalTime',
-	FlightTime = 'FlightTime',
-	Price = 'Price'
-}
-
-export enum SortingDirection {
-	ASC = 'ASC',
-	DESC = 'DESC'
-}
 
 export interface Config {
 	rootElement: HTMLElement;
@@ -47,13 +15,6 @@ export interface Config {
 export interface AirportsFilterState {
 	[LocationType.Arrival]: string[];
 	[LocationType.Departure]: string[];
-}
-
-export enum FlightTimeInterval {
-	Night = '00:00-06:00',
-	Morning = '06:00-12:00',
-	Afternoon = '12:00-18:00',
-	Evening = '18:00-00:00'
 }
 
 export interface TimeFilterState {
@@ -104,14 +65,6 @@ export interface FareFamiliesPricesState {
 	};
 }
 
-export interface FlightsPricesState {
-	[flightId: number]: Money;
-}
-
-export interface PricesState {
-	[legId: number]: FlightsPricesState;
-}
-
 export interface FareFamiliesAvailabilityState {
 	[legId: number]: {
 		[segmentId: number]: {
@@ -136,7 +89,6 @@ export interface ApplicationState {
 	filters: FiltersState;
 	flights: FlightsState;
 	flightsRT: FlightsRTState;
-	prices: PricesState;
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
 	selectedFlights: SelectedFlightsState;

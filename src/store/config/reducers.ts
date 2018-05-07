@@ -1,5 +1,6 @@
 import { SET_CONFIG, SetConfigAction } from './actions';
-import { Config, Language } from '../../state';
+import { Config } from '../../state';
+import { Language } from '../../enums';
 
 const initalConfig: Config = {
 	rootElement: document.getElementById('root'),

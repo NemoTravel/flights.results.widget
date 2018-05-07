@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { ApplicationState, SortingDirection, SortingState, SortingType } from '../state';
+import { ApplicationState, SortingState } from '../state';
 import SortingItem from './SortingItem';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { setSorting, SortingAction } from '../store/sorting/actions';
+import { SortingDirection, SortingType } from '../enums';
 
 interface StateProps {
 	currentSorting: SortingState;

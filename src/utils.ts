@@ -1,4 +1,4 @@
-import { Language } from './state';
+import { Language } from './enums';
 import * as moment from 'moment';
 import Date from './schemas/Date';
 

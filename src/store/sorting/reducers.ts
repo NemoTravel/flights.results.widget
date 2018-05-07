@@ -1,5 +1,6 @@
-import { SortingDirection, SortingState, SortingType } from '../../state';
+import { SortingState } from '../../state';
 import { SET_SORTING, SortingAction } from './actions';
+import { SortingDirection, SortingType } from '../../enums';
 
 const initialState: SortingState = {
 	type: SortingType.Price,

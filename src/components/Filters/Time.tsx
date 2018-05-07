@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import TimeColumn from './Time/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { ApplicationState, FlightTimeInterval, LocationType } from '../../state';
+import { ApplicationState } from '../../state';
 import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { FilterTimeAction, addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/filters/time/selectors';
+import { FlightTimeInterval, LocationType } from '../../enums';
 
 interface TimeIntervalsLabels {
 	[interval: string]: string;

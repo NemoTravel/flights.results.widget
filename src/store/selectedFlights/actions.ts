@@ -3,7 +3,6 @@ import { CommonThunkAction } from '../../state';
 import { nextLeg } from '../currentLeg/actions';
 import { isLastLeg } from '../currentLeg/selectors';
 import { clearAllFilters } from '../filters/actions';
-import { getSelectedFlights } from './selectors';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 

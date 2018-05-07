@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
 import {
-	ApplicationState, Currency, FareFamiliesAvailabilityState, FareFamiliesCombinationsState, FareFamiliesPricesState,
+	ApplicationState, FareFamiliesAvailabilityState, FareFamiliesCombinationsState, FareFamiliesPricesState,
 	SelectedFamiliesState
 } from '../../state';
 import FareFamily from '../../schemas/FareFamily';
+import { Currency } from '../../enums';
 
 export const getSelectedFamilies = (state: ApplicationState): SelectedFamiliesState => state.alternativeFlights.selectedFamilies;
 export const getFareFamiliesCombinations = (state: ApplicationState): FareFamiliesCombinationsState => state.alternativeFlights.fareFamiliesCombinations;

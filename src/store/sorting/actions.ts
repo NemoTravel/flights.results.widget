@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { SortingDirection, SortingType } from '../../state';
+import { SortingDirection, SortingType } from '../../enums';
 
 export const SET_SORTING = 'SET_SORTING';
 

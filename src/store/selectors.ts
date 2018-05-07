@@ -16,13 +16,13 @@ import { getFlightsRT } from './flightsRT/selectors';
 import { FlightsRTState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
-import { Currency } from '../state';
+import { Currency, SortingDirection, SortingType } from '../enums';
 
-const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: State.SortingDirection, prices?: PricesByFlights) => number } = {
-	[State.SortingType.Price]: Sorting.priceCompareFunction,
-	[State.SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
-	[State.SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
-	[State.SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
+const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection, prices?: PricesByFlights) => number } = {
+	[SortingType.Price]: Sorting.priceCompareFunction,
+	[SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
+	[SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
+	[SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
 };
 
 export interface PricesByFlights {

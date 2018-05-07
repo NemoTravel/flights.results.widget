@@ -10,7 +10,6 @@ import { selectedFlightsReducer } from './selectedFlights/reducers';
 import { flightsReducer } from './flights/reducers';
 import { alternativeFlightsReducer } from './alternativeFlights/reducers';
 import { sortingReducer } from './sorting/reducers';
-import { pricesReducer } from './prices/reducers';
 import { flightsRTReducer } from './flightsRT/reducers';
 import { legsReducer } from './legs/reducers';
 import { showAllFlightsReducer } from './showAllFlights/reducers';
@@ -26,7 +25,6 @@ export const rootReducer = combineReducers<ApplicationState>({
 	selectedFlights: selectedFlightsReducer,
 	alternativeFlights: alternativeFlightsReducer,
 	sorting: sortingReducer,
-	prices: pricesReducer,
 	legs: legsReducer,
 	showAllFlights: showAllFlightsReducer
 });

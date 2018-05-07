@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@nemo.travel/search-widget';
 
 import { REQUEST_URL } from '../utils';
-import { Language } from '../state';
+import { Language } from '../enums';
 
 type Props = RouteComponentProps<any> & ComponentProps;
 

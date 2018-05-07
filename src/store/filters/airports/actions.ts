@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LocationType } from '../../../state';
+import { LocationType } from '../../../enums';
 
 export const FILTERS_ADD_AIRPORT = 'FILTERS_ADD_AIRPORT';
 export const FILTERS_REMOVE_AIRPORT = 'FILTERS_REMOVE_AIRPORT';
