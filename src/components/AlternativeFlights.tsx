@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Action } from 'redux';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
@@ -7,7 +8,7 @@ import * as State from '../state';
 import Flight from '../models/Flight';
 import SelectedFlights from './AlternativeFlights/SelectedFlights';
 import Leg from './AlternativeFlights/Leg';
-import { searchForAlternativeFlights } from '../store/actions';
+import { searchAlternativeFlights } from '../store/actions';
 import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg } from '../store/currentLeg/actions';
@@ -23,7 +24,7 @@ interface StateProps {
 
 interface DispatchProps {
 	selectFamily: SelectFamily;
-	searchForAlternativeFlights: () => State.CommonThunkAction;
+	searchAlternativeFlights: () => Action;
 	goToLeg: (legId: number) => State.CommonThunkAction;
 	goBack: () => State.CommonThunkAction;
 }
@@ -38,7 +39,7 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	componentDidMount(): void {
-		this.props.searchForAlternativeFlights();
+		this.props.searchAlternativeFlights();
 	}
 
 	goBack(): void {
@@ -93,7 +94,7 @@ const mapStateToProps = (state: State.ApplicationState): StateProps => {
 
 const mapDispatchToProps = {
 	selectFamily,
-	searchForAlternativeFlights,
+	searchAlternativeFlights,
 	goToLeg,
 	goBack
 };

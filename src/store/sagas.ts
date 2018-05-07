@@ -1,5 +1,5 @@
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { SearchAction, SearchActionPayload, START_SEARCH } from './actions';
+import { all, call, fork, put, takeEvery, select } from 'redux-saga/effects';
+import { SearchAction, SearchActionPayload, START_SEARCH, SEARCH_ALTERNATIVE_FLIGHTS, searchAlternativeFlights } from './actions';
 import { setLegs } from './legs/actions';
 import * as moment from 'moment';
 import loadSearchResults from '../services/requests/results';
@@ -10,6 +10,11 @@ import RequestInfo from '../schemas/RequestInfo';
 import { addFlights } from './flights/actions';
 import { setFlightsByLeg } from './flightsByLegs/actions';
 import Flight from '../models/Flight';
+import { ApplicationState } from '../state';
+import loadFareFamilies from '../services/requests/fareFamilies';
+import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
+import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
+import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
 
 const createLegs = (requests: RequestInfo[]): Leg[] => {
 	return requests.map((requestInfo, index) => {
@@ -31,6 +36,7 @@ function* runSearch(request: RequestInfo, index: number) {
 
 function* runRTSearch(request: RequestInfo) {
 	const RTresults: Flight[] = yield call(loadSearchResults, request);
+
 	yield put(addFlightsRT(RTresults));
 }
 
@@ -46,7 +52,7 @@ function* runSearches(data: SearchActionPayload) {
 	}
 }
 
-function* worker({ payload }: SearchAction) {
+function* startSearchWorker({ payload }: SearchAction) {
 	// Launch loading animation.
 	yield put(startLoading());
 
@@ -61,11 +67,68 @@ function* worker({ payload }: SearchAction) {
 }
 
 function* startSearchWatcher() {
-	yield takeEvery(START_SEARCH, worker);
+	yield takeEvery(START_SEARCH, startSearchWorker);
+}
+
+// -----------------------------------------------------------------------------------------
+
+function* runAlternativeFlightsSeach(flightId: number, legId: number) {
+	// Get fare families combinations for given flight.
+	const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
+
+	// Put them in Store.
+	yield put(setCombinations(legId, results));
+
+	// Split initial combination key apart.
+	const combinationParts = results ? results.initialCombination.split('_') : [];
+	const numOfSegments = combinationParts.length;
+
+	// Pre-select fare families.
+	for (let segmentId = 0; segmentId < numOfSegments; segmentId++) {
+		const familyId = combinationParts[segmentId];
+
+		yield put(setSelectedFamily(legId, segmentId, familyId));
+	}
+}
+
+function* runAlternativeFlightsSearches(flightIds: number[]) {
+	const numOfLegs = flightIds.length;
+
+	// Run fare families search for each given flight ID.
+	for (let i = 0; i < numOfLegs; i++) {
+		yield fork(runAlternativeFlightsSeach, flightIds[i], i);
+	}
+}
+
+function* searchAlternativeFlightsWorker() {
+	// Launch loading animation.
+	yield put(startLoading());
+
+	const state: ApplicationState = yield select();
+	const selectedFlights = state.selectedFlights;
+	const flightIds: number[] = [];
+
+	// Collect IDs of selected flights.
+	for (const legId in selectedFlights) {
+		if (selectedFlights.hasOwnProperty(legId)) {
+			flightIds.push(selectedFlights[legId]);
+		}
+	}
+
+	// Run all searches.
+	yield call(runAlternativeFlightsSearches, flightIds);
+
+	// Stop loading animation.
+	yield put(stopLoading());
+}
+
+function* searchAlternativeFlightsWatcher() {
+	yield takeEvery(SEARCH_ALTERNATIVE_FLIGHTS, searchAlternativeFlightsWorker);
 }
 
 export default function*() {
 	yield all([
-		startSearchWatcher()
+		startSearchWatcher(),
+		searchAlternativeFlightsWatcher()
 	]);
 }

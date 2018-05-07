@@ -1,6 +1,5 @@
 import { CommonThunkAction } from '../state';
 import { startLoading, stopLoading } from './isLoading/actions';
-import loadFareFamilies from '../services/requests/fareFamilies';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
@@ -9,6 +8,7 @@ import { ISO_DATE_LENGTH } from '../utils';
 import RequestInfo from '../schemas/RequestInfo';
 
 export const START_SEARCH = 'START_SEARCH';
+export const SEARCH_ALTERNATIVE_FLIGHTS = 'SEARCH_ALTERNATIVE_FLIGHTS';
 
 export interface SearchActionPayload {
 	requests: RequestInfo[];
@@ -70,30 +70,8 @@ export const startSearch = (searchInfo: SearchInfo): SearchAction => {
 	};
 };
 
-export const searchForAlternativeFlights = (): CommonThunkAction => {
-	return (dispatch, getState): void => {
-		const state = getState();
-		const selectedFlights = state.selectedFlights;
-		const flightIds: number[] = [];
-
-		dispatch(startLoading());
-
-		for (const legId in selectedFlights) {
-			if (selectedFlights.hasOwnProperty(legId)) {
-				flightIds.push(selectedFlights[legId]);
-			}
-		}
-
-		Promise
-			.all(flightIds.map(loadFareFamilies))
-			.then(results => {
-				results.forEach((combinations, legId) => {
-					dispatch(setCombinations(legId, combinations));
-					const combination = combinations ? combinations.initialCombination.split('_') : [];
-					combination.forEach((familyId, segmentId) => dispatch(setSelectedFamily(legId, segmentId, familyId)));
-				});
-
-				dispatch(stopLoading());
-			});
+export const searchAlternativeFlights = (): Action => {
+	return {
+		type: SEARCH_ALTERNATIVE_FLIGHTS
 	};
 };
