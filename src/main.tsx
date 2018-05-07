@@ -10,8 +10,6 @@ import * as moment from 'moment';
 import 'whatwg-fetch';
 
 import './css/main.scss';
-import 'react-virtualized/styles.css';
-
 import themeObject from './themes/default';
 import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';

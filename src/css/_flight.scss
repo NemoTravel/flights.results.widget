@@ -10,6 +10,15 @@
 	&_open {
 		border-top: none;
 		margin: 15px 0;
+
+		.flight__shadow {
+			border-radius: 2px;
+		}
+
+		.flight-summary {
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
+		}
 	}
 
 	&_open + & {
@@ -20,14 +29,14 @@
 		border-top: none;
 		margin-top: 0;
 
-		.flight__shadow {
+		.flight__shadow, .flight-summary {
 			border-top-left-radius: 2px;
 			border-top-right-radius: 2px;
 		}
 	}
 
 	&:last-of-type {
-		.flight__shadow {
+		.flight__shadow, .flight-summary {
 			border-bottom-left-radius: 2px;
 			border-bottom-right-radius: 2px;
 		}
@@ -76,7 +85,7 @@
 
 		&_open {
 			&:hover {
-				background: #fff;
+				background: transparent;
 			}
 		}
 
@@ -265,10 +274,6 @@
 	&-details {
 		margin-top: -15px;
 		padding: 0 0 15px 0;
-
-		&__wrapper {
-			background-color: #fff;
-		}
 
 		&-segment {
 			padding-left: 43px;
