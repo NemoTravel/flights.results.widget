@@ -68,7 +68,7 @@
 		"@types/react-swipeable-views": "^0.12.1",
 		"@types/redux-logger": "^3.0.5",
 		"classnames": "^2.2.5",
-		"material-ui": "^1.0.0-beta.34",
+		"material-ui": "^1.0.0-beta.45",
 		"material-ui-icons": "^1.0.0-beta.17",
 		"moment": "^2.19.2",
 		"moment-duration-format": "^2.2.2",

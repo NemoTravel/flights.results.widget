@@ -50,7 +50,7 @@ class Snackbar extends React.Component<any, State> {
 				vertical: 'bottom',
 				horizontal: 'left'
 			}}
-			SnackbarContentProps={{
+			ContentProps={{
 				'aria-describedby': 'message-id'
 			}}
 			message={<span id="message-id">{this.state.snackbarLabel}</span>}
