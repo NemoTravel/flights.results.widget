@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
@@ -162,12 +161,10 @@ class Filters extends React.Component<Props> {
 	}
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		addAirline: bindActionCreators(addAirline, dispatch),
-		addAirport: bindActionCreators(addAirport, dispatch),
-		addTimeInterval: bindActionCreators(addTimeInterval, dispatch)
-	};
+const mapDispatchToProps = {
+	addAirline,
+	addAirport,
+	addTimeInterval
 };
 
 export default withSnackbar<OwnProps>(connect<Props>(null, mapDispatchToProps)(Filters));

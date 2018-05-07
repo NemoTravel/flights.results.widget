@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
 import Button from 'material-ui/Button';
 
 import Price from './Price';
@@ -121,10 +120,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<LegAction, any>): DispatchProps => {
-	return {
-		goToLeg: bindActionCreators(goToLeg, dispatch)
-	};
+const mapDispatchToProps = {
+	goToLeg
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

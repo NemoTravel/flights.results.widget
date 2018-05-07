@@ -5,7 +5,7 @@ import Typography from 'material-ui/Typography';
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
 import { ApplicationState, CommonThunkAction } from '../state';
-import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
@@ -87,11 +87,9 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		selectFlight: bindActionCreators(selectFlight, dispatch),
-		showAllFlights: bindActionCreators(showAllFlights, dispatch)
-	};
+const mapDispatchToProps = {
+	selectFlight,
+	showAllFlights
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightsList);

@@ -5,7 +5,7 @@ import TimeColumn from './Time/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { ApplicationState } from '../../state';
-import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { FilterTimeAction, addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/filters/time/selectors';
@@ -143,12 +143,10 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		addTimeInterval: bindActionCreators(addTimeInterval, dispatch),
-		removeTimeInterval: bindActionCreators(removeTimeInterval, dispatch),
-		removeAllTimeIntervals: bindActionCreators(removeAllTimeIntervals, dispatch)
-	};
+const mapDispatchToProps = {
+	addTimeInterval,
+	removeTimeInterval,
+	removeAllTimeIntervals
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Time);

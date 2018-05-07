@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Filter, { Type as FilterType, State as FilterState } from '../Filter';
-import { Action, bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { ApplicationState } from '../../state';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
 import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
@@ -55,10 +55,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Action, any>): DispatchProps => {
-	return {
-		toggleDirectFlights: bindActionCreators(toggleDirectFlights, dispatch)
-	};
+const mapDispatchToProps = {
+	toggleDirectFlights
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DirectOnly);

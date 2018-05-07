@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { ApplicationState, SortingState } from '../state';
 import SortingItem from './SortingItem';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { setSorting, SortingAction } from '../store/sorting/actions';
 import { SortingDirection, SortingType } from '../enums';
 
@@ -80,10 +79,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		setSorting: bindActionCreators(setSorting, dispatch)
-	};
+const mapDispatchToProps = {
+	setSorting
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sorting);

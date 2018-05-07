@@ -7,7 +7,7 @@ import FormLabel from 'material-ui/Form/FormLabel';
 import Checkbox from './Checkbox';
 import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
-import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import WithPopover, { State as WithPopoverState } from './WithPopover';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
@@ -113,12 +113,10 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		addAirline: bindActionCreators(addAirline, dispatch),
-		removeAirline: bindActionCreators(removeAirline, dispatch),
-		removeAllAirlines: bindActionCreators(removeAllAirlines, dispatch)
-	};
+const mapDispatchToProps = {
+	addAirline,
+	removeAirline,
+	removeAllAirlines
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Airlines);

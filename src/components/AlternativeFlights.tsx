@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
@@ -92,13 +91,11 @@ const mapStateToProps = (state: State.ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		selectFamily: bindActionCreators(selectFamily, dispatch),
-		searchForAlternativeFlights: bindActionCreators(searchForAlternativeFlights, dispatch),
-		goToLeg: bindActionCreators(goToLeg, dispatch),
-		goBack: bindActionCreators(goBack, dispatch)
-	};
+const mapDispatchToProps = {
+	selectFamily,
+	searchForAlternativeFlights,
+	goToLeg,
+	goBack
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlternativeFlights);

@@ -5,7 +5,7 @@ import { Type as FilterType } from '../Filter';
 import Airport from '../../schemas/Airport';
 import AirportColumn from './Airports/Column';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { Action, AnyAction, bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { ApplicationState } from '../../state';
 import {
@@ -146,12 +146,10 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		addAirport: bindActionCreators(addAirport, dispatch),
-		removeAirport: bindActionCreators(removeAirport, dispatch),
-		removeAllAirports: bindActionCreators(removeAllAirports, dispatch)
-	};
+const mapDispatchToProps = {
+	addAirport,
+	removeAirport,
+	removeAllAirports
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Airports);

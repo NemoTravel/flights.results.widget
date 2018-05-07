@@ -10,7 +10,6 @@ import AlternativeFlights from './AlternativeFlights';
 import { ApplicationState, CommonThunkAction } from '../state';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import Toolbar from './Toolbar';
-import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import { startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
@@ -59,10 +58,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction, any>): DispatchProps => {
-	return {
-		startSearch: bindActionCreators(startSearch, dispatch)
-	};
+const mapDispatchToProps = {
+	startSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
