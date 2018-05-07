@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import {
-	ApplicationState, FareFamiliesAvailabilityState, FareFamiliesCombinationsState, FareFamiliesPricesState,
+	ApplicationState, Currency, FareFamiliesAvailabilityState, FareFamiliesCombinationsState, FareFamiliesPricesState,
 	SelectedFamiliesState
 } from '../../state';
 import FareFamily from '../../schemas/FareFamily';
@@ -107,7 +107,7 @@ export const getFareFamiliesPrices = createSelector(
 				const selectedLegCombination = selectedCombinations[legId];
 
 				const
-					dumbPrice = { amount: 0, currency: 'RUB' },
+					dumbPrice = { amount: 0, currency: Currency.RUB },
 
 					// Fare families combinations information on leg.
 					combinations = combinationsByLegs[legId],

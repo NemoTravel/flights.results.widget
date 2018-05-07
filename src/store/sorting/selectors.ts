@@ -1,6 +1,7 @@
 import { ApplicationState, SortingDirection, SortingState } from '../../state';
 import Flight from '../../models/Flight';
 import SegmentModel from '../../schemas/Segment';
+import { PricesByFlights } from '../selectors';
 
 /**
  * Compare two objects considering the sorting direction.
@@ -44,10 +45,14 @@ export const getCurrentSorting = (state: ApplicationState): SortingState => stat
  * @param {Flight} a
  * @param {Flight} b
  * @param {SortingDirection} direction
+ * @param {PricesByFlights} prices
  * @returns {number}
  */
-export const priceCompareFunction = (a: Flight, b: Flight, direction: SortingDirection): number => {
-	return compare(a.totalPrice.amount, b.totalPrice.amount, direction);
+export const priceCompareFunction = (a: Flight, b: Flight, direction: SortingDirection, prices: PricesByFlights): number => {
+	const aPrice = prices.hasOwnProperty(a.id) ? Math.abs(prices[a.id].amount) : a.totalPrice.amount;
+	const bPrice = prices.hasOwnProperty(b.id) ? Math.abs(prices[b.id].amount) : b.totalPrice.amount;
+
+	return compare(aPrice, bPrice, direction);
 };
 
 /**

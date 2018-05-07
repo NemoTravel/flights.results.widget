@@ -16,8 +16,9 @@ import { getFlightsRT } from './flightsRT/selectors';
 import { FlightsRTState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
+import { Currency } from '../state';
 
-const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: State.SortingDirection) => number } = {
+const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: State.SortingDirection, prices?: PricesByFlights) => number } = {
 	[State.SortingType.Price]: Sorting.priceCompareFunction,
 	[State.SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
 	[State.SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
@@ -79,7 +80,7 @@ export const getMinTotalPossiblePricesByLegs = createSelector(
 		for (const legId in minPricesByLegs) {
 			if (minPricesByLegs.hasOwnProperty(legId)) {
 				if (!result.hasOwnProperty(legId)) {
-					result[legId] = { amount: 0, currency: 'RUB' };
+					result[legId] = { amount: 0, currency: Currency.RUB };
 				}
 
 				// For each leg: loop through all next legs and sum up their min prices.
@@ -96,80 +97,8 @@ export const getMinTotalPossiblePricesByLegs = createSelector(
 );
 
 /**
- * Get an array of flights after filtering.
+ * Check if there are any transfer flights.
  */
-export const getVisibleFlights = createSelector(
-	[
-		getFlightsForCurrentLeg,
-		getSelectedAirlinesList,
-		getSelectedDepartureAirportsList,
-		getSelectedArrivalAirportsList,
-		TimeFilter.getSelectedDepartureTimeIntervals,
-		TimeFilter.getSelectedArrivalTimeIntervals,
-		getIsDirectOnly,
-		getShowAllFlights,
-		Sorting.getCurrentSorting
-	],
-	(
-		flights: Flight[],
-		selectedAirlines: ListOfSelectedCodes,
-		selectedDepartureAirports: ListOfSelectedCodes,
-		selectedArrivalAirports: ListOfSelectedCodes,
-		selectedDepartureTimeIntervals: ListOfSelectedCodes,
-		selectedArrivalTimeIntervals: ListOfSelectedCodes,
-		directOnly: boolean,
-		showAllFlights: boolean,
-		sorting: State.SortingState
-	): Flight[] => {
-		let newFlights = flights.filter(flight => {
-			const firstSegment = flight.segments[0];
-			const lastSegment = flight.segments[flight.segments.length - 1];
-
-			if (directOnly && flight.segments.length !== 1) {
-				return false;
-			}
-
-			if (Object.keys(selectedDepartureAirports).length && !(firstSegment.depAirport.IATA in selectedDepartureAirports)) {
-				return false;
-			}
-
-			if (Object.keys(selectedArrivalAirports).length && !(lastSegment.arrAirport.IATA in selectedArrivalAirports)) {
-				return false;
-			}
-
-			if (Object.keys(selectedAirlines).length && !flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
-				return false;
-			}
-
-			if (Object.keys(selectedDepartureTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(firstSegment.depDate) in selectedDepartureTimeIntervals)) {
-				return false;
-			}
-
-			if (Object.keys(selectedArrivalTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(lastSegment.arrDate) in selectedArrivalTimeIntervals)) {
-				return false;
-			}
-
-			return true;
-		});
-
-		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction));
-
-		if (!showAllFlights) {
-			newFlights = newFlights.slice(0, MAX_VISIBLE_FLIGHTS);
-		}
-
-		return newFlights;
-	}
-);
-
-/**
- * Check if there are any visible flights for current leg.
- */
-export const hasAnyVisibleFlights = createSelector(
-	[getVisibleFlights],
-	(flights: Flight[]): boolean => !!flights.length
-);
-
 export const hasAnyTransferFlights = createSelector(
 	[getFlightsForCurrentLeg],
 	(flights: Flight[]): boolean => {
@@ -205,7 +134,7 @@ export const getTotalPrice = createSelector(
 	): Money => {
 		const totalPrice: Money = {
 			amount: 0,
-			currency: 'RUB'
+			currency: Currency.RUB
 		};
 
 		// Loop through selected flights ids.
@@ -303,4 +232,83 @@ export const getPricesForCurrentLeg = createSelector(
 
 		return result;
 	}
+);
+
+/**
+ * Get an array of flights after filtering.
+ */
+export const getVisibleFlights = createSelector(
+	[
+		getFlightsForCurrentLeg,
+		getSelectedAirlinesList,
+		getSelectedDepartureAirportsList,
+		getSelectedArrivalAirportsList,
+		TimeFilter.getSelectedDepartureTimeIntervals,
+		TimeFilter.getSelectedArrivalTimeIntervals,
+		getIsDirectOnly,
+		getShowAllFlights,
+		Sorting.getCurrentSorting,
+		getPricesForCurrentLeg
+	],
+	(
+		flights: Flight[],
+		selectedAirlines: ListOfSelectedCodes,
+		selectedDepartureAirports: ListOfSelectedCodes,
+		selectedArrivalAirports: ListOfSelectedCodes,
+		selectedDepartureTimeIntervals: ListOfSelectedCodes,
+		selectedArrivalTimeIntervals: ListOfSelectedCodes,
+		directOnly: boolean,
+		showAllFlights: boolean,
+		sorting: State.SortingState,
+		prices: PricesByFlights
+	): Flight[] => {
+		let newFlights = flights.filter(flight => {
+			const firstSegment = flight.segments[0];
+			const lastSegment = flight.segments[flight.segments.length - 1];
+
+			// Filter direct flights.
+			if (directOnly && flight.segments.length !== 1) {
+				return false;
+			}
+
+			// Filter by departure airport.
+			if (Object.keys(selectedDepartureAirports).length && !(firstSegment.depAirport.IATA in selectedDepartureAirports)) {
+				return false;
+			}
+
+			// Filter by arrival airport.
+			if (Object.keys(selectedArrivalAirports).length && !(lastSegment.arrAirport.IATA in selectedArrivalAirports)) {
+				return false;
+			}
+
+			// Filter by airline.
+			if (Object.keys(selectedAirlines).length && !flight.segments.find(segment => segment.airline.IATA in selectedAirlines)) {
+				return false;
+			}
+
+			// Filter by departure time.
+			if (Object.keys(selectedDepartureTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(firstSegment.depDate) in selectedDepartureTimeIntervals)) {
+				return false;
+			}
+
+			// Filter by arrival time.
+			return !(Object.keys(selectedArrivalTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(lastSegment.arrDate) in selectedArrivalTimeIntervals));
+		});
+
+		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));
+
+		if (!showAllFlights) {
+			newFlights = newFlights.slice(0, MAX_VISIBLE_FLIGHTS);
+		}
+
+		return newFlights;
+	}
+);
+
+/**
+ * Check if there are any visible flights for current leg.
+ */
+export const hasAnyVisibleFlights = createSelector(
+	[getVisibleFlights],
+	(flights: Flight[]): boolean => !!flights.length
 );

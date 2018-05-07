@@ -18,6 +18,10 @@ export enum PassengerType {
 	InfantWithSeat = 'INS'
 }
 
+export enum Currency {
+	RUB = 'RUB'
+}
+
 export enum LocationType {
 	Departure = 'departure',
 	Arrival = 'arrival'
