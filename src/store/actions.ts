@@ -1,80 +1,72 @@
-import * as moment from 'moment';
-import Flight from '../models/Flight';
 import { CommonThunkAction } from '../state';
-import { setFlightsByLeg } from './flightsByLegs/actions';
 import { startLoading, stopLoading } from './isLoading/actions';
-import loadSearchResults from '../services/requests/results';
 import loadFareFamilies from '../services/requests/fareFamilies';
-import { addFlights } from './flights/actions';
 import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
-import { addFlightsRT } from './flightsRT/actions';
-import RequestInfo from '../schemas/RequestInfo';
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
+import { Action } from 'redux';
 import { ISO_DATE_LENGTH } from '../utils';
-import { setLegs } from './legs/actions';
-import Leg from '../schemas/Leg';
+import RequestInfo from '../schemas/RequestInfo';
 
-export const startSearch = (searchInfo: SearchInfo): CommonThunkAction => {
-	return (dispatch): void => {
-		dispatch(startLoading());
+export const START_SEARCH = 'START_SEARCH';
 
-		let requests: RequestInfo[] = [];
+export interface SearchActionPayload {
+	requests: RequestInfo[];
+	RTRequest: RequestInfo;
+}
 
-		const segments = searchInfo.segments.map(segment => {
-			segment.departureDate = segment.departureDate.substr(0, ISO_DATE_LENGTH);
-			segment.returnDate = segment.returnDate.substr(0, ISO_DATE_LENGTH);
+export interface SearchAction extends Action {
+	payload: SearchActionPayload;
+}
 
-			return segment;
-		});
+const createSearchPayload = (searchInfo: SearchInfo): SearchActionPayload => {
+	let RTRequest: RequestInfo = null;
+	let requests: RequestInfo[] = [];
 
-		const commonParams = {
-			passengers: searchInfo.passengers,
-			parameters: {
-				delayed: false,
-				serviceClass: searchInfo.serviceClass
-			}
-		};
+	const segments = searchInfo.segments.map(segment => {
+		segment.departureDate = segment.departureDate.substr(0, ISO_DATE_LENGTH);
+		segment.returnDate = segment.returnDate.substr(0, ISO_DATE_LENGTH);
 
-		if (segments.length === 1 && segments[0].returnDate) {
-			// RT search
-			const segment = segments[0];
-			const departureSegment: SearchInfoSegment = { departure: segment.departure, arrival: segment.arrival, departureDate: segment.departureDate };
-			const returnSegment: SearchInfoSegment = { departure: segment.arrival, arrival: segment.departure, departureDate: segment.returnDate };
+		return segment;
+	});
 
-			requests.push({ ...commonParams, segments: [ departureSegment ] });
-			requests.push({ ...commonParams, segments: [ returnSegment ] });
-
-			loadSearchResults({ ...commonParams, segments: [ departureSegment, returnSegment ] }).then(results => dispatch(addFlightsRT(results)));
+	const commonParams = {
+		passengers: searchInfo.passengers,
+		parameters: {
+			delayed: false,
+			serviceClass: searchInfo.serviceClass
 		}
-		else {
-			// OW and CR search
-			requests = segments.map((segment: SearchInfoSegment): RequestInfo => ({
-				...commonParams,
-				segments: [ segment ]
-			}));
-		}
+	};
 
-		dispatch(setLegs(requests.map((requestInfo: RequestInfo, index: number): Leg => {
-			return {
-				id: index,
-				departure: requestInfo.segments[0].departure.IATA,
-				arrival: requestInfo.segments[0].arrival.IATA,
-				date: moment(requestInfo.segments[0].departureDate)
-			};
-		})));
+	if (segments.length === 1 && segments[0].returnDate) {
+		// RT search
+		const segment = segments[0];
+		const departureSegment: SearchInfoSegment = { departure: segment.departure, arrival: segment.arrival, departureDate: segment.departureDate };
+		const returnSegment: SearchInfoSegment = { departure: segment.arrival, arrival: segment.departure, departureDate: segment.returnDate };
 
-		Promise
-			.all(requests.map(loadSearchResults))
-			.then(results => {
-				results.forEach((flights: Flight[], index: number): void => {
-					dispatch(addFlights(flights));
-					dispatch(setFlightsByLeg(flights, index));
-				});
+		requests.push({ ...commonParams, segments: [ departureSegment ] });
+		requests.push({ ...commonParams, segments: [ returnSegment ] });
 
-				dispatch(stopLoading());
-			}
-		);
+		RTRequest = { ...commonParams, segments: [ departureSegment, returnSegment ] };
+	}
+	else {
+		// OW and CR search
+		requests = segments.map((segment: SearchInfoSegment): RequestInfo => ({
+			...commonParams,
+			segments: [ segment ]
+		}));
+	}
+
+	return {
+		requests,
+		RTRequest
+	};
+};
+
+export const startSearch = (searchInfo: SearchInfo): SearchAction => {
+	return {
+		type: START_SEARCH,
+		payload: createSearchPayload(searchInfo)
 	};
 };
 

@@ -7,10 +7,10 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
 import AlternativeFlights from './AlternativeFlights';
-import { ApplicationState, CommonThunkAction } from '../state';
+import { ApplicationState } from '../state';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import Toolbar from './Toolbar';
-import { startSearch } from '../store/actions';
+import { SearchAction, startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
 
@@ -20,7 +20,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	startSearch: (searchInfo: SearchInfo) => CommonThunkAction;
+	startSearch: (searchInfo: SearchInfo) => SearchAction;
 }
 
 class Main extends React.Component<StateProps & DispatchProps> {

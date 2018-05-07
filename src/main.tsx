@@ -1,5 +1,6 @@
 import './ponyfills';
 import * as React from 'react';
+import createSagaMiddleware from 'redux-saga';
 import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { applyMiddleware, createStore } from 'redux';
@@ -15,6 +16,7 @@ import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';
 import { Config } from './state';
 import Main from './components/Main';
+import sagas from './store/sagas';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 
@@ -24,8 +26,11 @@ const momentDurationFormatSetup = require('moment-duration-format');
 // }
 
 export const init = (config: Config) => {
-	const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+	const sagaMiddleware = createSagaMiddleware();
+	const store = createStore(rootReducer, applyMiddleware(thunk, logger, sagaMiddleware));
 	const theme = createMuiTheme(themeObject);
+
+	sagaMiddleware.run(sagas);
 
 	store.dispatch(setConfig(config));
 	momentDurationFormatSetup(moment);
