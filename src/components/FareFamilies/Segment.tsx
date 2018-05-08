@@ -61,15 +61,14 @@ class Segment extends React.Component<Props, State> {
 			{families ? families.map((family, index) => {
 				const familyId = `F${index + 1}`;
 
-				return <Family
+				return enabledFamilies.hasOwnProperty(familyId) ? <Family
 					key={familyId}
 					id={familyId}
 					onChange={this.onChange}
 					family={family}
-					isDisabled={!enabledFamilies.hasOwnProperty(familyId)}
 					isSelected={selectedFamilyId === familyId}
 					price={prices ? prices[familyId] : null}
-				/>;
+				/> : null;
 			}) : null}
 		</form>;
 	}

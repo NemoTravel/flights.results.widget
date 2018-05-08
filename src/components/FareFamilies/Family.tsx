@@ -13,12 +13,16 @@ interface Props {
 	id: string;
 	family: FareFamily;
 	isSelected: boolean;
-	isDisabled: boolean;
+	isDisabled?: boolean;
 	onChange: (familyId: string) => void;
 	price: Money;
 }
 
 class Family extends React.Component<Props> {
+	static defaultProps: Partial<Props> = {
+		isDisabled: false
+	};
+
 	constructor(props: Props) {
 		super(props);
 
