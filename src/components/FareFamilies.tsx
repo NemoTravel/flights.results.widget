@@ -11,7 +11,7 @@ import Leg from './FareFamilies/Leg';
 import { searchFareFamilies } from '../store/actions';
 import { SelectFamily, selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
-import { goBack, goToLeg } from '../store/currentLeg/actions';
+import { goBack, goToLeg, LegAction } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
 
 interface StateProps {
@@ -25,8 +25,8 @@ interface StateProps {
 interface DispatchProps {
 	selectFamily: SelectFamily;
 	searchFareFamilies: () => Action;
-	goToLeg: (legId: number) => State.CommonThunkAction;
-	goBack: () => State.CommonThunkAction;
+	goToLeg: (legId: number) => LegAction;
+	goBack: () => LegAction;
 }
 
 type Props = StateProps & DispatchProps;

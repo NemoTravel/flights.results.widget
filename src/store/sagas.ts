@@ -14,6 +14,8 @@ import loadFareFamilies from '../services/requests/fareFamilies';
 import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
 import { setCombinations } from './fareFamilies/fareFamiliesCombinations/actions';
 import { setSelectedFamily } from './fareFamilies/selectedFamilies/actions';
+import currentLegSagas from './currentLeg/sagas';
+import filtersSagas from './filters/sagas';
 
 const createLegs = (requests: RequestInfo[]): Leg[] => {
 	return requests.map((requestInfo, index) => {
@@ -130,6 +132,8 @@ function* searchFareFamiliesWatcher() {
 export default function*() {
 	yield all([
 		startSearchWatcher(),
-		searchFareFamiliesWatcher()
+		searchFareFamiliesWatcher(),
+		currentLegSagas(),
+		filtersSagas()
 	]);
 }

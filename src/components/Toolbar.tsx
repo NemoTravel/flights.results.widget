@@ -25,7 +25,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	goToLeg: (legId: number) => CommonThunkAction;
+	goToLeg: (legId: number) => LegAction;
 }
 
 type Props = StateProps & DispatchProps;

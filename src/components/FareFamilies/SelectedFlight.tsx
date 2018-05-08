@@ -3,9 +3,10 @@ import Button from 'material-ui/Button';
 
 import Flight, { Props as FlightProps } from '../Flight';
 import { CommonThunkAction } from '../../state';
+import { LegAction } from '../../store/currentLeg/actions';
 
 interface Props extends FlightProps {
-	goToLeg: (legId: number) => CommonThunkAction;
+	goToLeg: (legId: number) => LegAction;
 }
 
 class SelectedFlight extends Flight<Props> {

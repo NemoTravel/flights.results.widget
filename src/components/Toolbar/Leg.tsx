@@ -4,13 +4,14 @@ import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
 
 import LegModel from '../../schemas/Leg';
 import { CommonThunkAction } from '../../state';
+import { LegAction } from '../../store/currentLeg/actions';
 
 interface Props {
 	isDisabled: boolean;
 	isSelected: boolean;
 	leg?: LegModel;
 	isReverse?: boolean;
-	goToLeg?: (legId: number) => CommonThunkAction;
+	goToLeg?: (legId: number) => LegAction;
 }
 
 class Leg extends React.Component<Props> {

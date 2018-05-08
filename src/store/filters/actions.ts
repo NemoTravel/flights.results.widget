@@ -1,14 +1,9 @@
-import { CommonThunkAction } from '../../state';
-import { setDirectFlights } from './directOnly/actions';
-import { removeAllAirports } from './airports/actions';
-import { removeAllAirlines } from './airlines/actions';
-import { removeAllTimeIntervals } from './time/actions';
+import { Action } from 'redux';
 
-export const clearAllFilters = (): CommonThunkAction => {
-	return dispatch => {
-		dispatch(setDirectFlights(false));
-		dispatch(removeAllAirports());
-		dispatch(removeAllAirlines());
-		dispatch(removeAllTimeIntervals());
+export const FILTERS_REMOVE_ALL = 'FILTERS_REMOVE_ALL';
+
+export const remoteAllFilters = (): Action => {
+	return {
+		type: FILTERS_REMOVE_ALL
 	};
 };

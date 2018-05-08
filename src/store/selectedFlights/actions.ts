@@ -2,7 +2,7 @@ import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
 import { nextLeg } from '../currentLeg/actions';
 import { isLastLeg } from '../currentLeg/selectors';
-import { clearAllFilters } from '../filters/actions';
+import { remoteAllFilters } from '../filters/actions';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 
@@ -42,6 +42,6 @@ export const selectFlight = (flightId: number, legId: number): CommonThunkAction
 		}
 
 		dispatch(setSelectedFlight(flightId, legId));
-		dispatch(clearAllFilters());
+		dispatch(remoteAllFilters());
 	};
 };
