@@ -9,6 +9,24 @@ interface Props extends FlightProps {
 }
 
 class SelectedFlight extends Flight<Props> {
+	protected isDirect = false;
+
+	constructor(props: Props) {
+		super(props);
+
+		this.isDirect = this.props.flight.segments.length === 1;
+
+		if (this.isDirect) {
+			this.mainClassName += ' flight_direct';
+		}
+	}
+
+	toggleDetails(): void {
+		if (!this.isDirect) {
+			super.toggleDetails();
+		}
+	}
+
 	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
@@ -19,6 +37,10 @@ class SelectedFlight extends Flight<Props> {
 		return <div className="flight-summary__right">
 			<Button onClick={this.onBuyButtonClick} color="secondary">Изменить рейс</Button>
 		</div>;
+	}
+
+	renderSummaryMiddleClosed(): React.ReactNode {
+		return this.isDirect ? this.renderSummaryMiddleOpened() : super.renderSummaryMiddleClosed();
 	}
 
 	renderFilters(): React.ReactNode {

@@ -30,6 +30,8 @@ const MAX_NUM_OF_LOGO_INLINE = 2;
 const stateByFlights: { [flightId: number]: State } = {};
 
 class Flight<P> extends React.Component<Props & P, State> {
+	protected mainClassName = 'flight';
+
 	constructor(props: Props & P) {
 		super(props);
 
@@ -154,7 +156,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 			</div>
 
 			<div className="flight-summary__middle">
-				{this.state.isOpen ? this.renderSummaryMiddleOpened(firstSegment) : this.renderSummaryMiddleClosed()}
+				{this.state.isOpen ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
 			</div>
 
 			{this.renderSummaryButtonsBlock()}
@@ -180,7 +182,9 @@ class Flight<P> extends React.Component<Props & P, State> {
 		</>;
 	}
 
-	renderSummaryMiddleOpened(segment: SegmentModel): React.ReactNode {
+	renderSummaryMiddleOpened(): React.ReactNode {
+		const segment = this.props.flight.firstSegment;
+
 		return <>
 			<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
 
@@ -203,7 +207,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	render(): React.ReactNode {
-		return <div className={classnames('flight', { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
+		return <div className={classnames(this.mainClassName, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
 			<div className="flight__shadow">
 				{this.renderSummary()}
 				{this.renderDetails()}

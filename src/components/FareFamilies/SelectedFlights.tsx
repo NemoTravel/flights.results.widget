@@ -14,9 +14,7 @@ class SelectedFlights extends React.Component<Props> {
 		return <div className="fareFamilies-selectedFlights">
 			<Typography className="fareFamilies-selectedFlights-title" variant="headline">Выбранные перелеты</Typography>
 
-			{this.props.flights.map((flight, legId) => <div key={flight.id} className="flight__holder">
-				<SelectedFlight flight={flight} currentLegId={legId} goToLeg={this.props.goToLeg}/>
-			</div>)}
+			{this.props.flights.map((flight, legId) => <SelectedFlight key={flight.id} flight={flight} currentLegId={legId} goToLeg={this.props.goToLeg}/>)}
 		</div>;
 	}
 }
