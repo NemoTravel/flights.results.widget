@@ -5,7 +5,6 @@ import * as ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import * as moment from 'moment';
 import 'whatwg-fetch';
@@ -27,7 +26,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 
 export const init = (config: Config) => {
 	const sagaMiddleware = createSagaMiddleware();
-	const store = createStore(rootReducer, applyMiddleware(thunk, logger, sagaMiddleware));
+	const store = createStore(rootReducer, applyMiddleware(logger, sagaMiddleware));
 	const theme = createMuiTheme(themeObject);
 
 	sagaMiddleware.run(sagas);

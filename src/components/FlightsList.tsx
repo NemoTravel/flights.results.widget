@@ -4,7 +4,7 @@ import Typography from 'material-ui/Typography';
 
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
-import { ApplicationState, CommonThunkAction } from '../state';
+import { ApplicationState } from '../state';
 import { Action } from 'redux';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';

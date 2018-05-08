@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from 'material-ui/Button';
 
 import Flight, { Props as FlightProps } from '../Flight';
-import { CommonThunkAction } from '../../state';
 import { LegAction } from '../../store/currentLeg/actions';
 
 interface Props extends FlightProps {

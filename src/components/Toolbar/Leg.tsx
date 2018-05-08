@@ -3,7 +3,6 @@ import * as classnames from 'classnames';
 import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
 
 import LegModel from '../../schemas/Leg';
-import { CommonThunkAction } from '../../state';
 import { LegAction } from '../../store/currentLeg/actions';
 
 interface Props {

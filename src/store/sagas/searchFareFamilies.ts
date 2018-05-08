@@ -2,7 +2,7 @@ import { SEARCH_FARE_FAMILIES } from '../actions';
 import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { startLoading, stopLoading } from '../isLoading/actions';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
-import { setSelectedFamily } from '../fareFamilies/selectedFamilies/actions';
+import { selectFamily } from '../fareFamilies/selectedFamilies/actions';
 import loadFareFamilies from '../../services/requests/fareFamilies';
 import { setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { ApplicationState } from '../../state';
@@ -22,7 +22,7 @@ function* runFareFamiliesSearch(flightId: number, legId: number) {
 	for (let segmentId = 0; segmentId < numOfSegments; segmentId++) {
 		const familyId = combinationParts[segmentId];
 
-		yield put(setSelectedFamily(legId, segmentId, familyId));
+		yield put(selectFamily(legId, segmentId, familyId));
 	}
 }
 

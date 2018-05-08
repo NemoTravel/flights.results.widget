@@ -4,7 +4,7 @@ import Button from 'material-ui/Button';
 
 import Price from './Price';
 import Leg from '../schemas/Leg';
-import { ApplicationState, CommonThunkAction } from '../state';
+import { ApplicationState } from '../state';
 import LegComponent from './Toolbar/Leg';
 import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';

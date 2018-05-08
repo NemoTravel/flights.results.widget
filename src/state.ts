@@ -1,11 +1,8 @@
-import { ThunkAction } from 'redux-thunk';
 import Flight from './models/Flight';
 import Leg from './schemas/Leg';
 import FareFamiliesCombinations from './schemas/FareFamiliesCombinations';
 import Money from './schemas/Money';
 import { FlightTimeInterval, Language, LocationType, SortingDirection, SortingType } from './enums';
-
-export type CommonThunkAction = ThunkAction<void, ApplicationState, null>;
 
 export interface Config {
 	rootElement: HTMLElement;

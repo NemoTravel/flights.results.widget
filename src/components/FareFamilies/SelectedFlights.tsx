@@ -2,7 +2,6 @@ import * as React from 'react';
 import Typography from 'material-ui/Typography';
 import Flight from '../../models/Flight';
 import SelectedFlight from './SelectedFlight';
-import { CommonThunkAction } from '../../state';
 import { LegAction } from '../../store/currentLeg/actions';
 
 interface Props {
