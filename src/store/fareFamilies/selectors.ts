@@ -6,8 +6,8 @@ import {
 import FareFamily from '../../schemas/FareFamily';
 import { Currency } from '../../enums';
 
-export const getSelectedFamilies = (state: ApplicationState): SelectedFamiliesState => state.alternativeFlights.selectedFamilies;
-export const getFareFamiliesCombinations = (state: ApplicationState): FareFamiliesCombinationsState => state.alternativeFlights.fareFamiliesCombinations;
+export const getSelectedFamilies = (state: ApplicationState): SelectedFamiliesState => state.fareFamilies.selectedFamilies;
+export const getFareFamiliesCombinations = (state: ApplicationState): FareFamiliesCombinationsState => state.fareFamilies.fareFamiliesCombinations;
 
 export interface SelectedCombinations {
 	[legId: number]: string;

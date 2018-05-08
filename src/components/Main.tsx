@@ -6,7 +6,7 @@ import { SearchInfo } from '@nemo.travel/search-widget';
 import { HashRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
-import AlternativeFlights from './AlternativeFlights';
+import FareFamilies from './FareFamilies';
 import { ApplicationState } from '../state';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import Toolbar from './Toolbar';
@@ -38,7 +38,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 								<CircularProgress color="secondary" variant="indeterminate"/>
 							</div>
 
-							{this.props.isSelectionComplete ? <AlternativeFlights/> : <Results/>}
+							{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
 
 							<Toolbar/>
 						</div>

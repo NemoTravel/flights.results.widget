@@ -4,7 +4,7 @@ import Segment from './Segment';
 import Flight from '../../models/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../state';
-import { SelectFamily } from '../../store/alternativeFlights/selectedFamilies/actions';
+import { SelectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
 import Money from '../../schemas/Money';
 
 interface Props {

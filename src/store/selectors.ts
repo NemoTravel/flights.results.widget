@@ -10,7 +10,7 @@ import * as Sorting from './sorting/selectors';
 import * as State from '../state';
 import Money from '../schemas/Money';
 import { getCurrentLegId } from './currentLeg/selectors';
-import * as AlternativeFlights from './alternativeFlights/selectors';
+import * as FareFamilies from './fareFamilies/selectors';
 import { getSelectedFlights, getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
 import { FlightsRTState } from '../state';
@@ -116,8 +116,8 @@ export const getTotalPrice = createSelector(
 		getFlightsPool,
 		getSelectedFlightsIds,
 		isSelectionComplete,
-		AlternativeFlights.getSelectedCombinations,
-		AlternativeFlights.getFareFamiliesCombinations,
+		FareFamilies.getSelectedCombinations,
+		FareFamilies.getFareFamiliesCombinations,
 		getMinPricesByLegs,
 		getMinTotalPossiblePricesByLegs,
 		getCurrentLegId
@@ -126,7 +126,7 @@ export const getTotalPrice = createSelector(
 		flightsPool: State.FlightsState,
 		selectedFlightsIds: State.SelectedFlightsState,
 		selectionComplete: boolean,
-		selectedCombinations: AlternativeFlights.SelectedCombinations,
+		selectedCombinations: FareFamilies.SelectedCombinations,
 		combinations: State.FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
 		minTotalPossiblePricesByLegs: PricesByLegs,

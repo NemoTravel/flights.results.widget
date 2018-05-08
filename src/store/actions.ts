@@ -1,14 +1,14 @@
 import { CommonThunkAction } from '../state';
 import { startLoading, stopLoading } from './isLoading/actions';
-import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
-import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
+import { setCombinations } from './fareFamilies/fareFamiliesCombinations/actions';
+import { setSelectedFamily } from './fareFamilies/selectedFamilies/actions';
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
 import { Action } from 'redux';
 import { ISO_DATE_LENGTH } from '../utils';
 import RequestInfo from '../schemas/RequestInfo';
 
 export const START_SEARCH = 'START_SEARCH';
-export const SEARCH_ALTERNATIVE_FLIGHTS = 'SEARCH_ALTERNATIVE_FLIGHTS';
+export const SEARCH_FARE_FAMILIES = 'SEARCH_FARE_FAMILIES';
 
 export interface SearchActionPayload {
 	requests: RequestInfo[];
@@ -70,8 +70,8 @@ export const startSearch = (searchInfo: SearchInfo): SearchAction => {
 	};
 };
 
-export const searchAlternativeFlights = (): Action => {
+export const searchFareFamilies = (): Action => {
 	return {
-		type: SEARCH_ALTERNATIVE_FLIGHTS
+		type: SEARCH_FARE_FAMILIES
 	};
 };

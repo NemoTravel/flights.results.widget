@@ -6,13 +6,13 @@ import Typography from 'material-ui/Typography';
 
 import * as State from '../state';
 import Flight from '../models/Flight';
-import SelectedFlights from './AlternativeFlights/SelectedFlights';
-import Leg from './AlternativeFlights/Leg';
-import { searchAlternativeFlights } from '../store/actions';
-import { SelectFamily, selectFamily } from '../store/alternativeFlights/selectedFamilies/actions';
+import SelectedFlights from './FareFamilies/SelectedFlights';
+import Leg from './FareFamilies/Leg';
+import { searchFareFamilies } from '../store/actions';
+import { SelectFamily, selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg } from '../store/currentLeg/actions';
-import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/alternativeFlights/selectors';
+import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -24,14 +24,14 @@ interface StateProps {
 
 interface DispatchProps {
 	selectFamily: SelectFamily;
-	searchAlternativeFlights: () => Action;
+	searchFareFamilies: () => Action;
 	goToLeg: (legId: number) => State.CommonThunkAction;
 	goBack: () => State.CommonThunkAction;
 }
 
 type Props = StateProps & DispatchProps;
 
-class AlternativeFlights extends React.Component<Props> {
+class FareFamilies extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 
@@ -39,7 +39,7 @@ class AlternativeFlights extends React.Component<Props> {
 	}
 
 	componentDidMount(): void {
-		this.props.searchAlternativeFlights();
+		this.props.searchFareFamilies();
 	}
 
 	goBack(): void {
@@ -62,7 +62,7 @@ class AlternativeFlights extends React.Component<Props> {
 
 			<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
 
-			<div className="alternativeFlights__legs">
+			<div className="fareFamilies__legs">
 				{selectedFlights.map((flight, legId) => (
 					<Leg
 						key={flight.id}
@@ -87,16 +87,16 @@ const mapStateToProps = (state: State.ApplicationState): StateProps => {
 		selectedFlights: getSelectedFlights(state),
 		fareFamiliesAvailability: getFareFamiliesAvailability(state),
 		fareFamiliesPrices: getFareFamiliesPrices(state),
-		fareFamiliesCombinations: state.alternativeFlights.fareFamiliesCombinations,
-		selectedFamilies: state.alternativeFlights.selectedFamilies
+		fareFamiliesCombinations: state.fareFamilies.fareFamiliesCombinations,
+		selectedFamilies: state.fareFamilies.selectedFamilies
 	};
 };
 
 const mapDispatchToProps = {
 	selectFamily,
-	searchAlternativeFlights,
+	searchFareFamilies,
 	goToLeg,
 	goBack
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AlternativeFlights);
+export default connect(mapStateToProps, mapDispatchToProps)(FareFamilies);

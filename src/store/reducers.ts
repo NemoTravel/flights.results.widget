@@ -8,7 +8,7 @@ import { filtersReducer as filters } from './filters/reducers';
 import { currentLegReducer as currentLeg } from './currentLeg/reducers';
 import { selectedFlightsReducer as selectedFlights } from './selectedFlights/reducers';
 import { flightsReducer as flights } from './flights/reducers';
-import { alternativeFlightsReducer as alternativeFlights } from './alternativeFlights/reducers';
+import { fareFamiliesReducer as fareFamilies } from './fareFamilies/reducers';
 import { sortingReducer as sorting } from './sorting/reducers';
 import { flightsRTReducer as flightsRT } from './flightsRT/reducers';
 import { legsReducer as legs } from './legs/reducers';
@@ -23,7 +23,7 @@ export const rootReducer = combineReducers<ApplicationState>({
 	config,
 	currentLeg,
 	selectedFlights,
-	alternativeFlights,
+	fareFamilies,
 	sorting,
 	legs,
 	showAllFlights

@@ -73,7 +73,7 @@ export interface FareFamiliesAvailabilityState {
 	};
 }
 
-export interface AlternativeFlightsState {
+export interface FareFamiliesState {
 	selectedFamilies: SelectedFamiliesState;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
@@ -92,7 +92,7 @@ export interface ApplicationState {
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
 	selectedFlights: SelectedFlightsState;
-	alternativeFlights: AlternativeFlightsState;
+	fareFamilies: FareFamiliesState;
 	legs: Leg[];
 	sorting: SortingState;
 	showAllFlights: boolean;

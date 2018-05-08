@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { CommonThunkAction } from '../../state';
 import { setSelectedFlight } from '../selectedFlights/actions';
-import { setCombinations } from '../alternativeFlights/fareFamiliesCombinations/actions';
+import { setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { clearAllFilters } from '../filters/actions';
 import { isSelectionComplete } from '../selectedFlights/selectors';
 

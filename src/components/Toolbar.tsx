@@ -10,7 +10,7 @@ import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import { goToLeg, LegAction } from '../store/currentLeg/actions';
-import { combinationsAreValid } from '../store/alternativeFlights/selectors';
+import { combinationsAreValid } from '../store/fareFamilies/selectors';
 import Tooltip from 'material-ui/Tooltip';
 import { getTotalPrice } from '../store/selectors';
 import { hasAnyFlights } from '../store/flights/selectors';

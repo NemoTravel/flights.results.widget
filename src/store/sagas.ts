@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeEvery, select } from 'redux-saga/effects';
-import { SearchAction, SearchActionPayload, START_SEARCH, SEARCH_ALTERNATIVE_FLIGHTS, searchAlternativeFlights } from './actions';
+import { SearchAction, SearchActionPayload, START_SEARCH, SEARCH_FARE_FAMILIES } from './actions';
 import { setLegs } from './legs/actions';
 import * as moment from 'moment';
 import loadSearchResults from '../services/requests/results';
@@ -13,8 +13,8 @@ import Flight from '../models/Flight';
 import { ApplicationState } from '../state';
 import loadFareFamilies from '../services/requests/fareFamilies';
 import FareFamiliesCombinations from '../schemas/FareFamiliesCombinations';
-import { setCombinations } from './alternativeFlights/fareFamiliesCombinations/actions';
-import { setSelectedFamily } from './alternativeFlights/selectedFamilies/actions';
+import { setCombinations } from './fareFamilies/fareFamiliesCombinations/actions';
+import { setSelectedFamily } from './fareFamilies/selectedFamilies/actions';
 
 const createLegs = (requests: RequestInfo[]): Leg[] => {
 	return requests.map((requestInfo, index) => {
@@ -72,7 +72,7 @@ function* startSearchWatcher() {
 
 // -----------------------------------------------------------------------------------------
 
-function* runAlternativeFlightsSeach(flightId: number, legId: number) {
+function* runFareFamiliesSearch(flightId: number, legId: number) {
 	// Get fare families combinations for given flight.
 	const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
 
@@ -91,16 +91,16 @@ function* runAlternativeFlightsSeach(flightId: number, legId: number) {
 	}
 }
 
-function* runAlternativeFlightsSearches(flightIds: number[]) {
+function* searchFareFamilies(flightIds: number[]) {
 	const numOfLegs = flightIds.length;
 
 	// Run fare families search for each given flight ID.
 	for (let i = 0; i < numOfLegs; i++) {
-		yield fork(runAlternativeFlightsSeach, flightIds[i], i);
+		yield fork(runFareFamiliesSearch, flightIds[i], i);
 	}
 }
 
-function* searchAlternativeFlightsWorker() {
+function* searchFareFamiliesWorker() {
 	// Launch loading animation.
 	yield put(startLoading());
 
@@ -116,19 +116,19 @@ function* searchAlternativeFlightsWorker() {
 	}
 
 	// Run all searches.
-	yield call(runAlternativeFlightsSearches, flightIds);
+	yield call(searchFareFamilies, flightIds);
 
 	// Stop loading animation.
 	yield put(stopLoading());
 }
 
-function* searchAlternativeFlightsWatcher() {
-	yield takeEvery(SEARCH_ALTERNATIVE_FLIGHTS, searchAlternativeFlightsWorker);
+function* searchFareFamiliesWatcher() {
+	yield takeEvery(SEARCH_FARE_FAMILIES, searchFareFamiliesWorker);
 }
 
 export default function*() {
 	yield all([
 		startSearchWatcher(),
-		searchAlternativeFlightsWatcher()
+		searchFareFamiliesWatcher()
 	]);
 }
