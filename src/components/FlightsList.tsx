@@ -8,7 +8,7 @@ import { ApplicationState } from '../state';
 import { Action } from 'redux';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
+import { getRelativePrices, getVisibleFlights, PricesByFlights } from '../store/selectors';
 import { showAllIsVisible } from '../store/showAllFlights/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
@@ -81,7 +81,7 @@ class FlightsList extends React.Component<Props> {
 const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps & StateProps => {
 	return {
 		...ownProps,
-		prices: getPricesForCurrentLeg(state),
+		prices: getRelativePrices(state),
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),

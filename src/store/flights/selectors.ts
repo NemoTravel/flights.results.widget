@@ -10,13 +10,13 @@ import { getCurrentLegId } from '../currentLeg/selectors';
  * @param {ApplicationState} state
  * @returns {FlightsState}
  */
-export const getFlightsPool = (state: ApplicationState): FlightsState => state.flights;
+export const getAllFlights = (state: ApplicationState): FlightsState => state.flights;
 
 /**
  * Check if there are any loaded flights.
  */
 export const hasAnyFlights = createSelector(
-	[getFlightsPool],
+	[getAllFlights],
 	(allFlights: FlightsState): boolean => !!Object.keys(allFlights).length
 );
 
@@ -27,7 +27,7 @@ export const hasAnyFlights = createSelector(
  * @returns {Flight[]}
  */
 export const getFlightsForCurrentLeg = createSelector(
-	[getFlightsPool, getFlightsIdsByLegs, getCurrentLegId],
+	[getAllFlights, getFlightsIdsByLegs, getCurrentLegId],
 	(allFlights: FlightsState, flightsByLegs: FlightsByLegsState, legId: number): Flight[] => {
 		const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
 

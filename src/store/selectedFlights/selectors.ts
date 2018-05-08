@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { ApplicationState, FlightsState, SelectedFlightsState } from '../../state';
-import { getFlightsPool } from '../flights/selectors';
+import { getAllFlights } from '../flights/selectors';
 import { getLegs } from '../currentLeg/selectors';
 import Leg from '../../schemas/Leg';
 import Flight from '../../models/Flight';
@@ -8,7 +8,7 @@ import Flight from '../../models/Flight';
 export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsState => state.selectedFlights;
 
 export const getSelectedFlights = createSelector(
-	[getFlightsPool, getSelectedFlightsIds],
+	[getAllFlights, getSelectedFlightsIds],
 	(flightsPool: FlightsState, selectedFlightsIds: SelectedFlightsState): Flight[] => {
 		const result: Flight[] = [];
 

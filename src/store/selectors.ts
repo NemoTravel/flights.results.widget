@@ -5,7 +5,7 @@ import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
 import { getIsDirectOnly } from './filters/directOnly/selectors';
 import * as TimeFilter from './filters/time/selectors';
-import { getFlightsForCurrentLeg, getFlightsPool } from './flights/selectors';
+import { getFlightsForCurrentLeg, getAllFlights } from './flights/selectors';
 import * as Sorting from './sorting/selectors';
 import * as State from '../state';
 import Money from '../schemas/Money';
@@ -13,7 +13,7 @@ import { getCurrentLegId } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
 import { getSelectedFlights, getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
-import { FlightsRTState } from '../state';
+import { FlightsRTState, FlightsState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
 import { Currency, SortingDirection, SortingType } from '../enums';
@@ -39,7 +39,7 @@ export const getShowAllFlights = (state: ApplicationState): boolean => state.sho
  * Get a list of min prices for each leg.
  */
 export const getMinPricesByLegs = createSelector(
-	[getFlightsPool, getFlightsIdsByLegs],
+	[getAllFlights, getFlightsIdsByLegs],
 	(flightsPool: State.FlightsState, flightsByLegs: State.FlightsByLegsState): PricesByLegs => {
 		const result: PricesByLegs = {};
 
@@ -113,7 +113,7 @@ export const hasAnyTransferFlights = createSelector(
  */
 export const getTotalPrice = createSelector(
 	[
-		getFlightsPool,
+		getAllFlights,
 		getSelectedFlightsIds,
 		isSelectionComplete,
 		FareFamilies.getSelectedCombinations,
@@ -123,7 +123,7 @@ export const getTotalPrice = createSelector(
 		getCurrentLegId
 	],
 	(
-		flightsPool: State.FlightsState,
+		allFlights: State.FlightsState,
 		selectedFlightsIds: State.SelectedFlightsState,
 		selectionComplete: boolean,
 		selectedCombinations: FareFamilies.SelectedCombinations,
@@ -154,8 +154,8 @@ export const getTotalPrice = createSelector(
 				}
 				else {
 					// Get flight and add its price to the total sum.
-					if (flightsPool.hasOwnProperty(flightId)) {
-						totalPrice.amount += flightsPool[flightId].totalPrice.amount;
+					if (allFlights.hasOwnProperty(flightId)) {
+						totalPrice.amount += allFlights[flightId].totalPrice.amount;
 					}
 				}
 			}
@@ -170,32 +170,41 @@ export const getTotalPrice = createSelector(
 	}
 );
 
+export const getSumPriceOfSelectedFlights = createSelector(
+	[getSelectedFlights],
+	(selectedFlights: Flight[]): number => {
+		let result = 0;
+
+		selectedFlights.forEach(flight => {
+			result += flight.totalPrice.amount;
+		});
+
+		return result;
+	}
+);
+
 export const getPricesForCurrentLeg = createSelector(
 	[
 		getFlightsForCurrentLeg,
-		getMinPricesByLegs,
-		getCurrentLegId,
 		getFlightsRT,
+		getCurrentLegId,
 		getSelectedFlights,
-		getTotalPrice,
-		getMinTotalPossiblePricesByLegs
+		getMinTotalPossiblePricesByLegs,
+		getSumPriceOfSelectedFlights
 	],
 	(
-		flightsForCurrentLeg: Flight[],
-		minPricesByLegs: PricesByLegs,
-		currentLegId: number,
+		flights: Flight[],
 		flightsRT: FlightsRTState,
+		legId: number,
 		selectedFlights: Flight[],
-		totalPrice: Money,
-		minTotalPossiblePricesByLegs: PricesByLegs
+		minTotalPossiblePricesByLegs: PricesByLegs,
+		sumPriceOfSelectedFlights: number
 	): PricesByFlights => {
 		const result: PricesByFlights = {};
-		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[currentLegId] ? minTotalPossiblePricesByLegs[currentLegId].amount : 0;
-		const lowestPriceOnCurrentLeg = minPricesByLegs[currentLegId] ? minPricesByLegs[currentLegId].amount : 0;
-		const totalPriceForSelectedFlights = selectedFlights.reduce((result: number, flight: Flight): number => flight.totalPrice.amount + result, 0);
+		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);
 
-		flightsForCurrentLeg.forEach(flight => {
+		flights.forEach(flight => {
 			let flightPrice = flight.totalPrice.amount;
 
 			// Sometimes RT flight could be cheaper than OW+OW flight.
@@ -204,7 +213,7 @@ export const getPricesForCurrentLeg = createSelector(
 				if (flightsRT.hasOwnProperty(uid)) {
 					const RTFlight: Flight = flightsRT[uid];
 					const newUID = selectedUID ? `${selectedUID}|${flight.uid}` : flight.uid;
-					const possibleTotalPrice = totalPriceForSelectedFlights + flightPrice + lowestPricesForNextLegs;
+					const possibleTotalPrice = sumPriceOfSelectedFlights + flightPrice + lowestPricesForNextLegs;
 
 					// RT UID example: 'AY-720_1pc_AY-1071_1pc|AY-1076_1pc_AY-719_1pc'
 					if (uid.startsWith(newUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
@@ -213,24 +222,60 @@ export const getPricesForCurrentLeg = createSelector(
 				}
 			}
 
-			if (flightPrice === flight.totalPrice.amount) {
-				// We haven't found any cheap RT flights :(
-				result[flight.id] = {
-					amount: flightPrice + (currentLegId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
-					currency: flight.totalPrice.currency
-				};
-			}
-			else {
-				// Hurray! We have found cheap RT flight:
-				// let's calculate the difference in price between current selected flights and the RT one.
-				result[flight.id] = {
-					amount: totalPrice.amount - flightPrice,
-					currency: flight.totalPrice.currency
-				};
-			}
+			result[flight.id] = {
+				amount: flightPrice,
+				currency: flight.totalPrice.currency
+			};
 		});
 
 		return result;
+	}
+);
+
+export const getRelativePrices = createSelector(
+	[
+		getAllFlights,
+		getPricesForCurrentLeg,
+		getMinPricesByLegs,
+		getTotalPrice,
+		getMinTotalPossiblePricesByLegs,
+		getCurrentLegId
+	],
+	(
+		allFlights: FlightsState,
+		prices: PricesByFlights,
+		minPrices: PricesByLegs,
+		totalPrice: Money,
+		minTotalPossiblePricesByLegs: PricesByLegs,
+		legId: number
+	): PricesByFlights => {
+		const lowestPriceOnCurrentLeg = minPrices[legId] ? minPrices[legId].amount : 0;
+		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
+
+		for (const flightId in prices) {
+			if (prices.hasOwnProperty(flightId) && allFlights.hasOwnProperty(flightId)) {
+				const priceCandidate = prices[flightId];
+				const flight = allFlights[flightId];
+
+				if (priceCandidate.amount === flight.totalPrice.amount) {
+					// We haven't found any cheap RT flights :(
+					prices[flightId] = {
+						amount: priceCandidate.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
+						currency: flight.totalPrice.currency
+					};
+				}
+				else {
+					// Hurray! We have found cheap RT flight:
+					// let's calculate the difference in price between current selected flights and the RT one.
+					prices[flightId] = {
+						amount: totalPrice.amount - priceCandidate.amount,
+						currency: flight.totalPrice.currency
+					};
+				}
+			}
+		}
+
+		return prices;
 	}
 );
 
@@ -248,7 +293,7 @@ export const getVisibleFlights = createSelector(
 		getIsDirectOnly,
 		getShowAllFlights,
 		Sorting.getCurrentSorting,
-		getPricesForCurrentLeg
+		getRelativePrices
 	],
 	(
 		flights: Flight[],
