@@ -127,29 +127,29 @@ class Filters extends React.Component<Props> {
 		return <div className="flight-details-filters">
 			<span className="flight-details-filters-label">Вылет:</span>
 
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
+			<Tooltip title="Добавить в фильтры" placement="top">
+				<Chip className="flight-details-filters-chip" label={`${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
 			</Tooltip>
 
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${getTimeIntervalName(getTimeIntervalForDate(firstSegment.depDate))}`} onClick={this.onDepartureTimeIntervalClick}/>
+			<Tooltip title="Добавить в фильтры" placement="top">
+				<Chip className="flight-details-filters-chip"  label={`${getTimeIntervalName(getTimeIntervalForDate(firstSegment.depDate))}`} onClick={this.onDepartureTimeIntervalClick}/>
 			</Tooltip>
 
 			<span className="flight-details-filters-label">Прилёт:</span>
 
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
+			<Tooltip title="Добавить в фильтры" placement="top">
+				<Chip className="flight-details-filters-chip" label={`${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
 			</Tooltip>
 
-			<Tooltip className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-				<Chip label={`${getTimeIntervalName(getTimeIntervalForDate(lastSegment.arrDate))}`} onClick={this.onArrivalTimeIntervalClick}/>
+			<Tooltip title="Добавить в фильтры" placement="top">
+				<Chip className="flight-details-filters-chip" label={`${getTimeIntervalName(getTimeIntervalForDate(lastSegment.arrDate))}`} onClick={this.onArrivalTimeIntervalClick}/>
 			</Tooltip>
 
 			<span className="flight-details-filters-label">Авиакомпании:</span>
 
 			{allAirlines.map((airline, index) => (
-				<Tooltip key={index} className="flight-details-filters-chip" title="Добавить в фильтры" placement="top">
-					<Chip label={airline.name} onClick={event => {
+				<Tooltip key={index} title="Добавить в фильтры" placement="top">
+					<Chip className="flight-details-filters-chip" label={airline.name} onClick={event => {
 						event.stopPropagation();
 						event.preventDefault();
 
