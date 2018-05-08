@@ -7,11 +7,12 @@ import Flight from './Flight';
 import { ApplicationState } from '../state';
 import { Action } from 'redux';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
-import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
+import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
 import { showAllIsVisible } from '../store/showAllFlights/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
+import { SnackbarProps, withSnackbar } from './Snackbar';
 
 export interface OwnProps {
 	legId: number;
@@ -22,6 +23,7 @@ interface StateProps {
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
+	isLastLeg: boolean;
 	showAllIsVisible: boolean;
 }
 
@@ -30,7 +32,7 @@ interface DispatchProps {
 	showAllFlights: () => Action;
 }
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps & SnackbarProps;
 
 class FlightsList extends React.Component<Props> {
 	constructor(props: Props) {
@@ -43,8 +45,8 @@ class FlightsList extends React.Component<Props> {
 	selectFlight(flightId: number, legId: number): void {
 		this.props.selectFlight(flightId, legId);
 
-		if (!this.props.isFirstLeg) {
-			// this.props.showSnackbar('Выберите рейс на следующее направление');
+		if (!this.props.isLastLeg) {
+			this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
 	}
 
@@ -83,6 +85,7 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),
+		isLastLeg: isLastLeg(state),
 		showAllIsVisible: showAllIsVisible(state)
 	};
 };
@@ -92,4 +95,4 @@ const mapDispatchToProps = {
 	showAllFlights
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FlightsList);
+export default withSnackbar<OwnProps>(connect(mapStateToProps, mapDispatchToProps)(FlightsList));
