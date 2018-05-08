@@ -6,7 +6,7 @@ import FlightModel from '../models/Flight';
 import Flight from './Flight';
 import { ApplicationState, CommonThunkAction } from '../state';
 import { Action } from 'redux';
-import { selectFlight } from '../store/selectedFlights/actions';
+import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
 import { showAllIsVisible } from '../store/showAllFlights/selectors';
@@ -26,7 +26,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	selectFlight: (flightId: number, legId: number) => CommonThunkAction;
+	selectFlight: (flightId: number, legId: number) => SelectedFlightAction;
 	showAllFlights: () => Action;
 }
 
