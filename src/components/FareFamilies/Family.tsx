@@ -4,7 +4,6 @@ import Radio from 'material-ui/Radio';
 import { FormControlLabel } from 'material-ui/Form';
 
 import FareFamily from '../../schemas/FareFamily';
-import FareFamilyFeature from '../../schemas/FareFamilyFeature';
 import Money from '../../schemas/Money';
 import Price from '../Price';
 import Features from './Features';

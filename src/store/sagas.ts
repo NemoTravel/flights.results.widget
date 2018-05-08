@@ -1,7 +1,6 @@
 import { all, call, fork, put, takeEvery, select } from 'redux-saga/effects';
 import { SearchAction, SearchActionPayload, START_SEARCH, SEARCH_FARE_FAMILIES } from './actions';
 import { setLegs } from './legs/actions';
-import * as moment from 'moment';
 import loadSearchResults from '../services/requests/results';
 import { startLoading, stopLoading } from './isLoading/actions';
 import Leg from '../schemas/Leg';
@@ -20,9 +19,9 @@ const createLegs = (requests: RequestInfo[]): Leg[] => {
 	return requests.map((requestInfo, index) => {
 		return {
 			id: index,
-			departure: requestInfo.segments[0].departure.IATA,
-			arrival: requestInfo.segments[0].arrival.IATA,
-			date: moment(requestInfo.segments[0].departureDate)
+			departure: requestInfo.segments[0].departure,
+			arrival: requestInfo.segments[0].arrival,
+			date: requestInfo.segments[0].departureDate
 		};
 	});
 };
@@ -41,8 +40,10 @@ function* runRTSearch(request: RequestInfo) {
 }
 
 function* runSearches(data: SearchActionPayload) {
-	// Run async round-trip search.
-	yield fork(runRTSearch, data.RTRequest);
+	if (data.RTRequest) {
+		// Run async round-trip search.
+		yield fork(runRTSearch, data.RTRequest);
+	}
 
 	// Split round-trip search into separate one-way searches.
 	const numOfLegs = data.requests.length;

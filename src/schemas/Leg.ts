@@ -1,8 +1,9 @@
 import { Moment } from 'moment';
+import { Airport } from '@nemo.travel/search-widget/src/services/models/Airport';
 
 export default interface Leg {
 	id: number;
-	departure: string;
-	arrival: string;
+	departure: Airport;
+	arrival: Airport;
 	date: Moment;
 }

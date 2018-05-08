@@ -48,7 +48,7 @@ class Leg extends React.Component<Props> {
 
 		return <div className={classNames} onClick={this.onClick}>
 			<FlightTakeOffIcon className={classnames('toolbar-legs-leg__icon', { 'toolbar-legs-leg__icon_reverse': isReverse })}/>
-			{leg.departure} &mdash; {leg.arrival}
+			{leg.departure.city.name} &mdash; {leg.arrival.city.name}
 
 			<div className="toolbar-legs-leg__hidden">
 				Изменить рейс

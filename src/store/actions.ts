@@ -1,10 +1,5 @@
-import { CommonThunkAction } from '../state';
-import { startLoading, stopLoading } from './isLoading/actions';
-import { setCombinations } from './fareFamilies/fareFamiliesCombinations/actions';
-import { setSelectedFamily } from './fareFamilies/selectedFamilies/actions';
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
 import { Action } from 'redux';
-import { ISO_DATE_LENGTH } from '../utils';
 import RequestInfo from '../schemas/RequestInfo';
 
 export const START_SEARCH = 'START_SEARCH';
@@ -23,12 +18,9 @@ const createSearchPayload = (searchInfo: SearchInfo): SearchActionPayload => {
 	let RTRequest: RequestInfo = null;
 	let requests: RequestInfo[] = [];
 
-	const segments = searchInfo.segments.map(segment => {
-		segment.departureDate = segment.departureDate.substr(0, ISO_DATE_LENGTH);
-		segment.returnDate = segment.returnDate.substr(0, ISO_DATE_LENGTH);
+	console.log(searchInfo);
 
-		return segment;
-	});
+	const segments = searchInfo.segments;
 
 	const commonParams = {
 		passengers: searchInfo.passengers,

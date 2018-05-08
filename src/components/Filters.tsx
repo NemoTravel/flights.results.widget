@@ -22,7 +22,7 @@ class Filters extends React.Component<Props> {
 		return <section className="filters">
 			<div className="filters__left">
 				<Typography variant="headline">
-					Выберите рейс {currentLeg.departure} &mdash; {currentLeg.arrival}
+					Выберите рейс {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}
 				</Typography>
 			</div>
 
