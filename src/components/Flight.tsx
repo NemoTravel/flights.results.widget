@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import * as classnames from 'classnames';
 
 import Segment from './Flight/Segment';
@@ -9,8 +8,9 @@ import FlightModel from '../models/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
-import { declension, fixImageURL } from '../utils';
+import { fixImageURL } from '../utils';
 import Money from '../schemas/Money';
+import Button from './Flight/Button';
 
 export interface Props {
 	flight: FlightModel;
@@ -101,9 +101,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 				</div>
 			</div>
 
-			<div className="flight-summary-buy" onClick={this.onBuyButtonClick}>
-				Выбрать
-			</div>
+			<Button className="flight-summary-buy" onClick={this.onBuyButtonClick}/>
 		</div>;
 	}
 

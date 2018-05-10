@@ -9,15 +9,15 @@ export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsS
 
 export const getSelectedFlights = createSelector(
 	[getAllFlights, getSelectedFlightsIds],
-	(flightsPool: FlightsState, selectedFlightsIds: SelectedFlightsState): Flight[] => {
+	(allFlights: FlightsState, selectedFlightsIds: SelectedFlightsState): Flight[] => {
 		const result: Flight[] = [];
 
 		for (const legId in selectedFlightsIds) {
 			if (selectedFlightsIds.hasOwnProperty(legId)) {
 				const flightId = selectedFlightsIds[legId];
 
-				if (flightsPool.hasOwnProperty(flightId)) {
-					result.push(flightsPool[flightId]);
+				if (allFlights.hasOwnProperty(flightId)) {
+					result.push(allFlights[flightId]);
 				}
 			}
 		}

@@ -18,10 +18,7 @@ const createSearchPayload = (searchInfo: SearchInfo): SearchActionPayload => {
 	let RTRequest: RequestInfo = null;
 	let requests: RequestInfo[] = [];
 
-	console.log(searchInfo);
-
 	const segments = searchInfo.segments;
-
 	const commonParams = {
 		passengers: searchInfo.passengers,
 		parameters: {
