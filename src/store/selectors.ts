@@ -128,8 +128,7 @@ export const getTotalPrice = createSelector(
 		FareFamilies.getSelectedCombinations,
 		FareFamilies.getFareFamiliesCombinations,
 		getMinPricesByLegs,
-		getMinTotalPossiblePricesByLegs,
-		getCurrentLegId
+		getMinTotalPossiblePricesByLegs
 	],
 	(
 		allFlights: State.FlightsState,
@@ -138,9 +137,9 @@ export const getTotalPrice = createSelector(
 		selectedCombinations: FareFamilies.SelectedCombinations,
 		combinations: State.FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
-		minTotalPossiblePricesByLegs: PricesByLegs,
-		currentLegId: number
+		minTotalPossiblePricesByLegs: PricesByLegs
 	): Money => {
+		let RTFound = false;
 		const totalPrice: Money = {
 			amount: 0,
 			currency: Currency.RUB
@@ -149,6 +148,7 @@ export const getTotalPrice = createSelector(
 		// Loop through selected flights ids.
 		for (const legId in selectedFlightsIds) {
 			if (selectedFlightsIds.hasOwnProperty(legId)) {
+				const intLegId = parseInt(legId);
 				const flightId = selectedFlightsIds[legId];
 
 				// If main flights have been successfully selected,
@@ -164,15 +164,22 @@ export const getTotalPrice = createSelector(
 				else {
 					// Get flight and add its price to the total sum.
 					if (allFlights.hasOwnProperty(flightId)) {
-						totalPrice.amount += allFlights[flightId].totalPrice.amount;
+						const flight = allFlights[flightId];
+
+						if (!RTFound) {
+							totalPrice.amount += flight.totalPrice.amount;
+						}
+
+						if (flight.isRT) {
+							RTFound = true;
+						}
 					}
 				}
-			}
-		}
 
-		// Some cheating, allowing us to show relative prices on the go.
-		if (currentLegId !== 0 && !selectionComplete && minTotalPossiblePricesByLegs[currentLegId - 1]) {
-			totalPrice.amount += minTotalPossiblePricesByLegs[currentLegId - 1].amount;
+				if (!RTFound && !selectionComplete && minTotalPossiblePricesByLegs[intLegId]) {
+					totalPrice.amount += minTotalPossiblePricesByLegs[intLegId].amount;
+				}
+			}
 		}
 
 		return totalPrice;
@@ -229,6 +236,7 @@ export const getPricesForCurrentLeg = createSelector(
 					if (uid.startsWith(newUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
 						price = RTFlight.totalPrice;
 						newFlightId = RTFlight.id;
+						break;
 					}
 				}
 			}
@@ -271,7 +279,7 @@ export const getRelativePrices = createSelector(
 				if (priceCandidate.price.amount === flight.totalPrice.amount) {
 					// We haven't found any cheap RT flights :(
 					prices[flightId].price = {
-						amount: priceCandidate.price.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
+						amount: flight.totalPrice.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
 						currency: flight.totalPrice.currency
 					};
 				}

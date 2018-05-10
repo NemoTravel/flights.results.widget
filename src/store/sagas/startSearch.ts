@@ -29,9 +29,10 @@ function* runSearch(request: RequestInfo, index: number) {
 }
 
 function* runRTSearch(request: RequestInfo) {
-	const RTresults: Flight[] = yield call(loadSearchResults, request);
+	const flights: Flight[] = yield call(loadSearchResults, request);
 
-	yield put(addFlightsRT(RTresults));
+	yield put(addFlights(flights));
+	yield put(addFlightsRT(flights));
 }
 
 function* runSearches(data: SearchActionPayload) {

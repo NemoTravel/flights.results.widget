@@ -7,7 +7,10 @@ export const flightsRTReducer = (state: FlightsRTState = {}, action: FlightsActi
 		case ADD_FLIGHTS_RT:
 			const newFlightsPool: FlightsRTState = { ...state };
 
-			action.payload.forEach(flight => newFlightsPool[flight.uid] = flight);
+			action.payload.forEach(flight => {
+				flight.isRT = true;
+				newFlightsPool[flight.uid] = flight;
+			});
 
 			return newFlightsPool;
 	}

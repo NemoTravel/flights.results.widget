@@ -36,7 +36,9 @@ const config = {
         aggregateTimeout: 300
     },
 
-    output: {
+	devtool: "cheap-module-eval-source-map",
+
+	output: {
         // Folder to store generated files.
         path: path.resolve(__dirname, 'dist'),
 
