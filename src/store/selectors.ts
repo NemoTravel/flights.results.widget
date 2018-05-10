@@ -18,12 +18,14 @@ import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
 import { Currency, SortingDirection, SortingType } from '../enums';
 
-const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection, prices?: PricesByFlights) => number } = {
-	[SortingType.Price]: Sorting.priceCompareFunction,
-	[SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
-	[SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
-	[SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
-};
+export interface FlightsReplacementObject {
+	price: Money;
+	newFlightId: number;
+}
+
+export interface FlightsReplacement {
+	[originalFlightId: number]: FlightsReplacementObject
+}
 
 export interface PricesByFlights {
 	[flightId: number]: Money;
@@ -32,6 +34,13 @@ export interface PricesByFlights {
 interface PricesByLegs {
 	[legId: number]: Money;
 }
+
+const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection, prices?: FlightsReplacement) => number } = {
+	[SortingType.Price]: Sorting.priceCompareFunction,
+	[SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
+	[SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
+	[SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
+};
 
 export const getShowAllFlights = (state: ApplicationState): boolean => state.showAllFlights;
 
@@ -199,13 +208,14 @@ export const getPricesForCurrentLeg = createSelector(
 		selectedFlights: Flight[],
 		minTotalPossiblePricesByLegs: PricesByLegs,
 		sumPriceOfSelectedFlights: number
-	): PricesByFlights => {
-		const result: PricesByFlights = {};
+	): FlightsReplacement => {
+		const result: FlightsReplacement = {};
 		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);
 
 		flights.forEach(flight => {
-			let flightPrice = flight.totalPrice.amount;
+			let price = flight.totalPrice;
+			let newFlightId = flight.id;
 
 			// Sometimes RT flight could be cheaper than OW+OW flight.
 			// Loop through all RT flights and try to find one that is cheaper than currently selected combination.
@@ -213,18 +223,19 @@ export const getPricesForCurrentLeg = createSelector(
 				if (flightsRT.hasOwnProperty(uid)) {
 					const RTFlight: Flight = flightsRT[uid];
 					const newUID = selectedUID ? `${selectedUID}|${flight.uid}` : flight.uid;
-					const possibleTotalPrice = sumPriceOfSelectedFlights + flightPrice + lowestPricesForNextLegs;
+					const possibleTotalPrice = sumPriceOfSelectedFlights + price.amount + lowestPricesForNextLegs;
 
 					// RT UID example: 'AY-720_1pc_AY-1071_1pc|AY-1076_1pc_AY-719_1pc'
 					if (uid.startsWith(newUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
-						flightPrice = RTFlight.totalPrice.amount ;
+						price = RTFlight.totalPrice;
+						newFlightId = RTFlight.id;
 					}
 				}
 			}
 
 			result[flight.id] = {
-				amount: flightPrice,
-				currency: flight.totalPrice.currency
+				price,
+				newFlightId
 			};
 		});
 
@@ -243,12 +254,12 @@ export const getRelativePrices = createSelector(
 	],
 	(
 		allFlights: FlightsState,
-		prices: PricesByFlights,
+		prices: FlightsReplacement,
 		minPrices: PricesByLegs,
 		totalPrice: Money,
 		minTotalPossiblePricesByLegs: PricesByLegs,
 		legId: number
-	): PricesByFlights => {
+	): FlightsReplacement => {
 		const lowestPriceOnCurrentLeg = minPrices[legId] ? minPrices[legId].amount : 0;
 		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
 
@@ -257,18 +268,18 @@ export const getRelativePrices = createSelector(
 				const priceCandidate = prices[flightId];
 				const flight = allFlights[flightId];
 
-				if (priceCandidate.amount === flight.totalPrice.amount) {
+				if (priceCandidate.price.amount === flight.totalPrice.amount) {
 					// We haven't found any cheap RT flights :(
-					prices[flightId] = {
-						amount: priceCandidate.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
+					prices[flightId].price = {
+						amount: priceCandidate.price.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
 						currency: flight.totalPrice.currency
 					};
 				}
 				else {
 					// Hurray! We have found cheap RT flight:
 					// let's calculate the difference in price between current selected flights and the RT one.
-					prices[flightId] = {
-						amount: totalPrice.amount - priceCandidate.amount,
+					prices[flightId].price = {
+						amount: totalPrice.amount - priceCandidate.price.amount,
 						currency: flight.totalPrice.currency
 					};
 				}
@@ -305,7 +316,7 @@ export const getVisibleFlights = createSelector(
 		directOnly: boolean,
 		showAllFlights: boolean,
 		sorting: State.SortingState,
-		prices: PricesByFlights
+		prices: FlightsReplacement
 	): Flight[] => {
 		let newFlights = flights.filter(flight => {
 			const firstSegment = flight.segments[0];

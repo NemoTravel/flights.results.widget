@@ -9,15 +9,15 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
-import Money from '../schemas/Money';
 import Button from './Flight/Button';
+import { FlightsReplacementObject } from '../store/selectors';
 
 export interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
 	currentLegId?: number;
 	showPricePrefix?: boolean;
-	price?: Money;
+	replacement?: FlightsReplacementObject;
 	selectFlight?: (flightId: number, legId: number) => void;
 }
 
@@ -43,7 +43,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
 		return this.props.flight.id !== nextProps.flight.id ||
-			this.props.price !== nextProps.price ||
+			this.props.replacement !== nextProps.replacement ||
 			this.state.isOpen !== nextState.isOpen;
 	}
 
@@ -60,7 +60,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
-		this.props.selectFlight(this.props.flight.id, this.props.currentLegId);
+
+		this.props.selectFlight(this.props.replacement.newFlightId, this.props.currentLegId);
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {
@@ -86,14 +87,14 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {
-		const { flight, price } = this.props;
+		const { flight, replacement } = this.props;
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className="flight-summary-price__amount">
 					{this.props.showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
-					<Price withPlus={this.props.currentLegId !== 0} price={price ? price : flight.totalPrice}/>
+					<Price withPlus={this.props.currentLegId !== 0} price={replacement ? replacement.price : flight.totalPrice}/>
 				</div>
 
 				<div className="flight-summary-price__route">

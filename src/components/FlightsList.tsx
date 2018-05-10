@@ -8,7 +8,7 @@ import { ApplicationState } from '../state';
 import { Action } from 'redux';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { getRelativePrices, getVisibleFlights, PricesByFlights } from '../store/selectors';
+import { FlightsReplacement, getRelativePrices, getVisibleFlights } from '../store/selectors';
 import { showAllIsVisible } from '../store/showAllFlights/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
@@ -19,7 +19,7 @@ export interface OwnProps {
 }
 
 interface StateProps {
-	prices: PricesByFlights;
+	prices: FlightsReplacement;
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
@@ -62,7 +62,7 @@ class FlightsList extends React.Component<Props> {
 				{this.props.flights.map(flight => (
 					<Flight
 						key={flight.id}
-						price={prices[flight.id]}
+						replacement={prices[flight.id]}
 						flight={flight}
 						selectFlight={this.selectFlight}
 						currentLegId={legId}
