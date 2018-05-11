@@ -9,6 +9,7 @@ import { SearchAction, SearchActionPayload, START_SEARCH } from '../actions';
 import { addFlights } from '../flights/actions';
 import { setFlightsByLeg } from '../flightsByLegs/actions';
 import Leg from '../../schemas/Leg';
+import { goToLeg } from '../currentLeg/actions';
 
 const createLegs = (requests: RequestInfo[]): Leg[] => {
 	return requests.map((requestInfo, index) => {
@@ -55,6 +56,9 @@ function* worker({ payload }: SearchAction) {
 
 	// Create legs array.
 	yield put(setLegs(createLegs(payload.requests)));
+
+	// Reset selected flights and legs.
+	yield put(goToLeg(0));
 
 	// Run all searches.
 	yield call(runSearches, payload);
