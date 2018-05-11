@@ -25,6 +25,8 @@ const createLegs = (requests: RequestInfo[]): Leg[] => {
 function* runSearch(request: RequestInfo, index: number) {
 	const flights: Flight[] = yield call(loadSearchResults, request);
 
+	flights.forEach(flight => flight.legId = index);
+
 	yield put(addFlights(flights));
 	yield put(setFlightsByLeg(flights, index));
 }
