@@ -17,6 +17,7 @@ import { FlightsRTState, FlightsState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
 import { Currency, SortingDirection, SortingType } from '../enums';
+import { getFlightNumber } from './filters/flightNumber/selectors';
 
 export interface FlightsReplacementObject {
 	price: Money;
@@ -310,6 +311,7 @@ export const getVisibleFlights = createSelector(
 		TimeFilter.getSelectedDepartureTimeIntervals,
 		TimeFilter.getSelectedArrivalTimeIntervals,
 		getIsDirectOnly,
+		getFlightNumber,
 		getShowAllFlights,
 		Sorting.getCurrentSorting,
 		getRelativePrices
@@ -322,6 +324,7 @@ export const getVisibleFlights = createSelector(
 		selectedDepartureTimeIntervals: ListOfSelectedCodes,
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
+		flightNumber: string,
 		showAllFlights: boolean,
 		sorting: State.SortingState,
 		prices: FlightsReplacement
@@ -332,6 +335,10 @@ export const getVisibleFlights = createSelector(
 
 			// Filter direct flights.
 			if (directOnly && flight.segments.length !== 1) {
+				return false;
+			}
+
+			if (flightNumber && flight.uid.indexOf(flightNumber) === -1) {
 				return false;
 			}
 

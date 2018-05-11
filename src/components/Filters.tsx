@@ -5,6 +5,7 @@ import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
 import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
+import FlightNumber from './Filters/FlightNumber';
 import Leg from '../schemas/Leg';
 
 interface Props {
@@ -33,6 +34,7 @@ class Filters extends React.Component<Props> {
 				<AirlineFilter/>
 				<AirportsFilter/>
 				<TimeFilter/>
+				<FlightNumber/>
 			</div>
 		</section>;
 	}

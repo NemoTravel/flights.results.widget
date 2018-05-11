@@ -22,6 +22,7 @@ export interface TimeFilterState {
 export interface FiltersState {
 	airlines: string[];
 	directOnly: boolean;
+	flightNumber: string;
 	airports: AirportsFilterState;
 	time: TimeFilterState;
 }

@@ -4,10 +4,12 @@ import { airportsFilterReducer } from './airports/reducers';
 import { airlinesFilterReducer } from './airlines/reducers';
 import { directOnlyFilterReducer } from './directOnly/reducers';
 import { timeFilterReducer } from './time/reducers';
+import { flightNumberReducer } from './flightNumber/reducers';
 
 export const filtersReducer = combineReducers<FiltersState>({
 	airlines: airlinesFilterReducer,
 	airports: airportsFilterReducer,
 	directOnly: directOnlyFilterReducer,
-	time: timeFilterReducer
+	time: timeFilterReducer,
+	flightNumber: flightNumberReducer
 });
