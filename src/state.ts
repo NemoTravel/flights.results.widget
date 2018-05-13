@@ -3,6 +3,7 @@ import Leg from './schemas/Leg';
 import FareFamiliesCombinations from './schemas/FareFamiliesCombinations';
 import Money from './schemas/Money';
 import { FlightTimeInterval, Language, LocationType, SortingDirection, SortingType } from './enums';
+import SelectedFlight from './schemas/SelectedFlight';
 
 export interface Config {
 	rootElement: HTMLElement;
@@ -31,7 +32,7 @@ export interface FlightsByLegsState {
 }
 
 export interface SelectedFlightsState {
-	[legId: number]: number;
+	[legId: number]: SelectedFlight;
 }
 
 export interface FlightsState {

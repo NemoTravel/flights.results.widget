@@ -10,7 +10,7 @@ import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
-import { SelectedFlight } from '../store/selectors';
+import SelectedFlight from '../schemas/SelectedFlight';
 
 export interface Props {
 	flight: FlightModel;
@@ -18,7 +18,7 @@ export interface Props {
 	currentLegId?: number;
 	showPricePrefix?: boolean;
 	replacement?: SelectedFlight;
-	selectFlight?: (flightId: number, legId: number) => void;
+	selectFlight?: (flight: SelectedFlight, legId: number) => void;
 }
 
 interface State {
@@ -61,7 +61,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		event.stopPropagation();
 		event.preventDefault();
 
-		this.props.selectFlight(this.props.replacement.newFlightId, this.props.currentLegId);
+		this.props.selectFlight(this.props.replacement, this.props.currentLegId);
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {

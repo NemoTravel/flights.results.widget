@@ -8,11 +8,12 @@ import { ApplicationState } from '../state';
 import { Action } from 'redux';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { FlightsReplacement, getRelativePrices, getVisibleFlights } from '../store/selectors';
+import { getRelativePrices, getVisibleFlights } from '../store/selectors';
 import { showAllIsVisible } from '../store/showAllFlights/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
 import { SnackbarProps, withSnackbar } from './Snackbar';
+import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';
 
 export interface OwnProps {
 	legId: number;
@@ -28,7 +29,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	selectFlight: (flightId: number, legId: number) => SelectedFlightAction;
+	selectFlight: (flight: SelectedFlight, legId: number) => SelectedFlightAction;
 	showAllFlights: () => Action;
 }
 
@@ -42,8 +43,8 @@ class FlightsList extends React.Component<Props> {
 		this.showAll = this.showAll.bind(this);
 	}
 
-	selectFlight(flightId: number, legId: number): void {
-		this.props.selectFlight(flightId, legId);
+	selectFlight(flight: SelectedFlight, legId: number): void {
+		this.props.selectFlight(flight, legId);
 
 		if (!this.props.isLastLeg) {
 			this.props.showSnackbar('Выберите рейс на следующее направление');
