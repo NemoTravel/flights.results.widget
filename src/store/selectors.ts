@@ -18,13 +18,14 @@ import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
 import { Currency, SortingDirection, SortingType } from '../enums';
 
-export interface FlightsReplacementObject {
+export interface SelectedFlight {
 	price: Money;
 	newFlightId: number;
+	flightId: number;
 }
 
 export interface FlightsReplacement {
-	[originalFlightId: number]: FlightsReplacementObject
+	[originalFlightId: number]: SelectedFlight
 }
 
 export interface PricesByFlights {
@@ -221,8 +222,9 @@ export const getPricesForCurrentLeg = createSelector(
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);
 
 		flights.forEach(flight => {
-			let price = flight.totalPrice;
+			const flightId = flight.id;
 			let newFlightId = flight.id;
+			let price = flight.totalPrice;
 
 			// Sometimes RT flight could be cheaper than OW+OW flight.
 			// Loop through all RT flights and try to find one that is cheaper than currently selected combination.
@@ -243,6 +245,7 @@ export const getPricesForCurrentLeg = createSelector(
 
 			result[flight.id] = {
 				price,
+				flightId,
 				newFlightId
 			};
 		});

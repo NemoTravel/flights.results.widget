@@ -10,14 +10,14 @@ import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
-import { FlightsReplacementObject } from '../store/selectors';
+import { SelectedFlight } from '../store/selectors';
 
 export interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
 	currentLegId?: number;
 	showPricePrefix?: boolean;
-	replacement?: FlightsReplacementObject;
+	replacement?: SelectedFlight;
 	selectFlight?: (flightId: number, legId: number) => void;
 }
 
