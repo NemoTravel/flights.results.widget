@@ -1,6 +1,9 @@
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
 import { Action } from 'redux';
+
 import RequestInfo from '../schemas/RequestInfo';
+import { NUM_OF_RT_SEGMENTS } from '../utils';
+import { RouteType } from '../enums';
 
 export const START_SEARCH = 'START_SEARCH';
 export const SEARCH_FARE_FAMILIES = 'SEARCH_FARE_FAMILIES';
@@ -27,11 +30,10 @@ const createSearchPayload = (searchInfo: SearchInfo): SearchActionPayload => {
 		}
 	};
 
-	if (segments.length === 1 && segments[0].returnDate) {
+	if (searchInfo.routeType === RouteType.RT && segments.length === NUM_OF_RT_SEGMENTS) {
 		// RT search
-		const segment = segments[0];
-		const departureSegment: SearchInfoSegment = { departure: segment.departure, arrival: segment.arrival, departureDate: segment.departureDate };
-		const returnSegment: SearchInfoSegment = { departure: segment.arrival, arrival: segment.departure, departureDate: segment.returnDate };
+		const departureSegment: SearchInfoSegment = segments[0];
+		const returnSegment: SearchInfoSegment = segments[1];
 
 		requests.push({ ...commonParams, segments: [ departureSegment ] });
 		requests.push({ ...commonParams, segments: [ returnSegment ] });

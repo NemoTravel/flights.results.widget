@@ -19,6 +19,12 @@ export enum LocationType {
 	Arrival = 'arrival'
 }
 
+export enum RouteType {
+	OW = 'OW',
+	RT = 'RT',
+	CR = 'CR'
+}
+
 export enum SortingType {
 	DepartureTime = 'DepartureTime',
 	ArrivalTime = 'ArrivalTime',

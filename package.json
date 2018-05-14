@@ -54,7 +54,7 @@
 	},
 	"dependencies": {
 		"@nemo.travel/api-parser": "^1.2.2",
-		"@nemo.travel/search-widget": "^2.3.4",
+		"@nemo.travel/search-widget": "^2.3.7",
 		"@types/classnames": "^2.2.3",
 		"@types/jest": "^22.2.0",
 		"@types/js-cookie": "2.1.0",

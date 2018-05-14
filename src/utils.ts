@@ -7,6 +7,7 @@ export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
 export const ISO_DATE_LENGTH = 19;
 export const MAX_VISIBLE_FLIGHTS = 15;
+export const NUM_OF_RT_SEGMENTS = 2;
 
 const lastSingleNumber = 9;
 
