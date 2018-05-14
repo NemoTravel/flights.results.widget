@@ -46,7 +46,7 @@ function* worker() {
 	// Collect IDs of selected flights.
 	for (const legId in selectedFlights) {
 		if (selectedFlights.hasOwnProperty(legId)) {
-			flightIds.push(selectedFlights[legId]);
+			flightIds.push(selectedFlights[legId].newFlightId);
 		}
 	}
 

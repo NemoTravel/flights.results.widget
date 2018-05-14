@@ -17,15 +17,7 @@ import { FlightsRTState, FlightsState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
 import { Currency, SortingDirection, SortingType } from '../enums';
-
-export interface FlightsReplacementObject {
-	price: Money;
-	newFlightId: number;
-}
-
-export interface FlightsReplacement {
-	[originalFlightId: number]: FlightsReplacementObject
-}
+import { FlightsReplacement } from '../schemas/SelectedFlight';
 
 export interface PricesByFlights {
 	[flightId: number]: Money;
@@ -149,7 +141,7 @@ export const getTotalPrice = createSelector(
 		for (const legId in selectedFlightsIds) {
 			if (selectedFlightsIds.hasOwnProperty(legId)) {
 				const intLegId = parseInt(legId);
-				const flightId = selectedFlightsIds[legId];
+				const flightId = selectedFlightsIds[legId].newFlightId;
 
 				// If main flights have been successfully selected,
 				// then it's time to choose alternative flights (fare families).
@@ -221,8 +213,9 @@ export const getPricesForCurrentLeg = createSelector(
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);
 
 		flights.forEach(flight => {
-			let price = flight.totalPrice;
+			const originalFlightId = flight.id;
 			let newFlightId = flight.id;
+			let price = flight.totalPrice;
 
 			// Sometimes RT flight could be cheaper than OW+OW flight.
 			// Loop through all RT flights and try to find one that is cheaper than currently selected combination.
@@ -243,6 +236,7 @@ export const getPricesForCurrentLeg = createSelector(
 
 			result[flight.id] = {
 				price,
+				originalFlightId,
 				newFlightId
 			};
 		});

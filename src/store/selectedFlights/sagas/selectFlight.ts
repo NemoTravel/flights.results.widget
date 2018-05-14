@@ -7,7 +7,7 @@ import { remoteAllFilters } from '../../filters/actions';
 function* worker({ payload }: SelectedFlightAction) {
 	const isComplete: boolean = yield select(isLastLeg);
 
-	yield put(setSelectedFlight(payload.flightId, payload.legId));
+	yield put(setSelectedFlight(payload.flight, payload.legId));
 
 	if (!isComplete) {
 		yield put(nextLeg());

@@ -14,7 +14,7 @@ export const getSelectedFlights = createSelector(
 
 		for (const legId in selectedFlightsIds) {
 			if (selectedFlightsIds.hasOwnProperty(legId)) {
-				const flightId = selectedFlightsIds[legId];
+				const flightId = selectedFlightsIds[legId].newFlightId;
 
 				if (allFlights.hasOwnProperty(flightId)) {
 					result.push(allFlights[flightId]);

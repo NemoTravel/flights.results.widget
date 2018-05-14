@@ -6,10 +6,10 @@ const initialState: SelectedFlightsState = {};
 export const selectedFlightsReducer = (state: SelectedFlightsState = initialState, action: SelectedFlightAction): SelectedFlightsState => {
 	switch (action.type) {
 		case SET_SELECTED_FLIGHT:
-			const flightId = action.payload.flightId;
+			const flight = action.payload.flight;
 			const legId = action.payload.legId;
 
-			if (flightId === null) {
+			if (flight === null) {
 				const result: SelectedFlightsState = {};
 
 				for (const tmpLegId in state) {
@@ -23,7 +23,7 @@ export const selectedFlightsReducer = (state: SelectedFlightsState = initialStat
 			else {
 				return {
 					...state,
-					[legId]: flightId
+					[legId]: flight
 				};
 			}
 	}
