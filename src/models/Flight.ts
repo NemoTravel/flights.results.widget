@@ -33,6 +33,7 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 	lastSegment: Segment;
 	transferInfo: string[];
 	isRT: boolean = false;
+	legId: number;
 
 	fill(flightSource: FlightSchema): void {
 		super.fill(flightSource);

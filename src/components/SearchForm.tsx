@@ -21,7 +21,7 @@ class SearchForm extends React.Component<Props> {
 		const { history, onSearch } = this.props;
 
 		onSearch(searchInfo);
-		history.push('/results');
+		history.replace('/results');
 	}
 
 	componentDidMount(): void {
