@@ -138,6 +138,12 @@
   padding-bottom: 80px;
 }
 
+.results__flightNumberSearch {
+  padding: 0 24px;
+  margin-top: 1rem;
+  width: 100%;
+}
+
 .results__flights {
   padding: 0 24px;
 }

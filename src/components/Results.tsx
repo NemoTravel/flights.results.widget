@@ -8,6 +8,7 @@ import { ApplicationState } from '../state';
 import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
+import FlightNumber from './Filters/FlightNumber';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 
@@ -27,6 +28,8 @@ class Results extends React.Component<StateProps> {
 		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights } = this.props;
 
 		return hasAnyFlights ? <div className="results__inner-content">
+			<FlightNumber/>
+
 			<Filters currentLeg={currentLeg}/>
 
 			{hasAnyVisibleFlights ? <Sortings/> : ''}
