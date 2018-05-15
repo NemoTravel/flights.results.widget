@@ -89,6 +89,7 @@ export interface ApplicationState {
 	flightsRT: FlightsRTState;
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
+	isLoadingFareFamilies: boolean;
 	selectedFlights: SelectedFlightsState;
 	fareFamilies: FareFamiliesState;
 	legs: Leg[];
