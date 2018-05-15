@@ -15,7 +15,8 @@
 		}
 	}
 
-	.ReactVirtualized__List, .ReactVirtualized__Grid__innerScrollContainer {
+	.ReactVirtualized__List,
+	.ReactVirtualized__Grid__innerScrollContainer {
 		outline: none !important;
 		overflow: visible !important;
 		padding-bottom: 100px;

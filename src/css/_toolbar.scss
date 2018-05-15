@@ -6,7 +6,7 @@
 
 	height: 60px;
 	border-top: 1px solid #e0e0e0;
-	background: #fff;
+	background: #ffffff;
 
 	&__inner {
 		width: 100%;
@@ -29,8 +29,8 @@
 			font-size: 15px;
 
 			color: #64b5f6;
-			background-color: #fff;
-			transition: all 0.2s ease-out;
+			background-color: #ffffff;
+			transition: opacity 0.2s ease-out, color 0.2s ease-out, background-color 0.2s ease-out;
 
 			border: 1px solid #64b5f6;
 			border-radius: 5px;
@@ -61,7 +61,7 @@
 			}
 
 			&_selected {
-				color: #fff;
+				color: #ffffff;
 				background-color: #64b5f6;
 				cursor: default;
 			}
@@ -77,15 +77,19 @@
 				justify-content: center;
 				align-items: center;
 
-				color: #fff;
+				color: #ffffff;
 				background-color: #64b5f6;
 				opacity: 0;
 				transition: opacity 0.15s ease-out;
 			}
 
-			&:not(&_selected):not(&_disabled):hover {
-				.toolbar-legs-leg__hidden {
-					opacity: 1;
+			&:not(&_selected) {
+				&:not(&_disabled) {
+					&:hover {
+						.toolbar-legs-leg__hidden {
+							opacity: 1;
+						}
+					}
 				}
 			}
 		}
