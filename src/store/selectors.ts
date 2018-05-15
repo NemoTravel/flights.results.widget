@@ -11,9 +11,14 @@ import * as State from '../state';
 import Money from '../schemas/Money';
 import { getCurrentLegId } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
-import { getSelectedFlights, getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
+import {
+	getSelectedFlights,
+	getSelectedFlightsIds, getTotalPriceOfOriginalSelectedFlights,
+	isRTSelected,
+	isSelectionComplete
+} from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
-import { FlightsRTState, FlightsState } from '../state';
+import { FlightsRTState, FlightsState, SelectedFlightsState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { ApplicationState } from '../state';
 import { Currency, SortingDirection, SortingType } from '../enums';
@@ -252,7 +257,9 @@ export const getRelativePrices = createSelector(
 		getMinPricesByLegs,
 		getTotalPrice,
 		getMinTotalPossiblePricesByLegs,
-		getCurrentLegId
+		getCurrentLegId,
+		isRTSelected,
+		getTotalPriceOfOriginalSelectedFlights
 	],
 	(
 		allFlights: FlightsState,
@@ -260,7 +267,9 @@ export const getRelativePrices = createSelector(
 		minPrices: PricesByLegs,
 		totalPrice: Money,
 		minTotalPossiblePricesByLegs: PricesByLegs,
-		legId: number
+		legId: number,
+		isRTSelected: boolean,
+		totalPriceOfOriginalSelectedFlights: Money
 	): FlightsReplacement => {
 		const lowestPriceOnCurrentLeg = minPrices[legId] ? minPrices[legId].amount : 0;
 		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
@@ -271,9 +280,13 @@ export const getRelativePrices = createSelector(
 				const flight = allFlights[flightId];
 
 				if (priceCandidate.price.amount === flight.totalPrice.amount) {
+					const price: number = isRTSelected
+						? totalPriceOfOriginalSelectedFlights.amount + flight.totalPrice.amount + lowestPricesForNextLegs - totalPrice.amount
+						: flight.totalPrice.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg));
+
 					// We haven't found any cheap RT flights :(
 					prices[flightId].price = {
-						amount: flight.totalPrice.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg)),
+						amount: price,
 						currency: flight.totalPrice.currency
 					};
 				}
