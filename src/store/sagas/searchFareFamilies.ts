@@ -27,13 +27,13 @@ function* runFareFamiliesSearch(flightId: number, legId: number) {
 
 function* worker({ payload }: SearchFareFamiliesAction) {
 	// Launch loading animation.
-	yield put(startLoadingFareFamilies());
+	yield put(startLoadingFareFamilies(payload.legId));
 
 	// Run search.
 	yield call(runFareFamiliesSearch, payload.flightId, payload.legId);
 
 	// Stop loading animation.
-	yield put(stopLoadingFareFamilies());
+	yield put(stopLoadingFareFamilies(payload.legId));
 }
 
 export default function* searchFareFamiliesSaga() {

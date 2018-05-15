@@ -14,6 +14,7 @@ import { combinationsAreValid } from '../store/fareFamilies/selectors';
 import Tooltip from 'material-ui/Tooltip';
 import { getTotalPrice } from '../store/selectors';
 import { hasAnyFlights } from '../store/flights/selectors';
+import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
 
 interface StateProps {
 	totalPrice: Money;
@@ -117,7 +118,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
-		isLoadingFareFamilies: state.isLoadingFareFamilies,
+		isLoadingFareFamilies: isLoadingFareFamilies(state),
 		currentLeg: state.currentLeg,
 		hasAnyFlights: hasAnyFlights(state),
 		combinationsAreValid: combinationsAreValid(state),

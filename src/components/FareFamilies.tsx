@@ -13,6 +13,7 @@ import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg, LegAction } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
 import CircularProgress from 'material-ui/Progress/CircularProgress';
+import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -88,7 +89,7 @@ class FareFamilies extends React.Component<Props> {
 const mapStateToProps = (state: State.ApplicationState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
-		isLoading: state.isLoadingFareFamilies,
+		isLoading: isLoadingFareFamilies(state),
 		fareFamiliesAvailability: getFareFamiliesAvailability(state),
 		fareFamiliesPrices: getFareFamiliesPrices(state),
 		fareFamiliesCombinations: state.fareFamilies.fareFamiliesCombinations,

@@ -76,6 +76,10 @@ export interface FareFamiliesState {
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
+export interface FareFamiliesLoadingState {
+	[legId: number]: boolean;
+}
+
 export interface SortingState {
 	type: SortingType;
 	direction: SortingDirection;
@@ -89,7 +93,7 @@ export interface ApplicationState {
 	flightsRT: FlightsRTState;
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
-	isLoadingFareFamilies: boolean;
+	isLoadingFareFamilies: FareFamiliesLoadingState;
 	selectedFlights: SelectedFlightsState;
 	fareFamilies: FareFamiliesState;
 	legs: Leg[];

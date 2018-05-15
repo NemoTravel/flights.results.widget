@@ -1,13 +1,14 @@
-import { Action } from 'redux';
 import { START_LOADING_FARE_FAMILIES, STOP_LOADING_FARE_FAMILIES } from './actions';
+import { LegAction } from '../currentLeg/actions';
+import { FareFamiliesLoadingState } from '../../state';
 
-export const loadingFareFamiliesReducer = (state: boolean = false, action: Action): boolean => {
+export const loadingFareFamiliesReducer = (state: FareFamiliesLoadingState = {}, action: LegAction): FareFamiliesLoadingState => {
 	switch (action.type) {
 		case START_LOADING_FARE_FAMILIES:
-			return true;
+			return { ...state, [action.payload]: true };
 
 		case STOP_LOADING_FARE_FAMILIES:
-			return false;
+			return { ...state, [action.payload]: false };
 	}
 
 	return state;
