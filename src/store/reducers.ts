@@ -17,8 +17,7 @@ import { flightsRTReducer as flightsRT, FlightsRTState } from './flightsRT/reduc
 import { legsReducer as legs } from './legs/reducers';
 import { showAllFlightsReducer as showAllFlights } from './showAllFlights/reducers';
 import Leg from '../schemas/Leg';
-import {
-	FareFamiliesState} from './fareFamilies/reducers';
+import { FareFamiliesState } from './fareFamilies/reducers';
 
 export interface RootState {
 	config: Config;
