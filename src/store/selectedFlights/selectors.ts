@@ -1,13 +1,15 @@
 import { createSelector } from 'reselect';
-import { ApplicationState, FlightsState, SelectedFlightsState } from '../../state';
+import { FlightsState} from '../flights/reducers';
 import { getAllFlights } from '../flights/selectors';
 import { getLegs } from '../currentLeg/selectors';
 import Leg from '../../schemas/Leg';
 import Flight from '../../models/Flight';
 import Money from '../../schemas/Money';
 import { Currency } from '../../enums';
+import { RootState } from '../reducers';
+import { SelectedFlightsState } from './reducers';
 
-export const getSelectedFlightsIds = (state: ApplicationState): SelectedFlightsState => state.selectedFlights;
+export const getSelectedFlightsIds = (state: RootState): SelectedFlightsState => state.selectedFlights;
 
 export const getSelectedFlights = createSelector(
 	[getAllFlights, getSelectedFlightsIds],

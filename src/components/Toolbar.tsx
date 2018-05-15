@@ -4,7 +4,7 @@ import Button from 'material-ui/Button';
 
 import Price from './Price';
 import Leg from '../schemas/Leg';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import LegComponent from './Toolbar/Leg';
 import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
@@ -114,7 +114,7 @@ class Toolbar extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,

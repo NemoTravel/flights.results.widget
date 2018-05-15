@@ -13,7 +13,7 @@ import './css/main.scss';
 import themeObject from './themes/default';
 import { rootReducer } from './store/reducers';
 import { setConfig } from './store/config/actions';
-import { Config } from './state';
+import { Config } from './store/config/reducers';
 import Main from './components/Main';
 import sagas from './store/sagas';
 

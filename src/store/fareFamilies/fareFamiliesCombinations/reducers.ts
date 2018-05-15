@@ -1,5 +1,9 @@
-import { FareFamiliesCombinationsState } from '../../../state';
 import { FareFamiliesCombinationsAction, SET_FARE_FAMILIES_COMBINATIONS } from './actions';
+import FareFamiliesCombinations from '../../../schemas/FareFamiliesCombinations';
+
+export interface FareFamiliesCombinationsState {
+	[legId: number]: FareFamiliesCombinations;
+}
 
 export const fareFamiliesCombinationsReducer = (state: FareFamiliesCombinationsState = {}, action: FareFamiliesCombinationsAction): FareFamiliesCombinationsState => {
 	switch (action.type) {

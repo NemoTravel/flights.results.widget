@@ -7,7 +7,7 @@ import AirportColumn from './Airports/Column';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { Action } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import { ApplicationState } from '../../state';
+import { RootState } from '../../store/reducers';
 import {
 	FilterAirportsAction,
 	addAirport,
@@ -135,7 +135,7 @@ class Airports extends WithPopover<Props, FilterState> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedDepartureAirports: getSelectedDepartureAirportsList(state),
 		selectedArrivalAirports: getSelectedArrivalAirportsList(state),

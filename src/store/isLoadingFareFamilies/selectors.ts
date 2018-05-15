@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
-import { ApplicationState, FareFamiliesLoadingState } from '../../state';
+import { FareFamiliesLoadingState } from './reducers';
+import { RootState } from '../reducers';
 
-const getFareFamiliesLoadingState = (state: ApplicationState): FareFamiliesLoadingState => state.isLoadingFareFamilies;
+const getFareFamiliesLoadingState = (state: RootState): FareFamiliesLoadingState => state.isLoadingFareFamilies;
 
 export const isLoadingFareFamilies = createSelector(
 	[getFareFamiliesLoadingState],

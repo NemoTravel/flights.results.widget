@@ -1,7 +1,11 @@
-import { TimeFilterState } from '../../../state';
 import { FILTERS_ADD_TIME, FILTERS_REMOVE_ALL_TIME, FILTERS_REMOVE_TIME, FilterTimeAction } from './actions';
 import { addCodeInList, removeCodeFromList } from '../../../utils';
-import { LocationType } from '../../../enums';
+import { FlightTimeInterval, LocationType } from '../../../enums';
+
+export interface TimeFilterState {
+	[LocationType.Arrival]: FlightTimeInterval[];
+	[LocationType.Departure]: FlightTimeInterval[];
+}
 
 const initialTimeFiltersState: TimeFilterState = {
 	[LocationType.Departure]: [],

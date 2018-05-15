@@ -1,4 +1,3 @@
-import { AirportsFilterState } from '../../../state';
 import {
 	FilterAirportsAction,
 	FILTERS_ADD_AIRPORT,
@@ -7,6 +6,11 @@ import {
 } from './actions';
 import { addCodeInList, removeCodeFromList } from '../../../utils';
 import { LocationType } from '../../../enums';
+
+export interface AirportsFilterState {
+	[LocationType.Arrival]: string[];
+	[LocationType.Departure]: string[];
+}
 
 const initialAirportsFiltersState: AirportsFilterState = {
 	[LocationType.Departure]: [],

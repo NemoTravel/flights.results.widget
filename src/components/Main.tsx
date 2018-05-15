@@ -6,7 +6,7 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
 import FareFamilies from './FareFamilies';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import Toolbar from './Toolbar';
 import { SearchAction, startSearch } from '../store/actions';
@@ -46,7 +46,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		isLoading: state.isLoading,
 		isSelectionComplete: isSelectionComplete(state)

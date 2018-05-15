@@ -3,8 +3,6 @@ import * as classnames from 'classnames';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-
-import * as State from '../state';
 import Flight from '../models/Flight';
 import SelectedFlights from './FareFamilies/SelectedFlights';
 import Leg from './FareFamilies/Leg';
@@ -14,14 +12,19 @@ import { goBack, goToLeg, LegAction } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
 import CircularProgress from 'material-ui/Progress/CircularProgress';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
+import { RootState } from '../store/reducers';
+import { FareFamiliesCombinationsState } from '../store/fareFamilies/fareFamiliesCombinations/reducers';
+import { SelectedFamiliesState } from '../store/fareFamilies/selectedFamilies/reducers';
+import { FareFamiliesPrices } from '../schemas/FareFamiliesPrices';
+import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
 
 interface StateProps {
 	selectedFlights: Flight[];
 	isLoading: boolean;
-	selectedFamilies: State.SelectedFamiliesState;
-	fareFamiliesPrices: State.FareFamiliesPricesState;
-	fareFamiliesAvailability: State.FareFamiliesAvailabilityState;
-	fareFamiliesCombinations: State.FareFamiliesCombinationsState;
+	selectedFamilies: SelectedFamiliesState;
+	fareFamiliesPrices: FareFamiliesPrices;
+	fareFamiliesAvailability: FareFamiliesAvailability;
+	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
 interface DispatchProps {
@@ -86,7 +89,7 @@ class FareFamilies extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: State.ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
 		isLoading: isLoadingFareFamilies(state),

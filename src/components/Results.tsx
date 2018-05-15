@@ -4,7 +4,7 @@ import Typography from 'material-ui/Typography';
 
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
@@ -45,7 +45,7 @@ class Results extends React.Component<StateProps> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		isLoading: state.isLoading,
 		hasAnyFlights: hasAnyFlights(state),

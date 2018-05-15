@@ -3,7 +3,7 @@ import * as React from 'react';
 import Segment from './Segment';
 import Flight from '../../models/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
-import { SelectedFamiliesState } from '../../state';
+import { SelectedFamiliesState } from '../../store/fareFamilies/selectedFamilies/reducers';
 import { SelectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
 import Money from '../../schemas/Money';
 

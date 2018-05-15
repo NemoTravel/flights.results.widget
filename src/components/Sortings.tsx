@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { ApplicationState, SortingState } from '../state';
+import { SortingState } from '../store/sorting/reducers';
 import SortingItem from './SortingItem';
 import { setSorting, SortingAction } from '../store/sorting/actions';
 import { SortingDirection, SortingType } from '../enums';
+import { RootState } from '../store/reducers';
 
 interface StateProps {
 	currentSorting: SortingState;
@@ -73,7 +74,7 @@ class Sorting extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		currentSorting: state.sorting
 	};

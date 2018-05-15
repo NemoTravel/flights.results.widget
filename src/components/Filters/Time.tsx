@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TimeColumn from './Time/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { ApplicationState } from '../../state';
+import { RootState } from '../../store/reducers';
 import { Action } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { FilterTimeAction, addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
@@ -136,7 +136,7 @@ class Time extends WithPopover<Props, FilterState> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedDepartureTimeIntervals: getSelectedDepartureTimeIntervals(state),
 		selectedArrivalTimeIntervals: getSelectedArrivalTimeIntervals(state)

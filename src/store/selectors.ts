@@ -5,24 +5,29 @@ import { getSelectedAirlinesList } from './filters/airlines/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
 import { getIsDirectOnly } from './filters/directOnly/selectors';
 import * as TimeFilter from './filters/time/selectors';
-import { getFlightsForCurrentLeg, getAllFlights } from './flights/selectors';
+import { getAllFlights, getFlightsForCurrentLeg } from './flights/selectors';
 import * as Sorting from './sorting/selectors';
-import * as State from '../state';
+import { FlightsRTState } from './flightsRT/reducers';
 import Money from '../schemas/Money';
 import { getCurrentLegId } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
 import {
 	getSelectedFlights,
-	getSelectedFlightsIds, getTotalPriceOfOriginalSelectedFlights,
+	getSelectedFlightsIds,
+	getTotalPriceOfOriginalSelectedFlights,
 	isRTSelected,
 	isSelectionComplete
 } from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
-import { FlightsRTState, FlightsState, SelectedFlightsState } from '../state';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
-import { ApplicationState } from '../state';
+import { RootState } from './reducers';
 import { Currency, SortingDirection, SortingType } from '../enums';
 import { FlightsReplacement } from '../schemas/SelectedFlight';
+import { FlightsByLegsState } from './flightsByLegs/reducers';
+import { SelectedFlightsState } from './selectedFlights/reducers';
+import { FlightsState } from './flights/reducers';
+import { SortingState } from './sorting/reducers';
+import { FareFamiliesCombinationsState } from './fareFamilies/fareFamiliesCombinations/reducers';
 
 export interface PricesByFlights {
 	[flightId: number]: Money;
@@ -39,14 +44,14 @@ const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: S
 	[SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
 };
 
-export const getShowAllFlights = (state: ApplicationState): boolean => state.showAllFlights;
+export const getShowAllFlights = (state: RootState): boolean => state.showAllFlights;
 
 /**
  * Get a list of min prices for each leg.
  */
 export const getMinPricesByLegs = createSelector(
 	[getAllFlights, getFlightsIdsByLegs],
-	(flightsPool: State.FlightsState, flightsByLegs: State.FlightsByLegsState): PricesByLegs => {
+	(flightsPool: FlightsState, flightsByLegs: FlightsByLegsState): PricesByLegs => {
 		const result: PricesByLegs = {};
 
 		for (const legId in flightsByLegs) {
@@ -128,11 +133,11 @@ export const getTotalPrice = createSelector(
 		getMinTotalPossiblePricesByLegs
 	],
 	(
-		allFlights: State.FlightsState,
-		selectedFlightsIds: State.SelectedFlightsState,
+		allFlights: FlightsState,
+		selectedFlightsIds: SelectedFlightsState,
 		selectionComplete: boolean,
 		selectedCombinations: FareFamilies.SelectedCombinations,
-		combinations: State.FareFamiliesCombinationsState,
+		combinations: FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
 		minTotalPossiblePricesByLegs: PricesByLegs
 	): Money => {
@@ -330,7 +335,7 @@ export const getVisibleFlights = createSelector(
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
 		showAllFlights: boolean,
-		sorting: State.SortingState,
+		sorting: SortingState,
 		prices: FlightsReplacement
 	): Flight[] => {
 		let newFlights = flights.filter(flight => {

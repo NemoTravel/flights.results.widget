@@ -1,3 +1,3 @@
-import { ApplicationState } from '../../../state';
+import { RootState } from '../../reducers';
 
-export const getIsDirectOnly = (state: ApplicationState): boolean => state.filters.directOnly;
+export const getIsDirectOnly = (state: RootState): boolean => state.filters.directOnly;

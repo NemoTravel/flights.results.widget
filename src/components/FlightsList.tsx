@@ -4,7 +4,7 @@ import Typography from 'material-ui/Typography';
 
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import { Action } from 'redux';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
@@ -79,7 +79,7 @@ class FlightsList extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps & StateProps => {
+const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & StateProps => {
 	return {
 		...ownProps,
 		prices: getRelativePrices(state),

@@ -1,6 +1,10 @@
 import { SET_CONFIG, SetConfigAction } from './actions';
-import { Config } from '../../state';
 import { Language } from '../../enums';
+
+export interface Config {
+	rootElement: HTMLElement;
+	locale: Language;
+}
 
 const initalConfig: Config = {
 	rootElement: document.getElementById('root'),

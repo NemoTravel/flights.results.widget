@@ -10,7 +10,7 @@ import { Type as FilterType } from '../Filter';
 import { Action } from 'redux';
 import WithPopover, { State as WithPopoverState } from './WithPopover';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import { ApplicationState } from '../../state';
+import { RootState } from '../../store/reducers';
 import {
 	FilterAirlinesAction,
 	addAirline,
@@ -105,7 +105,7 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		airlines: getAllAirlines(state),
 		selectedAirlines: getSelectedAirlinesList(state),

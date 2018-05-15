@@ -1,9 +1,10 @@
-import { ApplicationState, SortingState } from '../../state';
+import { SortingState } from './reducers';
 import Flight from '../../models/Flight';
 import SegmentModel from '../../schemas/Segment';
 import { PricesByFlights } from '../selectors';
 import { SortingDirection } from '../../enums';
 import { FlightsReplacement } from '../../schemas/SelectedFlight';
+import { RootState } from '../reducers';
 
 /**
  * Compare two objects considering the sorting direction.
@@ -36,10 +37,10 @@ export const getTotalFlightTime = (flight: Flight): number => {
 /**
  * Current active sorting.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {SortingState}
  */
-export const getCurrentSorting = (state: ApplicationState): SortingState => state.sorting;
+export const getCurrentSorting = (state: RootState): SortingState => state.sorting;
 
 /**
  * Compare two flights by total price.
