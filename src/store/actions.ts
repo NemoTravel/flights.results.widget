@@ -1,5 +1,4 @@
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
-import { Action } from 'redux';
 
 import RequestInfo from '../schemas/RequestInfo';
 import { NUM_OF_RT_SEGMENTS } from '../utils';
@@ -8,23 +7,11 @@ import { RouteType } from '../enums';
 export const START_SEARCH = 'START_SEARCH';
 export const SEARCH_FARE_FAMILIES = 'SEARCH_FARE_FAMILIES';
 
-export interface SearchFareFamiliesAction extends Action {
-	payload: {
-		flightId: number;
-		legId: number;
-	}
-}
+export type SearchAction = ReturnType<typeof startSearch>;
+export type SearchActionPayload = ReturnType<typeof createSearchPayload>;
+export type SearchFareFamiliesAction = ReturnType<typeof searchFareFamilies>;
 
-export interface SearchActionPayload {
-	requests: RequestInfo[];
-	RTRequest: RequestInfo;
-}
-
-export interface SearchAction extends Action {
-	payload: SearchActionPayload;
-}
-
-const createSearchPayload = (searchInfo: SearchInfo): SearchActionPayload => {
+const createSearchPayload = (searchInfo: SearchInfo) => {
 	let RTRequest: RequestInfo = null;
 	let requests: RequestInfo[] = [];
 
@@ -61,14 +48,14 @@ const createSearchPayload = (searchInfo: SearchInfo): SearchActionPayload => {
 	};
 };
 
-export const startSearch = (searchInfo: SearchInfo): SearchAction => {
+export const startSearch = (searchInfo: SearchInfo) => {
 	return {
 		type: START_SEARCH,
 		payload: createSearchPayload(searchInfo)
 	};
 };
 
-export const searchFareFamilies = (flightId: number, legId: number): SearchFareFamiliesAction => {
+export const searchFareFamilies = (flightId: number, legId: number) => {
 	return {
 		type: SEARCH_FARE_FAMILIES,
 		payload: {

@@ -37,7 +37,13 @@ interface PricesByLegs {
 	[legId: number]: Money;
 }
 
-const sortingFunctionsMap: { [type: string]: (a: Flight, b: Flight, direction: SortingDirection, prices?: FlightsReplacement) => number } = {
+type SortingFunction = (a: Flight, b: Flight, direction: SortingDirection, prices?: FlightsReplacement) => number;
+
+interface SortingFunctionsMap {
+	[type: string]: SortingFunction;
+}
+
+const sortingFunctionsMap: SortingFunctionsMap = {
 	[SortingType.Price]: Sorting.priceCompareFunction,
 	[SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
 	[SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,

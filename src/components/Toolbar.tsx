@@ -9,7 +9,7 @@ import LegComponent from './Toolbar/Leg';
 import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
-import { goToLeg, LegAction } from '../store/currentLeg/actions';
+import { goToLeg } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/fareFamilies/selectors';
 import Tooltip from 'material-ui/Tooltip';
 import { getTotalPrice } from '../store/selectors';
@@ -27,7 +27,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	goToLeg: (legId: number) => LegAction;
+	goToLeg: typeof goToLeg;
 }
 
 type Props = StateProps & DispatchProps;

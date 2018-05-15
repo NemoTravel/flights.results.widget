@@ -6,11 +6,12 @@ import FormLabel from 'material-ui/Form/FormLabel';
 import Checkbox from '../Checkbox';
 import { ListOfSelectedCodes } from '../../../store/filters/selectors';
 import { FlightTimeInterval } from '../../../enums';
+import { CheckboxChangeHandler } from '../../../schemas/CheckboxHandler';
 
 interface Props {
 	selectedTime: ListOfSelectedCodes;
 	title: string;
-	onChange: (event: React.FormEvent<HTMLInputElement>, checked: boolean) => void;
+	onChange: CheckboxChangeHandler;
 }
 
 class Column extends React.Component<Props> {

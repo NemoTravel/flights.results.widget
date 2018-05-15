@@ -1,9 +1,10 @@
 import * as React from 'react';
 import UIButton from 'material-ui/Button';
+import { OnClickHandler } from '../../schemas/OnClickHandler';
 
 interface Props {
 	className?: string;
-	onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+	onClick?: OnClickHandler;
 }
 
 class Button extends React.Component<Props> {

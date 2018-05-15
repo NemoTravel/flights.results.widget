@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Filter, { Type as FilterType, State as FilterState } from '../Filter';
-import { Action } from 'redux';
 import { RootState } from '../../store/reducers';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
 import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
@@ -13,7 +12,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	toggleDirectFlights: () => Action;
+	toggleDirectFlights: typeof toggleDirectFlights;
 }
 
 type Props = StateProps & DispatchProps;

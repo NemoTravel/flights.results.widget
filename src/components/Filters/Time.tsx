@@ -5,9 +5,8 @@ import TimeColumn from './Time/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
 import { RootState } from '../../store/reducers';
-import { Action } from 'redux';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import { FilterTimeAction, addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
+import { addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/filters/time/selectors';
 import { FlightTimeInterval, LocationType } from '../../enums';
 
@@ -28,9 +27,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	addTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
-	removeTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
-	removeAllTimeIntervals: () => Action;
+	addTimeInterval: typeof addTimeInterval;
+	removeTimeInterval: typeof removeTimeInterval;
+	removeAllTimeIntervals: typeof removeAllTimeIntervals;
 }
 
 type Props = StateProps & DispatchProps;

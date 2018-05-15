@@ -7,20 +7,20 @@ import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters
 import Airline from '../../schemas/Airline';
 import SegmentModel from '../../schemas/Segment';
 import Flight from '../../models/Flight';
-import { addTimeInterval, FilterTimeAction } from '../../store/filters/time/actions';
-import { addAirport, FilterAirportsAction } from '../../store/filters/airports/actions';
-import { addAirline, FilterAirlinesAction } from '../../store/filters/airlines/actions';
+import { addTimeInterval } from '../../store/filters/time/actions';
+import { addAirport } from '../../store/filters/airports/actions';
+import { addAirline } from '../../store/filters/airlines/actions';
 import { SnackbarProps, withSnackbar } from '../Snackbar';
-import { FlightTimeInterval, LocationType } from '../../enums';
+import { LocationType } from '../../enums';
 
 interface OwnProps {
 	flight: Flight;
 }
 
 interface DispatchProps {
-	addAirline: (IATA: string) => FilterAirlinesAction;
-	addAirport: (IATA: string, type: LocationType) => FilterAirportsAction;
-	addTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
+	addAirline: typeof addAirline;
+	addAirport: typeof addAirport;
+	addTimeInterval: typeof addTimeInterval;
 }
 
 type Props = OwnProps & DispatchProps & SnackbarProps;

@@ -2,11 +2,11 @@ import * as React from 'react';
 import Typography from 'material-ui/Typography';
 import Flight from '../../models/Flight';
 import SelectedFlight from './SelectedFlight';
-import { LegAction } from '../../store/currentLeg/actions';
+import { goToLeg } from '../../store/currentLeg/actions';
 
 interface Props {
 	flights: Flight[];
-	goToLeg: (legId: number) => LegAction;
+	goToLeg: typeof goToLeg;
 }
 
 class SelectedFlights extends React.Component<Props> {

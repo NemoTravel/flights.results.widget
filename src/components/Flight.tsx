@@ -11,6 +11,7 @@ import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
 import SelectedFlight from '../schemas/SelectedFlight';
+import { selectFlight } from '../store/selectedFlights/actions';
 
 export interface Props {
 	flight: FlightModel;
@@ -18,7 +19,7 @@ export interface Props {
 	currentLegId?: number;
 	showPricePrefix?: boolean;
 	replacement?: SelectedFlight;
-	selectFlight?: (flight: SelectedFlight, legId: number) => void;
+	selectFlight?: typeof selectFlight;
 }
 
 interface State {

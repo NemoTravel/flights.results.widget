@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Chip, { ChipProps } from 'material-ui/Chip';
 import classNames = require('classnames');
-import Airline from '../schemas/Airline';
 
 export enum Type {
 	Airports = 'airports',

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import SegmentModel from '../../schemas/Segment';
-import * as moment from 'moment';
-import { declension, fixImageURL } from '../../utils';
 import * as classnames from 'classnames';
+import * as moment from 'moment';
+
+import SegmentModel from '../../schemas/Segment';
+import { declension, fixImageURL } from '../../utils';
 
 interface Props {
 	segment: SegmentModel;

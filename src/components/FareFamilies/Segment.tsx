@@ -7,7 +7,7 @@ import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 import Money from '../../schemas/Money';
-import { fixImageURL, REQUEST_URL } from '../../utils';
+import { fixImageURL } from '../../utils';
 
 interface Props {
 	enabledFamilies: { [familyId: string]: boolean };

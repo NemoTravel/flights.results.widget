@@ -6,12 +6,13 @@ import FormLabel from 'material-ui/Form/FormLabel';
 import Checkbox from '../Checkbox';
 import Airport from '../../../schemas/Airport';
 import { ListOfSelectedCodes } from '../../../store/filters/selectors';
+import { CheckboxChangeHandler } from '../../../schemas/CheckboxHandler';
 
 interface Props {
 	selectedAirports: ListOfSelectedCodes;
 	airports: Airport[];
 	title: string;
-	onChange: (event: React.FormEvent<HTMLInputElement>, checked: boolean) => void;
+	onChange: CheckboxChangeHandler;
 }
 
 class Column extends React.Component<Props> {

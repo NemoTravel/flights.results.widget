@@ -4,7 +4,7 @@ import Segment from './Segment';
 import Flight from '../../models/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../store/fareFamilies/selectedFamilies/reducers';
-import { SelectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
+import { selectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
 import Money from '../../schemas/Money';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 	prices: { [segmentId: number]: { [familyId: string]: Money } };
 	selectedFamilies: SelectedFamiliesState;
 	combinations: FareFamiliesCombinations;
-	selectFamily: SelectFamily;
+	selectFamily: typeof selectFamily;
 	availability: { [segmentId: number]: { [familyId: string]: boolean } };
 }
 

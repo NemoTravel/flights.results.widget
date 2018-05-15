@@ -29,8 +29,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	selectFlight: (flight: SelectedFlight, legId: number) => SelectedFlightAction;
-	showAllFlights: () => Action;
+	selectFlight: typeof selectFlight;
+	showAllFlights: typeof showAllFlights;
 }
 
 type Props = OwnProps & StateProps & DispatchProps & SnackbarProps;
@@ -43,12 +43,12 @@ class FlightsList extends React.Component<Props> {
 		this.showAll = this.showAll.bind(this);
 	}
 
-	selectFlight(flight: SelectedFlight, legId: number): void {
-		this.props.selectFlight(flight, legId);
-
+	selectFlight(flight: SelectedFlight, legId: number): SelectedFlightAction {
 		if (!this.props.isLastLeg) {
 			this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
+
+		return this.props.selectFlight(flight, legId);
 	}
 
 	showAll(): void {
