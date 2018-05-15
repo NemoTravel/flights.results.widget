@@ -8,6 +8,13 @@ import { RouteType } from '../enums';
 export const START_SEARCH = 'START_SEARCH';
 export const SEARCH_FARE_FAMILIES = 'SEARCH_FARE_FAMILIES';
 
+export interface SearchFareFamiliesAction extends Action {
+	payload: {
+		flightId: number;
+		legId: number;
+	}
+}
+
 export interface SearchActionPayload {
 	requests: RequestInfo[];
 	RTRequest: RequestInfo;
@@ -61,8 +68,12 @@ export const startSearch = (searchInfo: SearchInfo): SearchAction => {
 	};
 };
 
-export const searchFareFamilies = (): Action => {
+export const searchFareFamilies = (flightId: number, legId: number): SearchFareFamiliesAction => {
 	return {
-		type: SEARCH_FARE_FAMILIES
+		type: SEARCH_FARE_FAMILIES,
+		payload: {
+			flightId,
+			legId
+		}
 	};
 };

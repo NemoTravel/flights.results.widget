@@ -21,6 +21,7 @@ interface StateProps {
 	currentLeg: number;
 	combinationsAreValid: boolean;
 	legs: Leg[];
+	isLoadingFareFamilies: boolean;
 	hasAnyFlights: boolean;
 }
 
@@ -42,6 +43,7 @@ class Toolbar extends React.Component<Props> {
 			nextProps.hasAnyFlights !== this.props.hasAnyFlights ||
 			nextProps.legs !== this.props.legs ||
 			nextProps.isSelectionComplete !== this.props.isSelectionComplete ||
+			nextProps.isLoadingFareFamilies !== this.props.isLoadingFareFamilies ||
 			nextProps.combinationsAreValid !== this.props.combinationsAreValid ||
 			nextProps.totalPrice.amount !== this.props.totalPrice.amount;
 	}
@@ -78,7 +80,7 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { isSelectionComplete, combinationsAreValid, hasAnyFlights } = this.props;
+		const { isSelectionComplete, combinationsAreValid, hasAnyFlights, isLoadingFareFamilies } = this.props;
 
 		return hasAnyFlights ? <section className="toolbar">
 			<div className="toolbar__inner">
@@ -91,19 +93,21 @@ class Toolbar extends React.Component<Props> {
 					/>
 				</div>
 
-				<div className="toolbar-totalPrice">
-					{this.renderPrice()}
+				{!isLoadingFareFamilies ? (
+					<div className="toolbar-totalPrice">
+						{this.renderPrice()}
 
-					{isSelectionComplete ? (
-						<div className="toolbar-totalPrice__button">
-							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title="Недоступная комбинация">
-								<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
-									Купить
-								</Button>
-							</Tooltip>
-						</div>
-					) : ''}
-				</div>
+						{isSelectionComplete ? (
+							<div className="toolbar-totalPrice__button">
+								<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title="Недоступная комбинация">
+									<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
+										Продолжить
+									</Button>
+								</Tooltip>
+							</div>
+						) : ''}
+					</div>
+				) : null}
 			</div>
 		</section> : null;
 	}
@@ -113,6 +117,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 	return {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
+		isLoadingFareFamilies: state.isLoadingFareFamilies,
 		currentLeg: state.currentLeg,
 		hasAnyFlights: hasAnyFlights(state),
 		combinationsAreValid: combinationsAreValid(state),

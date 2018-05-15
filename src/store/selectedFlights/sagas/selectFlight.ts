@@ -3,11 +3,13 @@ import { SELECT_FLIGHT, SelectedFlightAction, setSelectedFlight } from '../actio
 import { nextLeg } from '../../currentLeg/actions';
 import { isLastLeg } from '../../currentLeg/selectors';
 import { remoteAllFilters } from '../../filters/actions';
+import { searchFareFamilies } from '../../actions';
 
 function* worker({ payload }: SelectedFlightAction) {
 	const isComplete: boolean = yield select(isLastLeg);
 
 	yield put(setSelectedFlight(payload.flight, payload.legId));
+	yield put(searchFareFamilies(payload.flight.newFlightId, payload.legId));
 
 	if (!isComplete) {
 		yield put(nextLeg());

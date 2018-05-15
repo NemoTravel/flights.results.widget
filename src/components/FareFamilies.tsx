@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Action } from 'redux';
+import * as classnames from 'classnames';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
@@ -8,7 +8,6 @@ import * as State from '../state';
 import Flight from '../models/Flight';
 import SelectedFlights from './FareFamilies/SelectedFlights';
 import Leg from './FareFamilies/Leg';
-import { searchFareFamilies } from '../store/actions';
 import { SelectFamily, selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg, LegAction } from '../store/currentLeg/actions';
@@ -17,6 +16,7 @@ import CircularProgress from 'material-ui/Progress/CircularProgress';
 
 interface StateProps {
 	selectedFlights: Flight[];
+	isLoading: boolean;
 	selectedFamilies: State.SelectedFamiliesState;
 	fareFamiliesPrices: State.FareFamiliesPricesState;
 	fareFamiliesAvailability: State.FareFamiliesAvailabilityState;
@@ -25,7 +25,6 @@ interface StateProps {
 
 interface DispatchProps {
 	selectFamily: SelectFamily;
-	searchFareFamilies: () => Action;
 	goToLeg: (legId: number) => LegAction;
 	goBack: () => LegAction;
 }
@@ -37,10 +36,6 @@ class FareFamilies extends React.Component<Props> {
 		super(props);
 
 		this.goBack = this.goBack.bind(this);
-	}
-
-	componentDidMount(): void {
-		this.props.searchFareFamilies();
 	}
 
 	goBack(): void {
@@ -55,10 +50,11 @@ class FareFamilies extends React.Component<Props> {
 			fareFamiliesAvailability,
 			goToLeg,
 			selectFamily,
-			fareFamiliesPrices
+			fareFamiliesPrices,
+			isLoading
 		} = this.props;
 
-		return <section className="fareFamilies">
+		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
 			<SelectedFlights flights={selectedFlights} goToLeg={goToLeg}/>
 
 			<div className="fareFamilies-loader">
@@ -92,6 +88,7 @@ class FareFamilies extends React.Component<Props> {
 const mapStateToProps = (state: State.ApplicationState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
+		isLoading: state.isLoadingFareFamilies,
 		fareFamiliesAvailability: getFareFamiliesAvailability(state),
 		fareFamiliesPrices: getFareFamiliesPrices(state),
 		fareFamiliesCombinations: state.fareFamilies.fareFamiliesCombinations,
@@ -101,7 +98,6 @@ const mapStateToProps = (state: State.ApplicationState): StateProps => {
 
 const mapDispatchToProps = {
 	selectFamily,
-	searchFareFamilies,
 	goToLeg,
 	goBack
 };

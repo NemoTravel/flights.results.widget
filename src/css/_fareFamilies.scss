@@ -170,14 +170,12 @@
 	}
 
 	&_isLoading {
-		.fareFamilies {
-			&-loader {
-				display: block;
-			}
+		.fareFamilies-loader {
+			display: block;
+		}
 
-			&__inner {
-				display: none;
-			}
+		.fareFamilies__inner {
+			display: none;
 		}
 	}
 
