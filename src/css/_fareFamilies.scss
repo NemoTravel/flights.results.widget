@@ -163,6 +163,24 @@
 		}
 	}
 
+	&-loader {
+		display: none;
+		text-align: center;
+		padding-top: 30px;
+	}
+
+	&_isLoading {
+		.fareFamilies {
+			&-loader {
+				display: block;
+			}
+
+			&__inner {
+				display: none;
+			}
+		}
+	}
+
 	&-selectedFlights {
 		.flight__holder {
 			padding: 0;

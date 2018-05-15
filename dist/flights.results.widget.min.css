@@ -121,7 +121,6 @@
   display: block;
 }
 
-.results_isLoading .fareFamilies,
 .results_isLoading .results__inner-content {
   display: none;
 }
@@ -920,6 +919,20 @@
 
 .fareFamilies-leg-segment-family-feature__icon_Charge svg {
   fill: #ff9800;
+}
+
+.fareFamilies-loader {
+  display: none;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.fareFamilies_isLoading .fareFamilies-loader {
+  display: block;
+}
+
+.fareFamilies_isLoading .fareFamilies__inner {
+  display: none;
 }
 
 .fareFamilies-selectedFlights .flight__holder {

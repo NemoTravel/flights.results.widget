@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
-import { CircularProgress } from 'material-ui/Progress';
 import { SearchInfo } from '@nemo.travel/search-widget';
 import { HashRouter as Router, Route } from 'react-router-dom';
 
@@ -34,10 +33,6 @@ class Main extends React.Component<StateProps & DispatchProps> {
 
 					<Route path="/results" render={() => (
 						<div className="results__inner">
-							<div className="results-loader">
-								<CircularProgress color="secondary" variant="indeterminate"/>
-							</div>
-
 							{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
 
 							<Toolbar/>

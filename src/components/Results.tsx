@@ -10,6 +10,7 @@ import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
 
 interface StateProps {
 	isLoading: boolean;
@@ -26,15 +27,21 @@ class Results extends React.Component<StateProps> {
 	render(): React.ReactNode {
 		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights } = this.props;
 
-		return hasAnyFlights ? <div className="results__inner-content">
-			<Filters currentLeg={currentLeg}/>
-
-			{hasAnyVisibleFlights ? <Sortings/> : ''}
-
-			<div className="results__flights">
-				<FlightsList legId={currentLeg.id}/>
+		return hasAnyFlights ? <>
+			<div className="results-loader">
+				<CircularProgress color="secondary" variant="indeterminate"/>
 			</div>
-		</div> : this.renderNoFlights();
+
+			<div className="results__inner-content">
+				<Filters currentLeg={currentLeg}/>
+
+				{hasAnyVisibleFlights ? <Sortings/> : ''}
+
+				<div className="results__flights">
+					<FlightsList legId={currentLeg.id}/>
+				</div>
+			</div>
+		</> : this.renderNoFlights();
 	}
 }
 

@@ -13,6 +13,7 @@ import { SelectFamily, selectFamily } from '../store/fareFamilies/selectedFamili
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg, LegAction } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -60,24 +61,30 @@ class FareFamilies extends React.Component<Props> {
 		return <section className="fareFamilies">
 			<SelectedFlights flights={selectedFlights} goToLeg={goToLeg}/>
 
-			<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
-
-			<div className="fareFamilies__legs">
-				{selectedFlights.map((flight, legId) => (
-					<Leg
-						key={flight.id}
-						id={legId}
-						flight={flight}
-						prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
-						selectedFamilies={selectedFamilies}
-						combinations={fareFamiliesCombinations[legId]}
-						availability={fareFamiliesAvailability[legId]}
-						selectFamily={selectFamily}
-					/>
-				))}
+			<div className="fareFamilies-loader">
+				<CircularProgress color="secondary" variant="indeterminate"/>
 			</div>
 
-			<Button variant="raised" onClick={this.goBack}>Назад</Button>
+			<div className="fareFamilies__inner">
+				<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
+
+				<div className="fareFamilies__legs">
+					{selectedFlights.map((flight, legId) => (
+						<Leg
+							key={flight.id}
+							id={legId}
+							flight={flight}
+							prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
+							selectedFamilies={selectedFamilies}
+							combinations={fareFamiliesCombinations[legId]}
+							availability={fareFamiliesAvailability[legId]}
+							selectFamily={selectFamily}
+						/>
+					))}
+				</div>
+
+				<Button variant="raised" onClick={this.goBack}>Назад</Button>
+			</div>
 		</section>;
 	}
 }
