@@ -284,6 +284,24 @@ export const getRelativePrices = createSelector(
 	}
 );
 
+export const getTotalPricesForCurrentLeg = createSelector(
+	[getRelativePrices, getTotalPrice],
+	(prices: FlightsReplacement, totalPrice: Money): PricesByFlights => {
+		const result: PricesByFlights = {};
+
+		for (const flightId in prices) {
+			if (prices.hasOwnProperty(flightId)) {
+				result[flightId] = {
+					amount: totalPrice.amount + prices[flightId].price.amount,
+					currency: totalPrice.currency
+				};
+			}
+		}
+
+		return result;
+	}
+);
+
 /**
  * Get an array of flights after filtering.
  */

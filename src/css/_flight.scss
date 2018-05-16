@@ -226,6 +226,7 @@
 				display: flex;
 				align-items: flex-end;
 				justify-content: flex-end;
+				flex-wrap: wrap;
 
 				&-prefix {
 					position: relative;
@@ -233,17 +234,25 @@
 				}
 
 				.price {
+					flex: 100%;
+					display: block;
+
+					text-align: right;
 					color: $common-font-color;
 					font-size: 1.5rem;
 					margin-left: 5px !important;
 
 					&-currency {
-						font-size: 15px;
+						font-size: 18px;
 						font-weight: 400;
 						margin-left: 5px;
 						color: $light-font-color;
 					}
 				}
+			}
+
+			&__route {
+				text-align: right;
 			}
 		}
 

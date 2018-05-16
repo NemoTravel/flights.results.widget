@@ -27,6 +27,6 @@ export default ({ price, withPlus = false }: Props) => {
 
 	return <span className="price">
 		<span className="price-amount">{withPlus && price.amount >= 0 ? '+' : ''}{withMinus ? '-' : ''} {result}</span>
-		<span className="price-currency">{price.currency}</span>
+		<span className="price-currency">₽</span>
 	</span>;
 };
