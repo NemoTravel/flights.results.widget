@@ -24,22 +24,32 @@ const createSearchPayload = (searchInfo: SearchInfo) => {
 		}
 	};
 
-	if (searchInfo.routeType === RouteType.RT && segments.length === NUM_OF_RT_SEGMENTS) {
-		// RT search
-		const departureSegment: SearchInfoSegment = segments[0];
-		const returnSegment: SearchInfoSegment = segments[1];
+	switch (searchInfo.routeType) {
+		case RouteType.RT:
+			// RT search
+			const departureSegment: SearchInfoSegment = segments[0];
+			const returnSegment: SearchInfoSegment = segments[1];
 
-		requests.push({ ...commonParams, segments: [ departureSegment ] });
-		requests.push({ ...commonParams, segments: [ returnSegment ] });
+			requests.push({ ...commonParams, segments: [ departureSegment ] });
+			requests.push({ ...commonParams, segments: [ returnSegment ] });
 
-		RTRequest = { ...commonParams, segments: [ departureSegment, returnSegment ] };
-	}
-	else {
-		// OW and CR search
-		requests = segments.map((segment: SearchInfoSegment): RequestInfo => ({
-			...commonParams,
-			segments: [ segment ]
-		}));
+			RTRequest = { ...commonParams, segments: [ departureSegment, returnSegment ] };
+
+			break;
+
+		case RouteType.OW:
+			requests.push({
+				...commonParams,
+				segments: [ segments[0] ]
+			});
+
+			break;
+
+		default:
+			requests = segments.map((segment: SearchInfoSegment): RequestInfo => ({
+				...commonParams,
+				segments: [ segment ]
+			}));
 	}
 
 	return {
