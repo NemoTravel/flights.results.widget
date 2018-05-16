@@ -94,7 +94,7 @@ class Toolbar extends React.Component<Props> {
 					/>
 				</div>
 
-				{!isLoadingFareFamilies ? (
+				{!isSelectionComplete || !isLoadingFareFamilies ? (
 					<div className="toolbar-totalPrice">
 						{this.renderPrice()}
 
