@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { FlightsState} from '../flights/reducers';
+import { FlightsState } from '../flights/reducers';
 import { getAllFlights } from '../flights/selectors';
 import { getLegs } from '../currentLeg/selectors';
 import Leg from '../../schemas/Leg';
@@ -32,5 +32,23 @@ export const isSelectionComplete = createSelector(
 	[getLegs, getSelectedFlightsIds],
 	(legs: Leg[], selectedFlightsIds: SelectedFlightsState) => {
 		return !!legs.length && !legs.find(leg => !selectedFlightsIds.hasOwnProperty(leg.id));
+	}
+);
+
+export const getTotalPriceOfSelectedFlights = createSelector(
+	[getSelectedFlights],
+	(selectedFlights: Flight[]): number => {
+		const map: { [flightId: number]: boolean } = {};
+		let result = 0;
+
+		selectedFlights.forEach(flight => {
+			// Do not sum up same flights (RT flights case).
+			if (!map.hasOwnProperty(flight.id)) {
+				result += flight.totalPrice.amount;
+				map[flight.id] = true;
+			}
+		});
+
+		return result;
 	}
 );

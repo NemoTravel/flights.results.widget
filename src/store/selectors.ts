@@ -12,7 +12,12 @@ import { FlightsRTState } from './flightsRT/reducers';
 import Money from '../schemas/Money';
 import { getCurrentLegId, isLastLeg } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
-import { getSelectedFlights, getSelectedFlightsIds, isSelectionComplete } from './selectedFlights/selectors';
+import {
+	getSelectedFlights,
+	getSelectedFlightsIds,
+	getTotalPriceOfSelectedFlights,
+	isSelectionComplete
+} from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { Currency } from '../enums';
@@ -174,19 +179,6 @@ export const getTotalPrice = createSelector(
 	}
 );
 
-export const getTotalPriceOfSelectedFlights = createSelector(
-	[getSelectedFlights],
-	(selectedFlights: Flight[]): number => {
-		let result = 0;
-
-		selectedFlights.forEach(flight => {
-			result += flight.totalPrice.amount;
-		});
-
-		return result;
-	}
-);
-
 export const getPricesForCurrentLeg = createSelector(
 	[
 		getFlightsForCurrentLeg,
@@ -206,10 +198,12 @@ export const getPricesForCurrentLeg = createSelector(
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);
 
 		flights.forEach(flight => {
-			const originalFlightId = flight.id;
 			let newFlightId = flight.id;
 			let price = flight.totalPrice;
 			let isRT = false;
+			const candidateUID = selectedUID ? `${selectedUID}|${flight.uid}` : flight.uid;
+			const possibleTotalPrice = totalPriceOfSelectedFlights + price.amount;
+			const originalFlightId = flight.id;
 
 			if (isLastLeg) {
 				// Sometimes RT flight could be cheaper than OW+OW flight.
@@ -217,11 +211,9 @@ export const getPricesForCurrentLeg = createSelector(
 				for (const uid in flightsRT) {
 					if (flightsRT.hasOwnProperty(uid)) {
 						const RTFlight: Flight = flightsRT[uid];
-						const newUID = selectedUID ? `${selectedUID}|${flight.uid}` : flight.uid;
-						const possibleTotalPrice = totalPriceOfSelectedFlights + price.amount;
 
 						// RT UID example: 'AY-720_1pc_AY-1071_1pc|AY-1076_1pc_AY-719_1pc'
-						if (uid.startsWith(newUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
+						if (uid.startsWith(candidateUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
 							price = RTFlight.totalPrice;
 							newFlightId = RTFlight.id;
 							isRT = true;
@@ -260,8 +252,8 @@ export const getRelativePrices = createSelector(
 		minTotalPossiblePricesByLegs: PricesByLegs,
 		legId: number
 	): FlightsReplacement => {
-		const lowestPriceOnCurrentLeg = minPrices[legId] ? minPrices[legId].amount : 0;
-		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
+		const minPriceOnCurrentLeg = minPrices[legId] ? minPrices[legId].amount : 0;
+		const minTotalPriceForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
 		const result: FlightsReplacement = {};
 
 		for (const flightId in prices) {
@@ -275,7 +267,7 @@ export const getRelativePrices = createSelector(
 				}
 				else {
 					// We haven't found any cheap RT flights :(
-					amount = priceCandidate.price.amount + (legId === 0 ? lowestPricesForNextLegs : -(lowestPriceOnCurrentLeg));
+					amount = priceCandidate.price.amount + (legId === 0 ? minTotalPriceForNextLegs : -(minPriceOnCurrentLeg));
 				}
 
 				result[flightId] = {
