@@ -10,7 +10,7 @@ import * as Sorting from './sorting/selectors';
 import { sortingFunctionsMap } from './sorting/selectors';
 import { FlightsRTState } from './flightsRT/reducers';
 import Money from '../schemas/Money';
-import { getCurrentLegId } from './currentLeg/selectors';
+import { getCurrentLegId, isLastLeg } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
 import {
 	getSelectedFlights,
@@ -180,7 +180,7 @@ export const getTotalPrice = createSelector(
 	}
 );
 
-export const getSumPriceOfSelectedFlights = createSelector(
+export const getTotalPriceOfSelectedFlights = createSelector(
 	[getSelectedFlights],
 	(selectedFlights: Flight[]): number => {
 		let result = 0;
@@ -198,20 +198,19 @@ export const getPricesForCurrentLeg = createSelector(
 		getFlightsForCurrentLeg,
 		getFlightsRT,
 		getCurrentLegId,
+		isLastLeg,
 		getSelectedFlights,
-		getMinTotalPossiblePricesByLegs,
-		getSumPriceOfSelectedFlights
+		getTotalPriceOfSelectedFlights
 	],
 	(
 		flights: Flight[],
 		flightsRT: FlightsRTState,
 		legId: number,
+		isLastLeg: boolean,
 		selectedFlights: Flight[],
-		minTotalPossiblePricesByLegs: PricesByLegs,
-		sumPriceOfSelectedFlights: number
+		totalPriceOfSelectedFlights: number
 	): FlightsReplacement => {
 		const result: FlightsReplacement = {};
-		const lowestPricesForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
 		const selectedUID = selectedFlights.map(flight => flight.uid).join(UID_LEG_GLUE);
 
 		flights.forEach(flight => {
@@ -219,19 +218,21 @@ export const getPricesForCurrentLeg = createSelector(
 			let newFlightId = flight.id;
 			let price = flight.totalPrice;
 
-			// Sometimes RT flight could be cheaper than OW+OW flight.
-			// Loop through all RT flights and try to find one that is cheaper than currently selected combination.
-			for (const uid in flightsRT) {
-				if (flightsRT.hasOwnProperty(uid)) {
-					const RTFlight: Flight = flightsRT[uid];
-					const newUID = selectedUID ? `${selectedUID}|${flight.uid}` : flight.uid;
-					const possibleTotalPrice = sumPriceOfSelectedFlights + price.amount + lowestPricesForNextLegs;
+			if (isLastLeg) {
+				// Sometimes RT flight could be cheaper than OW+OW flight.
+				// Loop through all RT flights and try to find one that is cheaper than currently selected combination.
+				for (const uid in flightsRT) {
+					if (flightsRT.hasOwnProperty(uid)) {
+						const RTFlight: Flight = flightsRT[uid];
+						const newUID = selectedUID ? `${selectedUID}|${flight.uid}` : flight.uid;
+						const possibleTotalPrice = totalPriceOfSelectedFlights + price.amount;
 
-					// RT UID example: 'AY-720_1pc_AY-1071_1pc|AY-1076_1pc_AY-719_1pc'
-					if (uid.startsWith(newUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
-						price = RTFlight.totalPrice;
-						newFlightId = RTFlight.id;
-						break;
+						// RT UID example: 'AY-720_1pc_AY-1071_1pc|AY-1076_1pc_AY-719_1pc'
+						if (uid.startsWith(newUID) && RTFlight.totalPrice.amount < possibleTotalPrice) {
+							price = RTFlight.totalPrice;
+							newFlightId = RTFlight.id;
+							break;
+						}
 					}
 				}
 			}

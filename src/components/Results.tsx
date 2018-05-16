@@ -25,13 +25,15 @@ class Results extends React.Component<StateProps> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading } = this.props;
+
+		if (isLoading) {
+			return <div className="results-loader">
+				<CircularProgress color="secondary" variant="indeterminate"/>
+			</div>;
+		}
 
 		return hasAnyFlights ? <>
-			<div className="results-loader">
-				<CircularProgress color="secondary" variant="indeterminate"/>
-			</div>
-
 			<div className="results__inner-content">
 				<Filters currentLeg={currentLeg}/>
 
