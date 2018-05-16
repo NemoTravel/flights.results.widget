@@ -3,9 +3,10 @@ import { ApplicationState } from '../../state';
 import { connect } from 'react-redux';
 import { FlightNumberAction, setFlightNumber } from '../../store/filters/flightNumber/actions';
 import { getFlightNumber } from '../../store/filters/flightNumber/selectors';
-import { Input } from 'material-ui/Input';
+import Input from 'material-ui/Input';
+import Clear from 'material-ui-icons/Clear';
 
-const CTRTL_KEY_CODE = 17;
+const CTRL_KEY_CODE = 17;
 const F_KEY_CODE = 70;
 
 interface State {
@@ -27,52 +28,71 @@ class FlightNumber extends React.Component<Props, State> {
 		flightNumberSearch: false
 	};
 
-	inputRef: HTMLInputElement;
-
 	constructor(props: Props) {
 		super(props);
 
 		this.onText = this.onText.bind(this);
 		this.componentWillMount = this.componentWillMount.bind(this);
+		this.toogleFlightSearch = this.toogleFlightSearch.bind(this);
 	}
 
 	componentWillMount(): void {
 		let ctrlIsDown = false;
 
 		window.addEventListener('keydown', (event: KeyboardEvent) => {
-			if (event.keyCode === CTRTL_KEY_CODE) {
+			if (event.keyCode === CTRL_KEY_CODE) {
 				ctrlIsDown = true;
 			}
 
 			if (ctrlIsDown && event.keyCode === F_KEY_CODE) {
 				event.preventDefault();
 
-				this.setState({
-					flightNumberSearch: !this.state.flightNumberSearch
-				});
-
-				this.inputRef.focus();
+				this.toogleFlightSearch();
 			}
 		});
 
 		window.addEventListener('keyup', (event: KeyboardEvent) => {
-			if (event.keyCode === CTRTL_KEY_CODE) {
+			if (event.keyCode === CTRL_KEY_CODE) {
 				ctrlIsDown = false;
 			}
 		});
 	}
 
-	onText(element: React.ChangeEvent<HTMLInputElement>): void {
+	toogleFlightSearch(): void {
+		const isOpened = this.state.flightNumberSearch;
 
+		this.setState({
+			flightNumberSearch: !isOpened
+		});
+
+		if (isOpened) {
+			this.props.setFlightNumber('');
+		}
+	}
+
+	onText(element: React.ChangeEvent<HTMLInputElement>): void {
 		this.props.setFlightNumber(element.currentTarget.value);
+	}
+
+	clearButton(): React.ReactNode {
+		return <div className="results-flightNumberSearch__clear" onClick={this.toogleFlightSearch}>
+			<Clear/>
+		</div>;
 	}
 
 	render(): React.ReactNode {
 		const state = this.state.flightNumberSearch;
 
-		return <div className="results__flightNumberSearch">
-			{ state ? <Input type="text" placeholder={'Поиск по номеру рейса'} onChange={this.onText}/> : null }
-		</div>;
+		return state ? <div className="results-flightNumberSearch">
+				<Input
+					type="text"
+					onChange={this.onText}
+					fullWidth={true}
+					autoFocus={true}
+					placeholder={'Поиск по номеру рейса'}
+					endAdornment={this.clearButton()}
+					/>
+			</div>: null;
 	}
 }
 
