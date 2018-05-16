@@ -2,9 +2,15 @@ import { SortingState } from './reducers';
 import Flight from '../../models/Flight';
 import SegmentModel from '../../schemas/Segment';
 import { PricesByFlights } from '../selectors';
-import { SortingDirection } from '../../enums';
+import { SortingDirection, SortingType } from '../../enums';
 import { FlightsReplacement } from '../../schemas/SelectedFlight';
 import { RootState } from '../reducers';
+
+type SortingFunction = (a: Flight, b: Flight, direction: SortingDirection, prices?: FlightsReplacement) => number;
+
+export interface SortingFunctionsMap {
+	[type: string]: SortingFunction;
+}
 
 /**
  * Compare two objects considering the sorting direction.
@@ -101,4 +107,11 @@ export const flightTimeCompareFunction = (a: Flight, b: Flight, direction: Sorti
 	const bTime = getTotalFlightTime(b);
 
 	return compare(aTime, bTime, direction);
+};
+
+export const sortingFunctionsMap: SortingFunctionsMap = {
+	[SortingType.Price]: priceCompareFunction,
+	[SortingType.FlightTime]: flightTimeCompareFunction,
+	[SortingType.DepartureTime]: departureTimeCompareFunction,
+	[SortingType.ArrivalTime]: arrivalTimeCompareFunction
 };

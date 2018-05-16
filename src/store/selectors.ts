@@ -7,6 +7,7 @@ import { getIsDirectOnly } from './filters/directOnly/selectors';
 import * as TimeFilter from './filters/time/selectors';
 import { getAllFlights, getFlightsForCurrentLeg } from './flights/selectors';
 import * as Sorting from './sorting/selectors';
+import { sortingFunctionsMap } from './sorting/selectors';
 import { FlightsRTState } from './flightsRT/reducers';
 import Money from '../schemas/Money';
 import { getCurrentLegId } from './currentLeg/selectors';
@@ -20,14 +21,14 @@ import {
 } from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
-import { RootState } from './reducers';
-import { Currency, SortingDirection, SortingType } from '../enums';
+import { Currency } from '../enums';
 import { FlightsReplacement } from '../schemas/SelectedFlight';
 import { FlightsByLegsState } from './flightsByLegs/reducers';
 import { SelectedFlightsState } from './selectedFlights/reducers';
 import { FlightsState } from './flights/reducers';
 import { SortingState } from './sorting/reducers';
 import { FareFamiliesCombinationsState } from './fareFamilies/fareFamiliesCombinations/reducers';
+import { getShowAllFlights } from './showAllFlights/selectors';
 
 export interface PricesByFlights {
 	[flightId: number]: Money;
@@ -36,21 +37,6 @@ export interface PricesByFlights {
 interface PricesByLegs {
 	[legId: number]: Money;
 }
-
-type SortingFunction = (a: Flight, b: Flight, direction: SortingDirection, prices?: FlightsReplacement) => number;
-
-interface SortingFunctionsMap {
-	[type: string]: SortingFunction;
-}
-
-const sortingFunctionsMap: SortingFunctionsMap = {
-	[SortingType.Price]: Sorting.priceCompareFunction,
-	[SortingType.FlightTime]: Sorting.flightTimeCompareFunction,
-	[SortingType.DepartureTime]: Sorting.departureTimeCompareFunction,
-	[SortingType.ArrivalTime]: Sorting.arrivalTimeCompareFunction
-};
-
-export const getShowAllFlights = (state: RootState): boolean => state.showAllFlights;
 
 /**
  * Get a list of min prices for each leg.
@@ -393,4 +379,11 @@ export const getVisibleFlights = createSelector(
 export const hasAnyVisibleFlights = createSelector(
 	[getVisibleFlights],
 	(flights: Flight[]): boolean => !!flights.length
+);
+
+export const hasHiddenFlights = createSelector(
+	[getShowAllFlights, getFlightsForCurrentLeg, getVisibleFlights],
+	(showAllFlights: boolean, allFlights: Flight[], visibleFlights: Flight[]): boolean => {
+		return !showAllFlights && allFlights.length > MAX_VISIBLE_FLIGHTS && !(visibleFlights.length < MAX_VISIBLE_FLIGHTS);
+	}
 );
