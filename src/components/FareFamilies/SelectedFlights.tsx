@@ -9,12 +9,28 @@ interface Props {
 	goToLeg: typeof goToLeg;
 }
 
+const filterFlights = (flights: Flight[]): Flight[] => {
+	const map: { [flightId: number]: boolean } = {};
+
+	return flights.filter(flight => {
+		if (map.hasOwnProperty(flight.id)) {
+			return false;
+		}
+
+		map[flight.id] = true;
+
+		return true;
+	});
+};
+
 class SelectedFlights extends React.Component<Props> {
 	render(): React.ReactNode {
 		return <div className="fareFamilies-selectedFlights">
 			<Typography className="fareFamilies-selectedFlights-title" variant="headline">Выбранные перелеты</Typography>
 
-			{this.props.flights.map((flight, legId) => <SelectedFlight key={flight.id} flight={flight} currentLegId={legId} goToLeg={this.props.goToLeg}/>)}
+			{filterFlights(this.props.flights).map((flight, legId) => (
+				<SelectedFlight key={flight.id} flight={flight} currentLegId={legId} goToLeg={this.props.goToLeg}/>
+			))}
 		</div>;
 	}
 }
