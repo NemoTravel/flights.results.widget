@@ -58,8 +58,8 @@ export const getCurrentSorting = (state: RootState): SortingState => state.sorti
  * @returns {number}
  */
 export const priceCompareFunction = (a: Flight, b: Flight, direction: SortingDirection, prices: FlightsReplacement): number => {
-	const aPrice = prices.hasOwnProperty(a.id) ? Math.abs(prices[a.id].price.amount) : a.totalPrice.amount;
-	const bPrice = prices.hasOwnProperty(b.id) ? Math.abs(prices[b.id].price.amount) : b.totalPrice.amount;
+	const aPrice = prices.hasOwnProperty(a.id) ? prices[a.id].price.amount : a.totalPrice.amount;
+	const bPrice = prices.hasOwnProperty(b.id) ? prices[b.id].price.amount : b.totalPrice.amount;
 
 	return compare(aPrice, bPrice, direction);
 };
