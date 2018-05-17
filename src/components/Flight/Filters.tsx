@@ -124,17 +124,17 @@ class Filters extends React.Component<Props> {
 	}
 
 	isFilterActive(name: string, value: any, direction?: LocationType): boolean {
-		if (name === 'time' && this.props.filters.time[direction]) {
+		if (name === 'time' && this.props.filters.time[direction].length) {
 			if (this.props.filters.time[direction].indexOf(value) >= 0) {
 				return true;
 			}
 		}
-		else if (name === 'airlines' && this.props.filters.airlines) {
+		else if (name === 'airlines' && this.props.filters.airlines.length) {
 			if (this.props.filters.airlines.indexOf(value) >= 0) {
 				return true;
 			}
 		}
-		else if (name === 'airports' && this.props.filters.airports[direction]) {
+		else if (name === 'airports' && this.props.filters.airports[direction].length) {
 			if (this.props.filters.airports[direction].indexOf(value) >= 0) {
 				return true;
 			}
@@ -144,7 +144,7 @@ class Filters extends React.Component<Props> {
 	}
 
 	renderFilter(label: string, isActive: boolean, onClick: React.EventHandler<any>, onDelete: React.EventHandler<any>, index?: number): React.ReactNode {
-		return <Tooltip title="Добавить в фильтры" placement="top">
+		return <Tooltip title={!isActive ? 'Добавить в фильтры' : ''} placement="top">
 			<Chip
 				className={classnames('flight-details-filters-chip', {'flight-details-filters-chip_active': isActive})}
 				onDelete={isActive ? onDelete: null}
