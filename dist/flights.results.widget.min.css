@@ -593,6 +593,12 @@
   margin-right: 10px;
 }
 
+.flight-details-filters-chip_active {
+  background: #64b5f6 !important;
+  color: #ffffff !important;
+  cursor: default !important;
+}
+
 .flight_direct .flight-summary {
   cursor: default;
 }

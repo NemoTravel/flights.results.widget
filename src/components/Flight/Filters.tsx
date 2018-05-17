@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
 import { Moment } from 'moment';
+import * as classnames from 'classnames';
 
 import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
 import Airline from '../../schemas/Airline';
@@ -139,38 +140,41 @@ class Filters extends React.Component<Props> {
 		return false;
 	}
 
-	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
-		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
-
+	renderFilter(label: string, isActive: boolean, onClick: React.EventHandler<any>, onDelete: React.EventHandler<any>, index?: number): React.ReactNode {
 		return <Tooltip title="Добавить в фильтры" placement="top">
-			<Chip className="flight-details-filters-chip" onDelete={isActive ? () => {} : null} label={`${airport.name}`} onClick={locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick}/>
+			<Chip
+				className={classnames('flight-details-filters-chip', {'flight-details-filters-chip_active': isActive})}
+				onDelete={isActive ? onDelete: null}
+				label={label}
+				onClick={!isActive ? onClick : null}
+			/>
 		</Tooltip>;
 	}
 
-	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
-		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType);
+	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
+		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
 
-		return <Tooltip title="Добавить в фильтры" placement="top">
-			<Chip className="flight-details-filters-chip" onDelete={isActive ? () => {} : null} label={`${getTimeIntervalName(getTimeIntervalForDate(time))}`} onClick={locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick}/>
-		</Tooltip>;
+		return this.renderFilter(airport.name, isActive, locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick, () => {});
+	}
+
+	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
+		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType),
+				 label = getTimeIntervalName(getTimeIntervalForDate(time));
+
+		return this.renderFilter(label, isActive, locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick, () => {});
 	}
 
 	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
 		const isActive = this.isFilterActive('airlines', airline.IATA);
 
-		return <Tooltip key={index} title="Добавить в фильтры" placement="top">
-			<Chip
-				className="flight-details-filters-chip"
-				label={airline.name}
-				onClick={event => {
-					event.stopPropagation();
-					event.preventDefault();
+		const onClick: React.EventHandler<any> = event => {
+			event.stopPropagation();
+			event.preventDefault();
 
-					this.onAirlineClick(airline);
-				}}
-				onDelete={isActive ? () => {} : null}
-			/>
-		</Tooltip>;
+			this.onAirlineClick(airline);
+		};
+
+		return this.renderFilter(airline.name, isActive, onClick, () => {}, index);
 	}
 
 	render(): React.ReactNode {
