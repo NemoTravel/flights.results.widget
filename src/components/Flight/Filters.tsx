@@ -2,9 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
+import { Moment } from 'moment';
 
 import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
 import Airline from '../../schemas/Airline';
+import Airport from '../../schemas/Airport';
 import SegmentModel from '../../schemas/Segment';
 import Flight from '../../models/Flight';
 import { addTimeInterval } from '../../store/filters/time/actions';
@@ -12,9 +14,15 @@ import { addAirport } from '../../store/filters/airports/actions';
 import { addAirline } from '../../store/filters/airlines/actions';
 import { SnackbarProps, withSnackbar } from '../Snackbar';
 import { LocationType } from '../../enums';
+import { RootState } from '../../store/reducers';
+import { FiltersState } from '../../store/filters/reducers';
 
 interface OwnProps {
 	flight: Flight;
+}
+
+interface StateProps {
+	filters: FiltersState;
 }
 
 interface DispatchProps {
@@ -23,7 +31,7 @@ interface DispatchProps {
 	addTimeInterval: typeof addTimeInterval;
 }
 
-type Props = OwnProps & DispatchProps & SnackbarProps;
+type Props = OwnProps & DispatchProps & SnackbarProps & StateProps;
 
 class Filters extends React.Component<Props> {
 	constructor(props: Props) {
@@ -33,6 +41,7 @@ class Filters extends React.Component<Props> {
 		this.onArrivalAirportClick = this.onArrivalAirportClick.bind(this);
 		this.onDepartureTimeIntervalClick = this.onDepartureTimeIntervalClick.bind(this);
 		this.onArrivalTimeIntervalClick = this.onArrivalTimeIntervalClick.bind(this);
+		this.isFilterActive = this.isFilterActive.bind(this);
 	}
 
 	scrollToElement(): void {
@@ -107,7 +116,61 @@ class Filters extends React.Component<Props> {
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.flight.id !== nextProps.flight.id;
+		return this.props.flight.id !== nextProps.flight.id || this.props.filters !== nextProps.filters;
+	}
+
+	isFilterActive(name: string, value: any, direction?: LocationType): boolean {
+		if (name === 'time' && this.props.filters.time[direction]) {
+			if (this.props.filters.time[direction].indexOf(value) >= 0) {
+				return true;
+			}
+		}
+		else if (name === 'airlines' && this.props.filters.airlines) {
+			if (this.props.filters.airlines.indexOf(value) >= 0) {
+				return true;
+			}
+		}
+		else if (name === 'airports' && this.props.filters.airports[direction]) {
+			if (this.props.filters.airports[direction].indexOf(value) >= 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
+		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
+
+		return <Tooltip title="Добавить в фильтры" placement="top">
+			<Chip className="flight-details-filters-chip" onDelete={isActive ? () => {} : null} label={`${airport.name}`} onClick={locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick}/>
+		</Tooltip>;
+	}
+
+	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
+		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType);
+
+		return <Tooltip title="Добавить в фильтры" placement="top">
+			<Chip className="flight-details-filters-chip" onDelete={isActive ? () => {} : null} label={`${getTimeIntervalName(getTimeIntervalForDate(time))}`} onClick={locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick}/>
+		</Tooltip>;
+	}
+
+	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
+		const isActive = this.isFilterActive('airlines', airline.IATA);
+
+		return <Tooltip key={index} title="Добавить в фильтры" placement="top">
+			<Chip
+				className="flight-details-filters-chip"
+				label={airline.name}
+				onClick={event => {
+					event.stopPropagation();
+					event.preventDefault();
+
+					this.onAirlineClick(airline);
+				}}
+				onDelete={isActive ? () => {} : null}
+			/>
+		</Tooltip>;
 	}
 
 	render(): React.ReactNode {
@@ -127,39 +190,29 @@ class Filters extends React.Component<Props> {
 		return <div className="flight-details-filters">
 			<span className="flight-details-filters-label">Вылет:</span>
 
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip" label={`${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
-			</Tooltip>
-
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip"  label={`${getTimeIntervalName(getTimeIntervalForDate(firstSegment.depDate))}`} onClick={this.onDepartureTimeIntervalClick}/>
-			</Tooltip>
+			{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
+			{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
 
 			<span className="flight-details-filters-label">Прилёт:</span>
 
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip" label={`${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
-			</Tooltip>
-
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip" label={`${getTimeIntervalName(getTimeIntervalForDate(lastSegment.arrDate))}`} onClick={this.onArrivalTimeIntervalClick}/>
-			</Tooltip>
+			{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
+			{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
 
 			<span className="flight-details-filters-label">Авиакомпании:</span>
 
 			{allAirlines.map((airline, index) => (
-				<Tooltip key={index} title="Добавить в фильтры" placement="top">
-					<Chip className="flight-details-filters-chip" label={airline.name} onClick={event => {
-						event.stopPropagation();
-						event.preventDefault();
-
-						this.onAirlineClick(airline);
-					}}/>
-				</Tooltip>
+				this.renderAirlineFilter(airline, index)
 			))}
 		</div>;
 	}
 }
+
+const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & StateProps => {
+	return {
+		...ownProps,
+		filters: state.filters
+	};
+};
 
 const mapDispatchToProps = {
 	addAirline,
@@ -167,4 +220,4 @@ const mapDispatchToProps = {
 	addTimeInterval
 };
 
-export default withSnackbar<OwnProps>(connect<Props>(null, mapDispatchToProps)(Filters));
+export default withSnackbar<OwnProps>(connect(mapStateToProps, mapDispatchToProps)(Filters));
