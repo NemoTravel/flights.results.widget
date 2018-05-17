@@ -10,9 +10,9 @@ import Airline from '../../schemas/Airline';
 import Airport from '../../schemas/Airport';
 import SegmentModel from '../../schemas/Segment';
 import Flight from '../../models/Flight';
-import { addTimeInterval } from '../../store/filters/time/actions';
-import { addAirport } from '../../store/filters/airports/actions';
-import { addAirline } from '../../store/filters/airlines/actions';
+import { addTimeInterval, removeTimeInterval } from '../../store/filters/time/actions';
+import { addAirport, removeAirport } from '../../store/filters/airports/actions';
+import { addAirline, removeAirline } from '../../store/filters/airlines/actions';
 import { SnackbarProps, withSnackbar } from '../Snackbar';
 import { LocationType } from '../../enums';
 import { RootState } from '../../store/reducers';
@@ -30,6 +30,9 @@ interface DispatchProps {
 	addAirline: typeof addAirline;
 	addAirport: typeof addAirport;
 	addTimeInterval: typeof addTimeInterval;
+	removeAirline: typeof removeAirline;
+	removeAirport: typeof removeAirport;
+	removeTimeInterval: typeof removeTimeInterval;
 }
 
 type Props = OwnProps & DispatchProps & SnackbarProps & StateProps;
@@ -154,14 +157,22 @@ class Filters extends React.Component<Props> {
 	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
 		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
 
-		return this.renderFilter(airport.name, isActive, locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick, () => {});
+		const remove = () => {
+			this.props.removeAirport(airport.IATA, locationType);
+		};
+
+		return this.renderFilter(airport.name, isActive, locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick, remove);
 	}
 
 	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
 		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType),
 				 label = getTimeIntervalName(getTimeIntervalForDate(time));
 
-		return this.renderFilter(label, isActive, locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick, () => {});
+		const remove = () => {
+			this.props.removeTimeInterval(getTimeIntervalForDate(time), locationType);
+		};
+
+		return this.renderFilter(label, isActive, locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick, remove);
 	}
 
 	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
@@ -174,7 +185,11 @@ class Filters extends React.Component<Props> {
 			this.onAirlineClick(airline);
 		};
 
-		return this.renderFilter(airline.name, isActive, onClick, () => {}, index);
+		const remove = () => {
+			this.props.removeAirline(airline.IATA);
+		};
+
+		return this.renderFilter(airline.name, isActive, onClick, remove, index);
 	}
 
 	render(): React.ReactNode {
@@ -221,7 +236,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & State
 const mapDispatchToProps = {
 	addAirline,
 	addAirport,
-	addTimeInterval
+	addTimeInterval,
+	removeAirline,
+	removeAirport,
+	removeTimeInterval
 };
 
 export default withSnackbar<OwnProps>(connect(mapStateToProps, mapDispatchToProps)(Filters));
