@@ -246,6 +246,15 @@
 						color: $light-font-color;
 					}
 				}
+
+				&_profitable {
+					.price {
+						&-amount,
+						&-currency {
+							color: #78ae35;
+						}
+					}
+				}
 			}
 
 			&__route {

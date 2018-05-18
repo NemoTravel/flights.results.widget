@@ -512,6 +512,11 @@
   color: rgba(0, 0, 0, 0.54);
 }
 
+.flight-summary-price__amount_profitable .price-amount,
+.flight-summary-price__amount_profitable .price-currency {
+  color: #78ae35;
+}
+
 .flight-summary-price__route {
   text-align: right;
 }

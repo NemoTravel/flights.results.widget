@@ -90,13 +90,14 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 	renderSummaryButtonsBlock(): React.ReactNode {
 		const { flight, replacement } = this.props;
+		const price = replacement ? replacement.price : flight.totalPrice;
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
-				<div className="flight-summary-price__amount">
+				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
 					{this.props.showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
-					<Price withPlus={this.props.currentLegId !== 0} price={replacement ? replacement.price : flight.totalPrice}/>
+					<Price withPlus={this.props.currentLegId !== 0} price={price}/>
 				</div>
 
 				<div className="flight-summary-price__route">
@@ -172,7 +173,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		return <>
 			<div className="flight-summary-transfers">
-				{isDirect ? 'прямой' : flight.transferInfo.map((info, index) => (
+				{isDirect ? 'Прямой' : flight.transferInfo.map((info, index) => (
 					<div className="flight-summary-transfers__item" key={index}>{info}</div>
 				))}
 			</div>
