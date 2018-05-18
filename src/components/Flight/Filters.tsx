@@ -123,7 +123,7 @@ class Filters extends React.Component<Props> {
 		return this.props.flight.id !== nextProps.flight.id || this.props.filters !== nextProps.filters;
 	}
 
-	isFilterActive<T extends FilterValues>(name: string, value: T, direction?: LocationType): boolean {
+	isFilterActive(name: string, value: string | FlightTimeInterval, direction?: LocationType): boolean {
 		if (name === 'time' && this.props.filters.time[direction].length) {
 			if (this.props.filters.time[direction].indexOf(value as FlightTimeInterval) >= 0) {
 				return true;
@@ -154,7 +154,7 @@ class Filters extends React.Component<Props> {
 	}
 
 	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
-		const isActive = this.isFilterActive<string>('airports', airport.IATA, locationType);
+		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
 
 		const remove = () => {
 			this.props.removeAirport(airport.IATA, locationType);
@@ -165,7 +165,7 @@ class Filters extends React.Component<Props> {
 	}
 
 	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
-		const isActive = this.isFilterActive<FlightTimeInterval>('time', getTimeIntervalForDate(time), locationType),
+		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType),
 				 label = getTimeIntervalName(getTimeIntervalForDate(time));
 
 		const remove = () => {
@@ -183,7 +183,7 @@ class Filters extends React.Component<Props> {
 	}
 
 	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
-		const isActive = this.isFilterActive<string>('airlines', airline.IATA);
+		const isActive = this.isFilterActive('airlines', airline.IATA);
 
 		const onClick: React.EventHandler<any> = event => {
 			event.stopPropagation();
