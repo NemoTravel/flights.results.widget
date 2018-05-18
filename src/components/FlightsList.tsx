@@ -7,7 +7,7 @@ import Flight from './Flight';
 import { RootState } from '../store/reducers';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { getRelativePrices, getTotalPricesForCurrentLeg, getVisibleFlights, PricesByFlights } from '../store/selectors';
+import { getRelativePrices, getVisibleFlights } from '../store/selectors';
 import { hasHiddenFlights } from '../store/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
@@ -20,7 +20,6 @@ export interface OwnProps {
 
 interface StateProps {
 	prices: FlightsReplacement;
-	totalPrices: PricesByFlights;
 	flights: FlightModel[];
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
@@ -56,7 +55,7 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { legId, prices, hasHiddenFlights, totalPrices } = this.props;
+		const { legId, prices, hasHiddenFlights } = this.props;
 
 		return this.props.flights.length ?
 			<>
@@ -64,7 +63,6 @@ class FlightsList extends React.Component<Props> {
 					<Flight
 						key={flight.id}
 						replacement={prices[flight.id]}
-						totalPrice={totalPrices[flight.id]}
 						flight={flight}
 						selectFlight={this.selectFlight}
 						currentLegId={legId}
@@ -84,7 +82,6 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & State
 	return {
 		...ownProps,
 		prices: getRelativePrices(state),
-		totalPrices: getTotalPricesForCurrentLeg(state),
 		flights: getVisibleFlights(state),
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),

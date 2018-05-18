@@ -21,7 +21,6 @@ export interface Props {
 	showPricePrefix?: boolean;
 	replacement?: SelectedFlight;
 	selectFlight?: typeof selectFlight;
-	totalPrice?: Money;
 }
 
 interface State {
@@ -90,7 +89,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {
-		const { flight, replacement, totalPrice } = this.props;
+		const { flight, replacement } = this.props;
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
@@ -98,7 +97,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 					{this.props.showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
 					<Price withPlus={this.props.currentLegId !== 0} price={replacement ? replacement.price : flight.totalPrice}/>
-					{totalPrice && !this.props.showPricePrefix ? <Price price={totalPrice}/> : null}
 				</div>
 
 				<div className="flight-summary-price__route">
