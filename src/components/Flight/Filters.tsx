@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Chip from 'material-ui/Chip';
-import Tooltip from 'material-ui/Tooltip';
 import { Moment } from 'moment';
-import * as classnames from 'classnames';
 
 import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
 import Airline from '../../schemas/Airline';
@@ -14,9 +11,10 @@ import { addTimeInterval, removeTimeInterval } from '../../store/filters/time/ac
 import { addAirport, removeAirport } from '../../store/filters/airports/actions';
 import { addAirline, removeAirline } from '../../store/filters/airlines/actions';
 import { SnackbarProps, withSnackbar } from '../Snackbar';
-import { LocationType } from '../../enums';
+import { FlightTimeInterval, LocationType } from '../../enums';
 import { RootState } from '../../store/reducers';
 import { FiltersState } from '../../store/filters/reducers';
+import { QuickFilter } from './QuickFilter';
 
 interface OwnProps {
 	flight: Flight;
@@ -25,6 +23,8 @@ interface OwnProps {
 interface StateProps {
 	filters: FiltersState;
 }
+
+type FilterValues = string | FlightTimeInterval;
 
 interface DispatchProps {
 	addAirline: typeof addAirline;
@@ -123,19 +123,19 @@ class Filters extends React.Component<Props> {
 		return this.props.flight.id !== nextProps.flight.id || this.props.filters !== nextProps.filters;
 	}
 
-	isFilterActive(name: string, value: any, direction?: LocationType): boolean {
+	isFilterActive<T extends FilterValues>(name: string, value: T, direction?: LocationType): boolean {
 		if (name === 'time' && this.props.filters.time[direction].length) {
-			if (this.props.filters.time[direction].indexOf(value) >= 0) {
+			if (this.props.filters.time[direction].indexOf(value as FlightTimeInterval) >= 0) {
 				return true;
 			}
 		}
 		else if (name === 'airlines' && this.props.filters.airlines.length) {
-			if (this.props.filters.airlines.indexOf(value) >= 0) {
+			if (this.props.filters.airlines.indexOf(value as string) >= 0) {
 				return true;
 			}
 		}
 		else if (name === 'airports' && this.props.filters.airports[direction].length) {
-			if (this.props.filters.airports[direction].indexOf(value) >= 0) {
+			if (this.props.filters.airports[direction].indexOf(value as string) >= 0) {
 				return true;
 			}
 		}
@@ -144,39 +144,46 @@ class Filters extends React.Component<Props> {
 	}
 
 	renderFilter(label: string, isActive: boolean, onClick: React.EventHandler<any>, onDelete: React.EventHandler<any>, index?: number): React.ReactNode {
-		return <Tooltip title={!isActive ? 'Добавить в фильтры' : ''} placement="top">
-			<Chip
-				className={classnames('flight-details-filters-chip', {'flight-details-filters-chip_active': isActive})}
-				onDelete={isActive ? onDelete: null}
-				label={label}
-				onClick={!isActive ? onClick : null}
-			/>
-		</Tooltip>;
+		return <QuickFilter
+			key={index}
+			label={label}
+			onClick={onClick}
+			isActive={isActive}
+			onDelete={onDelete}
+		/>;
 	}
 
 	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
-		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
+		const isActive = this.isFilterActive<string>('airports', airport.IATA, locationType);
 
 		const remove = () => {
 			this.props.removeAirport(airport.IATA, locationType);
+			this.props.showSnackbar(`Аэропорт «${airport.name}» удален из фильтров`);
 		};
 
 		return this.renderFilter(airport.name, isActive, locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick, remove);
 	}
 
 	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
-		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType),
+		const isActive = this.isFilterActive<FlightTimeInterval>('time', getTimeIntervalForDate(time), locationType),
 				 label = getTimeIntervalName(getTimeIntervalForDate(time));
 
 		const remove = () => {
 			this.props.removeTimeInterval(getTimeIntervalForDate(time), locationType);
+
+			if (locationType === LocationType.Departure) {
+				this.props.showSnackbar(`Время вылета «${label}» удалено из фильтров`);
+			}
+			else {
+				this.props.showSnackbar(`Время прилета «${label}» удалено из фильтров`);
+			}
 		};
 
 		return this.renderFilter(label, isActive, locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick, remove);
 	}
 
 	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
-		const isActive = this.isFilterActive('airlines', airline.IATA);
+		const isActive = this.isFilterActive<string>('airlines', airline.IATA);
 
 		const onClick: React.EventHandler<any> = event => {
 			event.stopPropagation();
@@ -187,6 +194,7 @@ class Filters extends React.Component<Props> {
 
 		const remove = () => {
 			this.props.removeAirline(airline.IATA);
+			this.props.showSnackbar(`Авиакомпания «${airline.name}» удалена из фильтров`);
 		};
 
 		return this.renderFilter(airline.name, isActive, onClick, remove, index);
