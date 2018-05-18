@@ -19,12 +19,14 @@ export class QuickFilter extends React.Component<Props> {
 		const { label, isActive, onClick, onDelete } = this.props;
 
 		return <Tooltip title={!isActive ? 'Добавить в фильтры' : ''} placement="top">
-			<Chip
-				className={classnames('flight-details-filters-chip', {'flight-details-filters-chip_active': isActive})}
-				onDelete={isActive ? onDelete: null}
-				label={label}
-				onClick={!isActive ? onClick : null}
-			/>
+			<div className={classnames('flight-details-filter', {'flight-details-filter_active': isActive})}>
+				<Chip
+					className="flight-details-filter-chip"
+					onDelete={isActive ? onDelete: null}
+					label={label}
+					onClick={!isActive ? onClick : null}
+				/>
+			</div>
 		</Tooltip>;
 	}
 }

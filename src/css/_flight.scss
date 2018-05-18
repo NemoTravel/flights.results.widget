@@ -384,14 +384,20 @@
 					margin-left: 0;
 				}
 			}
+		}
+
+		&-filter {
+			display: inline-block;
 
 			&-chip {
 				margin-right: 10px;
+			}
 
-				&_active {
-					background: #64b5f6 !important;
-					color: #ffffff !important;
-					cursor: default !important;
+			&_active &-chip {
+				&:not(focus),
+				&:focus {
+					background-color: #64b5f6;
+					color: #fff;
 				}
 			}
 		}
