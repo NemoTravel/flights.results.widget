@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { FlightsState } from '../flights/reducers';
 import { getAllFlights } from '../flights/selectors';
-import { getLegs } from '../currentLeg/selectors';
+import { getLegs } from '../legs/selectors';
 import Leg from '../../schemas/Leg';
 import Flight from '../../models/Flight';
 import { RootState } from '../reducers';

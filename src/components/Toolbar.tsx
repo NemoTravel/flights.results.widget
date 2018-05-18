@@ -15,6 +15,7 @@ import Tooltip from 'material-ui/Tooltip';
 import { getTotalPrice } from '../store/selectors';
 import { hasAnyFlights } from '../store/flights/selectors';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
 	totalPrice: Money;
@@ -22,6 +23,7 @@ interface StateProps {
 	currentLeg: number;
 	combinationsAreValid: boolean;
 	legs: Leg[];
+	isRT: boolean;
 	isLoadingFareFamilies: boolean;
 	hasAnyFlights: boolean;
 }
@@ -50,7 +52,7 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	renderLeg(leg: Leg): React.ReactNode {
-		const { currentLeg, isSelectionComplete } = this.props;
+		const { currentLeg, isSelectionComplete, isRT } = this.props;
 		const isDisabled = leg.id > currentLeg;
 		const isSelected = !isSelectionComplete && leg.id === currentLeg;
 
@@ -60,7 +62,7 @@ class Toolbar extends React.Component<Props> {
 			goToLeg={this.props.goToLeg}
 			isDisabled={isDisabled}
 			isSelected={isSelected}
-			isReverse={false}
+			isReverse={leg.id === 1 && isRT}
 		/>;
 	}
 
@@ -118,6 +120,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
+		isRT: isRT(state),
 		isLoadingFareFamilies: isLoadingFareFamilies(state),
 		currentLeg: state.currentLeg,
 		hasAnyFlights: hasAnyFlights(state),

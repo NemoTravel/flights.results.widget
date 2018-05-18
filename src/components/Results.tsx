@@ -11,8 +11,10 @@ import Sortings from './Sortings';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 import CircularProgress from 'material-ui/Progress/CircularProgress';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
+	isRT: boolean;
 	isLoading: boolean;
 	hasAnyFlights: boolean;
 	hasAnyVisibleFlights: boolean;
@@ -25,7 +27,7 @@ class Results extends React.Component<StateProps> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT } = this.props;
 
 		if (isLoading) {
 			return <div className="results-loader">
@@ -35,7 +37,7 @@ class Results extends React.Component<StateProps> {
 
 		return hasAnyFlights ? <>
 			<div className="results__inner-content">
-				<Filters currentLeg={currentLeg}/>
+				<Filters currentLeg={currentLeg} isRT={isRT}/>
 
 				{hasAnyVisibleFlights ? <Sortings/> : ''}
 
@@ -49,6 +51,7 @@ class Results extends React.Component<StateProps> {
 
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
+		isRT: isRT(state),
 		isLoading: state.isLoading,
 		hasAnyFlights: hasAnyFlights(state),
 		hasAnyVisibleFlights: hasAnyVisibleFlights(state),
