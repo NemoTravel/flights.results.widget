@@ -1,7 +1,7 @@
-import { FlightNumberAction, SET_FLIGHT_NUMBER } from './actions';
+import { FlightNumberAction, FILTERS_SET_FLIGHT_NUMBER } from './actions';
 
 export const flightNumberReducer = (state: string = '', action: FlightNumberAction): string => {
-	if (action.type === SET_FLIGHT_NUMBER) {
+	if (action.type === FILTERS_SET_FLIGHT_NUMBER) {
 		return action.payload;
 	}
 

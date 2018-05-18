@@ -40,7 +40,7 @@ class FlightNumber extends React.Component<Props, State> {
 		let ctrlIsDown = false;
 
 		window.addEventListener('keydown', (event: KeyboardEvent) => {
-			if (event.keyCode === CTRL_KEY_CODE) {
+			if (event.keyCode === CTRL_KEY_CODE || event.metaKey) {
 				ctrlIsDown = true;
 			}
 
@@ -52,7 +52,7 @@ class FlightNumber extends React.Component<Props, State> {
 		});
 
 		window.addEventListener('keyup', (event: KeyboardEvent) => {
-			if (event.keyCode === CTRL_KEY_CODE) {
+			if (event.keyCode === CTRL_KEY_CODE || event.metaKey) {
 				ctrlIsDown = false;
 			}
 		});

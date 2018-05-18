@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 
-export const SET_FLIGHT_NUMBER = 'SET_FLIGHT_NUMBER';
+export const FILTERS_SET_FLIGHT_NUMBER = 'FILTERS_SET_FLIGHT_NUMBER';
 
 export interface FlightNumberAction extends Action {
 	payload: string;
@@ -8,7 +8,7 @@ export interface FlightNumberAction extends Action {
 
 export const setFlightNumber = (number: string): FlightNumberAction => {
 	return {
-		type: SET_FLIGHT_NUMBER,
+		type: FILTERS_SET_FLIGHT_NUMBER,
 		payload: number
 	};
 };
