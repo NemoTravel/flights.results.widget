@@ -1,6 +1,8 @@
 import { Language } from './enums';
 import * as moment from 'moment';
 import Date from './schemas/Date';
+import RequestInfo from './schemas/RequestInfo';
+import Leg from './schemas/Leg';
 
 export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
@@ -91,4 +93,15 @@ export const declension = (word: string, language = Language.Russian): string =>
 	}
 
 	return word;
+};
+
+export const createLegs = (requests: RequestInfo[]): Leg[] => {
+	return requests.map((requestInfo, index) => {
+		return {
+			id: index,
+			departure: requestInfo.segments[0].departure,
+			arrival: requestInfo.segments[0].arrival,
+			date: requestInfo.segments[0].departureDate
+		};
+	});
 };

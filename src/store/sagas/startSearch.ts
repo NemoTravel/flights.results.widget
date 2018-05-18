@@ -8,19 +8,8 @@ import { setLegs } from '../legs/actions';
 import { SearchAction, SearchActionPayload, START_SEARCH } from '../actions';
 import { addFlights } from '../flights/actions';
 import { setFlightsByLeg } from '../flightsByLegs/actions';
-import Leg from '../../schemas/Leg';
 import { goToLeg } from '../currentLeg/actions';
-
-const createLegs = (requests: RequestInfo[]): Leg[] => {
-	return requests.map((requestInfo, index) => {
-		return {
-			id: index,
-			departure: requestInfo.segments[0].departure,
-			arrival: requestInfo.segments[0].arrival,
-			date: requestInfo.segments[0].departureDate
-		};
-	});
-};
+import { createLegs } from '../../utils';
 
 function* runSearch(request: RequestInfo, index: number) {
 	const flights: Flight[] = yield call(loadSearchResults, request);
