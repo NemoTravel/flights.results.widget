@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { Airport } from '@nemo.travel/search-widget/src/services/models/Airport';
+import { Airport } from '@nemo.travel/search-widget';
 
 export default interface Leg {
 	id: number;
