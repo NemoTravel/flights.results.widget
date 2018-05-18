@@ -173,9 +173,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		return <>
 			<div className="flight-summary-transfers">
-				{isDirect ? 'Прямой' : flight.transferInfo.map((info, index) => (
-					<div className="flight-summary-transfers__item" key={index}>{info}</div>
-				))}
+				{isDirect ? 'Прямой' : <div className="flight-summary-transfers__item">{flight.transferInfo}</div>}
 			</div>
 
 			<div className="flight-summary-route">

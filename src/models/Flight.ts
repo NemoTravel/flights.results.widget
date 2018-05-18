@@ -4,7 +4,7 @@ import Airline from '../schemas/Airline';
 import SegmentGroup from '../schemas/SegmentGroup';
 import Segment from '../schemas/Segment';
 import Money from '../schemas/Money';
-import { convertNemoDateToMoment, declension, UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../utils';
+import { convertNemoDateToMoment, declension, pluralize, UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../utils';
 import Date from '../schemas/Date';
 import Fillable from '../models/Fillable';
 
@@ -31,7 +31,7 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 	arrivalAtNextDay: boolean;
 	firstSegment: Segment;
 	lastSegment: Segment;
-	transferInfo: string[];
+	transferInfo: string;
 	isRT: boolean = false;
 	legId: number;
 
@@ -75,11 +75,13 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 		this.lastSegment = this.segments[this.segments.length - 1];
 		this.arrivalAtNextDay = this.firstSegment.depDate.date() !== this.lastSegment.arrDate.date();
 
-		this.transferInfo = this.segments.slice(0, this.segments.length - 1).map(segment => {
-			const waitingTime = moment.duration(segment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
+		const numOfTransfers = this.segments.length - 1;
 
-			return `${waitingTime} пересадка в ${declension(segment.arrAirport.city.name)}`;
-		});
+		this.transferInfo = `${numOfTransfers} ${pluralize(numOfTransfers, 'пересадка', 'пересадки', 'пересадок')}`;
+
+		if (numOfTransfers === 1) {
+			this.transferInfo += ` в ${declension(this.segments[0].arrAirport.city.name)}`;
+		}
 	}
 
 	/**

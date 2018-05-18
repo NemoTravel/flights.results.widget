@@ -95,6 +95,35 @@ export const declension = (word: string, language = Language.Russian): string =>
 	return word;
 };
 
+export const pluralize = (number: number, ...variations: string[]): string => {
+	let result = '';
+	const lastLetterIndex = number.toString().length - 1;
+	const lastLetter = number.toString()[lastLetterIndex];
+
+	switch (lastLetter) {
+		case '0':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+			result = variations[2];
+			break;
+
+		case '1':
+			result = number === 11 ? variations[2] : variations[0];
+			break;
+
+		case '2':
+		case '3':
+		case '4':
+			result = number > 11 && number < 14 ? variations[2] : variations[1];
+			break;
+	}
+
+	return result;
+};
+
 export const createLegs = (requests: RequestInfo[]): Leg[] => {
 	return requests.map((requestInfo, index) => {
 		return {
