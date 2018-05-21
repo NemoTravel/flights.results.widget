@@ -222,10 +222,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 	render(): React.ReactNode {
 		return <div className={classnames(this.mainClassName, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
-			<div className="flight__shadow">
-				{this.renderSummary()}
-				{this.renderDetails()}
-			</div>
+			{this.renderSummary()}
+			{this.renderDetails()}
 		</div>;
 	}
 }

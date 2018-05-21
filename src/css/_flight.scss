@@ -3,18 +3,17 @@
 .flight {
 	min-height: 74px;
 	border-top: 1px solid #d7d7d7;
+	background-color: #ffffff;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 
 	&_hidden {
 		display: none;
 	}
 
 	&_open {
-		border-top: none;
 		margin: 15px 0;
-
-		.flight__shadow {
-			border-radius: 2px;
-		}
+		border-top: none;
+		border-radius: 2px;
 
 		.flight-summary {
 			border-top-left-radius: 2px;
@@ -30,7 +29,7 @@
 		border-top: none;
 		margin-top: 0;
 
-		.flight__shadow,
+		&,
 		.flight-summary {
 			border-top-left-radius: 2px;
 			border-top-right-radius: 2px;
@@ -38,16 +37,11 @@
 	}
 
 	&:last-of-type {
-		.flight__shadow,
+		&,
 		.flight-summary {
 			border-bottom-left-radius: 2px;
 			border-bottom-right-radius: 2px;
 		}
-	}
-
-	&__shadow {
-		background-color: #ffffff;
-		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 	}
 
 	&-summary {
