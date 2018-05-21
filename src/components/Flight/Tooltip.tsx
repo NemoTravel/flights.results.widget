@@ -2,8 +2,8 @@ import * as React from 'react';
 import TooltipComponent, { TooltipProps } from 'material-ui/Tooltip';
 
 class Tooltip extends React.Component<TooltipProps> {
-	shouldComponentUpdate(nextProps: TooltipProps): boolean {
-		return this.props.children !== nextProps.children;
+	shouldComponentUpdate(): boolean {
+		return false;
 	}
 
 	render(): React.ReactNode {
