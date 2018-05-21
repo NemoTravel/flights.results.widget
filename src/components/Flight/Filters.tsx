@@ -15,6 +15,7 @@ import { FlightTimeInterval, LocationType } from '../../enums';
 import { RootState } from '../../store/reducers';
 import { FiltersState } from '../../store/filters/reducers';
 import { QuickFilter } from './QuickFilter';
+import { OnClickHandler } from '../../schemas/OnClickHandler';
 
 interface OwnProps {
 	flight: Flight;
@@ -23,8 +24,6 @@ interface OwnProps {
 interface StateProps {
 	filters: FiltersState;
 }
-
-type FilterValues = string | FlightTimeInterval;
 
 interface DispatchProps {
 	addAirline: typeof addAirline;
@@ -143,7 +142,7 @@ class Filters extends React.Component<Props> {
 		return false;
 	}
 
-	renderFilter(label: string, isActive: boolean, onClick: React.EventHandler<any>, onDelete: React.EventHandler<any>, index?: number): React.ReactNode {
+	renderFilter(label: string, isActive: boolean, onClick: OnClickHandler, onDelete: OnClickHandler, index?: number): React.ReactNode {
 		return <QuickFilter
 			key={index}
 			label={label}

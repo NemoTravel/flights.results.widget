@@ -1,13 +1,14 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import Chip from 'material-ui/Chip';
 import Tooltip from 'material-ui/Tooltip';
-import * as classnames from 'classnames';
+import { OnClickHandler } from '../../schemas/OnClickHandler';
 
 interface Props {
 	label: string,
 	isActive: boolean,
-	onClick: React.EventHandler<any>,
-	onDelete: React.EventHandler<any>
+	onClick: OnClickHandler,
+	onDelete: OnClickHandler
 }
 
 export class QuickFilter extends React.Component<Props> {
