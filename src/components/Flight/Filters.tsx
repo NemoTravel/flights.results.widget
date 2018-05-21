@@ -1,29 +1,41 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Chip from 'material-ui/Chip';
-import Tooltip from 'material-ui/Tooltip';
+import { Moment } from 'moment';
 
 import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
 import Airline from '../../schemas/Airline';
+import Airport from '../../schemas/Airport';
 import SegmentModel from '../../schemas/Segment';
 import Flight from '../../models/Flight';
-import { addTimeInterval } from '../../store/filters/time/actions';
-import { addAirport } from '../../store/filters/airports/actions';
-import { addAirline } from '../../store/filters/airlines/actions';
+import { addTimeInterval, removeTimeInterval } from '../../store/filters/time/actions';
+import { addAirport, removeAirport } from '../../store/filters/airports/actions';
+import { addAirline, removeAirline } from '../../store/filters/airlines/actions';
 import { SnackbarProps, withSnackbar } from '../Snackbar';
-import { LocationType } from '../../enums';
+import { FlightTimeInterval, LocationType } from '../../enums';
+import { RootState } from '../../store/reducers';
+import { FiltersState } from '../../store/filters/reducers';
+import { QuickFilter } from './QuickFilter';
 
 interface OwnProps {
 	flight: Flight;
 }
 
+interface StateProps {
+	filters: FiltersState;
+}
+
+type FilterValues = string | FlightTimeInterval;
+
 interface DispatchProps {
 	addAirline: typeof addAirline;
 	addAirport: typeof addAirport;
 	addTimeInterval: typeof addTimeInterval;
+	removeAirline: typeof removeAirline;
+	removeAirport: typeof removeAirport;
+	removeTimeInterval: typeof removeTimeInterval;
 }
 
-type Props = OwnProps & DispatchProps & SnackbarProps;
+type Props = OwnProps & DispatchProps & SnackbarProps & StateProps;
 
 class Filters extends React.Component<Props> {
 	constructor(props: Props) {
@@ -33,6 +45,7 @@ class Filters extends React.Component<Props> {
 		this.onArrivalAirportClick = this.onArrivalAirportClick.bind(this);
 		this.onDepartureTimeIntervalClick = this.onDepartureTimeIntervalClick.bind(this);
 		this.onArrivalTimeIntervalClick = this.onArrivalTimeIntervalClick.bind(this);
+		this.isFilterActive = this.isFilterActive.bind(this);
 	}
 
 	scrollToElement(): void {
@@ -107,7 +120,84 @@ class Filters extends React.Component<Props> {
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.flight.id !== nextProps.flight.id;
+		return this.props.flight.id !== nextProps.flight.id || this.props.filters !== nextProps.filters;
+	}
+
+	isFilterActive(name: string, value: string | FlightTimeInterval, direction?: LocationType): boolean {
+		if (name === 'time' && this.props.filters.time[direction].length) {
+			if (this.props.filters.time[direction].indexOf(value as FlightTimeInterval) >= 0) {
+				return true;
+			}
+		}
+		else if (name === 'airlines' && this.props.filters.airlines.length) {
+			if (this.props.filters.airlines.indexOf(value as string) >= 0) {
+				return true;
+			}
+		}
+		else if (name === 'airports' && this.props.filters.airports[direction].length) {
+			if (this.props.filters.airports[direction].indexOf(value as string) >= 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	renderFilter(label: string, isActive: boolean, onClick: React.EventHandler<any>, onDelete: React.EventHandler<any>, index?: number): React.ReactNode {
+		return <QuickFilter
+			key={index}
+			label={label}
+			onClick={onClick}
+			isActive={isActive}
+			onDelete={onDelete}
+		/>;
+	}
+
+	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
+		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
+
+		const remove = () => {
+			this.props.removeAirport(airport.IATA, locationType);
+			this.props.showSnackbar(`Аэропорт «${airport.name}» удален из фильтров`);
+		};
+
+		return this.renderFilter(airport.name, isActive, locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick, remove);
+	}
+
+	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
+		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType),
+				 label = getTimeIntervalName(getTimeIntervalForDate(time));
+
+		const remove = () => {
+			this.props.removeTimeInterval(getTimeIntervalForDate(time), locationType);
+
+			if (locationType === LocationType.Departure) {
+				this.props.showSnackbar(`Время вылета «${label}» удалено из фильтров`);
+			}
+			else {
+				this.props.showSnackbar(`Время прилета «${label}» удалено из фильтров`);
+			}
+		};
+
+		return this.renderFilter(label, isActive, locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick, remove);
+	}
+
+	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
+		const isActive = this.isFilterActive('airlines', airline.IATA);
+
+		const onClick: React.EventHandler<any> = event => {
+			event.stopPropagation();
+			event.preventDefault();
+
+			this.onAirlineClick(airline);
+		};
+
+		const remove = () => {
+			this.props.removeAirline(airline.IATA);
+			this.props.showSnackbar(`Авиакомпания «${airline.name}» удалена из фильтров`);
+		};
+
+		return this.renderFilter(airline.name, isActive, onClick, remove, index);
 	}
 
 	render(): React.ReactNode {
@@ -127,44 +217,37 @@ class Filters extends React.Component<Props> {
 		return <div className="flight-details-filters">
 			<span className="flight-details-filters-label">Вылет:</span>
 
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip" label={`${firstSegment.depAirport.name}`} onClick={this.onDepartureAirportClick}/>
-			</Tooltip>
-
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip"  label={`${getTimeIntervalName(getTimeIntervalForDate(firstSegment.depDate))}`} onClick={this.onDepartureTimeIntervalClick}/>
-			</Tooltip>
+			{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
+			{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
 
 			<span className="flight-details-filters-label">Прилёт:</span>
 
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip" label={`${lastSegment.arrAirport.name}`} onClick={this.onArrivalAirportClick}/>
-			</Tooltip>
-
-			<Tooltip title="Добавить в фильтры" placement="top">
-				<Chip className="flight-details-filters-chip" label={`${getTimeIntervalName(getTimeIntervalForDate(lastSegment.arrDate))}`} onClick={this.onArrivalTimeIntervalClick}/>
-			</Tooltip>
+			{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
+			{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
 
 			<span className="flight-details-filters-label">Авиакомпании:</span>
 
 			{allAirlines.map((airline, index) => (
-				<Tooltip key={index} title="Добавить в фильтры" placement="top">
-					<Chip className="flight-details-filters-chip" label={airline.name} onClick={event => {
-						event.stopPropagation();
-						event.preventDefault();
-
-						this.onAirlineClick(airline);
-					}}/>
-				</Tooltip>
+				this.renderAirlineFilter(airline, index)
 			))}
 		</div>;
 	}
 }
 
+const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & StateProps => {
+	return {
+		...ownProps,
+		filters: state.filters
+	};
+};
+
 const mapDispatchToProps = {
 	addAirline,
 	addAirport,
-	addTimeInterval
+	addTimeInterval,
+	removeAirline,
+	removeAirport,
+	removeTimeInterval
 };
 
-export default withSnackbar<OwnProps>(connect<Props>(null, mapDispatchToProps)(Filters));
+export default withSnackbar<OwnProps>(connect(mapStateToProps, mapDispatchToProps)(Filters));

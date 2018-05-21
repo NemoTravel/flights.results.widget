@@ -402,9 +402,21 @@
 					margin-left: 0;
 				}
 			}
+		}
+
+		&-filter {
+			display: inline-block;
 
 			&-chip {
 				margin-right: 10px;
+			}
+
+			&_active &-chip {
+				&:not(focus),
+				&:focus {
+					background-color: #64b5f6;
+					color: #ffffff;
+				}
 			}
 		}
 	}
