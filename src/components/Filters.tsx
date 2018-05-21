@@ -1,7 +1,5 @@
 import * as React from 'react';
-import * as classnames from 'classnames';
 import Typography from 'material-ui/Typography';
-import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
 
 import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
@@ -16,7 +14,7 @@ interface Props {
 
 class Filters extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.currentLeg !== nextProps.currentLeg;
+		return this.props.currentLeg !== nextProps.currentLeg || this.props.isRT !== nextProps.isRT;
 	}
 
 	render(): React.ReactNode {
@@ -25,10 +23,12 @@ class Filters extends React.Component<Props> {
 		return <section className="filters">
 			<div className="filters__left">
 				<Typography variant="headline">
-					Выберите рейс {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}
+					{isRT ? (
+						<span>Выберите рейс {currentLeg.id === 0 ? 'туда' : 'обратно'}</span>
+					) : (
+						<span>Выберите рейс {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}</span>
+					)}
 				</Typography>
-
-				{isRT ? <FlightTakeOffIcon className={classnames('filters-title__plane', { 'filters-title__plane_reverse': currentLeg.id === 1 })}/> : null}
 			</div>
 
 			<div className="filters__right">

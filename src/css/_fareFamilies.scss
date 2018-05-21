@@ -36,8 +36,9 @@
 
 				&-logo {
 					width: 150px;
+					font-size: 15px;
 
-					img {
+					&__image {
 						max-width: 110px;
 						max-height: 25px;
 						vertical-align: middle;

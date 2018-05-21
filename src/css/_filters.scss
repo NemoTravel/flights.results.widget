@@ -18,17 +18,6 @@
 	&-title {
 		display: flex;
 		align-items: center;
-
-		&__plane {
-			height: 26px;
-			width: 26px;
-			margin-left: 10px;
-			transition: transform 0.15s ease-in-out !important;
-
-			&_reverse {
-				transform: rotateY(180deg);
-			}
-		}
 	}
 
 	&-title {

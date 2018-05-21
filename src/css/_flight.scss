@@ -326,6 +326,10 @@
 				&__image {
 					@extend .flight-summary-logo__image;
 				}
+
+				&__text {
+					@extend .flight-summary-logo__text;
+				}
 			}
 
 			&-stage {

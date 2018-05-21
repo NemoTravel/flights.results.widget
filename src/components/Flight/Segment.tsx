@@ -19,6 +19,14 @@ class Segment extends React.Component<Props> {
 		return this.props.segment !== nextProps.segment;
 	}
 
+	renderLogo(): React.ReactNode {
+		const segment = this.props.segment;
+
+		return this.props.segment.airline.logoIcon
+			? <img className="flight-details-segment-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon)}/>
+			: <div className="flight-details-segment-logo__text">{segment.airline.name}</div>;
+	}
+
 	render(): React.ReactNode {
 		const segment = this.props.segment;
 		const totalFlightTime = segment.flightTime + segment.waitingTime;
@@ -37,7 +45,7 @@ class Segment extends React.Component<Props> {
 			<div className="flight-details-segment__wrapper">
 				<div className="flight-details-segment__left">
 					<div className="flight-details-segment-logo">
-						<img className="flight-details-segment-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon)}/>
+						{this.renderLogo()}
 					</div>
 
 					<div className="flight-details-segment-stage">

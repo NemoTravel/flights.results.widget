@@ -13,6 +13,7 @@ import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
 import { SnackbarProps, withSnackbar } from './Snackbar';
 import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';
+import { isRT } from '../store/legs/selectors';
 
 export interface OwnProps {
 	legId: number;
@@ -24,6 +25,7 @@ interface StateProps {
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
 	isLastLeg: boolean;
+	isRT: boolean;
 	hasHiddenFlights: boolean;
 }
 
@@ -43,7 +45,10 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	selectFlight(flight: SelectedFlight, legId: number): SelectedFlightAction {
-		if (!this.props.isLastLeg) {
+		if (this.props.isRT && legId === 0) {
+			this.props.showSnackbar('Выберите рейс обратно');
+		}
+		else if (!this.props.isLastLeg) {
 			this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
 
@@ -86,6 +91,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & State
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),
 		isLastLeg: isLastLeg(state),
+		isRT: isRT(state),
 		hasHiddenFlights: hasHiddenFlights(state)
 	};
 };

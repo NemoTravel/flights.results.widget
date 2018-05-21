@@ -39,21 +39,6 @@
   align-items: center;
 }
 
-.filters-title__plane {
-  height: 26px;
-  width: 26px;
-  margin-left: 10px;
-  -webkit-transition: -webkit-transform 0.15s ease-in-out !important;
-  transition: -webkit-transform 0.15s ease-in-out !important;
-  transition: transform 0.15s ease-in-out !important;
-  transition: transform 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out !important;
-}
-
-.filters-title__plane_reverse {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-
 .filters-title {
   position: relative;
   top: -1px;
@@ -391,7 +376,8 @@
   max-height: 23px;
 }
 
-.flight-summary-logo__text {
+.flight-summary-logo__text,
+.flight-details-segment-logo__text {
   padding-right: 15px;
 }
 
@@ -829,9 +815,10 @@
 
 .fareFamilies-leg-segment-title-logo {
   width: 150px;
+  font-size: 15px;
 }
 
-.fareFamilies-leg-segment-title-logo img {
+.fareFamilies-leg-segment-title-logo__image {
   max-width: 110px;
   max-height: 25px;
   vertical-align: middle;
