@@ -52,6 +52,13 @@ class FlightsList extends React.Component<Props> {
 			this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
 
+		setTimeout(() => {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}, 0);
+
 		return this.props.selectFlight(flight, legId);
 	}
 

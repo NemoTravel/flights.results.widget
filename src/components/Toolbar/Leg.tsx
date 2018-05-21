@@ -36,6 +36,13 @@ class Leg extends React.Component<Props> {
 
 		if (!isDisabled && !isSelected) {
 			this.props.goToLeg(leg.id);
+
+			setTimeout(() => {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth'
+				});
+			}, 0);
 		}
 	}
 
