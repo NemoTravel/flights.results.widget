@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import StarIcons from 'material-ui-icons/Stars';
 
+import Tooltip from './Flight/Tooltip';
 import Segment from './Flight/Segment';
 import Filters from './Flight/Filters';
 import Price from './Price';
@@ -26,6 +27,8 @@ export interface Props {
 interface State {
 	isOpen: boolean;
 }
+
+const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
 
 const MAX_NUM_OF_LOGO_INLINE = 2;
 
@@ -101,10 +104,12 @@ class Flight<P> extends React.Component<Props & P, State> {
 				</div>
 
 				{price.amount < 0 ? (
-					<div className="flight-summary-price-profitMark">
-						<StarIcons className="flight-summary-price-profitMark__icon"/>
-						<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
-					</div>
+					<Tooltip title={tariffTooltipText} placement="top">
+						<div className="flight-summary-price-profitMark">
+							<StarIcons className="flight-summary-price-profitMark__icon"/>
+							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
+						</div>
+					</Tooltip>
 				) : null}
 
 				<div className="flight-summary-price__route">
