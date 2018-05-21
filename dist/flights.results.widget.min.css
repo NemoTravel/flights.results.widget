@@ -351,6 +351,10 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .flight-summary-logo__image,
@@ -463,6 +467,18 @@
 .flight-summary-price {
   margin-right: 24px;
   color: rgba(0, 0, 0, 0.54);
+}
+
+.flight-summary-price-profitMark {
+  color: #78ae35;
+  position: relative;
+}
+
+.flight-summary-price-profitMark__icon {
+  position: absolute;
+  top: -4px;
+  left: -25px;
+  width: 21px !important;
 }
 
 .flight-summary-price__amount {

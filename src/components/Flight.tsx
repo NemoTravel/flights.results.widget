@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import StarIcons from 'material-ui-icons/Stars';
 
 import Segment from './Flight/Segment';
 import Filters from './Flight/Filters';
@@ -12,7 +13,6 @@ import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
 import SelectedFlight from '../schemas/SelectedFlight';
 import { selectFlight } from '../store/selectedFlights/actions';
-import Money from '../schemas/Money';
 
 export interface Props {
 	flight: FlightModel;
@@ -99,6 +99,13 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 					<Price withPlus={this.props.currentLegId !== 0} price={price}/>
 				</div>
+
+				{price.amount < 0 ? (
+					<div className="flight-summary-price-profitMark">
+						<StarIcons className="flight-summary-price-profitMark__icon"/>
+						<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
+					</div>
+				) : null}
 
 				<div className="flight-summary-price__route">
 					за весь маршрут

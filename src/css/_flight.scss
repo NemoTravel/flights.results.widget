@@ -131,6 +131,7 @@
 
 			display: flex;
 			justify-content: center;
+			user-select: none;
 
 			&__image {
 				max-width: 70px;
@@ -221,6 +222,18 @@
 		&-price {
 			margin-right: 24px;
 			color: $light-font-color;
+
+			&-profitMark {
+				color: rgb(120, 174, 53);
+				position: relative;
+
+				&__icon {
+					position: absolute;
+					top: -4px;
+					left: -25px;
+					width: 21px !important;
+				}
+			}
 
 			&__amount {
 				display: flex;
