@@ -17,10 +17,12 @@ import { FareFamiliesCombinationsState } from '../store/fareFamilies/fareFamilie
 import { SelectedFamiliesState } from '../store/fareFamilies/selectedFamilies/reducers';
 import { FareFamiliesPrices } from '../schemas/FareFamiliesPrices';
 import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
 	isLoading: boolean;
+	isRT: boolean;
 	selectedFamilies: SelectedFamiliesState;
 	fareFamiliesPrices: FareFamiliesPrices;
 	fareFamiliesAvailability: FareFamiliesAvailability;
@@ -55,7 +57,8 @@ class FareFamilies extends React.Component<Props> {
 			goToLeg,
 			selectFamily,
 			fareFamiliesPrices,
-			isLoading
+			isLoading,
+			isRT
 		} = this.props;
 
 		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
@@ -66,13 +69,14 @@ class FareFamilies extends React.Component<Props> {
 			</div>
 
 			<div className="fareFamilies__inner">
-				<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
+				{isRT ? null : <Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>}
 
 				<div className="fareFamilies__legs">
 					{selectedFlights.map((flight, legId) => (
 						<Leg
 							key={flight.id}
 							id={legId}
+							isRT={isRT}
 							flight={flight}
 							prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
 							selectedFamilies={selectedFamilies}
@@ -93,6 +97,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
 		isLoading: isLoadingFareFamilies(state),
+		isRT: isRT(state),
 		fareFamiliesAvailability: getFareFamiliesAvailability(state),
 		fareFamiliesPrices: getFareFamiliesPrices(state),
 		fareFamiliesCombinations: state.fareFamilies.fareFamiliesCombinations,
