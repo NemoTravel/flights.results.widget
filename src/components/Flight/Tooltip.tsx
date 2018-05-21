@@ -7,7 +7,7 @@ class Tooltip extends React.Component<TooltipProps> {
 	}
 
 	render(): React.ReactNode {
-		return <TooltipComponent className="test" {...this.props}>
+		return <TooltipComponent {...this.props}>
 			{this.props.children}
 		</TooltipComponent>;
 	}

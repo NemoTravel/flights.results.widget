@@ -92,15 +92,15 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {
-		const { flight, replacement } = this.props;
+		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{this.props.showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
+					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
-					<Price withPlus={this.props.currentLegId !== 0} price={price}/>
+					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
 
 				{price.amount < 0 ? (
@@ -112,9 +112,11 @@ class Flight<P> extends React.Component<Props & P, State> {
 					</Tooltip>
 				) : null}
 
-				<div className="flight-summary-price__route">
-					за весь маршрут
-				</div>
+				{currentLegId === 0 ? (
+					<div className="flight-summary-price__route">
+						за весь маршрут
+					</div>
+				) : null}
 			</div>
 
 			<Button className="flight-summary-buy" onClick={this.onBuyButtonClick}/>
