@@ -3,6 +3,8 @@ import * as moment from 'moment';
 import Date from './schemas/Date';
 import RequestInfo from './schemas/RequestInfo';
 import Leg from './schemas/Leg';
+import { createStructuredSelector, Selector } from 'reselect';
+import { RootState } from './store/reducers';
 
 export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
@@ -134,3 +136,7 @@ export const createLegs = (requests: RequestInfo[]): Leg[] => {
 		};
 	});
 };
+
+export function mapStateToProps<P>(selectors: {[K in keyof P]: Selector<RootState, P[K]>}): Selector<RootState, P> {
+	return createStructuredSelector<RootState, P>(selectors);
+}

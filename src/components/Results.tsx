@@ -17,6 +17,7 @@ import SelectedFlights from './SelectedFlights';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { getIsLoading } from '../store/isLoading/selectors';
 import FlightModel from '../models/Flight';
+import { mapStateToProps } from '../utils';
 
 interface StateProps {
 	isRT: boolean;
@@ -57,7 +58,7 @@ class Results extends React.Component<StateProps> {
 	}
 }
 
-export default connect(createStructuredSelector<RootState, StateProps>({
+export default connect(mapStateToProps<StateProps>({
 	isRT: isRT,
 	isLoading: getIsLoading,
 	hasAnyFlights: hasAnyFlights,
