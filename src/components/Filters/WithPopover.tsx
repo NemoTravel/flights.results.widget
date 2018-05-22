@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Filter, { State as FilterState } from '../Filter';
-import Chip, { ChipProps } from 'material-ui/Chip';
-import Popover from 'material-ui/Popover';
+import Chip, { ChipProps } from '@material-ui/core/Chip';
+import Popover from '@material-ui/core/Popover';
 import classNames = require('classnames');
 
 export interface State extends FilterState {

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Typography from 'material-ui/Typography';
-import Paper from 'material-ui/Paper';
-import Tooltip from 'material-ui/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';

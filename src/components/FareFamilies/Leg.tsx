@@ -6,7 +6,7 @@ import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../store/fareFamilies/selectedFamilies/reducers';
 import { selectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
 import Money from '../../schemas/Money';
-import Typography from 'material-ui/Typography/Typography';
+import Typography from '@material-ui/core/Typography/Typography';
 
 interface Props {
 	id: number;

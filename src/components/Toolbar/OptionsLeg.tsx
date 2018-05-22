@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Leg from './Leg';
 import * as classnames from 'classnames';
-import BaggageIcon from 'material-ui-icons/Work';
+import BaggageIcon from '@material-ui/icons/Work';
 
 class OptionsLeg extends Leg {
 	render(): React.ReactNode {

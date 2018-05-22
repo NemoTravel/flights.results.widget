@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import FormGroup from 'material-ui/Form/FormGroup';
-import FormControl from 'material-ui/Form/FormControl';
-import FormLabel from 'material-ui/Form/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 import Checkbox from './Checkbox';
 import Airline from '../../schemas/Airline';

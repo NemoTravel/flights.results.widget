@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import Chip from 'material-ui/Chip';
-import Tooltip from 'material-ui/Tooltip';
+import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 import { OnClickHandler } from '../../schemas/OnClickHandler';
 
 interface Props {

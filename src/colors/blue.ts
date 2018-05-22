@@ -1,4 +1,4 @@
-import { PaletteColorOptions } from 'material-ui/styles/createPalette';
+import { PaletteColorOptions } from '@material-ui/core/styles/createPalette';
 
 const palette: PaletteColorOptions = {
 	50: '#ffffff',

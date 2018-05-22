@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
@@ -9,7 +9,7 @@ import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/act
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
 import { getRelativePrices, getVisibleFlights } from '../store/selectors';
 import { hasHiddenFlights } from '../store/selectors';
-import Button from 'material-ui/Button/Button';
+import Button from '@material-ui/core/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
 import { SnackbarProps, withSnackbar } from './Snackbar';
 import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';

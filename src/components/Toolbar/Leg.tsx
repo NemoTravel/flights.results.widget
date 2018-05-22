@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
+import FlightTakeOffIcon from '@material-ui/icons/FlightTakeoff';
 
 import LegModel from '../../schemas/Leg';
 import { goToLeg } from '../../store/currentLeg/actions';

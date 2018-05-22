@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import Price from './Price';
 import Leg from '../schemas/Leg';
@@ -11,7 +11,7 @@ import Money from '../schemas/Money';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/fareFamilies/selectors';
-import Tooltip from 'material-ui/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 import { getTotalPrice } from '../store/selectors';
 import { hasAnyFlights } from '../store/flights/selectors';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';

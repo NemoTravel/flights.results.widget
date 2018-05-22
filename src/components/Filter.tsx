@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Chip, { ChipProps } from 'material-ui/Chip';
+import Chip, { ChipProps } from '@material-ui/core/Chip';
 import classNames = require('classnames');
 
 export enum Type {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 import Flight, { Props as FlightProps } from '../Flight';
 import { goToLeg } from '../../store/currentLeg/actions';

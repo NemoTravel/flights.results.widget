@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Tooltip from 'material-ui/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import CheckCircle from 'material-ui-icons/Check';
-import Cancel from 'material-ui-icons/Clear';
-import MonetizationOn from 'material-ui-icons/AttachMoney';
+import CheckCircle from '@material-ui/icons/Check';
+import Cancel from '@material-ui/icons/Clear';
+import MonetizationOn from '@material-ui/icons/AttachMoney';
 
 import FareFamilyFeature, { FeaturePayment } from '../../schemas/FareFamilyFeature';
 

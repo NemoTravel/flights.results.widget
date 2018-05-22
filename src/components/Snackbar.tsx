@@ -1,7 +1,7 @@
 import * as React from 'react';
-import SnackbarComponent from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
+import SnackbarComponent from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 interface State {
 	snackbarIsVisible: boolean;

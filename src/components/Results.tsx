@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Typography from 'material-ui/Typography';
-import CircularProgress from 'material-ui/Progress/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';

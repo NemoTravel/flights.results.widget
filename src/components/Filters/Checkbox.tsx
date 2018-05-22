@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CheckboxComponent from 'material-ui/Checkbox';
-import FormControlLabel from 'material-ui/Form/FormControlLabel';
+import CheckboxComponent from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { CheckboxChangeHandler } from '../../schemas/CheckboxHandler';
 
 interface Props {

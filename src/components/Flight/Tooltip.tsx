@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TooltipComponent, { TooltipProps } from 'material-ui/Tooltip';
+import TooltipComponent, { TooltipProps } from '@material-ui/core/Tooltip';
 
 class Tooltip extends React.Component<TooltipProps> {
 	shouldComponentUpdate(): boolean {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UIButton from 'material-ui/Button';
+import UIButton from '@material-ui/core/Button';
 import { OnClickHandler } from '../../schemas/OnClickHandler';
 
 interface Props {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 import Flight from '../../models/Flight';
 import SelectedFlight from './SelectedFlight';
 import { goToLeg } from '../../store/currentLeg/actions';

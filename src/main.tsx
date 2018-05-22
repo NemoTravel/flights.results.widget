@@ -2,7 +2,7 @@ import './ponyfills';
 import * as React from 'react';
 import createSagaMiddleware from 'redux-saga';
 import * as ReactDOM from 'react-dom';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';

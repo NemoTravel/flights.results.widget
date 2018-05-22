@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 
 import FlightModel from '../models/Flight';
 import Flight from './Flight';

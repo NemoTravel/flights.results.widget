@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import StarIcons from 'material-ui-icons/Stars';
+import StarIcons from '@material-ui/icons/Stars';
 
 import Tooltip from './Flight/Tooltip';
 import Segment from './Flight/Segment';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import Radio from 'material-ui/Radio';
-import { FormControlLabel } from 'material-ui/Form';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import FareFamily from '../../schemas/FareFamily';
 import Money from '../../schemas/Money';

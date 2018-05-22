@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
-import CircularProgress from 'material-ui/Progress/CircularProgress';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Flight from '../models/Flight';
 import SelectedFlights from './FareFamilies/SelectedFlights';

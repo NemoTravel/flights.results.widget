@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import ArrowDown from 'material-ui-icons/ArrowDownward';
+import ArrowDown from '@material-ui/icons/ArrowDownward';
 
 import { setSorting } from '../store/sorting/actions';
 import { SortingDirection, SortingType } from '../enums';

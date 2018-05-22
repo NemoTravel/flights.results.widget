@@ -55,6 +55,8 @@
 		"why-did-you-update": "^0.1.1"
 	},
 	"dependencies": {
+		"@material-ui/core": "^1.0.0",
+		"@material-ui/icons": "^1.0.0",
 		"@nemo.travel/api-parser": "^1.2.2",
 		"@nemo.travel/search-widget": "^2.4.1",
 		"@types/classnames": "^2.2.3",
@@ -70,8 +72,6 @@
 		"@types/react-swipeable-views": "^0.12.1",
 		"@types/redux-logger": "^3.0.5",
 		"classnames": "^2.2.5",
-		"material-ui": "^1.0.0-beta.45",
-		"material-ui-icons": "^1.0.0-beta.17",
 		"moment": "^2.19.2",
 		"moment-duration-format": "^2.2.2",
 		"promise-polyfill": "^6.0.2",
