@@ -4,10 +4,15 @@
 	display: flex;
 	justify-content: space-between;
 	flex: 0 0 auto;
+	position: relative;
 
 	width: 100%;
 	margin: 20px auto;
 	padding: 0 24px;
+
+	&_withBottomMargin {
+		margin-bottom: 80px;
+	}
 
 	&__left,
 	&__right {

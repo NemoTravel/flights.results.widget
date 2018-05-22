@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { RootState } from '../../store/reducers';
 import { connect } from 'react-redux';
-import { FlightNumberAction, setFlightNumber } from '../../store/filters/flightNumber/actions';
+import { FlightNumberAction, setFlightNumber, toggleFlightNumber } from '../../store/filters/flightNumber/actions';
 import { getFlightNumber } from '../../store/filters/flightNumber/selectors';
 import Input from 'material-ui/Input';
 import Clear from 'material-ui-icons/Clear';
 import Chip from 'material-ui/Chip';
+import Filter, { Type as FilterType } from '../Filter';
+import { FiltersState } from '../../store/filters/reducers';
 
 const CTRL_KEY_CODE = 17;
 const F_KEY_CODE = 70;
@@ -20,21 +22,20 @@ interface StateProps {
 
 interface DispatchProps {
 	setFlightNumber: (number: string) => FlightNumberAction;
+	toggleFlightNumber: () => FlightNumberAction;
 }
 
 type Props = StateProps & DispatchProps;
 
-class FlightNumber extends React.Component<Props, State> {
-	state: State = {
-		flightNumberSearch: false
-	};
+class FlightNumber extends Filter<Props, FiltersState> {
+	protected type = FilterType.FlightNumber;
+	protected label = 'Поиск';
 
 	constructor(props: Props) {
 		super(props);
 
 		this.onText = this.onText.bind(this);
 		this.componentWillMount = this.componentWillMount.bind(this);
-		this.toogleFlightSearch = this.toogleFlightSearch.bind(this);
 	}
 
 	componentWillMount(): void {
@@ -48,7 +49,7 @@ class FlightNumber extends React.Component<Props, State> {
 			if (ctrlIsDown && event.keyCode === F_KEY_CODE) {
 				event.preventDefault();
 
-				this.toogleFlightSearch();
+				this.onClick();
 			}
 		});
 
@@ -59,16 +60,26 @@ class FlightNumber extends React.Component<Props, State> {
 		});
 	}
 
-	toogleFlightSearch(): void {
-		const isOpened = this.state.flightNumberSearch;
+	isVisible(): boolean {
+		return true;
+	}
+
+	onClick(): void {
+		const isOpened = this.state.isActive;
 
 		this.setState({
-			flightNumberSearch: !isOpened
+			isActive: !isOpened
 		});
+
+		this.props.toggleFlightNumber();
 
 		if (isOpened) {
 			this.props.setFlightNumber('');
 		}
+	}
+
+	onClear(): void {
+		this.props.setFlightNumber('');
 	}
 
 	onText(element: React.ChangeEvent<HTMLInputElement>): void {
@@ -76,25 +87,27 @@ class FlightNumber extends React.Component<Props, State> {
 	}
 
 	clearButton(): React.ReactNode {
-		return <div className="results-flightNumberSearch__clear" onClick={this.toogleFlightSearch}>
+		return <div className="results-flightNumberSearch__clear" onClick={this.onClick}>
 			<Clear/>
 		</div>;
 	}
 
 	render(): React.ReactNode {
-		const state = this.state.flightNumberSearch;
+		const state = this.state.isActive;
 
-		return <div className="results-flightNumberSearch">
-			<Chip className="filters-filter-chip" label={'Поиск'} onClick={this.toogleFlightSearch}/>
-			{state ? <Input
-						type="text"
-						onChange={this.onText}
-						fullWidth={true}
-						autoFocus={true}
-						placeholder={'Поиск по номеру рейса'}
-						endAdornment={this.clearButton()}
-					/> : null}
-			</div>;
+		return <div className="filters-filter">
+			<Chip className="filters-filter-chip" label={'Поиск'} onClick={this.onClick}/>
+			{state ? <div className="results-flightNumberSearch">
+				<Input
+					type="text"
+					onChange={this.onText}
+					fullWidth={true}
+					autoFocus={true}
+					placeholder={'Поиск по номеру рейса'}
+					endAdornment={this.clearButton()}
+				/>
+			</div> : null}
+		</div>;
 	}
 }
 
@@ -105,7 +118,8 @@ const mapsToProps = (state: RootState): StateProps => {
 };
 
 const mapDispatchToProps = {
-	setFlightNumber
+	setFlightNumber,
+	toggleFlightNumber
 };
 
 export default connect(mapsToProps, mapDispatchToProps)(FlightNumber);

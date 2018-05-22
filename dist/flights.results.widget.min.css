@@ -15,9 +15,14 @@
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
+  position: relative;
   width: 100%;
   margin: 20px auto;
   padding: 0 24px;
+}
+
+.filters_withBottomMargin {
+  margin-bottom: 80px;
 }
 
 .filters__left,
@@ -159,6 +164,8 @@
   padding: 0 24px;
   margin-top: 20px;
   width: 100%;
+  position: absolute;
+  left: 0;
 }
 
 .results-flightNumberSearch__clear {
