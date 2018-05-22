@@ -1,23 +1,27 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
+
 import Flight from '../models/Flight';
 import SelectedFlights from './FareFamilies/SelectedFlights';
 import Leg from './FareFamilies/Leg';
 import { selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goBack, goToLeg } from '../store/currentLeg/actions';
-import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
-import CircularProgress from 'material-ui/Progress/CircularProgress';
+import {
+	getFareFamiliesAvailability, getFareFamiliesCombinations,
+	getFareFamiliesPrices,
+	getSelectedFamilies
+} from '../store/fareFamilies/selectors';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
-import { RootState } from '../store/reducers';
 import { FareFamiliesCombinationsState } from '../store/fareFamilies/fareFamiliesCombinations/reducers';
 import { SelectedFamiliesState } from '../store/fareFamilies/selectedFamilies/reducers';
 import { FareFamiliesPrices } from '../schemas/FareFamiliesPrices';
 import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
 import { isRT } from '../store/legs/selectors';
+import { connect } from '../utils';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -93,22 +97,16 @@ class FareFamilies extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: RootState): StateProps => {
-	return {
-		selectedFlights: getSelectedFlights(state),
-		isLoading: isLoadingFareFamilies(state),
-		isRT: isRT(state),
-		fareFamiliesAvailability: getFareFamiliesAvailability(state),
-		fareFamiliesPrices: getFareFamiliesPrices(state),
-		fareFamiliesCombinations: state.fareFamilies.fareFamiliesCombinations,
-		selectedFamilies: state.fareFamilies.selectedFamilies
-	};
-};
-
-const mapDispatchToProps = {
+export default connect<StateProps, DispatchProps>({
+	selectedFlights: getSelectedFlights,
+	isLoading: isLoadingFareFamilies,
+	isRT: isRT,
+	fareFamiliesAvailability: getFareFamiliesAvailability,
+	fareFamiliesPrices: getFareFamiliesPrices,
+	fareFamiliesCombinations: getFareFamiliesCombinations,
+	selectedFamilies: getSelectedFamilies
+}, {
 	selectFamily,
 	goToLeg,
 	goBack
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FareFamilies);
+})(FareFamilies);

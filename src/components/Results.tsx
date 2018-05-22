@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import Typography from 'material-ui/Typography';
 import CircularProgress from 'material-ui/Progress/CircularProgress';
 
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { RootState } from '../store/reducers';
 import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
@@ -17,7 +14,7 @@ import SelectedFlights from './SelectedFlights';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { getIsLoading } from '../store/isLoading/selectors';
 import FlightModel from '../models/Flight';
-import { mapStateToProps } from '../utils';
+import { connect } from '../utils';
 
 interface StateProps {
 	isRT: boolean;
@@ -58,11 +55,11 @@ class Results extends React.Component<StateProps> {
 	}
 }
 
-export default connect(mapStateToProps<StateProps>({
+export default connect<StateProps>({
 	isRT: isRT,
 	isLoading: getIsLoading,
 	hasAnyFlights: hasAnyFlights,
 	hasAnyVisibleFlights: hasAnyVisibleFlights,
 	currentLeg: getCurrentLeg,
 	selectedFlights: getSelectedFlights
-}))(Results);
+})(Results);

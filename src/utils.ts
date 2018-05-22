@@ -1,9 +1,11 @@
-import { Language } from './enums';
 import * as moment from 'moment';
+import { createStructuredSelector, Selector } from 'reselect';
+import { MapDispatchToPropsParam, connect as reduxConnect, InferableComponentEnhancerWithProps } from 'react-redux';
+
+import { Language } from './enums';
 import Date from './schemas/Date';
 import RequestInfo from './schemas/RequestInfo';
 import Leg from './schemas/Leg';
-import { createStructuredSelector, Selector } from 'reselect';
 import { RootState } from './store/reducers';
 
 export const REQUEST_URL = 'http://frontend.mlsd.ru/';
@@ -126,17 +128,22 @@ export const pluralize = (number: number, ...variations: string[]): string => {
 	return result;
 };
 
-export const createLegs = (requests: RequestInfo[]): Leg[] => {
-	return requests.map((requestInfo, index) => {
-		return {
-			id: index,
-			departure: requestInfo.segments[0].departure,
-			arrival: requestInfo.segments[0].arrival,
-			date: requestInfo.segments[0].departureDate
-		};
-	});
+export const createLegs = (requests: RequestInfo[]): Leg[] => (
+	requests.map((requestInfo, index) => ({
+		id: index,
+		departure: requestInfo.segments[0].departure,
+		arrival: requestInfo.segments[0].arrival,
+		date: requestInfo.segments[0].departureDate
+	}))
+);
+
+type SelectorsList<P> = {
+	[K in keyof P]: Selector<RootState, P[K]>
 };
 
-export function mapStateToProps<P>(selectors: {[K in keyof P]: Selector<RootState, P[K]>}): Selector<RootState, P> {
-	return createStructuredSelector<RootState, P>(selectors);
+export function connect<StateProps, DispatchProps = {}, OwnProps = {}>(
+	selectors: SelectorsList<StateProps>,
+	actions?: MapDispatchToPropsParam<DispatchProps, OwnProps>
+): InferableComponentEnhancerWithProps<StateProps & DispatchProps, OwnProps> {
+	return reduxConnect(createStructuredSelector<RootState, StateProps>(selectors), actions);
 }
