@@ -40,7 +40,7 @@ class Results extends React.Component<StateProps> {
 		}
 
 		return hasAnyFlights ? <>
-			<div className="results__inner-content">
+			<div className="results__inner">
 				<SelectedFlights selectedFlights={selectedFlights}/>
 
 				<Filters currentLeg={currentLeg} isRT={isRT}/>

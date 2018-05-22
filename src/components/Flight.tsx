@@ -211,13 +211,13 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return this.state.isOpen ? <div className="flight-details__wrapper">
+		return this.state.isOpen ? <>
 			<div className="flight-details">
 				{this.props.flight.segments.slice(1).map((segment, index) => <Segment key={index} segment={segment}/>)}
 			</div>
 
 			{this.renderFilters()}
-		</div> : null;
+		</> : null;
 	}
 
 	render(): React.ReactNode {

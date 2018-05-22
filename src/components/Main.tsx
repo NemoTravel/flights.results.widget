@@ -31,11 +31,11 @@ class Main extends React.Component<StateProps & DispatchProps> {
 					<SearchForm onSearch={this.props.startSearch}/>
 
 					<Route path="/results" render={() => (
-						<div className="results__inner">
+						<>
 							{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
 
 							<Toolbar/>
-						</div>
+						</>
 					)}/>
 
 					{Snackbar}
