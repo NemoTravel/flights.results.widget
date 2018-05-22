@@ -1,3 +1,3 @@
-import { ApplicationState } from '../../../state';
+import { RootState } from '../../../store/reducers';
 
-export const getFlightNumber = (state: ApplicationState): string => state.filters.flightNumber;
+export const getFlightNumber = (state: RootState): string => state.filters.flightNumber;

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { ApplicationState } from '../../state';
+import { RootState } from '../../store/reducers';
 import { connect } from 'react-redux';
 import { FlightNumberAction, setFlightNumber } from '../../store/filters/flightNumber/actions';
 import { getFlightNumber } from '../../store/filters/flightNumber/selectors';
 import Input from 'material-ui/Input';
 import Clear from 'material-ui-icons/Clear';
+import Chip from 'material-ui/Chip';
 
 const CTRL_KEY_CODE = 17;
 const F_KEY_CODE = 70;
@@ -83,20 +84,21 @@ class FlightNumber extends React.Component<Props, State> {
 	render(): React.ReactNode {
 		const state = this.state.flightNumberSearch;
 
-		return state ? <div className="results-flightNumberSearch">
-				<Input
-					type="text"
-					onChange={this.onText}
-					fullWidth={true}
-					autoFocus={true}
-					placeholder={'Поиск по номеру рейса'}
-					endAdornment={this.clearButton()}
-					/>
-			</div>: null;
+		return <div className="results-flightNumberSearch">
+			<Chip className="filters-filter-chip" label={'Поиск'} onClick={this.toogleFlightSearch}/>
+			{state ? <Input
+						type="text"
+						onChange={this.onText}
+						fullWidth={true}
+						autoFocus={true}
+						placeholder={'Поиск по номеру рейса'}
+						endAdornment={this.clearButton()}
+					/> : null}
+			</div>;
 	}
 }
 
-const mapsToProps = (state: ApplicationState): StateProps => {
+const mapsToProps = (state: RootState): StateProps => {
 	return {
 		getNumberFlight: getFlightNumber(state)
 	};
