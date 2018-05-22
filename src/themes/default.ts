@@ -1,7 +1,8 @@
-import { PaletteType } from '@material-ui/core';
 import blue from '../colors/blue';
 import green from '../colors/green';
 import yellow from '../colors/yellow';
+
+type PaletteType = 'light' | 'dark';
 
 export default {
 	palette: {
