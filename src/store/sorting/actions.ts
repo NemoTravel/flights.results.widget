@@ -1,16 +1,10 @@
-import { Action } from 'redux';
 import { SortingDirection, SortingType } from '../../enums';
 
 export const SET_SORTING = 'SET_SORTING';
 
-export interface SortingAction extends Action {
-	payload: {
-		type: SortingType;
-		direction: SortingDirection;
-	}
-}
+export type SortingAction = ReturnType<typeof setSorting>;
 
-export const setSorting = (type: SortingType, direction: SortingDirection): SortingAction => {
+export const setSorting = (type: SortingType, direction: SortingDirection) => {
 	return {
 		type: SET_SORTING,
 		payload: {

@@ -1,11 +1,10 @@
-import { SEARCH_FARE_FAMILIES } from '../actions';
-import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
-import { startLoading, stopLoading } from '../isLoading/actions';
+import { SEARCH_FARE_FAMILIES, SearchFareFamiliesAction } from '../actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { selectFamily } from '../fareFamilies/selectedFamilies/actions';
 import loadFareFamilies from '../../services/requests/fareFamilies';
 import { setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
-import { ApplicationState } from '../../state';
+import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
 
 function* runFareFamiliesSearch(flightId: number, legId: number) {
 	// Get fare families combinations for given flight.
@@ -26,35 +25,15 @@ function* runFareFamiliesSearch(flightId: number, legId: number) {
 	}
 }
 
-function* searchFareFamilies(flightIds: number[]) {
-	const numOfLegs = flightIds.length;
-
-	// Run fare families search for each given flight ID.
-	for (let i = 0; i < numOfLegs; i++) {
-		yield fork(runFareFamiliesSearch, flightIds[i], i);
-	}
-}
-
-function* worker() {
+function* worker({ payload }: SearchFareFamiliesAction) {
 	// Launch loading animation.
-	yield put(startLoading());
+	yield put(startLoadingFareFamilies(payload.legId));
 
-	const state: ApplicationState = yield select();
-	const selectedFlights = state.selectedFlights;
-	const flightIds: number[] = [];
-
-	// Collect IDs of selected flights.
-	for (const legId in selectedFlights) {
-		if (selectedFlights.hasOwnProperty(legId)) {
-			flightIds.push(selectedFlights[legId]);
-		}
-	}
-
-	// Run all searches.
-	yield call(searchFareFamilies, flightIds);
+	// Run search.
+	yield call(runFareFamiliesSearch, payload.flightId, payload.legId);
 
 	// Stop loading animation.
-	yield put(stopLoading());
+	yield put(stopLoadingFareFamilies(payload.legId));
 }
 
 export default function* searchFareFamiliesSaga() {

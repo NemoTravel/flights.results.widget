@@ -1,10 +1,10 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
-import { ApplicationState } from '../../../state';
+import { RootState } from '../../reducers';
 import { isSelectionComplete } from '../../selectedFlights/selectors';
 import { GO_BACK, goToLeg } from '../actions';
 
 function* worker() {
-	const state: ApplicationState = yield select();
+	const state: RootState = yield select();
 	const isComplete: boolean = yield select(isSelectionComplete);
 	const currentLeg = state.currentLeg;
 	let newLegId = currentLeg - 1;

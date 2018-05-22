@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import StarIcons from 'material-ui-icons/Stars';
 
+import Tooltip from './Flight/Tooltip';
 import Segment from './Flight/Segment';
 import Filters from './Flight/Filters';
 import Price from './Price';
@@ -10,20 +12,23 @@ import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
-import { FlightsReplacementObject } from '../store/selectors';
+import SelectedFlight from '../schemas/SelectedFlight';
+import { selectFlight } from '../store/selectedFlights/actions';
 
 export interface Props {
 	flight: FlightModel;
 	style?: React.CSSProperties;
 	currentLegId?: number;
 	showPricePrefix?: boolean;
-	replacement?: FlightsReplacementObject;
-	selectFlight?: (flightId: number, legId: number) => void;
+	replacement?: SelectedFlight;
+	selectFlight?: typeof selectFlight;
 }
 
 interface State {
 	isOpen: boolean;
 }
+
+const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
 
 const MAX_NUM_OF_LOGO_INLINE = 2;
 
@@ -61,7 +66,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		event.stopPropagation();
 		event.preventDefault();
 
-		this.props.selectFlight(this.props.replacement.newFlightId, this.props.currentLegId);
+		this.props.selectFlight(this.props.replacement, this.props.currentLegId);
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {
@@ -87,19 +92,31 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderSummaryButtonsBlock(): React.ReactNode {
-		const { flight, replacement } = this.props;
+		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
+		const price = replacement ? replacement.price : flight.totalPrice;
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
-				<div className="flight-summary-price__amount">
-					{this.props.showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
+				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
+					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
 
-					<Price withPlus={this.props.currentLegId !== 0} price={replacement ? replacement.price : flight.totalPrice}/>
+					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
 
-				<div className="flight-summary-price__route">
-					за весь маршрут
-				</div>
+				{price.amount < 0 ? (
+					<Tooltip title={tariffTooltipText} placement="top">
+						<div className="flight-summary-price-profitMark">
+							<StarIcons className="flight-summary-price-profitMark__icon"/>
+							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
+						</div>
+					</Tooltip>
+				) : null}
+
+				{currentLegId === 0 ? (
+					<div className="flight-summary-price__route">
+						за весь маршрут
+					</div>
+				) : null}
 			</div>
 
 			<Button className="flight-summary-buy" onClick={this.onBuyButtonClick}/>
@@ -170,9 +187,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 		return <>
 			<div className="flight-summary-transfers">
-				{isDirect ? 'прямой' : flight.transferInfo.map((info, index) => (
-					<div className="flight-summary-transfers__item" key={index}>{info}</div>
-				))}
+				{isDirect ? 'Прямой' : <div className="flight-summary-transfers__item">{flight.transferInfo}</div>}
 			</div>
 
 			<div className="flight-summary-route">
@@ -207,10 +222,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 	render(): React.ReactNode {
 		return <div className={classnames(this.mainClassName, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
-			<div className="flight__shadow">
-				{this.renderSummary()}
-				{this.renderDetails()}
-			</div>
+			{this.renderSummary()}
+			{this.renderDetails()}
 		</div>;
 	}
 }

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import SegmentModel from '../../schemas/Segment';
-import * as moment from 'moment';
-import { declension, fixImageURL } from '../../utils';
 import * as classnames from 'classnames';
+import * as moment from 'moment';
+
+import SegmentModel from '../../schemas/Segment';
+import { declension, fixImageURL } from '../../utils';
 
 interface Props {
 	segment: SegmentModel;
@@ -16,6 +17,14 @@ const TransferIcon = <svg fill="#000000" height="48" viewBox="0 0 24 24" width="
 class Segment extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return this.props.segment !== nextProps.segment;
+	}
+
+	renderLogo(): React.ReactNode {
+		const segment = this.props.segment;
+
+		return this.props.segment.airline.logoIcon
+			? <img className="flight-details-segment-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon)}/>
+			: <div className="flight-details-segment-logo__text">{segment.airline.name}</div>;
 	}
 
 	render(): React.ReactNode {
@@ -36,7 +45,7 @@ class Segment extends React.Component<Props> {
 			<div className="flight-details-segment__wrapper">
 				<div className="flight-details-segment__left">
 					<div className="flight-details-segment-logo">
-						<img className="flight-details-segment-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon)}/>
+						{this.renderLogo()}
 					</div>
 
 					<div className="flight-details-segment-stage">

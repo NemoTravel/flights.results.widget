@@ -1,13 +1,15 @@
 import { createSelector } from 'reselect';
 import {
-	ApplicationState, FareFamiliesAvailabilityState, FareFamiliesCombinationsState, FareFamiliesPricesState,
-	SelectedFamiliesState
-} from '../../state';
+	FareFamiliesAvailability} from '../../schemas/FareFamiliesAvailability';
 import FareFamily from '../../schemas/FareFamily';
 import { Currency } from '../../enums';
+import { RootState } from '../reducers';
+import { FareFamiliesCombinationsState } from './fareFamiliesCombinations/reducers';
+import { SelectedFamiliesState } from './selectedFamilies/reducers';
+import { FareFamiliesPrices } from '../../schemas/FareFamiliesPrices';
 
-export const getSelectedFamilies = (state: ApplicationState): SelectedFamiliesState => state.fareFamilies.selectedFamilies;
-export const getFareFamiliesCombinations = (state: ApplicationState): FareFamiliesCombinationsState => state.fareFamilies.fareFamiliesCombinations;
+export const getSelectedFamilies = (state: RootState): SelectedFamiliesState => state.fareFamilies.selectedFamilies;
+export const getFareFamiliesCombinations = (state: RootState): FareFamiliesCombinationsState => state.fareFamilies.fareFamiliesCombinations;
 
 export interface SelectedCombinations {
 	[legId: number]: string;
@@ -64,8 +66,8 @@ export const combinationsAreValid = createSelector(
  */
 export const getFareFamiliesAvailability = createSelector(
 	[getFareFamiliesCombinations],
-	(combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesAvailabilityState => {
-		const result: FareFamiliesAvailabilityState = {};
+	(combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesAvailability => {
+		const result: FareFamiliesAvailability = {};
 
 		for (const legId in combinationsByLegs) {
 			if (combinationsByLegs.hasOwnProperty(legId) && combinationsByLegs[legId]) {
@@ -100,8 +102,8 @@ export const getFareFamiliesAvailability = createSelector(
  */
 export const getFareFamiliesPrices = createSelector(
 	[getSelectedCombinations, getFareFamiliesCombinations],
-	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPricesState => {
-		const result: FareFamiliesPricesState = {};
+	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPrices => {
+		const result: FareFamiliesPrices = {};
 
 		for (const legId in selectedCombinations) {
 			if (selectedCombinations.hasOwnProperty(legId)) {

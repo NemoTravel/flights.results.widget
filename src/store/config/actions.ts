@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { Config } from '../../state';
+import { Config } from './reducers';
 
 export const SET_CONFIG = 'SET_CONFIG';
 

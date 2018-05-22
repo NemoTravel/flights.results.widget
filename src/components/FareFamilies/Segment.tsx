@@ -7,7 +7,7 @@ import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 import Money from '../../schemas/Money';
-import { fixImageURL, REQUEST_URL } from '../../utils';
+import { fixImageURL } from '../../utils';
 
 interface Props {
 	enabledFamilies: { [familyId: string]: boolean };
@@ -73,6 +73,14 @@ class Segment extends React.Component<Props, State> {
 		</form>;
 	}
 
+	renderLogo(): React.ReactNode {
+		const segment = this.props.segment;
+
+		return this.props.segment.airline.logoIcon
+			? <img className="fareFamilies-leg-segment-title-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon)}/>
+			: <div className="fareFamilies-leg-segment-title-logo__text">{segment.airline.name}</div>;
+	}
+
 	render(): React.ReactNode {
 		const { isAvailable, segment } = this.props;
 
@@ -80,9 +88,7 @@ class Segment extends React.Component<Props, State> {
 			<div className="fareFamilies-leg-segment-title">
 				<div className="fareFamilies-leg-segment-title__left">
 					<div className="fareFamilies-leg-segment-title-logo">
-						<Tooltip title={segment.airline.name} placement="top">
-							<img src={fixImageURL(segment.airline.logoIcon)}/>
-						</Tooltip>
+						{this.renderLogo()}
 					</div>
 
 					<Typography variant="headline">

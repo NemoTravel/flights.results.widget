@@ -9,7 +9,13 @@
 	margin: 20px auto;
 	padding: 0 24px;
 
-	&__left, &__right {
+	&__left,
+	&__right {
+		display: flex;
+		align-items: center;
+	}
+
+	&-title {
 		display: flex;
 		align-items: center;
 	}
@@ -30,9 +36,12 @@
 
 		&_active {
 			.filters-filter-chip {
-				&, &:hover, &:focus, &:active {
+				&,
+				&:hover,
+				&:focus,
+				&:active {
 					background: #64b5f6;
-					color: #fff;
+					color: #ffffff;
 				}
 			}
 		}

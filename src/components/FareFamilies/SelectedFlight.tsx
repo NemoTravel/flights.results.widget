@@ -2,10 +2,10 @@ import * as React from 'react';
 import Button from 'material-ui/Button';
 
 import Flight, { Props as FlightProps } from '../Flight';
-import { LegAction } from '../../store/currentLeg/actions';
+import { goToLeg } from '../../store/currentLeg/actions';
 
 interface Props extends FlightProps {
-	goToLeg: (legId: number) => LegAction;
+	goToLeg: typeof goToLeg;
 }
 
 class SelectedFlight extends Flight<Props> {

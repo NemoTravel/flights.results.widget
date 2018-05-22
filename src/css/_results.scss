@@ -10,12 +10,13 @@
 			display: block;
 		}
 
-		.fareFamilies, .results__inner-content {
+		.results__inner-content {
 			display: none;
 		}
 	}
 
-	.ReactVirtualized__List, .ReactVirtualized__Grid__innerScrollContainer {
+	.ReactVirtualized__List,
+	.ReactVirtualized__Grid__innerScrollContainer {
 		outline: none !important;
 		overflow: visible !important;
 		padding-bottom: 100px;

@@ -1,32 +1,38 @@
 import * as React from 'react';
-import { Action } from 'redux';
+import * as classnames from 'classnames';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-
-import * as State from '../state';
 import Flight from '../models/Flight';
 import SelectedFlights from './FareFamilies/SelectedFlights';
 import Leg from './FareFamilies/Leg';
-import { searchFareFamilies } from '../store/actions';
-import { SelectFamily, selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
+import { selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
-import { goBack, goToLeg, LegAction } from '../store/currentLeg/actions';
+import { goBack, goToLeg } from '../store/currentLeg/actions';
 import { getFareFamiliesAvailability, getFareFamiliesPrices } from '../store/fareFamilies/selectors';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
+import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
+import { RootState } from '../store/reducers';
+import { FareFamiliesCombinationsState } from '../store/fareFamilies/fareFamiliesCombinations/reducers';
+import { SelectedFamiliesState } from '../store/fareFamilies/selectedFamilies/reducers';
+import { FareFamiliesPrices } from '../schemas/FareFamiliesPrices';
+import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
-	selectedFamilies: State.SelectedFamiliesState;
-	fareFamiliesPrices: State.FareFamiliesPricesState;
-	fareFamiliesAvailability: State.FareFamiliesAvailabilityState;
-	fareFamiliesCombinations: State.FareFamiliesCombinationsState;
+	isLoading: boolean;
+	isRT: boolean;
+	selectedFamilies: SelectedFamiliesState;
+	fareFamiliesPrices: FareFamiliesPrices;
+	fareFamiliesAvailability: FareFamiliesAvailability;
+	fareFamiliesCombinations: FareFamiliesCombinationsState;
 }
 
 interface DispatchProps {
-	selectFamily: SelectFamily;
-	searchFareFamilies: () => Action;
-	goToLeg: (legId: number) => LegAction;
-	goBack: () => LegAction;
+	selectFamily: typeof selectFamily;
+	goToLeg: typeof goToLeg;
+	goBack: typeof goBack;
 }
 
 type Props = StateProps & DispatchProps;
@@ -36,10 +42,6 @@ class FareFamilies extends React.Component<Props> {
 		super(props);
 
 		this.goBack = this.goBack.bind(this);
-	}
-
-	componentDidMount(): void {
-		this.props.searchFareFamilies();
 	}
 
 	goBack(): void {
@@ -54,37 +56,48 @@ class FareFamilies extends React.Component<Props> {
 			fareFamiliesAvailability,
 			goToLeg,
 			selectFamily,
-			fareFamiliesPrices
+			fareFamiliesPrices,
+			isLoading,
+			isRT
 		} = this.props;
 
-		return <section className="fareFamilies">
+		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
 			<SelectedFlights flights={selectedFlights} goToLeg={goToLeg}/>
 
-			<Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>
-
-			<div className="fareFamilies__legs">
-				{selectedFlights.map((flight, legId) => (
-					<Leg
-						key={flight.id}
-						id={legId}
-						flight={flight}
-						prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
-						selectedFamilies={selectedFamilies}
-						combinations={fareFamiliesCombinations[legId]}
-						availability={fareFamiliesAvailability[legId]}
-						selectFamily={selectFamily}
-					/>
-				))}
+			<div className="fareFamilies-loader">
+				<CircularProgress color="secondary" variant="indeterminate"/>
 			</div>
 
-			<Button variant="raised" onClick={this.goBack}>Назад</Button>
+			<div className="fareFamilies__inner">
+				{isRT ? null : <Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>}
+
+				<div className="fareFamilies__legs">
+					{selectedFlights.map((flight, legId) => (
+						<Leg
+							key={flight.id}
+							id={legId}
+							isRT={isRT}
+							flight={flight}
+							prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
+							selectedFamilies={selectedFamilies}
+							combinations={fareFamiliesCombinations[legId]}
+							availability={fareFamiliesAvailability[legId]}
+							selectFamily={selectFamily}
+						/>
+					))}
+				</div>
+
+				<Button variant="raised" onClick={this.goBack}>Назад</Button>
+			</div>
 		</section>;
 	}
 }
 
-const mapStateToProps = (state: State.ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedFlights: getSelectedFlights(state),
+		isLoading: isLoadingFareFamilies(state),
+		isRT: isRT(state),
 		fareFamiliesAvailability: getFareFamiliesAvailability(state),
 		fareFamiliesPrices: getFareFamiliesPrices(state),
 		fareFamiliesCombinations: state.fareFamilies.fareFamiliesCombinations,
@@ -94,7 +107,6 @@ const mapStateToProps = (state: State.ApplicationState): StateProps => {
 
 const mapDispatchToProps = {
 	selectFamily,
-	searchFareFamilies,
 	goToLeg,
 	goBack
 };

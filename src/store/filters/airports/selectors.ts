@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import Airport from '../../../schemas/Airport';
 import Flight from '../../../models/Flight';
-import { ApplicationState } from '../../../state';
+import { RootState } from '../../reducers';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import { getFlightsForCurrentLeg } from '../../flights/selectors';
 import { LocationType } from '../../../enums';
@@ -9,18 +9,18 @@ import { LocationType } from '../../../enums';
 /**
  * Get an array of departure airports codes used for filtering.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {string[]}
  */
-export const getFilteredDepartureAirports = (state: ApplicationState): string[] => state.filters.airports[LocationType.Departure];
+export const getFilteredDepartureAirports = (state: RootState): string[] => state.filters.airports[LocationType.Departure];
 
 /**
  * Get an array of arrival airports codes used for filtering.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {string[]}
  */
-export const getFilteredArrivalAirports = (state: ApplicationState): string[] => state.filters.airports[LocationType.Arrival];
+export const getFilteredArrivalAirports = (state: RootState): string[] => state.filters.airports[LocationType.Arrival];
 
 export const getSelectedDepartureAirportsList = createSelector([getFilteredDepartureAirports], getListOfSelectedCodes);
 export const getSelectedArrivalAirportsList = createSelector([getFilteredArrivalAirports], getListOfSelectedCodes);

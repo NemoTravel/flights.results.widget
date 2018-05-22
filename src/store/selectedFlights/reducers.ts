@@ -1,15 +1,17 @@
-import { SET_SELECTED_FLIGHT, SelectedFlightAction } from './actions';
-import { SelectedFlightsState } from '../../state';
+import { SelectedFlightAction, SET_SELECTED_FLIGHT } from './actions';
+import SelectedFlight from '../../schemas/SelectedFlight';
 
-const initialState: SelectedFlightsState = {};
+export interface SelectedFlightsState {
+	[legId: number]: SelectedFlight;
+}
 
-export const selectedFlightsReducer = (state: SelectedFlightsState = initialState, action: SelectedFlightAction): SelectedFlightsState => {
+export const selectedFlightsReducer = (state: SelectedFlightsState = {}, action: SelectedFlightAction): SelectedFlightsState => {
 	switch (action.type) {
 		case SET_SELECTED_FLIGHT:
-			const flightId = action.payload.flightId;
+			const flight = action.payload.flight;
 			const legId = action.payload.legId;
 
-			if (flightId === null) {
+			if (flight === null) {
 				const result: SelectedFlightsState = {};
 
 				for (const tmpLegId in state) {
@@ -23,7 +25,7 @@ export const selectedFlightsReducer = (state: SelectedFlightsState = initialStat
 			else {
 				return {
 					...state,
-					[legId]: flightId
+					[legId]: flight
 				};
 			}
 	}

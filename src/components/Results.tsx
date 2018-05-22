@@ -4,15 +4,18 @@ import Typography from 'material-ui/Typography';
 
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
 import FlightNumber from './Filters/FlightNumber';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
+import CircularProgress from 'material-ui/Progress/CircularProgress';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
+	isRT: boolean;
 	isLoading: boolean;
 	hasAnyFlights: boolean;
 	hasAnyVisibleFlights: boolean;
@@ -25,24 +28,33 @@ class Results extends React.Component<StateProps> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT } = this.props;
 
-		return hasAnyFlights ? <div className="results__inner-content">
-			<FlightNumber/>
+		if (isLoading) {
+			return <div className="results-loader">
+				<CircularProgress color="secondary" variant="indeterminate"/>
+			</div>;
+		}
 
-			<Filters currentLeg={currentLeg}/>
+		return hasAnyFlights ? <>
+			<div className="results__inner-content">
+				<FlightNumber/>
 
-			{hasAnyVisibleFlights ? <Sortings/> : ''}
+				<Filters currentLeg={currentLeg} isRT={isRT}/>
 
-			<div className="results__flights">
-				<FlightsList legId={currentLeg.id}/>
+				{hasAnyVisibleFlights ? <Sortings/> : ''}
+
+				<div className="results__flights">
+					<FlightsList legId={currentLeg.id}/>
+				</div>
 			</div>
-		</div> : this.renderNoFlights();
+		</> : this.renderNoFlights();
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
+		isRT: isRT(state),
 		isLoading: state.isLoading,
 		hasAnyFlights: hasAnyFlights(state),
 		hasAnyVisibleFlights: hasAnyVisibleFlights(state),

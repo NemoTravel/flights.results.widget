@@ -1,19 +1,19 @@
 @import "variable";
 
 .flight {
+	min-height: 74px;
 	border-top: 1px solid #d7d7d7;
+	background-color: #ffffff;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 
 	&_hidden {
 		display: none;
 	}
 
 	&_open {
-		border-top: none;
 		margin: 15px 0;
-
-		.flight__shadow {
-			border-radius: 2px;
-		}
+		border-top: none;
+		border-radius: 2px;
 
 		.flight-summary {
 			border-top-left-radius: 2px;
@@ -29,22 +29,19 @@
 		border-top: none;
 		margin-top: 0;
 
-		.flight__shadow, .flight-summary {
+		&,
+		.flight-summary {
 			border-top-left-radius: 2px;
 			border-top-right-radius: 2px;
 		}
 	}
 
 	&:last-of-type {
-		.flight__shadow, .flight-summary {
+		&,
+		.flight-summary {
 			border-bottom-left-radius: 2px;
 			border-bottom-right-radius: 2px;
 		}
-	}
-
-	&__shadow {
-		background-color: #ffffff;
-		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 	}
 
 	&-summary {
@@ -61,12 +58,15 @@
 		&:hover {
 			background: #fcfcfc;
 
-			.flight-summary-stage-routeInfo__flightTime, .flight-details-segment-stage-routeInfo__flightTime {
+			.flight-summary-stage-routeInfo__flightTime,
+			.flight-details-segment-stage-routeInfo__flightTime {
 				background: #fcfcfc;
 			}
 		}
 
-		&__left, &__middle, &__right {
+		&__left,
+		&__middle,
+		&__right {
 			display: flex;
 			align-items: center;
 		}
@@ -126,6 +126,7 @@
 
 			display: flex;
 			justify-content: center;
+			user-select: none;
 
 			&__image {
 				max-width: 70px;
@@ -150,7 +151,7 @@
 				padding-right: 15px;
 			}
 		}
-		
+
 		&-stage {
 			width: 65px;
 			text-align: center;
@@ -184,7 +185,7 @@
 					border-bottom: 1px solid #d0d0d0;
 
 					&:after {
-						content: '';
+						content: "";
 						position: absolute;
 						height: 4px;
 						width: 4px;
@@ -203,7 +204,7 @@
 					line-height: 20px;
 					font-size: 11px;
 
-					background: #fff;
+					background: #ffffff;
 					transition: background-color 0.15s;
 				}
 			}
@@ -217,10 +218,23 @@
 			margin-right: 24px;
 			color: $light-font-color;
 
+			&-profitMark {
+				color: rgb(120, 174, 53);
+				position: relative;
+
+				&__icon {
+					position: absolute;
+					top: -4px;
+					left: -25px;
+					width: 21px !important;
+				}
+			}
+
 			&__amount {
 				display: flex;
 				align-items: flex-end;
 				justify-content: flex-end;
+				flex-wrap: wrap;
 
 				&-prefix {
 					position: relative;
@@ -228,17 +242,31 @@
 				}
 
 				.price {
+					text-align: right;
 					color: $common-font-color;
 					font-size: 1.5rem;
 					margin-left: 5px !important;
 
 					&-currency {
-						font-size: 15px;
+						font-size: 18px;
 						font-weight: 400;
 						margin-left: 5px;
 						color: $light-font-color;
 					}
 				}
+
+				&_profitable {
+					.price {
+						&-amount,
+						&-currency {
+							color: #78ae35;
+						}
+					}
+				}
+			}
+
+			&__route {
+				text-align: right;
 			}
 		}
 
@@ -254,7 +282,7 @@
 			width: 100px;
 			text-align: center;
 
-			color: #fff;
+			color: #ffffff;
 			background-color: #88c43d;
 			box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
 			transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -266,7 +294,7 @@
 
 			&:active {
 				background: #94ca51;
-				box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+				box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 			}
 		}
 	}
@@ -305,6 +333,10 @@
 
 				&__image {
 					@extend .flight-summary-logo__image;
+				}
+
+				&__text {
+					@extend .flight-summary-logo__text;
 				}
 			}
 
@@ -370,9 +402,21 @@
 					margin-left: 0;
 				}
 			}
+		}
+
+		&-filter {
+			display: inline-block;
 
 			&-chip {
 				margin-right: 10px;
+			}
+
+			&_active &-chip {
+				&:not(focus),
+				&:focus {
+					background-color: #64b5f6;
+					color: #ffffff;
+				}
 			}
 		}
 	}

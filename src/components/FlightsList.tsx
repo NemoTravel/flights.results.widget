@@ -4,15 +4,16 @@ import Typography from 'material-ui/Typography';
 
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
-import { ApplicationState } from '../state';
-import { Action } from 'redux';
+import { RootState } from '../store/reducers';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { FlightsReplacement, getRelativePrices, getVisibleFlights } from '../store/selectors';
-import { showAllIsVisible } from '../store/showAllFlights/selectors';
+import { getRelativePrices, getVisibleFlights } from '../store/selectors';
+import { hasHiddenFlights } from '../store/selectors';
 import Button from 'material-ui/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
 import { SnackbarProps, withSnackbar } from './Snackbar';
+import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';
+import { isRT } from '../store/legs/selectors';
 
 export interface OwnProps {
 	legId: number;
@@ -24,12 +25,13 @@ interface StateProps {
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
 	isLastLeg: boolean;
-	showAllIsVisible: boolean;
+	isRT: boolean;
+	hasHiddenFlights: boolean;
 }
 
 interface DispatchProps {
-	selectFlight: (flightId: number, legId: number) => SelectedFlightAction;
-	showAllFlights: () => Action;
+	selectFlight: typeof selectFlight;
+	showAllFlights: typeof showAllFlights;
 }
 
 type Props = OwnProps & StateProps & DispatchProps & SnackbarProps;
@@ -42,12 +44,22 @@ class FlightsList extends React.Component<Props> {
 		this.showAll = this.showAll.bind(this);
 	}
 
-	selectFlight(flightId: number, legId: number): void {
-		this.props.selectFlight(flightId, legId);
-
-		if (!this.props.isLastLeg) {
+	selectFlight(flight: SelectedFlight, legId: number): SelectedFlightAction {
+		if (this.props.isRT && legId === 0) {
+			this.props.showSnackbar('Выберите рейс обратно');
+		}
+		else if (!this.props.isLastLeg) {
 			this.props.showSnackbar('Выберите рейс на следующее направление');
 		}
+
+		setTimeout(() => {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}, 0);
+
+		return this.props.selectFlight(flight, legId);
 	}
 
 	showAll(): void {
@@ -55,7 +67,7 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { legId, prices, showAllIsVisible } = this.props;
+		const { legId, prices, hasHiddenFlights } = this.props;
 
 		return this.props.flights.length ?
 			<>
@@ -70,7 +82,7 @@ class FlightsList extends React.Component<Props> {
 					/>
 				))}
 
-				{showAllIsVisible ? <div className="results__flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
+				{hasHiddenFlights ? <div className="results__flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
 			</> :
 			(
 				<Typography variant="headline">Нет результатов.</Typography>
@@ -78,7 +90,7 @@ class FlightsList extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps & StateProps => {
+const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & StateProps => {
 	return {
 		...ownProps,
 		prices: getRelativePrices(state),
@@ -86,7 +98,8 @@ const mapStateToProps = (state: ApplicationState, ownProps: OwnProps): OwnProps 
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),
 		isLastLeg: isLastLeg(state),
-		showAllIsVisible: showAllIsVisible(state)
+		isRT: isRT(state),
+		hasHiddenFlights: hasHiddenFlights(state)
 	};
 };
 

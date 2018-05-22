@@ -1,16 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
-import { CircularProgress } from 'material-ui/Progress';
-import { SearchInfo } from '@nemo.travel/search-widget';
 import { HashRouter as Router, Route } from 'react-router-dom';
 
 import Results from './Results';
 import FareFamilies from './FareFamilies';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import Toolbar from './Toolbar';
-import { SearchAction, startSearch } from '../store/actions';
+import {  startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
 
@@ -20,7 +18,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	startSearch: (searchInfo: SearchInfo) => SearchAction;
+	startSearch: typeof startSearch;
 }
 
 class Main extends React.Component<StateProps & DispatchProps> {
@@ -34,10 +32,6 @@ class Main extends React.Component<StateProps & DispatchProps> {
 
 					<Route path="/results" render={() => (
 						<div className="results__inner">
-							<div className="results-loader">
-								<CircularProgress color="secondary" variant="indeterminate"/>
-							</div>
-
 							{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
 
 							<Toolbar/>
@@ -51,7 +45,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		isLoading: state.isLoading,
 		isSelectionComplete: isSelectionComplete(state)

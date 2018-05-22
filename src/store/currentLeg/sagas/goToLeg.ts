@@ -1,6 +1,6 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { GO_TO_LEG, LegAction, setLeg } from '../actions';
-import { ApplicationState } from '../../../state';
+import { RootState } from '../../reducers';
 import { setCombinations } from '../../fareFamilies/fareFamiliesCombinations/actions';
 import { remoteAllFilters } from '../../filters/actions';
 import { setSelectedFlight } from '../../selectedFlights/actions';
@@ -10,7 +10,7 @@ function* worker({ payload: newLegId }: LegAction) {
 	yield put(remoteAllFilters());
 	yield put(setSelectedFlight(null, newLegId));
 
-	const state: ApplicationState = yield select();
+	const state: RootState = yield select();
 	const selectedFlights = state.selectedFlights;
 
 	for (const legId in selectedFlights) {

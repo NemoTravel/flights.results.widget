@@ -4,16 +4,18 @@ import Button from 'material-ui/Button';
 
 import Price from './Price';
 import Leg from '../schemas/Leg';
-import { ApplicationState } from '../state';
+import { RootState } from '../store/reducers';
 import LegComponent from './Toolbar/Leg';
 import OptionsLegComponent from './Toolbar/OptionsLeg';
 import Money from '../schemas/Money';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
-import { goToLeg, LegAction } from '../store/currentLeg/actions';
+import { goToLeg } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/fareFamilies/selectors';
 import Tooltip from 'material-ui/Tooltip';
 import { getTotalPrice } from '../store/selectors';
 import { hasAnyFlights } from '../store/flights/selectors';
+import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
 	totalPrice: Money;
@@ -21,11 +23,13 @@ interface StateProps {
 	currentLeg: number;
 	combinationsAreValid: boolean;
 	legs: Leg[];
+	isRT: boolean;
+	isLoadingFareFamilies: boolean;
 	hasAnyFlights: boolean;
 }
 
 interface DispatchProps {
-	goToLeg: (legId: number) => LegAction;
+	goToLeg: typeof goToLeg;
 }
 
 type Props = StateProps & DispatchProps;
@@ -42,12 +46,13 @@ class Toolbar extends React.Component<Props> {
 			nextProps.hasAnyFlights !== this.props.hasAnyFlights ||
 			nextProps.legs !== this.props.legs ||
 			nextProps.isSelectionComplete !== this.props.isSelectionComplete ||
+			nextProps.isLoadingFareFamilies !== this.props.isLoadingFareFamilies ||
 			nextProps.combinationsAreValid !== this.props.combinationsAreValid ||
 			nextProps.totalPrice.amount !== this.props.totalPrice.amount;
 	}
 
 	renderLeg(leg: Leg): React.ReactNode {
-		const { currentLeg, isSelectionComplete } = this.props;
+		const { currentLeg, isSelectionComplete, isRT } = this.props;
 		const isDisabled = leg.id > currentLeg;
 		const isSelected = !isSelectionComplete && leg.id === currentLeg;
 
@@ -57,7 +62,7 @@ class Toolbar extends React.Component<Props> {
 			goToLeg={this.props.goToLeg}
 			isDisabled={isDisabled}
 			isSelected={isSelected}
-			isReverse={false}
+			isReverse={leg.id === 1 && isRT}
 		/>;
 	}
 
@@ -78,7 +83,7 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { isSelectionComplete, combinationsAreValid, hasAnyFlights } = this.props;
+		const { isSelectionComplete, combinationsAreValid, hasAnyFlights, isLoadingFareFamilies } = this.props;
 
 		return hasAnyFlights ? <section className="toolbar">
 			<div className="toolbar__inner">
@@ -91,28 +96,32 @@ class Toolbar extends React.Component<Props> {
 					/>
 				</div>
 
-				<div className="toolbar-totalPrice">
-					{this.renderPrice()}
+				{!isSelectionComplete || !isLoadingFareFamilies ? (
+					<div className="toolbar-totalPrice">
+						{this.renderPrice()}
 
-					{isSelectionComplete ? (
-						<div className="toolbar-totalPrice__button">
-							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title="Недоступная комбинация">
-								<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
-									Купить
-								</Button>
-							</Tooltip>
-						</div>
-					) : ''}
-				</div>
+						{isSelectionComplete ? (
+							<div className="toolbar-totalPrice__button">
+								<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title="Недоступная комбинация">
+									<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
+										Продолжить
+									</Button>
+								</Tooltip>
+							</div>
+						) : ''}
+					</div>
+				) : null}
 			</div>
 		</section> : null;
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		totalPrice: getTotalPrice(state),
 		legs: state.legs,
+		isRT: isRT(state),
+		isLoadingFareFamilies: isLoadingFareFamilies(state),
 		currentLeg: state.currentLeg,
 		hasAnyFlights: hasAnyFlights(state),
 		combinationsAreValid: combinationsAreValid(state),

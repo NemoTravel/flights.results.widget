@@ -9,20 +9,25 @@ import Leg from '../schemas/Leg';
 
 interface Props {
 	currentLeg: Leg;
+	isRT: boolean;
 }
 
 class Filters extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.currentLeg !== nextProps.currentLeg;
+		return this.props.currentLeg !== nextProps.currentLeg || this.props.isRT !== nextProps.isRT;
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg } = this.props;
+		const { currentLeg, isRT } = this.props;
 
 		return <section className="filters">
 			<div className="filters__left">
 				<Typography variant="headline">
-					Выберите рейс {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}
+					{isRT ? (
+						<span>Выберите рейс {currentLeg.id === 0 ? 'туда' : 'обратно'}</span>
+					) : (
+						<span>Выберите рейс {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}</span>
+					)}
 				</Typography>
 			</div>
 

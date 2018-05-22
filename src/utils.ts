@@ -1,12 +1,15 @@
 import { Language } from './enums';
 import * as moment from 'moment';
 import Date from './schemas/Date';
+import RequestInfo from './schemas/RequestInfo';
+import Leg from './schemas/Leg';
 
 export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
 export const ISO_DATE_LENGTH = 19;
 export const MAX_VISIBLE_FLIGHTS = 15;
+export const NUM_OF_RT_SEGMENTS = 2;
 
 const lastSingleNumber = 9;
 
@@ -90,4 +93,44 @@ export const declension = (word: string, language = Language.Russian): string =>
 	}
 
 	return word;
+};
+
+export const pluralize = (number: number, ...variations: string[]): string => {
+	let result = '';
+	const lastLetterIndex = number.toString().length - 1;
+	const lastLetter = number.toString()[lastLetterIndex];
+
+	switch (lastLetter) {
+		case '0':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+			result = variations[2];
+			break;
+
+		case '1':
+			result = number === 11 ? variations[2] : variations[0];
+			break;
+
+		case '2':
+		case '3':
+		case '4':
+			result = number > 11 && number < 14 ? variations[2] : variations[1];
+			break;
+	}
+
+	return result;
+};
+
+export const createLegs = (requests: RequestInfo[]): Leg[] => {
+	return requests.map((requestInfo, index) => {
+		return {
+			id: index,
+			departure: requestInfo.segments[0].departure,
+			arrival: requestInfo.segments[0].arrival,
+			date: requestInfo.segments[0].departureDate
+		};
+	});
 };

@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import ArrowDown from 'material-ui-icons/ArrowDownward';
+
+import { setSorting } from '../store/sorting/actions';
 import { SortingDirection, SortingType } from '../enums';
 
 interface Props {
 	isActive?: boolean;
 	direction?: SortingDirection;
 	type: SortingType;
-	setSorting: (type: SortingType, direction: SortingDirection) => void;
+	setSorting: typeof setSorting;
 }
 
 const sortingLabels = {

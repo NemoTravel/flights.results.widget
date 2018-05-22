@@ -1,16 +1,18 @@
 import { getFlightsIdsByLegs } from '../filters/selectors';
 import { createSelector } from 'reselect';
 import Flight from '../../models/Flight';
-import { ApplicationState, FlightsByLegsState, FlightsState } from '../../state';
+import { FlightsState } from './reducers';
 import { getCurrentLegId } from '../currentLeg/selectors';
+import { RootState } from '../reducers';
+import { FlightsByLegsState } from '../flightsByLegs/reducers';
 
 /**
  * Get list of flights grouped by flight id.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {FlightsState}
  */
-export const getAllFlights = (state: ApplicationState): FlightsState => state.flights;
+export const getAllFlights = (state: RootState): FlightsState => state.flights;
 
 /**
  * Check if there are any loaded flights.
@@ -23,7 +25,7 @@ export const hasAnyFlights = createSelector(
 /**
  * Get an array of all flights on the current selected leg.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {Flight[]}
  */
 export const getFlightsForCurrentLeg = createSelector(

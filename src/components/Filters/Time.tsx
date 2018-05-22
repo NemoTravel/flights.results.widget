@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import TimeColumn from './Time/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as FilterState } from './WithPopover';
-import { ApplicationState } from '../../state';
-import { Action } from 'redux';
+import { RootState } from '../../store/reducers';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import { FilterTimeAction, addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
+import { addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/filters/time/selectors';
 import { FlightTimeInterval, LocationType } from '../../enums';
 
@@ -28,9 +27,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	addTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
-	removeTimeInterval: (time: FlightTimeInterval, type: LocationType) => FilterTimeAction;
-	removeAllTimeIntervals: () => Action;
+	addTimeInterval: typeof addTimeInterval;
+	removeTimeInterval: typeof removeTimeInterval;
+	removeAllTimeIntervals: typeof removeAllTimeIntervals;
 }
 
 type Props = StateProps & DispatchProps;
@@ -136,7 +135,7 @@ class Time extends WithPopover<Props, FilterState> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedDepartureTimeIntervals: getSelectedDepartureTimeIntervals(state),
 		selectedArrivalTimeIntervals: getSelectedArrivalTimeIntervals(state)

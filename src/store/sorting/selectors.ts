@@ -1,8 +1,16 @@
-import { ApplicationState, SortingState } from '../../state';
+import { SortingState } from './reducers';
 import Flight from '../../models/Flight';
 import SegmentModel from '../../schemas/Segment';
-import { FlightsReplacement, PricesByFlights } from '../selectors';
-import { SortingDirection } from '../../enums';
+import { PricesByFlights } from '../selectors';
+import { SortingDirection, SortingType } from '../../enums';
+import { FlightsReplacement } from '../../schemas/SelectedFlight';
+import { RootState } from '../reducers';
+
+type SortingFunction = (a: Flight, b: Flight, direction: SortingDirection, prices?: FlightsReplacement) => number;
+
+export interface SortingFunctionsMap {
+	[type: string]: SortingFunction;
+}
 
 /**
  * Compare two objects considering the sorting direction.
@@ -35,10 +43,10 @@ export const getTotalFlightTime = (flight: Flight): number => {
 /**
  * Current active sorting.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {SortingState}
  */
-export const getCurrentSorting = (state: ApplicationState): SortingState => state.sorting;
+export const getCurrentSorting = (state: RootState): SortingState => state.sorting;
 
 /**
  * Compare two flights by total price.
@@ -50,8 +58,8 @@ export const getCurrentSorting = (state: ApplicationState): SortingState => stat
  * @returns {number}
  */
 export const priceCompareFunction = (a: Flight, b: Flight, direction: SortingDirection, prices: FlightsReplacement): number => {
-	const aPrice = prices.hasOwnProperty(a.id) ? Math.abs(prices[a.id].price.amount) : a.totalPrice.amount;
-	const bPrice = prices.hasOwnProperty(b.id) ? Math.abs(prices[b.id].price.amount) : b.totalPrice.amount;
+	const aPrice = prices.hasOwnProperty(a.id) ? prices[a.id].price.amount : a.totalPrice.amount;
+	const bPrice = prices.hasOwnProperty(b.id) ? prices[b.id].price.amount : b.totalPrice.amount;
 
 	return compare(aPrice, bPrice, direction);
 };
@@ -99,4 +107,11 @@ export const flightTimeCompareFunction = (a: Flight, b: Flight, direction: Sorti
 	const bTime = getTotalFlightTime(b);
 
 	return compare(aTime, bTime, direction);
+};
+
+export const sortingFunctionsMap: SortingFunctionsMap = {
+	[SortingType.Price]: priceCompareFunction,
+	[SortingType.FlightTime]: flightTimeCompareFunction,
+	[SortingType.DepartureTime]: departureTimeCompareFunction,
+	[SortingType.ArrivalTime]: arrivalTimeCompareFunction
 };

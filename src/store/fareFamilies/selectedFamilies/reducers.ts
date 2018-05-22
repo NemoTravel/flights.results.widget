@@ -1,5 +1,9 @@
-import { SelectedFamiliesSegmentCombination, SelectedFamiliesState } from '../../../state';
 import { SELECT_FAMILY, SelectedFamiliesAction } from './actions';
+import { SelectedFamiliesSegmentCombination } from '../../../schemas/SelectedFamiliesSegmentCombination';
+
+export interface SelectedFamiliesState {
+	[legId: number]: SelectedFamiliesSegmentCombination;
+}
 
 const selectedFamiliesSegmentCombinationReducer = (state: SelectedFamiliesSegmentCombination, action: SelectedFamiliesAction): SelectedFamiliesSegmentCombination => {
 	return {

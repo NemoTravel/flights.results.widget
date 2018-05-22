@@ -1,30 +1,31 @@
 import { Action } from 'redux';
+import SelectedFlight from '../../schemas/SelectedFlight';
 
 export const SET_SELECTED_FLIGHT = 'SET_SELECTED_FLIGHT';
 export const SELECT_FLIGHT = 'SELECT_FLIGHT';
 
 export interface SelectedFlightAction extends Action {
 	payload: {
-		flightId: number;
+		flight: SelectedFlight;
 		legId: number;
 	};
 }
 
-export const setSelectedFlight = (flightId: number, legId: number): SelectedFlightAction => {
+export const setSelectedFlight = (flight: SelectedFlight, legId: number): SelectedFlightAction => {
 	return {
 		type: SET_SELECTED_FLIGHT,
 		payload: {
-			flightId,
+			flight,
 			legId
 		}
 	};
 };
 
-export const selectFlight = (flightId: number, legId: number): SelectedFlightAction => {
+export const selectFlight = (flight: SelectedFlight, legId: number): SelectedFlightAction => {
 	return {
 		type: SELECT_FLIGHT,
 		payload: {
-			flightId,
+			flight,
 			legId
 		}
 	};

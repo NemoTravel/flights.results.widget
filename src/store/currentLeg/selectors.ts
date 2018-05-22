@@ -1,22 +1,15 @@
-import { ApplicationState } from '../../state';
+import { RootState } from '../reducers';
 import { createSelector } from 'reselect';
 import Leg from '../../schemas/Leg';
+import { getLegs } from '../legs/selectors';
 
 /**
  * Get current leg id.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {number}
  */
-export const getCurrentLegId = (state: ApplicationState): number => state.currentLeg;
-
-/**
- * Get all search legs.
- *
- * @param {ApplicationState} state
- * @returns {Leg[]}
- */
-export const getLegs = (state: ApplicationState): Leg[] => state.legs;
+export const getCurrentLegId = (state: RootState): number => state.currentLeg;
 
 /**
  * Get current active leg.

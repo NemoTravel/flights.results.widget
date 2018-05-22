@@ -3,11 +3,25 @@ import { SELECT_FLIGHT, SelectedFlightAction, setSelectedFlight } from '../actio
 import { nextLeg } from '../../currentLeg/actions';
 import { isLastLeg } from '../../currentLeg/selectors';
 import { remoteAllFilters } from '../../filters/actions';
+import { searchFareFamilies } from '../../actions';
+import { RootState } from '../../reducers';
 
 function* worker({ payload }: SelectedFlightAction) {
 	const isComplete: boolean = yield select(isLastLeg);
+	const state: RootState = yield select();
+	const numOfLegs = state.legs.length;
 
-	yield put(setSelectedFlight(payload.flightId, payload.legId));
+	if (payload.flight.isRT) {
+		// When selecting RT flight, we must replace all previous selected flights with the new one.
+		for (let i = 0; i < numOfLegs; i++) {
+			yield put(setSelectedFlight(payload.flight, i));
+			yield put(searchFareFamilies(payload.flight.newFlightId, i));
+		}
+	}
+	else {
+		yield put(setSelectedFlight(payload.flight, payload.legId));
+		yield put(searchFareFamilies(payload.flight.newFlightId, payload.legId));
+	}
 
 	if (!isComplete) {
 		yield put(nextLeg());

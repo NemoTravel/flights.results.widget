@@ -1,12 +1,13 @@
 import * as React from 'react';
 import CheckboxComponent from 'material-ui/Checkbox';
 import FormControlLabel from 'material-ui/Form/FormControlLabel';
+import { CheckboxChangeHandler } from '../../schemas/CheckboxHandler';
 
 interface Props {
 	label: string;
 	checked: boolean;
 	value: string;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+	onChange: CheckboxChangeHandler;
 }
 
 class Checkbox extends React.Component<Props> {

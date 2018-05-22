@@ -3,14 +3,14 @@ import * as classnames from 'classnames';
 import FlightTakeOffIcon from 'material-ui-icons/FlightTakeoff';
 
 import LegModel from '../../schemas/Leg';
-import { LegAction } from '../../store/currentLeg/actions';
+import { goToLeg } from '../../store/currentLeg/actions';
 
 interface Props {
 	isDisabled: boolean;
 	isSelected: boolean;
 	leg?: LegModel;
 	isReverse?: boolean;
-	goToLeg?: (legId: number) => LegAction;
+	goToLeg?: typeof goToLeg;
 }
 
 class Leg extends React.Component<Props> {
@@ -36,6 +36,13 @@ class Leg extends React.Component<Props> {
 
 		if (!isDisabled && !isSelected) {
 			this.props.goToLeg(leg.id);
+
+			setTimeout(() => {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth'
+				});
+			}, 0);
 		}
 	}
 

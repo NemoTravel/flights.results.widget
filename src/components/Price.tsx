@@ -9,12 +9,13 @@ interface Props {
 
 const THOUSANDS_INDEX = 3;
 
-export default ({ price, withPlus = false, withMinus = false }: Props) => {
+export default ({ price, withPlus = false }: Props) => {
 	if (!price) {
 		return null;
 	}
 
 	const amount = price.amount.toString().replace(/[+\-]/, '');
+	const withMinus = price.amount < 0;
 	let result = amount;
 
 	if (amount.length > THOUSANDS_INDEX) {
@@ -25,7 +26,7 @@ export default ({ price, withPlus = false, withMinus = false }: Props) => {
 	}
 
 	return <span className="price">
-		<span className="price-amount">{withPlus ? '+' : ''}{withMinus ? '-' : ''} {result}</span>
-		<span className="price-currency">{price.currency}</span>
+		<span className="price-amount">{withPlus && price.amount >= 0 ? '+' : ''}{withMinus ? '–' : ''} {result}</span>
+		<span className="price-currency">₽</span>
 	</span>;
 };

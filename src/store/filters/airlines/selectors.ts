@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { ApplicationState } from '../../../state';
+import { RootState } from '../../reducers';
 import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
 import Airline from '../../../schemas/Airline';
 import Flight from '../../../models/Flight';
@@ -8,10 +8,10 @@ import { getFlightsForCurrentLeg } from '../../flights/selectors';
 /**
  * Get an array of airlines codes used for filtering.
  *
- * @param {ApplicationState} state
+ * @param {RootState} state
  * @returns {string[]}
  */
-export const getFilteredAirlines = (state: ApplicationState): string[] => state.filters.airlines;
+export const getFilteredAirlines = (state: RootState): string[] => state.filters.airlines;
 
 export const getSelectedAirlinesList = createSelector([getFilteredAirlines], getListOfSelectedCodes);
 

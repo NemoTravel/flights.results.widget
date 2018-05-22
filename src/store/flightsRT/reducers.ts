@@ -1,6 +1,10 @@
-import { FlightsRTState } from '../../state';
 import { ADD_FLIGHTS_RT } from './actions';
 import { FlightsAction } from '../flights/actions';
+import Flight from '../../models/Flight';
+
+export interface FlightsRTState {
+	[flightUID: string]: Flight;
+}
 
 export const flightsRTReducer = (state: FlightsRTState = {}, action: FlightsAction): FlightsRTState => {
 	switch (action.type) {

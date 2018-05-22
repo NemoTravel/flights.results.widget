@@ -1,5 +1,8 @@
 import { SET_FLIGHTS_BY_LEGS, SetFlightsAction } from './actions';
-import { FlightsByLegsState } from '../../state';
+
+export interface FlightsByLegsState {
+	[legId: number]: number[];
+}
 
 export const flightsByLegsReducer = (state: FlightsByLegsState = {}, action: SetFlightsAction): FlightsByLegsState => {
 	switch (action.type) {

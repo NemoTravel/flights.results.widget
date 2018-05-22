@@ -1,6 +1,10 @@
-import { SortingState } from '../../state';
 import { SET_SORTING, SortingAction } from './actions';
 import { SortingDirection, SortingType } from '../../enums';
+
+export interface SortingState {
+	type: SortingType;
+	direction: SortingDirection;
+}
 
 const initialState: SortingState = {
 	type: SortingType.Price,

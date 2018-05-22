@@ -7,21 +7,11 @@ import FormLabel from 'material-ui/Form/FormLabel';
 import Checkbox from './Checkbox';
 import Airline from '../../schemas/Airline';
 import { Type as FilterType } from '../Filter';
-import { Action } from 'redux';
 import WithPopover, { State as WithPopoverState } from './WithPopover';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
-import { ApplicationState } from '../../state';
-import {
-	FilterAirlinesAction,
-	addAirline,
-	removeAirline,
-	removeAllAirlines
-} from '../../store/filters/airlines/actions';
-import {
-	getAllAirlines,
-	getSelectedAirlinesList,
-	getSelectedAirlinesObjects
-} from '../../store/filters/airlines/selectors';
+import { RootState } from '../../store/reducers';
+import { addAirline, removeAirline, removeAllAirlines } from '../../store/filters/airlines/actions';
+import { getAllAirlines, getSelectedAirlinesList, getSelectedAirlinesObjects } from '../../store/filters/airlines/selectors';
 
 interface StateProps {
 	airlines: Airline[];
@@ -30,9 +20,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	addAirline: (IATA: string) => FilterAirlinesAction;
-	removeAirline: (IATA: string) => FilterAirlinesAction;
-	removeAllAirlines: () => Action;
+	addAirline: typeof addAirline;
+	removeAirline: typeof removeAirline;
+	removeAllAirlines: typeof removeAllAirlines;
 }
 
 type Props = StateProps & DispatchProps;
@@ -105,7 +95,7 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 	}
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		airlines: getAllAirlines(state),
 		selectedAirlines: getSelectedAirlinesList(state),
