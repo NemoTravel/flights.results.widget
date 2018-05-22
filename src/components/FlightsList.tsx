@@ -82,7 +82,7 @@ class FlightsList extends React.Component<Props> {
 					/>
 				))}
 
-				{hasHiddenFlights ? <div className="results__flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
+				{hasHiddenFlights ? <div className="results-flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
 			</> :
 			(
 				<Typography variant="headline">Нет результатов.</Typography>

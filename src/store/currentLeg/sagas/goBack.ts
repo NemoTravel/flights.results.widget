@@ -2,6 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects';
 import { RootState } from '../../reducers';
 import { isSelectionComplete } from '../../selectedFlights/selectors';
 import { GO_BACK, goToLeg } from '../actions';
+import { hideFlights } from '../../showAllFlights/actions';
 
 function* worker() {
 	const state: RootState = yield select();
@@ -13,6 +14,7 @@ function* worker() {
 		newLegId = currentLeg;
 	}
 
+	yield put(hideFlights());
 	yield put(goToLeg(newLegId));
 }
 

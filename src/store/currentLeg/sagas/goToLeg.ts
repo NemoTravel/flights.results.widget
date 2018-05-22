@@ -4,6 +4,7 @@ import { RootState } from '../../reducers';
 import { setCombinations } from '../../fareFamilies/fareFamiliesCombinations/actions';
 import { remoteAllFilters } from '../../filters/actions';
 import { setSelectedFlight } from '../../selectedFlights/actions';
+import { hideFlights } from '../../showAllFlights/actions';
 
 function* worker({ payload: newLegId }: LegAction) {
 	yield put(setLeg(newLegId));
@@ -21,6 +22,8 @@ function* worker({ payload: newLegId }: LegAction) {
 			yield put(setCombinations(numberedLegId, null));
 		}
 	}
+
+	yield put(hideFlights());
 }
 
 export default function* goToLegSaga() {

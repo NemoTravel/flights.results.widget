@@ -5,6 +5,7 @@ import { isLastLeg } from '../../currentLeg/selectors';
 import { remoteAllFilters } from '../../filters/actions';
 import { searchFareFamilies } from '../../actions';
 import { RootState } from '../../reducers';
+import { hideFlights } from '../../showAllFlights/actions';
 
 function* worker({ payload }: SelectedFlightAction) {
 	const isComplete: boolean = yield select(isLastLeg);
@@ -27,6 +28,7 @@ function* worker({ payload }: SelectedFlightAction) {
 		yield put(nextLeg());
 	}
 
+	yield put(hideFlights());
 	yield put(remoteAllFilters());
 }
 
