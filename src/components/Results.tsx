@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import Typography from 'material-ui/Typography';
 import CircularProgress from 'material-ui/Progress/CircularProgress';
 
@@ -12,9 +13,10 @@ import Sortings from './Sortings';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 import { isRT } from '../store/legs/selectors';
-import FlightModel from '../models/Flight';
+import SelectedFlights from './SelectedFlights';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
-import Flight from './Flight';
+import { getIsLoading } from '../store/isLoading/selectors';
+import FlightModel from '../models/Flight';
 
 interface StateProps {
 	isRT: boolean;
@@ -41,19 +43,7 @@ class Results extends React.Component<StateProps> {
 
 		return hasAnyFlights ? <>
 			<div className="results__inner-content">
-				{selectedFlights.length ? (
-					<div className="results-selectedFlights">
-						<div className="results-selectedFlights__title">
-							<Typography variant="headline">Выбранные перелеты</Typography>
-						</div>
-
-						<div className="results-selectedFlights__list">
-							{selectedFlights.map(flight => (
-								<Flight key={flight.id} flight={flight}/>
-							))}
-						</div>
-					</div>
-				) : null}
+				<SelectedFlights selectedFlights={selectedFlights}/>
 
 				<Filters currentLeg={currentLeg} isRT={isRT}/>
 
@@ -67,15 +57,11 @@ class Results extends React.Component<StateProps> {
 	}
 }
 
-const mapStateToProps = (state: RootState): StateProps => {
-	return {
-		isRT: isRT(state),
-		isLoading: state.isLoading,
-		hasAnyFlights: hasAnyFlights(state),
-		hasAnyVisibleFlights: hasAnyVisibleFlights(state),
-		currentLeg: getCurrentLeg(state),
-		selectedFlights: getSelectedFlights(state)
-	};
-};
-
-export default connect(mapStateToProps)(Results);
+export default connect(createStructuredSelector<RootState, StateProps>({
+	isRT: isRT,
+	isLoading: getIsLoading,
+	hasAnyFlights: hasAnyFlights,
+	hasAnyVisibleFlights: hasAnyVisibleFlights,
+	currentLeg: getCurrentLeg,
+	selectedFlights: getSelectedFlights
+}))(Results);
