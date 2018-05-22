@@ -324,7 +324,7 @@ export const getVisibleFlights = createSelector(
 				return false;
 			}
 
-			if (flightNumber && flight.uid.toLowerCase().indexOf(flightNumber.toLowerCase()) === -1) {
+			if (flightNumber && flight.searchIndex.indexOf(flightNumber.toLowerCase()) === -1) {
 				return false;
 			}
 
