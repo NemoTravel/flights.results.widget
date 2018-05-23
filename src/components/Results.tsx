@@ -8,12 +8,11 @@ import { RootState } from '../store/reducers';
 import FlightsList from './FlightsList';
 import { hasAnyFlights } from '../store/flights/selectors';
 import Sortings from './Sortings';
-import FlightNumber from './Filters/FlightNumber';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 import CircularProgress from 'material-ui/Progress/CircularProgress';
 import { isRT } from '../store/legs/selectors';
-import { flightNumberIsActive } from '../store/filters/flightNumber/selectors';
+import { flightSearchIsActive } from '../store/filters/flightSearch/selectors';
 
 interface StateProps {
 	isRT: boolean;
@@ -21,7 +20,7 @@ interface StateProps {
 	hasAnyFlights: boolean;
 	hasAnyVisibleFlights: boolean;
 	currentLeg: Leg;
-	flightNumberActive: boolean;
+	flightSearchActive: boolean;
 }
 
 class Results extends React.Component<StateProps> {
@@ -30,7 +29,7 @@ class Results extends React.Component<StateProps> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT, flightNumberActive } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT, flightSearchActive } = this.props;
 
 		if (isLoading) {
 			return <div className="results-loader">
@@ -40,7 +39,7 @@ class Results extends React.Component<StateProps> {
 
 		return hasAnyFlights ? <>
 			<div className="results__inner-content">
-				<Filters currentLeg={currentLeg} isRT={isRT} withSearch={flightNumberActive}/>
+				<Filters currentLeg={currentLeg} isRT={isRT} withSearch={flightSearchActive}/>
 
 				{hasAnyVisibleFlights ? <Sortings/> : ''}
 
@@ -59,7 +58,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 		hasAnyFlights: hasAnyFlights(state),
 		hasAnyVisibleFlights: hasAnyVisibleFlights(state),
 		currentLeg: getCurrentLeg(state),
-		flightNumberActive: flightNumberIsActive(state)
+		flightSearchActive: flightSearchIsActive(state)
 	};
 };
 

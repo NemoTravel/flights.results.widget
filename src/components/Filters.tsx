@@ -5,7 +5,7 @@ import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
 import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
-import FlightNumber from './Filters/FlightNumber';
+import FlightSearchFilter from './Filters/FlightSearch';
 import Leg from '../schemas/Leg';
 import classNames = require('classnames');
 
@@ -41,7 +41,7 @@ class Filters extends React.Component<Props> {
 				<AirlineFilter/>
 				<AirportsFilter/>
 				<TimeFilter/>
-				<FlightNumber/>
+				<FlightSearchFilter/>
 			</div>
 		</section>;
 	}

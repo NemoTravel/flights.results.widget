@@ -3,14 +3,14 @@ import { airportsFilterReducer, AirportsFilterState } from './airports/reducers'
 import { airlinesFilterReducer } from './airlines/reducers';
 import { directOnlyFilterReducer } from './directOnly/reducers';
 import { timeFilterReducer, TimeFilterState } from './time/reducers';
-import { flightNumberReducer, FlightNumberState } from './flightNumber/reducers';
+import { flightSearchReducer, FlightSearchState } from './flightSearch/reducers';
 
 export interface FiltersState {
 	airlines: string[];
 	directOnly: boolean;
 	airports: AirportsFilterState;
 	time: TimeFilterState;
-	flightNumber: FlightNumberState
+	flightSearch: FlightSearchState
 }
 
 export const filtersReducer = combineReducers<FiltersState>({
@@ -18,5 +18,5 @@ export const filtersReducer = combineReducers<FiltersState>({
 	airports: airportsFilterReducer,
 	directOnly: directOnlyFilterReducer,
 	time: timeFilterReducer,
-	flightNumber: flightNumberReducer
+	flightSearch: flightSearchReducer
 });
