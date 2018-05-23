@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Moment } from 'moment';
 
-import { getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
+import { getAllTimeIntervals, getTimeIntervalForDate, getTimeIntervalName } from '../../store/filters/time/selectors';
 import Airline from '../../schemas/Airline';
 import Airport from '../../schemas/Airport';
 import SegmentModel from '../../schemas/Segment';
@@ -16,6 +16,9 @@ import { RootState } from '../../store/reducers';
 import { FiltersState } from '../../store/filters/reducers';
 import { QuickFilter } from './QuickFilter';
 import { OnClickHandler } from '../../schemas/OnClickHandler';
+import { getAllAirlines } from '../../store/filters/airlines/selectors';
+import { getArrivalAirports, getDepartureAirports } from '../../store/filters/airports/selectors';
+import { TimeFilterState } from '../../store/filters/time/reducers';
 
 interface OwnProps {
 	flight: Flight;
@@ -23,6 +26,10 @@ interface OwnProps {
 
 interface StateProps {
 	filters: FiltersState;
+	allAirlines: Airline[];
+	allDepartureAirports: Airport[];
+	allArrivalAirports: Airport[];
+	allTimeIntervals: TimeFilterState;
 }
 
 interface DispatchProps {
@@ -154,18 +161,22 @@ class Filters extends React.Component<Props> {
 
 	renderAirportFilter(airport: Airport, locationType: LocationType): React.ReactNode {
 		const isActive = this.isFilterActive('airports', airport.IATA, locationType);
+		const allSugestedAirports = locationType === LocationType.Departure ? this.props.allDepartureAirports : this.props.allArrivalAirports;
 
 		const remove = () => {
 			this.props.removeAirport(airport.IATA, locationType);
 			this.props.showSnackbar(`Аэропорт «${airport.name}» удален из фильтров`);
 		};
 
-		return this.renderFilter(airport.name, isActive, locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick, remove);
+		const onClick = locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick;
+
+		return this.renderFilter(airport.name, isActive, allSugestedAirports.length > 1 ? onClick : null, remove);
 	}
 
 	renderTimeFilter(time: Moment, locationType: LocationType): React.ReactNode {
 		const isActive = this.isFilterActive('time', getTimeIntervalForDate(time), locationType),
-				 label = getTimeIntervalName(getTimeIntervalForDate(time));
+				 label = getTimeIntervalName(getTimeIntervalForDate(time)),
+				 times = this.props.allTimeIntervals[locationType];
 
 		const remove = () => {
 			this.props.removeTimeInterval(getTimeIntervalForDate(time), locationType);
@@ -178,11 +189,14 @@ class Filters extends React.Component<Props> {
 			}
 		};
 
-		return this.renderFilter(label, isActive, locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick, remove);
+		const onClick = locationType === LocationType.Departure ? this.onDepartureTimeIntervalClick : this.onArrivalTimeIntervalClick;
+
+		return this.renderFilter(label, isActive, times.length > 1 ? onClick : null, remove);
 	}
 
 	renderAirlineFilter(airline: Airline, index: number): React.ReactNode {
-		const isActive = this.isFilterActive('airlines', airline.IATA);
+		const isActive = this.isFilterActive('airlines', airline.IATA),
+			allSugestedAirlines = this.props.allAirlines;
 
 		const onClick: React.EventHandler<any> = event => {
 			event.stopPropagation();
@@ -196,11 +210,12 @@ class Filters extends React.Component<Props> {
 			this.props.showSnackbar(`Авиакомпания «${airline.name}» удалена из фильтров`);
 		};
 
-		return this.renderFilter(airline.name, isActive, onClick, remove, index);
+		return this.renderFilter(airline.name, isActive, allSugestedAirlines.length > 1 ? onClick : null, remove, index);
 	}
 
 	render(): React.ReactNode {
 		const flight = this.props.flight;
+		const allSuggestedAirlines = this.props.allAirlines;
 		const firstSegment: SegmentModel = flight.segments[0];
 		const lastSegment: SegmentModel = flight.segments[flight.segments.length - 1];
 		const allAirlines: Airline[] = [];
@@ -236,7 +251,11 @@ class Filters extends React.Component<Props> {
 const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & StateProps => {
 	return {
 		...ownProps,
-		filters: state.filters
+		filters: state.filters,
+		allAirlines: getAllAirlines(state),
+		allDepartureAirports: getDepartureAirports(state),
+		allArrivalAirports: getArrivalAirports(state),
+		allTimeIntervals: getAllTimeIntervals(state)
 	};
 };
 

@@ -409,6 +409,10 @@
 
 			&-chip {
 				margin-right: 10px;
+
+				&_disabled {
+					opacity: 0.5;
+				}
 			}
 
 			&_active &-chip {
