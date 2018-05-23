@@ -26,7 +26,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 
 export const init = (config: Config) => {
 	const sagaMiddleware = createSagaMiddleware();
-	const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
+	const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 	const theme = createMuiTheme(themeObject);
 
 	sagaMiddleware.run(sagas);
