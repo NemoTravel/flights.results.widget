@@ -2,9 +2,10 @@ import * as React from 'react';
 import { RootState } from '../../store/reducers';
 import { connect } from 'react-redux';
 import { FlightNumberAction, setFlightNumber, toggleFlightNumber } from '../../store/filters/flightNumber/actions';
-import { getFlightNumber } from '../../store/filters/flightNumber/selectors';
+import { flightNumberIsActive, getFlightNumber } from '../../store/filters/flightNumber/selectors';
 import Input from 'material-ui/Input';
 import Clear from 'material-ui-icons/Clear';
+import Search from 'material-ui-icons/Search';
 import Chip from 'material-ui/Chip';
 import Filter, { Type as FilterType } from '../Filter';
 import { FiltersState } from '../../store/filters/reducers';
@@ -12,12 +13,9 @@ import { FiltersState } from '../../store/filters/reducers';
 const CTRL_KEY_CODE = 17;
 const F_KEY_CODE = 70;
 
-interface State {
-	flightNumberSearch: boolean;
-}
-
 interface StateProps {
 	getNumberFlight: string;
+	flightNumberIsActive: boolean;
 }
 
 interface DispatchProps {
@@ -30,34 +28,50 @@ type Props = StateProps & DispatchProps;
 class FlightNumber extends Filter<Props, FiltersState> {
 	protected type = FilterType.FlightNumber;
 	protected label = 'Поиск';
+	private ctrlIsDown: boolean = false;
 
 	constructor(props: Props) {
 		super(props);
 
 		this.onText = this.onText.bind(this);
+		this.handleKeyUp = this.handleKeyUp.bind(this);
+		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.componentWillMount = this.componentWillMount.bind(this);
+		this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
 	}
 
 	componentWillMount(): void {
-		let ctrlIsDown = false;
+		window.addEventListener('keydown', this.handleKeyDown);
+		window.addEventListener('keyup', this.handleKeyUp);
+	}
 
-		window.addEventListener('keydown', (event: KeyboardEvent) => {
-			if (event.keyCode === CTRL_KEY_CODE || event.metaKey) {
-				ctrlIsDown = true;
-			}
+	componentWillUnmount(): void {
+		window.removeEventListener('keydown', this.handleKeyDown);
+		window.removeEventListener('keyup', this.handleKeyUp);
+	}
 
-			if (ctrlIsDown && event.keyCode === F_KEY_CODE) {
-				event.preventDefault();
-
-				this.onClick();
-			}
+	componentWillReceiveProps({flightNumberIsActive}: Props): void {
+		this.setState({
+			isActive: flightNumberIsActive
 		});
+	}
 
-		window.addEventListener('keyup', (event: KeyboardEvent) => {
-			if (event.keyCode === CTRL_KEY_CODE || event.metaKey) {
-				ctrlIsDown = false;
-			}
-		});
+	handleKeyDown(event: KeyboardEvent): void {
+		if (event.keyCode === CTRL_KEY_CODE || event.metaKey) {
+			this.ctrlIsDown = true;
+		}
+
+		if (this.ctrlIsDown && event.keyCode === F_KEY_CODE) {
+			event.preventDefault();
+
+			this.onClick();
+		}
+	}
+
+	handleKeyUp(event: KeyboardEvent): void {
+		if (event.keyCode === CTRL_KEY_CODE || event.metaKey) {
+			this.ctrlIsDown = false;
+		}
 	}
 
 	isVisible(): boolean {
@@ -80,6 +94,10 @@ class FlightNumber extends Filter<Props, FiltersState> {
 
 	onClear(): void {
 		this.props.setFlightNumber('');
+
+		if (this.props.flightNumberIsActive) {
+			this.props.toggleFlightNumber();
+		}
 	}
 
 	onText(element: React.ChangeEvent<HTMLInputElement>): void {
@@ -92,18 +110,29 @@ class FlightNumber extends Filter<Props, FiltersState> {
 		</div>;
 	}
 
+	renderLabel(): React.ReactNode {
+		return <div className="results-flightNumberSearch__label">
+			<Search/>
+			<span>Поиск</span>
+		</div>;
+	}
+
 	render(): React.ReactNode {
 		const state = this.state.isActive;
 
 		return <div className="filters-filter">
-			<Chip className="filters-filter-chip" label={'Поиск'} onClick={this.onClick}/>
+			<Chip
+				className="filters-filter-chip"
+				label={this.renderLabel()}
+				onClick={this.onClick}
+			/>
 			{state ? <div className="results-flightNumberSearch">
 				<Input
 					type="text"
 					onChange={this.onText}
 					fullWidth={true}
 					autoFocus={true}
-					placeholder={'Поиск по номеру рейса'}
+					placeholder={'Поиск по названию авиакомпании, номеру рейса, аэропортам отправления и прибытия'}
 					endAdornment={this.clearButton()}
 				/>
 			</div> : null}
@@ -113,7 +142,8 @@ class FlightNumber extends Filter<Props, FiltersState> {
 
 const mapsToProps = (state: RootState): StateProps => {
 	return {
-		getNumberFlight: getFlightNumber(state)
+		getNumberFlight: getFlightNumber(state),
+		flightNumberIsActive: flightNumberIsActive(state)
 	};
 };
 

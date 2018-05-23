@@ -53,6 +53,15 @@
 				height: 24px;
 			}
 		}
+
+		&__label {
+			display: flex;
+			align-items: center;
+
+			span {
+				padding-left: 5px;
+			}
+		}
 	}
 
 	&-loader {
