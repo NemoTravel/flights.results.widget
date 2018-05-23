@@ -11,14 +11,15 @@ const initialFlightSearch: FlightSearchState = {
 };
 
 export const flightSearchReducer = (state: FlightSearchState = initialFlightSearch, action: FlightSearchAction): FlightSearchState => {
-	if (action.type === FILTERS_SET_FLIGHT_SEARCH) {
-		return { ...state, search: action.payload };
-	}
-	if (action.type === FILTERS_TOGGLE_FLIGHT_SEARCH) {
-		return { ...state, isActive: !state.isActive };
-	}
-	if (action.type === FILTERS_REMOVE_FLIGHT_SEARCH) {
-		return { ...state, ...initialFlightSearch };
+	switch (action.type) {
+		case FILTERS_SET_FLIGHT_SEARCH:
+			return { ...state, search: action.payload };
+
+		case FILTERS_TOGGLE_FLIGHT_SEARCH:
+			return { ...state, isActive: !state.isActive };
+
+		case FILTERS_REMOVE_FLIGHT_SEARCH:
+			return { ...state, ...initialFlightSearch };
 	}
 
 	return state;

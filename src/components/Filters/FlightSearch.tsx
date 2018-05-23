@@ -9,6 +9,7 @@ import Search from 'material-ui-icons/Search';
 import Chip from 'material-ui/Chip';
 import Filter, { Type as FilterType } from '../Filter';
 import { FiltersState } from '../../store/filters/reducers';
+import Avatar, { AvatarProps } from 'material-ui/Avatar';
 
 const CTRL_KEY_CODE = 17;
 const F_KEY_CODE = 70;
@@ -19,8 +20,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-	setFlightSearch: (number: string) => FlightSearchAction;
-	toggleFlightSearch: () => FlightSearchAction;
+	setFlightSearch: typeof setFlightSearch;
+	toggleFlightSearch: typeof toggleFlightSearch;
 }
 
 type Props = StateProps & DispatchProps;
@@ -110,11 +111,10 @@ class FlightSearchFilter extends Filter<Props, FiltersState> {
 		</div>;
 	}
 
-	renderLabel(): React.ReactNode {
-		return <div className="results-flightNumberSearch__label">
+	renderAvatar(): React.ReactElement<AvatarProps> {
+		return <Avatar>
 			<Search/>
-			<span>Поиск</span>
-		</div>;
+		</Avatar>;
 	}
 
 	render(): React.ReactNode {
@@ -123,7 +123,8 @@ class FlightSearchFilter extends Filter<Props, FiltersState> {
 		return <div className="filters-filter">
 			<Chip
 				className="filters-filter-chip"
-				label={this.renderLabel()}
+				avatar={this.renderAvatar()}
+				label={'Поиск'}
 				onClick={this.onClick}
 			/>
 			{state ? <div className="results-flightNumberSearch">

@@ -88,7 +88,11 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 			this.validatingCarrier.name.toLowerCase() +
 			this.validatingCarrier.nameEn.toLowerCase() +
 			this.firstSegment.depAirport.IATA.toLowerCase() +
-			this.lastSegment.arrAirport.IATA.toLowerCase();
+			this.firstSegment.depAirport.name.toLowerCase() +
+			this.firstSegment.depAirport.city.name.toLowerCase() +
+			this.lastSegment.arrAirport.IATA.toLowerCase() +
+			this.lastSegment.arrAirport.name.toLowerCase() +
+			this.lastSegment.arrAirport.city.name.toLowerCase();
 	}
 
 	/**
