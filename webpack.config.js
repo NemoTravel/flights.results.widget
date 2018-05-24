@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Extract = require('mini-css-extract-plugin');
 const packageJSON = require('./package.json');
 const moduleName = 'flights.results.widget';
 
@@ -10,20 +10,23 @@ const moduleName = 'flights.results.widget';
 const isDevMode = process.env.NODE_ENV === 'dev';
 
 // Streaming compiled styles to the separate ".css" file.
-const extractSass = new ExtractTextPlugin({
+const extractSass = new Extract({
     filename: `${moduleName}.min.css`
-});
-
-const extractNemoSass = new ExtractTextPlugin({
-    filename: `nemo-${moduleName}.min.css`
 });
 
 const config = {
     // Root folder for Webpack.
     context: __dirname,
 
-    // Entry file.
-    entry: ['whatwg-fetch', './src/main.tsx'],
+    // Build mode.
+	mode: isDevMode ? 'development' : 'production',
+
+	performance: {
+		hints: false
+	},
+
+	// Entry file.
+    entry: './src/main.tsx',
 
     // Watch for changes in file.
     watch: isDevMode,
@@ -36,7 +39,12 @@ const config = {
         aggregateTimeout: 300
     },
 
-	devtool: "cheap-module-eval-source-map",
+	devtool: 'cheap-module-eval-source-map',
+
+    optimization: {
+		minimize: !isDevMode,
+		noEmitOnErrors: true
+	},
 
 	output: {
         // Folder to store generated files.
@@ -86,28 +94,19 @@ const config = {
                 exclude: [
                     path.resolve(__dirname, 'src/css/nemo')
                 ],
-                use: extractSass.extract({
-                    use: [
-                        // Allows to import CSS through JavaScript.
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: !isDevMode
-                            }
-                        },
-                        'resolve-url-loader', // Resolving relative URL in CSS code.
-                        'postcss-loader', // Using autoprefixe plugin.
-                        'sass-loader' // Compiles Sass to CSS.
-                    ],
-                    fallback: 'style-loader',
-                    publicPath: path.resolve(__dirname, 'dist')
-                })
-            },
-
-            // Handling ".scss" files for nemo default theme
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader?modules', 'postcss-loader']
+                use: [
+					isDevMode ? 'style-loader' : Extract.loader,
+					// Allows to import CSS through JavaScript.
+					{
+						loader: 'css-loader',
+						options: {
+							minimize: !isDevMode
+						}
+					},
+					'resolve-url-loader', // Resolving relative URL in CSS code.
+					'postcss-loader', // Using autoprefixe plugin.
+					'sass-loader' // Compiles Sass to CSS.
+                ],
             },
 
             // Handling fonts and converting them to base64 format.
@@ -141,22 +140,11 @@ const config = {
     },
 
     plugins: [
-        extractSass,
-        extractNemoSass,
-        new webpack.NoEmitOnErrorsPlugin()
+        extractSass
     ]
 };
 
 if (!isDevMode) {
-    config.plugins.push(
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-                drop_console: false
-            }
-        })
-    );
-
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
 }
 

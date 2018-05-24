@@ -106,7 +106,10 @@ class Flight<P> extends React.Component<Props & P, State> {
 				{price.amount < 0 ? (
 					<Tooltip title={tariffTooltipText} placement="top">
 						<div className="flight-summary-price-profitMark">
-							<StarIcons className="flight-summary-price-profitMark__icon"/>
+							<div className="flight-summary-price-profitMark__icon">
+								<StarIcons/>
+							</div>
+
 							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
 						</div>
 					</Tooltip>
