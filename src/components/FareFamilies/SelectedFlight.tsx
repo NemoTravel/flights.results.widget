@@ -35,7 +35,7 @@ class SelectedFlight extends Flight<Props> {
 
 	renderSummaryButtonsBlock(): React.ReactNode {
 		return <div className="flight-summary__right">
-			<Button onClick={this.onBuyButtonClick} color="secondary">Изменить рейс</Button>
+			<Button onClick={this.onBuyButtonClick} color="secondary">Изменить</Button>
 		</div>;
 	}
 
