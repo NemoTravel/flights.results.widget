@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import { connect } from 'react-redux';
 import Input from '@material-ui/core/Input';
 import Chip from '@material-ui/core/Chip';
@@ -28,7 +29,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-class FlightSearchFilter extends Filter<Props, FiltersState> {
+class FlightSearch extends Filter<Props, FiltersState> {
 	protected type = FilterType.FlightSearch;
 	protected label = 'Поиск';
 	private ctrlIsDown: boolean = false;
@@ -114,22 +115,23 @@ class FlightSearchFilter extends Filter<Props, FiltersState> {
 	}
 
 	renderAvatar(): React.ReactElement<AvatarProps> {
-		return <Avatar>
-			<Search/>
+		return <Avatar className="filters-filter-chip__icon">
+			<Search className="results-flightNumberSearch__lensIcon"/>
 		</Avatar>;
 	}
 
 	render(): React.ReactNode {
-		const state = this.state.isActive;
+		const isActive = this.state.isActive;
 
-		return <div className="filters-filter">
+		return <div className={classnames('filters-filter', { 'filters-filter_active': isActive })}>
 			<Chip
 				className="filters-filter-chip"
 				avatar={this.renderAvatar()}
 				label={'Поиск'}
 				onClick={this.onClick}
 			/>
-			{state ? <div className="results-flightNumberSearch">
+
+			{isActive ? <div className="results-flightNumberSearch">
 				<Input
 					type="text"
 					onChange={this.onText}
@@ -155,4 +157,4 @@ const mapDispatchToProps = {
 	toggleFlightSearch
 };
 
-export default connect(mapsToProps, mapDispatchToProps)(FlightSearchFilter);
+export default connect(mapsToProps, mapDispatchToProps)(FlightSearch);

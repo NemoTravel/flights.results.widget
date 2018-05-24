@@ -38,6 +38,12 @@
 			margin-left: 10px;
 		}
 
+		&-chip {
+			&__icon {
+				transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+			}
+		}
+
 		&_active {
 			.filters-filter-chip {
 				&,
@@ -46,6 +52,11 @@
 				&:active {
 					background: #64b5f6;
 					color: #ffffff;
+				}
+
+				&__icon {
+					color: #ffffff;
+					background-color: #0e8bf0;
 				}
 			}
 		}

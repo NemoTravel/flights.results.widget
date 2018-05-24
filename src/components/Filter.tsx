@@ -1,6 +1,6 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import Chip, { ChipProps } from '@material-ui/core/Chip';
-import classNames = require('classnames');
 
 export enum Type {
 	Airports = 'airports',
@@ -53,7 +53,7 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 			chipProps.onClick = this.onClick;
 		}
 
-		return this.isVisible() ? <div className={classNames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
 			<Chip className="filters-filter-chip" {...chipProps}/>
 		</div> : null;
 	}
