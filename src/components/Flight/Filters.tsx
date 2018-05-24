@@ -113,7 +113,7 @@ class Filters extends React.Component<Props> {
 		const intervalName = getTimeIntervalName(interval);
 
 		this.props.addTimeInterval(interval, LocationType.Arrival);
-		this.props.showSnackbar(`Время прилета «${intervalName}» было добавлено в фильтры`);
+		this.props.showSnackbar(`Время прилёта «${intervalName}» было добавлено в фильтры`);
 
 		this.scrollToElement();
 	}
@@ -156,6 +156,7 @@ class Filters extends React.Component<Props> {
 			onClick={onClick}
 			isActive={isActive}
 			onDelete={onDelete}
+			isEnabled={onClick !== null}
 		/>;
 	}
 
@@ -185,7 +186,7 @@ class Filters extends React.Component<Props> {
 				this.props.showSnackbar(`Время вылета «${label}» удалено из фильтров`);
 			}
 			else {
-				this.props.showSnackbar(`Время прилета «${label}» удалено из фильтров`);
+				this.props.showSnackbar(`Время прилёта «${label}» удалено из фильтров`);
 			}
 		};
 
@@ -215,7 +216,6 @@ class Filters extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const flight = this.props.flight;
-		const allSuggestedAirlines = this.props.allAirlines;
 		const firstSegment: SegmentModel = flight.segments[0];
 		const lastSegment: SegmentModel = flight.segments[flight.segments.length - 1];
 		const allAirlines: Airline[] = [];

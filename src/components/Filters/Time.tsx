@@ -84,7 +84,7 @@ class Time extends WithPopover<Props, FilterState> {
 				}
 			}
 
-			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилет: ${parts.join(', ')}`;
+			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилёт: ${parts.join(', ')}`;
 		}
 
 		this.setState({
@@ -138,7 +138,7 @@ class Time extends WithPopover<Props, FilterState> {
 				onChange={this.onArrivalChange}
 				type={LocationType.Arrival}
 				suggestedTimes={this.props.allTimeIntervals[LocationType.Arrival]}
-				title="Время прилета"
+				title="Время прилёта"
 			/> : null}
 		</div>;
 	}
