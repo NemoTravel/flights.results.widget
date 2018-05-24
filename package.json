@@ -30,6 +30,7 @@
 	},
 	"homepage": "https://github.com/NemoTravel/results#readme",
 	"devDependencies": {
+		"@types/webpack": "^4.4.0",
 		"autoprefixer": "^7.2.6",
 		"compression": "^1.7.2",
 		"cross-env": "^5.0.5",

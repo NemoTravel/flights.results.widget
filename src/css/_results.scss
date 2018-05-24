@@ -40,6 +40,34 @@
 		}
 	}
 
+	&-flightNumberSearch {
+		padding: 0 24px;
+		margin-top: 20px;
+		width: 100%;
+		position: absolute;
+		left: 0;
+
+		&__clear {
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+
+			svg {
+				width: 24px;
+				height: 24px;
+			}
+		}
+
+		&__label {
+			display: flex;
+			align-items: center;
+
+			span {
+				padding-left: 5px;
+			}
+		}
+	}
+
 	&-loader {
 		display: none;
 		text-align: center;

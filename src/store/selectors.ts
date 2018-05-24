@@ -28,6 +28,7 @@ import { FlightsState } from './flights/reducers';
 import { SortingState } from './sorting/reducers';
 import { FareFamiliesCombinationsState } from './fareFamilies/fareFamiliesCombinations/reducers';
 import { getShowAllFlights } from './showAllFlights/selectors';
+import { getFlightSearch } from './filters/flightSearch/selectors';
 
 export interface PricesByFlights {
 	[flightId: number]: Money;
@@ -296,6 +297,7 @@ export const getVisibleFlights = createSelector(
 		TimeFilter.getSelectedDepartureTimeIntervals,
 		TimeFilter.getSelectedArrivalTimeIntervals,
 		getIsDirectOnly,
+		getFlightSearch,
 		getShowAllFlights,
 		Sorting.getCurrentSorting,
 		getRelativePrices
@@ -308,6 +310,7 @@ export const getVisibleFlights = createSelector(
 		selectedDepartureTimeIntervals: ListOfSelectedCodes,
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
+		flightSearch: string,
 		showAllFlights: boolean,
 		sorting: SortingState,
 		prices: FlightsReplacement
@@ -318,6 +321,10 @@ export const getVisibleFlights = createSelector(
 
 			// Filter direct flights.
 			if (directOnly && flight.segments.length !== 1) {
+				return false;
+			}
+
+			if (flightSearch && flight.searchIndex.indexOf(flightSearch.toLowerCase()) === -1) {
 				return false;
 			}
 

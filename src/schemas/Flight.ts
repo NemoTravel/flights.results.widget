@@ -14,6 +14,7 @@ export default interface Flight {
 	isTranslitRequired: boolean;
 	originalCurrency: string;
 	searchId: number;
+	searchIndex: string;
 	segmentGroups: SegmentGroup[];
 	segments: Segment[];
 	service: string;

@@ -24,6 +24,7 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 	serviceFltId: string;
 	totalPrice: Money;
 	validatingCarrier: Airline;
+	searchIndex: string;
 
 	uid: string; // XX767_1pc__XX767_2pc
 	totalFlightTime: number;
@@ -82,6 +83,16 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 		if (numOfTransfers === 1) {
 			this.transferInfo += ` в ${declension(this.segments[0].arrAirport.city.name)}`;
 		}
+
+		this.searchIndex = this.uid.toLowerCase() +
+			this.validatingCarrier.name.toLowerCase() +
+			this.validatingCarrier.nameEn.toLowerCase() +
+			this.firstSegment.depAirport.IATA.toLowerCase() +
+			this.firstSegment.depAirport.name.toLowerCase() +
+			this.firstSegment.depAirport.city.name.toLowerCase() +
+			this.lastSegment.arrAirport.IATA.toLowerCase() +
+			this.lastSegment.arrAirport.name.toLowerCase() +
+			this.lastSegment.arrAirport.city.name.toLowerCase();
 	}
 
 	/**

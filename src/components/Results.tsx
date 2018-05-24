@@ -10,6 +10,7 @@ import Sortings from './Sortings';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 import { isRT } from '../store/legs/selectors';
+import { flightSearchIsActive } from '../store/filters/flightSearch/selectors';
 import SelectedFlights from './SelectedFlights';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { getIsLoading } from '../store/isLoading/selectors';
@@ -22,6 +23,7 @@ interface StateProps {
 	hasAnyFlights: boolean;
 	hasAnyVisibleFlights: boolean;
 	currentLeg: Leg;
+	flightSearchActive: boolean;
 	selectedFlights: FlightModel[];
 }
 
@@ -31,7 +33,7 @@ class Results extends React.Component<StateProps> {
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT, selectedFlights } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT, flightSearchActive, selectedFlights } = this.props;
 
 		if (isLoading) {
 			return <div className="results-loader">
@@ -43,7 +45,7 @@ class Results extends React.Component<StateProps> {
 			<div className="results__inner">
 				<SelectedFlights selectedFlights={selectedFlights}/>
 
-				<Filters currentLeg={currentLeg} isRT={isRT}/>
+				<Filters currentLeg={currentLeg} isRT={isRT} withSearch={flightSearchActive}/>
 
 				{hasAnyVisibleFlights ? <Sortings/> : ''}
 
@@ -61,5 +63,6 @@ export default connect<StateProps>({
 	hasAnyFlights: hasAnyFlights,
 	hasAnyVisibleFlights: hasAnyVisibleFlights,
 	currentLeg: getCurrentLeg,
-	selectedFlights: getSelectedFlights
+	selectedFlights: getSelectedFlights,
+	flightSearchActive: flightSearchIsActive
 })(Results);
