@@ -7,6 +7,7 @@ import { OnClickHandler } from '../../schemas/OnClickHandler';
 interface Props {
 	label: string,
 	isActive: boolean,
+	isEnabled: boolean,
 	onClick: OnClickHandler,
 	onDelete: OnClickHandler
 }
@@ -17,12 +18,12 @@ export class QuickFilter extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { label, isActive, onClick, onDelete } = this.props;
+		const { label, isActive, onClick, onDelete, isEnabled } = this.props;
 
-		return <Tooltip title={!isActive ? 'Добавить в фильтры' : ''} placement="top">
+		return <Tooltip title={!isActive && onClick ? 'Добавить в фильтры' : ''} placement="top">
 			<div className={classnames('flight-details-filter', {'flight-details-filter_active': isActive})}>
 				<Chip
-					className="flight-details-filter-chip"
+					className={classnames('flight-details-filter-chip', {'flight-details-filter-chip_disabled': !isEnabled})}
 					onDelete={isActive ? onDelete: null}
 					label={label}
 					onClick={!isActive ? onClick : null}

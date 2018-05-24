@@ -7,8 +7,12 @@ import WithPopover, { State as FilterState } from './WithPopover';
 import { RootState } from '../../store/reducers';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
-import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/filters/time/selectors';
+import {
+	getAllTimeIntervals, getSelectedArrivalTimeIntervals,
+	getSelectedDepartureTimeIntervals
+} from '../../store/filters/time/selectors';
 import { FlightTimeInterval, LocationType } from '../../enums';
+import { TimeFilterState } from '../../store/filters/time/reducers';
 
 interface TimeIntervalsLabels {
 	[interval: string]: string;
@@ -24,6 +28,7 @@ export const timeIntervalsLabels: TimeIntervalsLabels = {
 interface StateProps {
 	selectedDepartureTimeIntervals: ListOfSelectedCodes;
 	selectedArrivalTimeIntervals: ListOfSelectedCodes;
+	allTimeIntervals: TimeFilterState;
 }
 
 interface DispatchProps {
@@ -79,7 +84,7 @@ class Time extends WithPopover<Props, FilterState> {
 				}
 			}
 
-			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилет: ${parts.join(', ')}`;
+			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилёт: ${parts.join(', ')}`;
 		}
 
 		this.setState({
@@ -120,17 +125,21 @@ class Time extends WithPopover<Props, FilterState> {
 
 	renderPopover(): React.ReactNode {
 		return <div className="filters-filter-popover__columns">
-			<TimeColumn
+			{this.props.allTimeIntervals[LocationType.Departure].length > 1 ? <TimeColumn
 				selectedTime={this.props.selectedDepartureTimeIntervals}
 				onChange={this.onDepartureChange}
+				type={LocationType.Departure}
+				suggestedTimes={this.props.allTimeIntervals[LocationType.Departure]}
 				title="Время вылета"
-			/>
+			/> : null}
 
-			<TimeColumn
+			{this.props.allTimeIntervals[LocationType.Arrival].length > 1 ? <TimeColumn
 				selectedTime={this.props.selectedArrivalTimeIntervals}
 				onChange={this.onArrivalChange}
-				title="Время прилета"
-			/>
+				type={LocationType.Arrival}
+				suggestedTimes={this.props.allTimeIntervals[LocationType.Arrival]}
+				title="Время прилёта"
+			/> : null}
 		</div>;
 	}
 }
@@ -138,7 +147,8 @@ class Time extends WithPopover<Props, FilterState> {
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedDepartureTimeIntervals: getSelectedDepartureTimeIntervals(state),
-		selectedArrivalTimeIntervals: getSelectedArrivalTimeIntervals(state)
+		selectedArrivalTimeIntervals: getSelectedArrivalTimeIntervals(state),
+		allTimeIntervals: getAllTimeIntervals(state)
 	};
 };
 
