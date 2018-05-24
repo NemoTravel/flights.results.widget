@@ -95,7 +95,7 @@ const config = {
                     path.resolve(__dirname, 'src/css/nemo')
                 ],
                 use: [
-					isDevMode ? 'style-loader' : Extract.loader,
+					Extract.loader,
 					// Allows to import CSS through JavaScript.
 					{
 						loader: 'css-loader',

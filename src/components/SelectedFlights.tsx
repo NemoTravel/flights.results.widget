@@ -1,35 +1,46 @@
 import * as React from 'react';
-import Typography from '@material-ui/core/Typography';
+import * as classnames from 'classnames';
+import FlightTakeOffIcon from '@material-ui/icons/FlightTakeoff';
 
 import FlightModel from '../models/Flight';
 import Flight from './Flight';
+import Leg from '../schemas/Leg';
+import { getLegs, isRT } from '../store/legs/selectors';
+import { connect } from '../utils';
+import { getCurrentLeg } from '../store/currentLeg/selectors';
+import { getSelectedFlights } from '../store/selectedFlights/selectors';
 
-interface Props {
+interface StateProps {
+	currentLeg: Leg;
+	legs: Leg[];
+	isRT: boolean;
 	selectedFlights: FlightModel[];
 }
 
-class SelectedFlights extends React.Component<Props> {
-	shouldComponentUpdate(nextProps: Props): boolean {
-		return nextProps.selectedFlights !== this.props.selectedFlights;
-	}
-
+class SelectedFlights extends React.Component<StateProps> {
 	render(): React.ReactNode {
-		const { selectedFlights } = this.props;
+		const { selectedFlights, currentLeg, legs, isRT } = this.props;
 
-		return selectedFlights.length ? (
+		return (
 			<div className="results-selectedFlights">
-				<div className="results-selectedFlights__title">
-					<Typography variant="headline">Выбранные перелеты</Typography>
-				</div>
+				{legs.map(leg => (
+					<div key={leg.id} className={classnames('results-selectedFlights-leg', { 'results-selectedFlights-leg_active': currentLeg.id === leg.id })}>
+						<div className={classnames('results-selectedFlights-leg__icon', { 'results-selectedFlights-leg__icon_reverse': isRT && leg.id === 1 })}>
+							<FlightTakeOffIcon/>
+						</div>
 
-				<div className="results-selectedFlights__list">
-					{selectedFlights.map(flight => (
-						<Flight key={flight.id} flight={flight}/>
-					))}
-				</div>
+						{leg.departure.city.name} &mdash; {leg.arrival.city.name}
+					</div>
+
+				))}
 			</div>
-		) : null;
+		);
 	}
 }
 
-export default SelectedFlights;
+export default connect<StateProps>({
+	isRT: isRT,
+	currentLeg: getCurrentLeg,
+	selectedFlights: getSelectedFlights,
+	legs: getLegs
+})(SelectedFlights);
