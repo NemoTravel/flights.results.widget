@@ -15,6 +15,7 @@ import { FiltersState } from '../../store/filters/reducers';
 
 const CTRL_KEY_CODE = 'Control';
 const META_KEY_CODE = 'Meta';
+const ESC_KEY_CODE = 'Escape';
 const F_KEY_CODE = 'f';
 
 interface StateProps {
@@ -65,7 +66,7 @@ class FlightSearch extends Filter<Props, FiltersState> {
 			this.ctrlIsDown = true;
 		}
 
-		if (this.ctrlIsDown && event.key === F_KEY_CODE) {
+		if (this.ctrlIsDown && event.key === F_KEY_CODE || event.key === ESC_KEY_CODE && this.props.flightSearchIsActive) {
 			event.preventDefault();
 
 			this.onClick();
