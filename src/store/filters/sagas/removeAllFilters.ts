@@ -5,6 +5,7 @@ import { FILTERS_REMOVE_ALL } from '../actions';
 import { removeAllTimeIntervals } from '../time/actions';
 import { setDirectFlights } from '../directOnly/actions';
 import { removeFlightSearch } from '../flightSearch/actions';
+import { removeUsable } from '../usable/actions';
 
 function* worker() {
 	yield put(setDirectFlights(false));
@@ -12,6 +13,7 @@ function* worker() {
 	yield put(removeAllAirlines());
 	yield put(removeAllTimeIntervals());
 	yield put(removeFlightSearch());
+	yield put(removeUsable());
 }
 
 export default function* removeAllFiltersSaga() {

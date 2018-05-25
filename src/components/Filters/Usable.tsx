@@ -3,9 +3,11 @@ import { RootState } from '../../store/reducers';
 import { toggleUsable } from '../../store/filters/usable/actions';
 import { connect } from 'react-redux';
 import { getIsUsable } from '../../store/filters/usable/selectors';
+import { isFirstLeg } from '../../store/currentLeg/selectors';
 
 interface StateProps {
 	isUsable: boolean;
+	isFirstLeg: boolean;
 }
 
 interface DispatchProps {
@@ -20,6 +22,7 @@ class Usable extends Filter<Props, FilterState> {
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.isUsable !== nextProps.isUsable ||
+			this.props.isFirstLeg !== nextProps.isFirstLeg ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
 	}
@@ -35,7 +38,7 @@ class Usable extends Filter<Props, FilterState> {
 	}
 
 	isVisible(): boolean {
-		return true;
+		return !this.props.isFirstLeg;
 	}
 
 	onClear(): void {
@@ -45,7 +48,8 @@ class Usable extends Filter<Props, FilterState> {
 
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
-		isUsable: getIsUsable(state)
+		isUsable: getIsUsable(state),
+		isFirstLeg: isFirstLeg(state)
 	};
 };
 
