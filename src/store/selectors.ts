@@ -88,7 +88,7 @@ export const getMinTotalPossiblePricesByLegs = createSelector(
 
 				// For each leg: loop through all next legs and sum up their min prices.
 				for (const anotherLegId in minPricesByLegs) {
-					if ((parseInt(anotherLegId)) > parseInt(legId) && minPricesByLegs.hasOwnProperty(anotherLegId)) {
+					if (minPricesByLegs.hasOwnProperty(anotherLegId) && (parseInt(anotherLegId) > parseInt(legId))) {
 						result[legId].amount += minPricesByLegs[anotherLegId].amount;
 					}
 				}
@@ -280,6 +280,31 @@ export const getRelativePrices = createSelector(
 				};
 			}
 		}
+
+		return result;
+	}
+);
+
+export const getPricesForSelectedFlights = createSelector(
+	[getSelectedFlights, getMinPricesByLegs, getMinTotalPossiblePricesByLegs],
+	(flights: Flight[], minPrices: PricesByLegs, minTotalPossiblePricesByLegs: PricesByLegs): FlightsReplacement => {
+		const result: FlightsReplacement = {};
+
+		flights.forEach(flight => {
+			const legId = flight.legId;
+			const minPriceOnCurrentLeg = minPrices[legId] ? minPrices[legId].amount : 0;
+			const minTotalPriceForNextLegs = minTotalPossiblePricesByLegs[legId] ? minTotalPossiblePricesByLegs[legId].amount : 0;
+
+			result[flight.id] = {
+				newFlightId: flight.id,
+				originalFlightId: flight.id,
+				isRT: flight.isRT,
+				price: {
+					amount: flight.totalPrice.amount + (legId === 0 ? minTotalPriceForNextLegs : -(minPriceOnCurrentLeg)),
+					currency: flight.totalPrice.currency
+				}
+			};
+		});
 
 		return result;
 	}

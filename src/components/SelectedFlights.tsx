@@ -11,12 +11,15 @@ import { getCurrentLeg } from '../store/currentLeg/selectors';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import SelectedFlight from './FareFamilies/SelectedFlight';
 import { goToLeg } from '../store/currentLeg/actions';
+import { FlightsReplacement } from '../schemas/SelectedFlight';
+import { getPricesForSelectedFlights } from '../store/selectors';
 
 interface StateProps {
 	currentLeg: Leg;
 	legs: Leg[];
 	isRT: boolean;
 	selectedFlights: FlightModel[];
+	prices: FlightsReplacement;
 }
 
 interface DispatchProps {
@@ -27,10 +30,17 @@ type Props = StateProps & DispatchProps;
 
 class SelectedFlights extends React.Component<Props> {
 	renderFlightBlock(flight: FlightModel): React.ReactNode {
-		const { goToLeg } = this.props;
+		const { goToLeg, prices } = this.props;
 
 		return (
-			<SelectedFlight key={flight.legId} flight={flight} goToLeg={goToLeg} currentLegId={flight.legId}/>
+			<SelectedFlight
+				key={flight.legId}
+				flight={flight}
+				goToLeg={goToLeg}
+				currentLegId={flight.legId}
+				replacement={prices[flight.id]}
+				showPricePrefix={flight.legId === 0}
+			/>
 		);
 	}
 
@@ -75,5 +85,6 @@ export default connect<StateProps, DispatchProps>({
 	isRT: isRT,
 	currentLeg: getCurrentLeg,
 	selectedFlights: getSelectedFlights,
-	legs: getLegs
+	legs: getLegs,
+	prices: getPricesForSelectedFlights
 }, { goToLeg })(SelectedFlights);

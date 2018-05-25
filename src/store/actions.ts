@@ -1,7 +1,6 @@
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
 
 import RequestInfo from '../schemas/RequestInfo';
-import { NUM_OF_RT_SEGMENTS } from '../utils';
 import { RouteType } from '../enums';
 
 export const START_SEARCH = 'START_SEARCH';

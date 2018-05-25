@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import StarIcons from '@material-ui/icons/Stars';
+import StarIcon from '@material-ui/icons/Stars';
 
 import Tooltip from './Flight/Tooltip';
 import Segment from './Flight/Segment';
@@ -107,7 +107,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 					<Tooltip title={tariffTooltipText} placement="top">
 						<div className="flight-summary-price-profitMark">
 							<div className="flight-summary-price-profitMark__icon">
-								<StarIcons/>
+								<StarIcon/>
 							</div>
 
 							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
