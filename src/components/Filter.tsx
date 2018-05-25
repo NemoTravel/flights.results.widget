@@ -7,7 +7,8 @@ export enum Type {
 	Airlines = 'airlines',
 	Time = 'time',
 	DirectOnly = 'directOnly',
-	FlightSearch = 'flightSearch'
+	FlightSearch = 'flightSearch',
+	Usage = 'usage'
 }
 
 export interface State {

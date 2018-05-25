@@ -7,6 +7,10 @@ import Flight from '../../models/Flight';
 import { RootState } from '../reducers';
 import { SelectedFlightsState } from './reducers';
 
+export interface ListOfIATACodes {
+	[IATA: string]: string;
+}
+
 export const getSelectedFlightsIds = (state: RootState): SelectedFlightsState => state.selectedFlights;
 
 export const getSelectedFlights = createSelector(
@@ -27,6 +31,20 @@ export const getSelectedFlights = createSelector(
 		return result;
 	}
 );
+
+export const getAirlinesIATA = (flights: Flight[]): ListOfIATACodes => {
+	const map: ListOfIATACodes = {};
+
+	flights.forEach(flight => {
+		flight.segments.forEach(segment => {
+			if (!map.hasOwnProperty(segment.airline.IATA)) {
+				map[segment.airline.IATA] = segment.airline.IATA;
+			}
+		});
+	});
+
+	return map;
+};
 
 export const isSelectionComplete = createSelector(
 	[getLegs, getSelectedFlightsIds],

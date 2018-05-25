@@ -1,10 +1,6 @@
 import { createSelector } from 'reselect';
 import Flight from '../models/Flight';
-import { getFlightsIdsByLegs, ListOfSelectedCodes } from './filters/selectors';
-import { getSelectedAirlinesList } from './filters/airlines/selectors';
-import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from './filters/airports/selectors';
-import { getIsDirectOnly } from './filters/directOnly/selectors';
-import * as TimeFilter from './filters/time/selectors';
+import { getFlightsIdsByLegs, getListOfSelectedCodes, ListOfSelectedCodes } from './filters/selectors';
 import { getAllFlights, getFlightsForCurrentLeg } from './flights/selectors';
 import * as Sorting from './sorting/selectors';
 import { sortingFunctionsMap } from './sorting/selectors';
@@ -13,6 +9,7 @@ import Money from '../schemas/Money';
 import { getCurrentLegId, isLastLeg } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
 import {
+	getAirlinesIATA,
 	getSelectedFlights,
 	getSelectedFlightsIds,
 	getTotalPriceOfSelectedFlights,
@@ -28,7 +25,13 @@ import { FlightsState } from './flights/reducers';
 import { SortingState } from './sorting/reducers';
 import { FareFamiliesCombinationsState } from './fareFamilies/fareFamiliesCombinations/reducers';
 import { getShowAllFlights } from './showAllFlights/selectors';
-import { getFlightSearch } from './filters/flightSearch/selectors';
+import {
+	getFilteredArrivalTimeIntervals, getFilteredDepartureTimeIntervals,
+	getTimeIntervalForDate
+} from './filters/time/selectors';
+import { RootState } from './reducers';
+import { getFilteredArrivalAirports, getFilteredDepartureAirports } from './filters/airports/selectors';
+import { getFilteredAirlines } from './filters/airlines/selectors';
 
 export interface PricesByFlights {
 	[flightId: number]: Money;
@@ -285,25 +288,30 @@ export const getRelativePrices = createSelector(
 	}
 );
 
-/**
- * Get an array of flights after filtering.
- */
-export const getVisibleFlights = createSelector(
+export const getSelectedAirlinesList = createSelector([getFilteredAirlines], getListOfSelectedCodes);
+
+export const getSelectedDepartureAirportsList = createSelector([getFilteredDepartureAirports], getListOfSelectedCodes);
+export const getSelectedArrivalAirportsList = createSelector([getFilteredArrivalAirports], getListOfSelectedCodes);
+
+export const getSelectedDepartureTimeIntervals = createSelector([getFilteredDepartureTimeIntervals], getListOfSelectedCodes);
+export const getSelectedArrivalTimeIntervals = createSelector([getFilteredArrivalTimeIntervals], getListOfSelectedCodes);
+
+export const getIsDirectOnly = (state: RootState): boolean => state.filters.directOnly;
+export const getFlightSearch = (state: RootState): string => state.filters.flightSearch.search;
+export const getIsUsable = (state: RootState): boolean => state.filters.usable;
+
+export const filtersConfig = createSelector(
 	[
-		getFlightsForCurrentLeg,
 		getSelectedAirlinesList,
 		getSelectedDepartureAirportsList,
 		getSelectedArrivalAirportsList,
-		TimeFilter.getSelectedDepartureTimeIntervals,
-		TimeFilter.getSelectedArrivalTimeIntervals,
+		getSelectedDepartureTimeIntervals,
+		getSelectedArrivalTimeIntervals,
 		getIsDirectOnly,
 		getFlightSearch,
-		getShowAllFlights,
-		Sorting.getCurrentSorting,
-		getRelativePrices
+		getIsUsable
 	],
 	(
-		flights: Flight[],
 		selectedAirlines: ListOfSelectedCodes,
 		selectedDepartureAirports: ListOfSelectedCodes,
 		selectedArrivalAirports: ListOfSelectedCodes,
@@ -311,10 +319,60 @@ export const getVisibleFlights = createSelector(
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
 		flightSearch: string,
+		usable: boolean
+	) => {
+		return {
+			selectedAirlines,
+			selectedDepartureAirports,
+			selectedArrivalAirports,
+			selectedDepartureTimeIntervals,
+			selectedArrivalTimeIntervals,
+			directOnly,
+			flightSearch,
+			usable
+		};
+	}
+);
+
+/**
+ * Get an array of flights after filtering.
+ */
+export const getVisibleFlights = createSelector(
+	[
+		getFlightsForCurrentLeg,
+		getShowAllFlights,
+		Sorting.getCurrentSorting,
+		getRelativePrices,
+		filtersConfig
+	],
+	(
+		flights: Flight[],
 		showAllFlights: boolean,
 		sorting: SortingState,
-		prices: FlightsReplacement
+		prices: FlightsReplacement,
+		{
+			selectedAirlines,
+			selectedDepartureAirports,
+			selectedArrivalAirports,
+			selectedDepartureTimeIntervals,
+			selectedArrivalTimeIntervals,
+			directOnly,
+			flightSearch,
+			usable
+		}: {
+			selectedAirlines: ListOfSelectedCodes;
+			selectedDepartureAirports: ListOfSelectedCodes;
+			selectedArrivalAirports: ListOfSelectedCodes;
+			selectedDepartureTimeIntervals: ListOfSelectedCodes;
+			selectedArrivalTimeIntervals: ListOfSelectedCodes;
+			directOnly: boolean;
+			flightSearch: string;
+			usable: boolean;
+		}
 	): Flight[] => {
+
+		const selectedAirlineCodes = usable ? getAirlinesIATA(flights) : {};
+
 		let newFlights = flights.filter(flight => {
 			const firstSegment = flight.segments[0];
 			const lastSegment = flight.segments[flight.segments.length - 1];
@@ -324,6 +382,7 @@ export const getVisibleFlights = createSelector(
 				return false;
 			}
 
+			// Filter by searchIndex.
 			if (flightSearch && flight.searchIndex.indexOf(flightSearch.toLowerCase()) === -1) {
 				return false;
 			}
@@ -344,12 +403,25 @@ export const getVisibleFlights = createSelector(
 			}
 
 			// Filter by departure time.
-			if (Object.keys(selectedDepartureTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(firstSegment.depDate) in selectedDepartureTimeIntervals)) {
+			if (Object.keys(selectedDepartureTimeIntervals).length && !(getTimeIntervalForDate(firstSegment.depDate) in selectedDepartureTimeIntervals)) {
 				return false;
 			}
 
+			// Filter by usage flights.
+			if (usable) {
+				let airlinesExist = true;
+
+				flight.segments.forEach(segment => {
+					if (!selectedAirlineCodes.hasOwnProperty(segment.airline.IATA)) {
+						airlinesExist = false;
+					}
+				});
+
+				return airlinesExist;
+			}
+
 			// Filter by arrival time.
-			return !(Object.keys(selectedArrivalTimeIntervals).length && !(TimeFilter.getTimeIntervalForDate(lastSegment.arrDate) in selectedArrivalTimeIntervals));
+			return !(Object.keys(selectedArrivalTimeIntervals).length && !(getTimeIntervalForDate(lastSegment.arrDate) in selectedArrivalTimeIntervals));
 		});
 
 		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));

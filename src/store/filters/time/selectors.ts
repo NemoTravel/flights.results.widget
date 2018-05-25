@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../reducers';
-import { getListOfSelectedCodes } from '../selectors';
 import { Moment } from 'moment';
 import { FlightTimeInterval, LocationType } from '../../../enums';
 import { TimeFilterState } from './reducers';
@@ -71,6 +70,3 @@ export const getAllTimeIntervals = createSelector([getFlightsForCurrentLeg], get
 
 export const getFilteredDepartureTimeIntervals = (state: RootState): FlightTimeInterval[] => state.filters.time[LocationType.Departure];
 export const getFilteredArrivalTimeIntervals = (state: RootState): FlightTimeInterval[] => state.filters.time[LocationType.Arrival];
-
-export const getSelectedDepartureTimeIntervals = createSelector([getFilteredDepartureTimeIntervals], getListOfSelectedCodes);
-export const getSelectedArrivalTimeIntervals = createSelector([getFilteredArrivalTimeIntervals], getListOfSelectedCodes);

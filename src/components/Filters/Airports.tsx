@@ -15,11 +15,10 @@ import {
 import {
 	getArrivalAirports,
 	getDepartureAirports,
-	getSelectedArrivalAirportsList,
 	getSelectedArrivalAirportsObjects,
-	getSelectedDepartureAirportsList,
 	getSelectedDepartureAirportsObjects
 } from '../../store/filters/airports/selectors';
+import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from '../../store/selectors';
 import { LocationType } from '../../enums';
 
 interface StateProps {
