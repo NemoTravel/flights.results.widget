@@ -136,7 +136,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const firstSegment = flight.firstSegment;
 		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
 		const time = this.state.isOpen ?
-			moment.duration(firstSegment.flightTime + firstSegment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]') :
+			moment.duration(firstSegment.flightTime, 'seconds').format('d [д] h [ч] m [мин]') :
 			flight.totalFlightTimeHuman;
 
 		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen })} onClick={this.toggleDetails}>
