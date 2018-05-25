@@ -86,6 +86,11 @@
 		&_open {
 			&:hover {
 				background: transparent;
+
+				.flight-summary-stage-routeInfo__flightTime,
+				.flight-details-segment-stage-routeInfo__flightTime {
+					background: #ffffff;
+				}
 			}
 		}
 

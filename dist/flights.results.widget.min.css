@@ -408,6 +408,12 @@
   background: transparent;
 }
 
+.flight-summary_open:hover .flight-summary-stage-routeInfo__flightTime,
+.flight-summary_open:hover .flight-details-segment-stage-routeInfo__flightTime,
+.flight-summary_open:hover .flight-details-segment-stage-routeInfo__flightTime {
+  background: #ffffff;
+}
+
 .flight-summary-expand {
   display: -webkit-box;
   display: -ms-flexbox;

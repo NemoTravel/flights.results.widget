@@ -14,6 +14,7 @@ import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
 import SelectedFlight from '../schemas/SelectedFlight';
 import { selectFlight } from '../store/selectedFlights/actions';
+import * as moment from 'moment';
 
 export interface Props {
 	flight: FlightModel;
@@ -134,6 +135,9 @@ class Flight<P> extends React.Component<Props & P, State> {
 		const flight: FlightModel = this.props.flight;
 		const firstSegment = flight.firstSegment;
 		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
+		const time = this.state.isOpen ?
+			moment.duration(firstSegment.flightTime + firstSegment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]') :
+			flight.totalFlightTimeHuman;
 
 		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen })} onClick={this.toggleDetails}>
 			<div className="flight-summary__left">
@@ -160,7 +164,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 
 				<div className="flight-summary-stage-routeInfo">
 					<div className="flight-summary-stage-routeInfo__arrow"/>
-					<span className="flight-summary-stage-routeInfo__flightTime">{flight.totalFlightTimeHuman}</span>
+					<span className="flight-summary-stage-routeInfo__flightTime">{time}</span>
 				</div>
 
 				<div className="flight-summary-stage">
