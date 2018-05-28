@@ -3,11 +3,11 @@ import * as classnames from 'classnames';
 import Button from '@material-ui/core/Button';
 import autobind from 'autobind-decorator';
 
-import Flight from '../Flight';
-import SelectedFlightSchema from '../../schemas/SelectedFlight';
-import { goToLeg } from '../../store/currentLeg/actions';
-import Price from '../Price';
-import FlightModel from '../../models/Flight';
+import Flight from './Flight';
+import SelectedFlightSchema from '../schemas/SelectedFlight';
+import { goToLeg } from '../store/currentLeg/actions';
+import Price from './Price';
+import FlightModel from '../models/Flight';
 
 interface Props {
 	flight: FlightModel;

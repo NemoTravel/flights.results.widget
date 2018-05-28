@@ -9,7 +9,7 @@ import { getLegs, isRT } from '../store/legs/selectors';
 import { connect } from '../utils';
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
-import SelectedFlight from './FareFamilies/SelectedFlight';
+import SelectedFlight from './SelectedFlight';
 import { goToLeg } from '../store/currentLeg/actions';
 import { FlightsReplacement } from '../schemas/SelectedFlight';
 import { getPricesForSelectedFlights } from '../store/selectors';
@@ -71,11 +71,9 @@ class SelectedFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { legs } = this.props;
-
 		return (
 			<div className="results-selectedFlights">
-				{legs.map(this.renderLegContent)}
+				{this.props.legs.map(this.renderLegContent)}
 			</div>
 		);
 	}
