@@ -6,6 +6,24 @@ import { remoteAllFilters } from '../../filters/actions';
 import { searchFareFamilies } from '../../actions';
 import { RootState } from '../../reducers';
 import { hideFlights } from '../../showAllFlights/actions';
+import Flight from '../../../models/Flight';
+import { addFlights } from '../../flights/actions';
+import SelectedFlight from '../../../schemas/SelectedFlight';
+
+const splitRTFlight = (flight: Flight): Flight[] => {
+	const result: Flight[] = [];
+
+	flight.segmentGroups.forEach((leg, index) => {
+		flight.segmentGroups = [leg];
+		flight.segments = leg.segments;
+
+		const newFlight = new Flight(flight);
+		newFlight.id = `${flight.id}/${index}`;
+		result.push(newFlight);
+	});
+
+	return result;
+};
 
 function* worker({ payload }: SelectedFlightAction) {
 	const isComplete: boolean = yield select(isLastLeg);
@@ -13,10 +31,22 @@ function* worker({ payload }: SelectedFlightAction) {
 	const numOfLegs = state.legs.length;
 
 	if (payload.flight.isRT) {
-		// When selecting RT flight, we must replace all previous selected flights with the new one.
+		// Split RT-flight into pieces by legs.
+		const RTPieces = splitRTFlight(state.flights[payload.flight.newFlightId]);
+
+		// Save RT-flight pieces to the global flights pool.
+		yield put(addFlights(RTPieces));
+
 		for (let i = 0; i < numOfLegs; i++) {
-			yield put(setSelectedFlight(payload.flight, i));
-			yield put(searchFareFamilies(payload.flight.newFlightId, i));
+			if (RTPieces[i]) {
+				const newSelectedFlight: SelectedFlight = {
+					...payload.flight,
+					newFlightId: RTPieces[i].id
+				};
+
+				yield put(setSelectedFlight(newSelectedFlight, i));
+				yield put(searchFareFamilies(newSelectedFlight.newFlightId, i));
+			}
 		}
 	}
 	else {

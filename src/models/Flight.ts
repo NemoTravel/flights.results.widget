@@ -49,8 +49,13 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 
 			group.segments = group.segments.map((segment: any): Segment => {
 				// Convert dates from Nemo object to a Moment.js object.
-				segment.arrDate = convertNemoDateToMoment(segment.arrDate as Date);
-				segment.depDate = convertNemoDateToMoment(segment.depDate as Date);
+				if ('offsetUTC' in segment.arrDate) {
+					segment.arrDate = convertNemoDateToMoment(<Date>segment.arrDate);
+				}
+
+				if ('offsetUTC' in segment.depDate) {
+					segment.depDate = convertNemoDateToMoment(<Date>segment.depDate);
+				}
 
 				// Generate UID for each segment.
 				legUID.push(this.createSegmentUID(segment as Segment));
