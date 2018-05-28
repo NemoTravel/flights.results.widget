@@ -12,7 +12,6 @@ interface Props {
 	segmentId: string;
 	onChange: (segmentId: number, familyId: string) => void;
 	families: FareFamily[];
-	isAvailable: boolean;
 	prices: { [familyId: string]: Money };
 }
 
@@ -32,13 +31,7 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.enabledFamilies !== nextProps.enabledFamilies ||
-			this.props.prices !== nextProps.prices ||
-			this.props.segment !== nextProps.segment ||
-			this.props.segmentId !== nextProps.segmentId ||
-			this.props.families !== nextProps.families ||
-			this.props.isAvailable !== nextProps.isAvailable ||
-			this.props.initialCombination !== nextProps.initialCombination || true;
+		return true;
 	}
 
 	onChange(familyId: string): void {
@@ -70,16 +63,8 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
-		const { isAvailable } = this.props;
-
 		return <div className="fareFamilies-leg-segment">
-			{!isAvailable ? (
-				<div className="fareFamilies-leg-segment-title">
-					<span className="fareFamilies-leg-segment-title__disclaimer">Выбор тарифа недоступен</span>
-				</div>
-			) : null}
-
-			{isAvailable ? this.renderContent() : ''}
+			{this.renderContent()}
 		</div>;
 	}
 }

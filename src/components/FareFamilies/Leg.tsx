@@ -75,17 +75,16 @@ class Leg extends React.Component<Props> {
 		const families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
 		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 
-		return <FamiliesSegment
+		return !!combinations && !!families ? <FamiliesSegment
 			key={segmentId}
 			segmentId={segmentId}
 			segment={segment}
 			enabledFamilies={enabledFamilies}
 			initialCombination={initialCombinationsBySegments[index]}
 			families={families}
-			isAvailable={!!combinations && !!families}
 			onChange={this.onChange}
 			prices={prices ? prices[index] : {}}
-		/>;
+		/> : null;
 	}
 
 	render(): React.ReactNode {

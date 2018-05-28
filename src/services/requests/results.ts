@@ -7,7 +7,7 @@ export default async (requestParams: RequestInfo): Promise<Flight[]> => {
 	const data = new FormData();
 	let responseJSON = JSON.parse(localStorage.getItem(JSON.stringify(requestParams)));
 
-	if (!responseJSON) {
+	if (!responseJSON || true) {
 		data.append('data', JSON.stringify({
 			...requestParams,
 			segments: requestParams.segments.map(segment => {
