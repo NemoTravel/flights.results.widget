@@ -64,7 +64,7 @@ export const startSearch = (searchInfo: SearchInfo) => {
 	};
 };
 
-export const searchFareFamilies = (flightId: number, legId: number) => {
+export const searchFareFamilies = (flightId: string, legId: number) => {
 	return {
 		type: SEARCH_FARE_FAMILIES,
 		payload: {

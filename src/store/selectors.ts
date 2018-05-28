@@ -31,7 +31,7 @@ import { getShowAllFlights } from './showAllFlights/selectors';
 import { getFlightSearch } from './filters/flightSearch/selectors';
 
 export interface PricesByFlights {
-	[flightId: number]: Money;
+	[flightId: string]: Money;
 }
 
 interface PricesByLegs {

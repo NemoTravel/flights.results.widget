@@ -1,7 +1,7 @@
 import * as APIParser from '@nemo.travel/api-parser';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 
-export const parse = (response: APIParser.Response, parentFlightId: number): FareFamiliesCombinations => {
+export const parse = (response: APIParser.Response, parentFlightId: string): FareFamiliesCombinations => {
 	let result: FareFamiliesCombinations;
 	const objects = APIParser(response);
 	const responseInfo = objects[`flight/fareFamilies/${parentFlightId}`];

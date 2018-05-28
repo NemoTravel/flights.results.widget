@@ -1,12 +1,12 @@
 import Money from './Money';
 
 export interface FlightsReplacement {
-	[originalFlightId: number]: SelectedFlight
+	[originalFlightId: string]: SelectedFlight
 }
 
 export default interface SelectedFlight {
 	price: Money;
-	newFlightId: number;
-	originalFlightId: number;
+	newFlightId: string;
+	originalFlightId: string;
 	isRT: boolean;
 }

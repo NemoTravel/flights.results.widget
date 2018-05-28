@@ -2,7 +2,7 @@ import { ADD_FLIGHTS, FlightsAction } from './actions';
 import Flight from '../../models/Flight';
 
 export interface FlightsState {
-	[flightId: number]: Flight;
+	[flightId: string]: Flight;
 }
 
 export const flightsReducer = (state: FlightsState = {}, action: FlightsAction): FlightsState => {

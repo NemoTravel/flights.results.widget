@@ -38,7 +38,7 @@ export const isSelectionComplete = createSelector(
 export const getTotalPriceOfSelectedFlights = createSelector(
 	[getSelectedFlights],
 	(selectedFlights: Flight[]): number => {
-		const map: { [flightId: number]: boolean } = {};
+		const map: { [flightId: string]: boolean } = {};
 		let result = 0;
 
 		selectedFlights.forEach(flight => {

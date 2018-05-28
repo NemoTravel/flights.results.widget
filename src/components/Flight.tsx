@@ -28,7 +28,7 @@ interface State {
 }
 
 const MAX_NUM_OF_LOGO_INLINE = 2;
-const stateByFlights: { [flightId: number]: State } = {};
+const stateByFlights: { [flightId: string]: State } = {};
 
 class Flight extends React.Component<Props, State> {
 	static defaultProps: Partial<Props> = {

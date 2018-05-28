@@ -9,7 +9,7 @@ import Date from '../schemas/Date';
 import Fillable from '../models/Fillable';
 
 export default class Flight extends Fillable<FlightSchema> implements FlightSchema {
-	id: number;
+	id: string;
 	altFlightHasBeenChosen: boolean;
 	altFlights: Flight[];
 	codeShareAirlines: Airline[];
@@ -41,6 +41,8 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 
 		const UID: string[] = [];
 		let totalFlightTime = 0;
+
+		this.id = flightSource.id.toString();
 
 		this.segmentGroups = flightSource.segmentGroups.map(group => {
 			const legUID: string[] = [];

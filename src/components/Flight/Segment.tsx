@@ -32,8 +32,6 @@ class Segment extends React.Component<Props> {
 		const waitingTime = moment.duration(segment.prevSegment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const arrivalAtNextDay = segment.depDate.date() !== segment.arrDate.date();
 
-		console.log(this.props.renderAdditionalBlock);
-
 		return <>
 			<div className="flight-details-segment">
 				{hasTransfer ? (

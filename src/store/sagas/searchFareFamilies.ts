@@ -8,9 +8,9 @@ import loadFareFamilies from '../../services/requests/fareFamilies';
 import { setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
 
-const pool: { [flightId: number]: Task } = {};
+const pool: { [flightId: string]: Task } = {};
 
-function* runFareFamiliesSearch(flightId: number, legId: number) {
+function* runFareFamiliesSearch(flightId: string, legId: number) {
 	try {
 		yield put(startLoadingFareFamilies(legId));
 
