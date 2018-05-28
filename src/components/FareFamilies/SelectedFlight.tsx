@@ -33,13 +33,13 @@ class SelectedFlight extends Flight<Props> {
 		}
 	}
 
-	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
+	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
 		this.props.goToLeg(this.props.currentLegId);
 	}
 
-	renderSummaryButtonsBlock(): React.ReactNode {
+	renderActionBlock(): React.ReactNode {
 		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
 
@@ -58,7 +58,7 @@ class SelectedFlight extends Flight<Props> {
 				) : null}
 			</div>
 
-			<Button onClick={this.onBuyButtonClick} color="secondary">Изменить</Button>
+			<Button onClick={this.onAction} color="secondary">Изменить</Button>
 		</div>;
 	}
 

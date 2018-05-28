@@ -61,7 +61,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	@autobind
-	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
+	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
 
@@ -90,7 +90,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 			});
 	}
 
-	renderSummaryButtonsBlock(): React.ReactNode {
+	renderActionBlock(): React.ReactNode {
 		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
 
@@ -121,7 +121,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 				) : null}
 			</div>
 
-			<Button className="flight-summary-buy" onClick={this.onBuyButtonClick}/>
+			<Button className="flight-summary-buy" onClick={this.onAction}/>
 		</div>;
 	}
 
@@ -180,7 +180,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 				{this.state.isOpen ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
 			</div>
 
-			{this.renderSummaryButtonsBlock()}
+			{this.renderActionBlock()}
 		</div>;
 	}
 
@@ -216,19 +216,19 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return this.state.isOpen ? <>
+		return <>
 			<div className="flight-details">
 				{this.props.flight.segments.slice(1).map((segment, index) => <Segment key={index} segment={segment}/>)}
 			</div>
 
 			{this.renderFilters()}
-		</> : null;
+		</>;
 	}
 
 	render(): React.ReactNode {
 		return <div className={classnames(this.mainClassName, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
 			{this.renderSummary()}
-			{this.renderDetails()}
+			{this.state.isOpen ? this.renderDetails() : null}
 		</div>;
 	}
 }
