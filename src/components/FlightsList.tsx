@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 import FlightModel from '../models/Flight';
-import Flight from './Flight';
 import { RootState } from '../store/reducers';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
@@ -14,6 +13,7 @@ import { showAllFlights } from '../store/showAllFlights/actions';
 import { SnackbarProps, withSnackbar } from './Snackbar';
 import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';
 import { isRT } from '../store/legs/selectors';
+import ResultsFlight from './ResultsFlight';
 
 export interface OwnProps {
 	legId: number;
@@ -72,7 +72,7 @@ class FlightsList extends React.Component<Props> {
 		return this.props.flights.length ?
 			<>
 				{this.props.flights.map(flight => (
-					<Flight
+					<ResultsFlight
 						key={flight.id}
 						replacement={prices[flight.id]}
 						flight={flight}
@@ -82,7 +82,11 @@ class FlightsList extends React.Component<Props> {
 					/>
 				))}
 
-				{hasHiddenFlights ? <div className="results-flights-showAllButton"><Button variant="raised" onClick={this.showAll}>Показать всё</Button></div> : null}
+				{hasHiddenFlights ? (
+					<div className="results-flights-showAllButton">
+						<Button variant="raised" onClick={this.showAll}>Показать всё</Button>
+					</div>
+				) : null}
 			</> :
 			(
 				<Typography variant="headline">Нет результатов.</Typography>

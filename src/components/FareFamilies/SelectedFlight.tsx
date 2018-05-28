@@ -1,44 +1,31 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import Button from '@material-ui/core/Button';
+import autobind from 'autobind-decorator';
 
-import Flight, { Props as FlightProps } from '../Flight';
+import Flight from '../Flight';
+import SelectedFlightSchema from '../../schemas/SelectedFlight';
 import { goToLeg } from '../../store/currentLeg/actions';
 import Price from '../Price';
+import FlightModel from '../../models/Flight';
 
-interface Props extends FlightProps {
+interface Props {
+	flight: FlightModel;
 	goToLeg: typeof goToLeg;
-	withFamilies?: boolean;
+	showPricePrefix: boolean;
+	replacement: SelectedFlightSchema;
+	currentLegId: number;
 }
 
-class SelectedFlight extends Flight<Props> {
-	static defaultProps: Partial<Props> = {
-		withFamilies: false
-	};
-
-	protected isDirect = false;
-
-	constructor(props: Props) {
-		super(props);
-
-		if (this.props.flight.segments.length === 1) {
-			this.isDirect = true;
-			this.mainClassName += ' flight_direct';
-		}
-	}
-
-	toggleDetails(): void {
-		if (!this.isDirect) {
-			super.toggleDetails();
-		}
-	}
-
+class SelectedFlight extends React.Component<Props> {
+	@autobind
 	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
 		this.props.goToLeg(this.props.currentLegId);
 	}
 
+	@autobind
 	renderActionBlock(): React.ReactNode {
 		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
@@ -62,12 +49,19 @@ class SelectedFlight extends Flight<Props> {
 		</div>;
 	}
 
-	renderSummaryMiddleClosed(): React.ReactNode {
-		return this.isDirect ? this.renderSummaryMiddleOpened() : super.renderSummaryMiddleClosed();
-	}
+	render(): React.ReactNode {
+		const isDirect = this.props.flight.segments.length === 1;
 
-	renderFilters(): React.ReactNode {
-		return null;
+		return (
+			<Flight
+				{...this.props}
+				className={classnames('flight', { flight_direct: isDirect })}
+				isToggleable={!isDirect}
+				showOpenedSummary={isDirect}
+				showFilters={false}
+				renderActionBlock={this.renderActionBlock}
+			/>
+		);
 	}
 }
 

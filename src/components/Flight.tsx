@@ -2,70 +2,63 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import * as moment from 'moment';
 import autobind from 'autobind-decorator';
-import StarIcon from '@material-ui/icons/Stars';
 
-import Tooltip from './Flight/Tooltip';
 import Segment from './Flight/Segment';
 import Filters from './Flight/Filters';
-import Price from './Price';
 import FlightModel from '../models/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
-import Button from './Flight/Button';
-import SelectedFlight from '../schemas/SelectedFlight';
-import { selectFlight } from '../store/selectedFlights/actions';
 
 export interface Props {
+	className?: string;
 	flight: FlightModel;
-	style?: React.CSSProperties;
-	currentLegId?: number;
-	showPricePrefix?: boolean;
-	replacement?: SelectedFlight;
-	selectFlight?: typeof selectFlight;
+	isToggleable?: boolean;
+	showFilters?: boolean;
+	showOpenedSummary?: boolean;
+	renderActionBlock: () => React.ReactNode;
 }
 
 interface State {
 	isOpen: boolean;
 }
 
-const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
 const MAX_NUM_OF_LOGO_INLINE = 2;
 const stateByFlights: { [flightId: number]: State } = {};
 
-class Flight<P> extends React.Component<Props & P, State> {
-	protected mainClassName = 'flight';
+class Flight extends React.Component<Props, State> {
+	static defaultProps: Partial<Props> = {
+		isToggleable: true,
+		showFilters: true,
+		showOpenedSummary: false,
+		className: 'flight'
+	};
 
-	constructor(props: Props & P) {
+	protected segmentsForDetails: SegmentModel[] = [];
+
+	constructor(props: Props) {
 		super(props);
 
+		this.segmentsForDetails = this.props.flight.segments.slice(1);
 		this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
 	}
 
-	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
-		return this.props.flight.id !== nextProps.flight.id ||
-			this.props.replacement !== nextProps.replacement ||
-			this.state.isOpen !== nextState.isOpen;
+	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+		return this.props.flight.id !== nextProps.flight.id || this.state.isOpen !== nextState.isOpen;
 	}
 
 	@autobind
 	toggleDetails(): void {
-		this.setState({
-			isOpen: !this.state.isOpen
-		} as State);
+		if (this.props.isToggleable) {
+			this.setState({
+				isOpen: !this.state.isOpen
+			} as State);
+		}
 	}
 
 	componentWillUnmount(): void {
 		stateByFlights[this.props.flight.id] = this.state;
-	}
-
-	@autobind
-	onAction(event: React.MouseEvent<HTMLDivElement>): void {
-		event.stopPropagation();
-		event.preventDefault();
-
-		this.props.selectFlight(this.props.replacement, this.props.currentLegId);
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {
@@ -90,43 +83,8 @@ class Flight<P> extends React.Component<Props & P, State> {
 			});
 	}
 
-	renderActionBlock(): React.ReactNode {
-		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
-		const price = replacement ? replacement.price : flight.totalPrice;
-
-		return <div className="flight-summary__right">
-			<div className="flight-summary-price">
-				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
-
-					<Price withPlus={currentLegId !== 0} price={price}/>
-				</div>
-
-				{price.amount < 0 ? (
-					<Tooltip title={tariffTooltipText} placement="top">
-						<div className="flight-summary-price-profitMark">
-							<div className="flight-summary-price-profitMark__icon">
-								<StarIcon/>
-							</div>
-
-							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
-						</div>
-					</Tooltip>
-				) : null}
-
-				{currentLegId === 0 ? (
-					<div className="flight-summary-price__route">
-						за весь маршрут
-					</div>
-				) : null}
-			</div>
-
-			<Button className="flight-summary-buy" onClick={this.onAction}/>
-		</div>;
-	}
-
 	renderFilters(): React.ReactNode {
-		return <Filters flight={this.props.flight}/>;
+		return this.props.showFilters ? <Filters flight={this.props.flight}/> : null;
 	}
 
 	renderSummary(): React.ReactNode {
@@ -177,10 +135,10 @@ class Flight<P> extends React.Component<Props & P, State> {
 			</div>
 
 			<div className="flight-summary__middle">
-				{this.state.isOpen ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
+				{this.state.isOpen || this.props.showOpenedSummary ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
 			</div>
 
-			{this.renderActionBlock()}
+			{this.props.renderActionBlock()}
 		</div>;
 	}
 
@@ -218,7 +176,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 	renderDetails(): React.ReactNode {
 		return <>
 			<div className="flight-details">
-				{this.props.flight.segments.slice(1).map((segment, index) => <Segment key={index} segment={segment}/>)}
+				{this.segmentsForDetails.map((segment, index) => <Segment key={index} segment={segment}/>)}
 			</div>
 
 			{this.renderFilters()}
@@ -226,7 +184,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	render(): React.ReactNode {
-		return <div className={classnames(this.mainClassName, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
+		return <div className={classnames(this.props.className, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
 			{this.renderSummary()}
 			{this.state.isOpen ? this.renderDetails() : null}
 		</div>;
