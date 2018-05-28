@@ -16,10 +16,6 @@ const TransferIcon = <svg fill="#000000" height="48" viewBox="0 0 24 24" width="
 </svg>;
 
 class Segment extends React.Component<Props> {
-	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.segment !== nextProps.segment;
-	}
-
 	renderLogo(): React.ReactNode {
 		const segment = this.props.segment;
 
@@ -35,6 +31,8 @@ class Segment extends React.Component<Props> {
 		const hasTransfer = !!segment.prevSegment;
 		const waitingTime = moment.duration(segment.prevSegment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
 		const arrivalAtNextDay = segment.depDate.date() !== segment.arrDate.date();
+
+		console.log(this.props.renderAdditionalBlock);
 
 		return <>
 			<div className="flight-details-segment">

@@ -80,8 +80,6 @@ class Leg extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		console.log(this.props.combinations);
-
 		return <Flight
 			{...this.props}
 			className={classnames('flight', { flight_direct: true })}
