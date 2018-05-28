@@ -14,6 +14,7 @@ import { fixImageURL } from '../utils';
 export interface Props {
 	flight: FlightModel;
 	renderActionBlock: () => React.ReactNode;
+	renderDetails?: () => React.ReactNode;
 	className?: string;
 	isToggleable?: boolean;
 	showFilters?: boolean;
@@ -178,19 +179,16 @@ class Flight extends React.Component<Props, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return <>
-			<div className="flight-details">
-				{this.segmentsForDetails.map((segment, index) => <Segment key={index} segment={segment}/>)}
-			</div>
-
-			{this.props.showFilters ? <Filters flight={this.props.flight}/> : null}
-		</>;
+		return this.props.renderDetails ? this.props.renderDetails() : <div className="flight-details">
+			{this.segmentsForDetails.map((segment, index) => <Segment key={index} segment={segment}/>)}
+		</div>;
 	}
 
 	render(): React.ReactNode {
 		return <div className={classnames(this.props.className, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
 			{this.renderSummary()}
 			{this.state.isOpen ? this.renderDetails() : null}
+			{this.state.isOpen && this.props.showFilters ? <Filters flight={this.props.flight}/> : null}
 		</div>;
 	}
 }

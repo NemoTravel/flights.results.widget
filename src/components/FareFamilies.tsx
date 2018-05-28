@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import autobind from 'autobind-decorator';
 
 import Flight from '../models/Flight';
 import Leg from './FareFamilies/Leg';

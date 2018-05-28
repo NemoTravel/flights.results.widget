@@ -9,21 +9,21 @@
 
 	&-leg {
 		&-segment {
-			margin-bottom: 15px;
-			padding: 20px 24px;
+			border-top: 1px solid #e0e0e0;
+			margin-top: 15px;
 
 			&__families {
+				margin: 15px 15px 0;
+				border: 1px solid #eeeeee;
 				display: flex;
 				overflow-x: auto;
-
-				border-top: 1px solid #e0e0e0;
-				margin-top: 15px;
 			}
 
 			&-title {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+				margin: 15px 0 0 24px;
 
 				h1 {
 					font-size: 1.3rem;
