@@ -18,6 +18,7 @@ export interface Props {
 	isToggleable?: boolean;
 	showFilters?: boolean;
 	showOpenedSummary?: boolean;
+	showDetails?: boolean;
 }
 
 interface State {
@@ -32,6 +33,7 @@ class Flight extends React.Component<Props, State> {
 		isToggleable: true,
 		showFilters: false,
 		showOpenedSummary: false,
+		showDetails: false,
 		className: 'flight'
 	};
 
@@ -41,7 +43,13 @@ class Flight extends React.Component<Props, State> {
 		super(props);
 
 		this.segmentsForDetails = this.props.flight.segments.slice(1);
-		this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
+
+		if (this.props.showDetails) {
+			this.state = { isOpen: true };
+		}
+		else {
+			this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
+		}
 	}
 
 	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
@@ -81,10 +89,6 @@ class Flight extends React.Component<Props, State> {
 					<img key={index} className="flight-summary-logo__image" title={airline.name} src={fixImageURL(airline.logoIcon)}/> :
 					<div key={index} className="flight-summary-logo__text">{airline.name}</div>;
 			});
-	}
-
-	renderFilters(): React.ReactNode {
-		return this.props.showFilters ? <Filters flight={this.props.flight}/> : null;
 	}
 
 	renderSummary(): React.ReactNode {
@@ -179,7 +183,7 @@ class Flight extends React.Component<Props, State> {
 				{this.segmentsForDetails.map((segment, index) => <Segment key={index} segment={segment}/>)}
 			</div>
 
-			{this.renderFilters()}
+			{this.props.showFilters ? <Filters flight={this.props.flight}/> : null}
 		</>;
 	}
 

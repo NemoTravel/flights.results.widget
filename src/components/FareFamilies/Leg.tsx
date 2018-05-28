@@ -1,30 +1,30 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import autobind from 'autobind-decorator';
-import Typography from '@material-ui/core/Typography/Typography';
+import Button from '@material-ui/core/Button/Button';
 
 import Segment from './Segment';
-import Flight from '../../models/Flight';
+import FlightModel from '../../models/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../store/fareFamilies/selectedFamilies/reducers';
 import { selectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
+import { goToLeg } from '../../store/currentLeg/actions';
 import Money from '../../schemas/Money';
+import Flight from '../Flight';
 
 interface Props {
-	id: number;
-	isRT?: boolean;
-	flight: Flight;
+	flight: FlightModel;
 	prices: { [segmentId: number]: { [familyId: string]: Money } };
 	selectedFamilies: SelectedFamiliesState;
 	combinations: FareFamiliesCombinations;
 	selectFamily: typeof selectFamily;
+	goToLeg: typeof goToLeg;
 	availability: { [segmentId: number]: { [familyId: string]: boolean } };
 }
 
 class Leg extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.id !== nextProps.id ||
-			this.props.isRT !== nextProps.isRT ||
-			this.props.prices !== nextProps.prices ||
+		return this.props.prices !== nextProps.prices ||
 			this.props.selectedFamilies !== nextProps.selectedFamilies ||
 			this.props.combinations !== nextProps.combinations ||
 			this.props.availability !== nextProps.availability ||
@@ -33,37 +33,57 @@ class Leg extends React.Component<Props> {
 
 	@autobind
 	onChange(segmentId: number, familyId: string): void {
-		this.props.selectFamily(this.props.id, segmentId, familyId);
+		this.props.selectFamily(this.props.flight.legId, segmentId, familyId);
+	}
+
+	@autobind
+	onAction(event: React.MouseEvent<HTMLDivElement>): void {
+		event.stopPropagation();
+		event.preventDefault();
+
+		this.props.goToLeg(this.props.flight.legId);
+	}
+
+	@autobind
+	renderActionBlock(): React.ReactNode {
+		return <div className="flight-summary__right">
+			<Button onClick={this.onAction} color="secondary">Изменить</Button>
+		</div>;
 	}
 
 	render(): React.ReactNode {
-		const { flight, combinations, prices, availability, isRT, id } = this.props;
+		const { flight, combinations, prices, availability } = this.props;
 		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 
-		return <div className="fareFamilies-leg">
-			{isRT && id === 0 ? <Typography variant="headline" className="fareFamilies-title">Выбор тарифа туда</Typography> : null}
-			{isRT && id === 1 ? <Typography variant="headline" className="fareFamilies-title">Выбор тарифа обратно</Typography> : null}
+		return <Flight
+			{...this.props}
+			className={classnames('flight', { flight_direct: true })}
+			isToggleable={false}
+			showDetails={true}
+			renderActionBlock={this.renderActionBlock}
+		/>;
 
-			<div className="fareFamilies-leg__segments">
-				{flight.segments.map((segment, index) => {
-					const segmentId = `S${index}`;
-					const enabledFamilies = availability ? availability[index] : {};
-					const families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
-
-					return <Segment
-						key={segmentId}
-						segmentId={segmentId}
-						segment={segment}
-						enabledFamilies={enabledFamilies}
-						initialCombination={initialCombinationsBySegments[index]}
-						families={families}
-						isAvailable={!!combinations && !!families}
-						onChange={this.onChange}
-						prices={prices ? prices[index] : {}}
-					/>;
-				})}
-			</div>
-		</div>;
+		// return <div className="fareFamilies-leg">
+		// 	<div className="fareFamilies-leg__segments">
+		// 		{flight.segments.map((segment, index) => {
+		// 			const segmentId = `S${index}`;
+		// 			const enabledFamilies = availability ? availability[index] : {};
+		// 			const families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
+		//
+		// 			return <Segment
+		// 				key={segmentId}
+		// 				segmentId={segmentId}
+		// 				segment={segment}
+		// 				enabledFamilies={enabledFamilies}
+		// 				initialCombination={initialCombinationsBySegments[index]}
+		// 				families={families}
+		// 				isAvailable={!!combinations && !!families}
+		// 				onChange={this.onChange}
+		// 				prices={prices ? prices[index] : {}}
+		// 			/>;
+		// 		})}
+		// 	</div>
+		// </div>;
 	}
 }
 

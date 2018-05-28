@@ -7,7 +7,6 @@ import Results from './Results';
 import FareFamilies from './FareFamilies';
 import { RootState } from '../store/reducers';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
-import Toolbar from './Toolbar';
 import {  startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';

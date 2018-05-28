@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Price from './Price';
 import { RootState } from '../store/reducers';
 import Money from '../schemas/Money';
 import { goBack } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/fareFamilies/selectors';
-import Tooltip from '@material-ui/core/Tooltip';
 import { getTotalPrice } from '../store/selectors';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
 
@@ -33,9 +33,9 @@ class Toolbar extends React.Component<Props> {
 	render(): React.ReactNode {
 		const { combinationsAreValid, isLoadingFareFamilies, totalPrice, goBack } = this.props;
 
-		return <section className="toolbar">
-			<div className="toolbar__inner">
-				{!isLoadingFareFamilies ? <>
+		return !isLoadingFareFamilies ? (
+			<section className="toolbar">
+				<div className="toolbar__inner">
 					<Button variant="raised" onClick={goBack}>Назад</Button>
 
 					<div className="toolbar-totalPrice">
@@ -54,9 +54,9 @@ class Toolbar extends React.Component<Props> {
 							</Tooltip>
 						</div>
 					</div>
-				</> : null}
-			</div>
-		</section>;
+				</div>
+			</section>
+		) : null;
 	}
 }
 
