@@ -25,14 +25,6 @@ interface Props {
 }
 
 class Leg extends React.Component<Props> {
-	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.prices !== nextProps.prices ||
-			this.props.selectedFamilies !== nextProps.selectedFamilies ||
-			this.props.combinations !== nextProps.combinations ||
-			this.props.availability !== nextProps.availability ||
-			this.props.flight !== nextProps.flight || true;
-	}
-
 	@autobind
 	onChange(segmentId: number, familyId: string): void {
 		this.props.selectFamily(this.props.flight.legId, segmentId, familyId);
@@ -88,9 +80,12 @@ class Leg extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
+		console.log(this.props.combinations);
+
 		return <Flight
 			{...this.props}
 			className={classnames('flight', { flight_direct: true })}
+			alwaysUpdate={true}
 			isToggleable={false}
 			showDetails={true}
 			renderDetails={this.renderDetails}
