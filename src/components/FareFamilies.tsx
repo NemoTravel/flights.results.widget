@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import autobind from 'autobind-decorator';
@@ -9,7 +8,7 @@ import Flight from '../models/Flight';
 import Leg from './FareFamilies/Leg';
 import { selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
-import { goBack, goToLeg } from '../store/currentLeg/actions';
+import { goToLeg } from '../store/currentLeg/actions';
 import {
 	getFareFamiliesAvailability, getFareFamiliesCombinations,
 	getFareFamiliesPrices,
@@ -22,6 +21,7 @@ import { FareFamiliesPrices } from '../schemas/FareFamiliesPrices';
 import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
 import { isRT } from '../store/legs/selectors';
 import { connect } from '../utils';
+import Toolbar from './Toolbar';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -36,17 +36,11 @@ interface StateProps {
 interface DispatchProps {
 	selectFamily: typeof selectFamily;
 	goToLeg: typeof goToLeg;
-	goBack: typeof goBack;
 }
 
 type Props = StateProps & DispatchProps;
 
 class FareFamilies extends React.Component<Props> {
-	@autobind
-	goBack(): void {
-		this.props.goBack();
-	}
-
 	render(): React.ReactNode {
 		const {
 			selectedFamilies,
@@ -83,9 +77,9 @@ class FareFamilies extends React.Component<Props> {
 						/>
 					))}
 				</div>
-
-				<Button variant="raised" onClick={this.goBack}>Назад</Button>
 			</div>
+
+			<Toolbar/>
 		</section>;
 	}
 }
@@ -100,6 +94,5 @@ export default connect<StateProps, DispatchProps>({
 	selectedFamilies: getSelectedFamilies
 }, {
 	selectFamily,
-	goToLeg,
-	goBack
+	goToLeg
 })(FareFamilies);

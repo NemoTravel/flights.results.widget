@@ -33,8 +33,6 @@ class Main extends React.Component<StateProps & DispatchProps> {
 					<Route path="/results" render={() => (
 						<>
 							{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
-
-							<Toolbar/>
 						</>
 					)}/>
 

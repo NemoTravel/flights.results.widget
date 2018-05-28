@@ -1,5 +1,4 @@
 .toolbar {
-	display: none;
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -19,85 +18,24 @@
 		justify-content: space-between;
 	}
 
-	&-legs {
-		display: flex;
-		align-items: center;
-
-		&-leg {
-			padding: 8px 11px 8px 9px;
-			font-size: 15px;
-
-			color: #64b5f6;
-			background-color: #ffffff;
-			transition: opacity 0.2s ease-out, color 0.2s ease-out, background-color 0.2s ease-out;
-
-			border: 1px solid #64b5f6;
-			border-radius: 5px;
-			cursor: pointer;
-			user-select: none;
-
-			position: relative;
-			display: flex;
-			align-items: center;
-
-			&:not(:last-of-type) {
-				margin-right: 15px;
-			}
-
-			&__icon {
-				height: 20px !important;
-				margin-right: 7px;
-
-				&_reverse {
-					transform: rotateY(180deg);
-				}
-			}
-
-			&_disabled {
-				border: 1px dashed #64b5f6;
-				opacity: 0.6;
-				cursor: default;
-			}
-
-			&_selected {
-				color: #ffffff;
-				background-color: #64b5f6;
-				cursor: default;
-			}
-
-			&__hidden {
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				left: 0;
-				right: 0;
-
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				color: #ffffff;
-				background-color: #64b5f6;
-				opacity: 0;
-				transition: opacity 0.15s ease-out;
-			}
-
-			&:not(&_selected) {
-				&:not(&_disabled) {
-					&:hover {
-						.toolbar-legs-leg__hidden {
-							opacity: 1;
-						}
-					}
-				}
-			}
-		}
-	}
-
 	&-totalPrice {
 		display: flex;
 		align-items: center;
 		font-size: 17px;
+
+		&__amount {
+			display: flex;
+			align-items: flex-end;
+			justify-content: flex-end;
+
+			&-prefix {
+				position: relative;
+				top: -3px;
+
+				font-size: 15px;
+				color: rgba(0, 0, 0, 0.54);
+			}
+		}
 
 		&__button {
 			margin-left: 15px;
@@ -116,6 +54,7 @@
 		}
 
 		.price {
+			margin-left: 8px;
 			font-size: 1.5rem;
 
 			.price-currency {

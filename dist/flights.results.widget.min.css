@@ -618,7 +618,7 @@
   text-align: right;
   color: rgba(0, 0, 0, 0.87);
   font-size: 1.5rem;
-  margin-left: 5px !important;
+  margin-left: 5px;
 }
 
 .flight-summary-price__amount .price-currency {
@@ -765,7 +765,6 @@
 }
 
 .toolbar {
-  display: none;
   position: fixed;
   left: 0;
   right: 0;
@@ -790,90 +789,6 @@
   justify-content: space-between;
 }
 
-.toolbar-legs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.toolbar-legs-leg {
-  padding: 8px 11px 8px 9px;
-  font-size: 15px;
-  color: #64b5f6;
-  background-color: #ffffff;
-  -webkit-transition: opacity 0.2s ease-out, color 0.2s ease-out, background-color 0.2s ease-out;
-  transition: opacity 0.2s ease-out, color 0.2s ease-out, background-color 0.2s ease-out;
-  border: 1px solid #64b5f6;
-  border-radius: 5px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.toolbar-legs-leg:not(:last-of-type) {
-  margin-right: 15px;
-}
-
-.toolbar-legs-leg__icon {
-  height: 20px !important;
-  margin-right: 7px;
-}
-
-.toolbar-legs-leg__icon_reverse {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-
-.toolbar-legs-leg_disabled {
-  border: 1px dashed #64b5f6;
-  opacity: 0.6;
-  cursor: default;
-}
-
-.toolbar-legs-leg_selected {
-  color: #ffffff;
-  background-color: #64b5f6;
-  cursor: default;
-}
-
-.toolbar-legs-leg__hidden {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: #ffffff;
-  background-color: #64b5f6;
-  opacity: 0;
-  -webkit-transition: opacity 0.15s ease-out;
-  transition: opacity 0.15s ease-out;
-}
-
-.toolbar-legs-leg:not(.toolbar-legs-leg_selected):not(.toolbar-legs-leg:not(.toolbar-legs-leg_selected)_disabled):hover .toolbar-legs-leg__hidden {
-  opacity: 1;
-}
-
 .toolbar-totalPrice {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -882,6 +797,25 @@
   -ms-flex-align: center;
   align-items: center;
   font-size: 17px;
+}
+
+.toolbar-totalPrice__amount {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.toolbar-totalPrice__amount-prefix {
+  position: relative;
+  top: -3px;
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .toolbar-totalPrice__button {
@@ -899,6 +833,7 @@
 }
 
 .toolbar-totalPrice .price {
+  margin-left: 8px;
   font-size: 1.5rem;
 }
 
@@ -908,6 +843,7 @@
 }
 
 .fareFamilies {
+  margin-top: 50px;
   margin-bottom: 60px;
 }
 
