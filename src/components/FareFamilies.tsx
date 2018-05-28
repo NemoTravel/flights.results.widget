@@ -3,6 +3,7 @@ import * as classnames from 'classnames';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import autobind from 'autobind-decorator';
 
 import Flight from '../models/Flight';
 import Leg from './FareFamilies/Leg';
@@ -41,12 +42,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 class FareFamilies extends React.Component<Props> {
-	constructor(props: Props) {
-		super(props);
-
-		this.goBack = this.goBack.bind(this);
-	}
-
+	@autobind
 	goBack(): void {
 		this.props.goBack();
 	}

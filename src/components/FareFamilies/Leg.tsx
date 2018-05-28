@@ -1,4 +1,6 @@
 import * as React from 'react';
+import autobind from 'autobind-decorator';
+import Typography from '@material-ui/core/Typography/Typography';
 
 import Segment from './Segment';
 import Flight from '../../models/Flight';
@@ -6,7 +8,6 @@ import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
 import { SelectedFamiliesState } from '../../store/fareFamilies/selectedFamilies/reducers';
 import { selectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
 import Money from '../../schemas/Money';
-import Typography from '@material-ui/core/Typography/Typography';
 
 interface Props {
 	id: number;
@@ -20,12 +21,6 @@ interface Props {
 }
 
 class Leg extends React.Component<Props> {
-	constructor(props: Props) {
-		super(props);
-
-		this.onChange = this.onChange.bind(this);
-	}
-
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return this.props.id !== nextProps.id ||
 			this.props.isRT !== nextProps.isRT ||
@@ -36,6 +31,7 @@ class Leg extends React.Component<Props> {
 			this.props.flight !== nextProps.flight;
 	}
 
+	@autobind
 	onChange(segmentId: number, familyId: string): void {
 		this.props.selectFamily(this.props.id, segmentId, familyId);
 	}

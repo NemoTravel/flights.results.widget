@@ -1,5 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import * as moment from 'moment';
+import autobind from 'autobind-decorator';
 import StarIcon from '@material-ui/icons/Stars';
 
 import Tooltip from './Flight/Tooltip';
@@ -14,7 +16,6 @@ import { fixImageURL } from '../utils';
 import Button from './Flight/Button';
 import SelectedFlight from '../schemas/SelectedFlight';
 import { selectFlight } from '../store/selectedFlights/actions';
-import * as moment from 'moment';
 
 export interface Props {
 	flight: FlightModel;
@@ -40,9 +41,6 @@ class Flight<P> extends React.Component<Props & P, State> {
 		super(props);
 
 		this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
-
-		this.toggleDetails = this.toggleDetails.bind(this);
-		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
@@ -51,6 +49,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 			this.state.isOpen !== nextState.isOpen;
 	}
 
+	@autobind
 	toggleDetails(): void {
 		this.setState({
 			isOpen: !this.state.isOpen
@@ -61,6 +60,7 @@ class Flight<P> extends React.Component<Props & P, State> {
 		stateByFlights[this.props.flight.id] = this.state;
 	}
 
+	@autobind
 	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
