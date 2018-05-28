@@ -30,9 +30,7 @@ interface State {
 }
 
 const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
-
 const MAX_NUM_OF_LOGO_INLINE = 2;
-
 const stateByFlights: { [flightId: number]: State } = {};
 
 class Flight<P> extends React.Component<Props & P, State> {

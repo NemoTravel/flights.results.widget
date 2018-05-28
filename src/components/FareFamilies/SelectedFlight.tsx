@@ -1,20 +1,21 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import Button from '@material-ui/core/Button';
-import StarIcon from '@material-ui/icons/Stars';
 
 import Flight, { Props as FlightProps } from '../Flight';
 import { goToLeg } from '../../store/currentLeg/actions';
-import * as classnames from 'classnames';
 import Price from '../Price';
-import Tooltip from '@material-ui/core/Tooltip/Tooltip';
-
-const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
 
 interface Props extends FlightProps {
 	goToLeg: typeof goToLeg;
+	withFamilies?: boolean;
 }
 
 class SelectedFlight extends Flight<Props> {
+	static defaultProps: Partial<Props> = {
+		withFamilies: false
+	};
+
 	protected isDirect = false;
 
 	constructor(props: Props) {

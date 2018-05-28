@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Flight from '../models/Flight';
-import SelectedFlights from './FareFamilies/SelectedFlights';
 import Leg from './FareFamilies/Leg';
 import { selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
@@ -66,8 +65,6 @@ class FareFamilies extends React.Component<Props> {
 		} = this.props;
 
 		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
-			<SelectedFlights flights={selectedFlights} goToLeg={goToLeg}/>
-
 			<div className="fareFamilies-loader">
 				<CircularProgress color="secondary" variant="indeterminate"/>
 			</div>
