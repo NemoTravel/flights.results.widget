@@ -12,12 +12,12 @@ import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
 
 export interface Props {
-	className?: string;
 	flight: FlightModel;
+	renderActionBlock: () => React.ReactNode;
+	className?: string;
 	isToggleable?: boolean;
 	showFilters?: boolean;
 	showOpenedSummary?: boolean;
-	renderActionBlock: () => React.ReactNode;
 }
 
 interface State {
@@ -30,7 +30,7 @@ const stateByFlights: { [flightId: number]: State } = {};
 class Flight extends React.Component<Props, State> {
 	static defaultProps: Partial<Props> = {
 		isToggleable: true,
-		showFilters: true,
+		showFilters: false,
 		showOpenedSummary: false,
 		className: 'flight'
 	};

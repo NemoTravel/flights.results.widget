@@ -67,7 +67,7 @@ class ResultsFlight extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		return <Flight {...this.props} renderActionBlock={this.renderActionBlock}/>;
+		return <Flight {...this.props} showFilters={true} renderActionBlock={this.renderActionBlock}/>;
 	}
 }
 

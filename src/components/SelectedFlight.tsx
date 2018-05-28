@@ -22,6 +22,7 @@ class SelectedFlight extends React.Component<Props> {
 	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
 		event.preventDefault();
+
 		this.props.goToLeg(this.props.currentLegId);
 	}
 
@@ -58,7 +59,6 @@ class SelectedFlight extends React.Component<Props> {
 				className={classnames('flight', { flight_direct: isDirect })}
 				isToggleable={!isDirect}
 				showOpenedSummary={isDirect}
-				showFilters={false}
 				renderActionBlock={this.renderActionBlock}
 			/>
 		);
