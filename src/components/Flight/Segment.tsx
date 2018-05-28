@@ -92,7 +92,7 @@ class Segment extends React.Component<Props> {
 				</div>
 			</div>
 
-			{this.props.renderAdditionalBlock()}
+			{this.props.renderAdditionalBlock ? this.props.renderAdditionalBlock() : null}
 		</>;
 	}
 }
