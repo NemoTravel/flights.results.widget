@@ -26,32 +26,42 @@ const splitRTFlight = (flight: Flight): Flight[] => {
 };
 
 function* worker({ payload }: SelectedFlightAction) {
+	const { legId, flight } = payload;
 	const isComplete: boolean = yield select(isLastLeg);
 	const state: RootState = yield select();
+	const selectedFlights = state.selectedFlights;
 	const numOfLegs = state.legs.length;
 
-	if (payload.flight.isRT) {
-		// Split RT-flight into pieces by legs.
-		const RTPieces = splitRTFlight(state.flights[payload.flight.newFlightId]);
+	if (flight.isRT) {
+		// Split RT-flight into different flights objects by legs.
+		// Each created flight will have it's own custom flight ID like `RT_flight_id/leg_id`.
+		// Example: 1560410001/0, 1560410001/1
+		const RTPieces = splitRTFlight(state.flights[flight.newFlightId]);
 
-		// Save RT-flight pieces to the global flights pool.
+		// Save new flights to the global flights pool.
 		yield put(addFlights(RTPieces));
 
+		// OK, now let's set our new created flights objects as selected ones.
 		for (let i = 0; i < numOfLegs; i++) {
 			if (RTPieces[i]) {
+				// Already have selected flight for this leg? Use it as a template.
+				const selectedFlightTemplate = selectedFlights[i] ? selectedFlights[i] : flight;
+
+				// New object for `selectedFlights` state.
 				const newSelectedFlight: SelectedFlight = {
-					...payload.flight,
+					...selectedFlightTemplate,
+					isRT: true,
 					newFlightId: RTPieces[i].id
 				};
 
 				yield put(setSelectedFlight(i, newSelectedFlight));
-				yield put(searchFareFamilies(newSelectedFlight.newFlightId, i));
+				yield put(searchFareFamilies(i, flight.newFlightId));
 			}
 		}
 	}
 	else {
-		yield put(setSelectedFlight(payload.legId, payload.flight));
-		yield put(searchFareFamilies(payload.flight.newFlightId, payload.legId));
+		yield put(setSelectedFlight(legId, flight));
+		yield put(searchFareFamilies(legId, flight.newFlightId));
 	}
 
 	if (!isComplete) {
