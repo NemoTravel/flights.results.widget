@@ -41,6 +41,17 @@ interface PricesByLegs {
 	[legId: number]: Money;
 }
 
+export interface FilterSelectors {
+	selectedAirlines: ListOfSelectedCodes;
+	selectedDepartureAirports: ListOfSelectedCodes;
+	selectedArrivalAirports: ListOfSelectedCodes;
+	selectedDepartureTimeIntervals: ListOfSelectedCodes;
+	selectedArrivalTimeIntervals: ListOfSelectedCodes;
+	directOnly: boolean;
+	flightSearch: string;
+	comfortable: boolean
+}
+
 /**
  * Get a list of min prices for each leg.
  */
@@ -298,7 +309,7 @@ export const getSelectedArrivalTimeIntervals = createSelector([getFilteredArriva
 
 export const getIsDirectOnly = (state: RootState): boolean => state.filters.directOnly;
 export const getFlightSearch = (state: RootState): string => state.filters.flightSearch.search;
-export const getIsUsable = (state: RootState): boolean => state.filters.usable;
+export const getIsComfortable = (state: RootState): boolean => state.filters.comfortable;
 
 export const filtersConfig = createSelector(
 	[
@@ -309,7 +320,7 @@ export const filtersConfig = createSelector(
 		getSelectedArrivalTimeIntervals,
 		getIsDirectOnly,
 		getFlightSearch,
-		getIsUsable
+		getIsComfortable
 	],
 	(
 		selectedAirlines: ListOfSelectedCodes,
@@ -319,7 +330,7 @@ export const filtersConfig = createSelector(
 		selectedArrivalTimeIntervals: ListOfSelectedCodes,
 		directOnly: boolean,
 		flightSearch: string,
-		usableOnly: boolean
+		comfortable: boolean
 	) => {
 		return {
 			selectedAirlines,
@@ -329,7 +340,7 @@ export const filtersConfig = createSelector(
 			selectedArrivalTimeIntervals,
 			directOnly,
 			flightSearch,
-			usableOnly
+			comfortable
 		};
 	}
 );
@@ -360,10 +371,11 @@ export const getVisibleFlights = createSelector(
 			selectedArrivalTimeIntervals,
 			directOnly,
 			flightSearch,
-			usableOnly
-		}: any
+			comfortable
+		}: FilterSelectors
 	): Flight[] => {
-		const selectedAirlineCodes = usableOnly ? getAirlinesIATA(selectedFlights) : {};
+		const selectedAirlineCodes = comfortable ? getAirlinesIATA(selectedFlights) : {},
+			lastSegmentArrAirportIATA = comfortable ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null;
 
 		let newFlights = flights.filter(flight => {
 			const firstSegment = flight.segments[0];
@@ -405,20 +417,16 @@ export const getVisibleFlights = createSelector(
 			}
 
 			// Show only `usable` flight if checked.
-			if (usableOnly) {
-				let airlinesExist = true;
-
-				if (selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA !== flight.firstSegment.depAirport.IATA) {
+			if (comfortable) {
+				if (lastSegmentArrAirportIATA !== flight.firstSegment.depAirport.IATA) {
 					return false;
 				}
 
-				flight.segments.forEach(segment => {
-					if (!selectedAirlineCodes.hasOwnProperty(segment.airline.IATA)) {
-						airlinesExist = false;
+				return flight.segments.find(segment => {
+					if (selectedAirlineCodes.hasOwnProperty(segment.airline.IATA)) {
+						return true;
 					}
 				});
-
-				return airlinesExist;
 			}
 
 			return true;

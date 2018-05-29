@@ -6,7 +6,7 @@ import AirlineFilter from './Filters/Airlines';
 import AirportsFilter from './Filters/Airports';
 import DirectOnlyFilter from './Filters/DirectOnly';
 import TimeFilter from './Filters/Time';
-import UsableFilter from './Filters/Usable';
+import ComfortableFilter from './Filters/Comfortabe';
 import FlightSearchFilter from './Filters/FlightSearch';
 import Leg from '../schemas/Leg';
 
@@ -38,7 +38,7 @@ class Filters extends React.Component<Props> {
 			<div className="filters__right">
 				<span className="filters-title">Фильтры</span>
 
-				<UsableFilter/>
+				<ComfortableFilter/>
 				<DirectOnlyFilter/>
 				<AirlineFilter/>
 				<AirportsFilter/>

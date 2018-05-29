@@ -8,7 +8,7 @@ export enum Type {
 	Time = 'time',
 	DirectOnly = 'directOnly',
 	FlightSearch = 'flightSearch',
-	Usage = 'usage'
+	Comfortable = 'comfortable'
 }
 
 export interface State {
