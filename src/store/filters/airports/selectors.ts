@@ -22,9 +22,6 @@ export const getFilteredDepartureAirports = (state: RootState): string[] => stat
  */
 export const getFilteredArrivalAirports = (state: RootState): string[] => state.filters.airports[LocationType.Arrival];
 
-export const getSelectedDepartureAirportsList = createSelector([getFilteredDepartureAirports], getListOfSelectedCodes);
-export const getSelectedArrivalAirportsList = createSelector([getFilteredArrivalAirports], getListOfSelectedCodes);
-
 /**
  * Get an array of airports for departure and arrival locations.
  *

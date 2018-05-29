@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../reducers';
-import { createMap, getListOfSelectedCodes, ObjectsMap } from '../selectors';
+import { createMap, ObjectsMap } from '../selectors';
 import Airline from '../../../schemas/Airline';
 import Flight from '../../../models/Flight';
 import { getFlightsForCurrentLeg } from '../../flights/selectors';
@@ -12,8 +12,6 @@ import { getFlightsForCurrentLeg } from '../../flights/selectors';
  * @returns {string[]}
  */
 export const getFilteredAirlines = (state: RootState): string[] => state.filters.airlines;
-
-export const getSelectedAirlinesList = createSelector([getFilteredAirlines], getListOfSelectedCodes);
 
 /**
  * Get all airlines participating in all flights.
