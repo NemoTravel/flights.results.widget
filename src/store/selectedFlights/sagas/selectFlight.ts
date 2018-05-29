@@ -3,7 +3,7 @@ import { SELECT_FLIGHT, SelectedFlightAction, setSelectedFlight } from '../actio
 import { nextLeg } from '../../currentLeg/actions';
 import { isLastLeg } from '../../currentLeg/selectors';
 import { remoteAllFilters } from '../../filters/actions';
-import { searchFareFamilies } from '../../actions';
+import { searchFareFamilies, searchFareFamiliesRT } from '../../actions';
 import { RootState } from '../../reducers';
 import { hideFlights } from '../../showAllFlights/actions';
 import Flight from '../../../models/Flight';
@@ -55,9 +55,10 @@ function* worker({ payload }: SelectedFlightAction) {
 				};
 
 				yield put(setSelectedFlight(i, newSelectedFlight));
-				yield put(searchFareFamilies(i, flight.newFlightId));
 			}
 		}
+
+		yield put(searchFareFamiliesRT(flight.newFlightId));
 	}
 	else {
 		yield put(setSelectedFlight(legId, flight));

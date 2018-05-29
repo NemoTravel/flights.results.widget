@@ -10,7 +10,7 @@ import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingF
 
 const pool: { [flightId: string]: Task } = {};
 
-function* runFareFamiliesSearch(flightId: string, legId: number) {
+function* runFareFamiliesSearch(legId: number, flightId: string) {
 	try {
 		yield put(startLoadingFareFamilies(legId));
 
@@ -54,6 +54,6 @@ export default function* searchFareFamiliesSaga() {
 		}
 
 		// Run search and save search-task in the pool object, so we can cancel it later on.
-		pool[payload.flightId] = yield fork(runFareFamiliesSearch, payload.flightId, payload.legId);
+		pool[payload.flightId] = yield fork(runFareFamiliesSearch, payload.legId, payload.flightId);
 	}
 }

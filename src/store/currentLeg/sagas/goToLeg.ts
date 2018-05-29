@@ -28,11 +28,10 @@ function* worker({ payload: newLegId }: LegAction) {
 			// Restore all selected flights from RT to original state for the previous legs.
 			if (numberedLegId < newLegId && selectedFlights[legId].isRT) {
 				// Get back old (non-RT) flight ID.
-				const originalFlightId = selectedFlights[legId].originalFlightId;
 				const selectedFlight: SelectedFlight = {
 					...selectedFlights[legId],
-					originalFlightId: originalFlightId,
-					newFlightId: originalFlightId
+					originalFlightId: selectedFlights[legId].originalFlightId,
+					newFlightId: selectedFlights[legId].originalFlightId
 				};
 
 				yield put(setSelectedFlight(numberedLegId, selectedFlight));
