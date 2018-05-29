@@ -19,17 +19,20 @@ function* worker({ payload: newLegId }: LegAction) {
 		const numberedLegId = parseInt(legId);
 
 		if (selectedFlights.hasOwnProperty(legId)) {
+			// Clear out all selected flights for the next legs.
 			if (numberedLegId > newLegId) {
 				yield put(setSelectedFlight(numberedLegId, null));
 				yield put(setCombinations(numberedLegId, null));
 			}
 
+			// Restore all selected flights from RT to original state for the previous legs.
 			if (numberedLegId < newLegId && selectedFlights[legId].isRT) {
-				const RTFlightId = selectedFlights[legId].newFlightId;
-
+				// Get back old (non-RT) flight ID.
+				const originalFlightId = selectedFlights[legId].originalFlightId;
 				const selectedFlight: SelectedFlight = {
 					...selectedFlights[legId],
-					newFlightId: RTFlightId.substr(0, RTFlightId.indexOf('/'))
+					originalFlightId: originalFlightId,
+					newFlightId: originalFlightId
 				};
 
 				yield put(setSelectedFlight(numberedLegId, selectedFlight));
