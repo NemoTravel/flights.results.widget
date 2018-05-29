@@ -44,13 +44,13 @@ function* worker({ payload }: SelectedFlightAction) {
 					newFlightId: RTPieces[i].id
 				};
 
-				yield put(setSelectedFlight(newSelectedFlight, i));
+				yield put(setSelectedFlight(i, newSelectedFlight));
 				yield put(searchFareFamilies(newSelectedFlight.newFlightId, i));
 			}
 		}
 	}
 	else {
-		yield put(setSelectedFlight(payload.flight, payload.legId));
+		yield put(setSelectedFlight(payload.legId, payload.flight));
 		yield put(searchFareFamilies(payload.flight.newFlightId, payload.legId));
 	}
 
