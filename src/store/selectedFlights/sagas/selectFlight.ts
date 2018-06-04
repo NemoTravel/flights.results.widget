@@ -16,12 +16,13 @@ const splitRTFlight = (flight: Flight): Flight[] => {
 
 	flight.segmentGroups.forEach((leg, index) => {
 		const newFlight = new Flight({
-			...flight as FlightSchema,
+			...flight as any,
 			segmentGroups: [leg],
 			segments: leg.segments
 		});
 
 		newFlight.id = `${flight.id}/${index}`;
+		newFlight.legId = index;
 
 		result.push(newFlight);
 	});
