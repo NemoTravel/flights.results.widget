@@ -10,6 +10,7 @@ export const SEARCH_FARE_FAMILIES_RT = 'SEARCH_FARE_FAMILIES_RT';
 export type SearchAction = ReturnType<typeof startSearch>;
 export type SearchActionPayload = ReturnType<typeof createSearchPayload>;
 export type SearchFareFamiliesAction = ReturnType<typeof searchFareFamilies>;
+export type SearchFareFamiliesRTAction = ReturnType<typeof searchFareFamiliesRT>;
 
 const createSearchPayload = (searchInfo: SearchInfo) => {
 	let RTRequest: RequestInfo = null;
