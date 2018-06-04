@@ -7,6 +7,7 @@ import { RootState } from '../reducers';
 import { FareFamiliesCombinationsState } from './fareFamiliesCombinations/reducers';
 import { SelectedFamiliesState } from './selectedFamilies/reducers';
 import { FareFamiliesPrices } from '../../schemas/FareFamiliesPrices';
+import { getIsRTMode } from './isRTMode/selectors';
 
 export const getSelectedFamilies = (state: RootState): SelectedFamiliesState => state.fareFamilies.selectedFamilies;
 export const getFareFamiliesCombinations = (state: RootState): FareFamiliesCombinationsState => state.fareFamilies.fareFamiliesCombinations;
@@ -40,9 +41,11 @@ export const getSelectedCombinations = createSelector(
 );
 
 export const combinationsAreValid = createSelector(
-	[getSelectedCombinations, getFareFamiliesCombinations],
-	(selectedCombinations: SelectedCombinations, combinations: FareFamiliesCombinationsState): boolean => {
+	[getSelectedCombinations, getFareFamiliesCombinations, getIsRTMode],
+	(selectedCombinations: SelectedCombinations, combinations: FareFamiliesCombinationsState, isRTMode: boolean): boolean => {
 		let result = true;
+
+		console.log(combinations);
 
 		if (Object.keys(combinations).length === Object.keys(selectedCombinations).length) {
 			for (const legId in selectedCombinations) {

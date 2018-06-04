@@ -7,12 +7,14 @@ import { selectFamily } from '../fareFamilies/selectedFamilies/actions';
 import loadFareFamilies from '../../services/requests/fareFamilies';
 import { setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
+import { setRTMode } from '../fareFamilies/isRTMode/actions';
 
 const pool: { [flightId: string]: Task } = {};
 
 function* runFareFamiliesSearch(legId: number, flightId: string) {
 	try {
 		yield put(startLoadingFareFamilies(legId));
+		yield put(setRTMode(false));
 
 		// Get fare families combinations for given flight.
 		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);

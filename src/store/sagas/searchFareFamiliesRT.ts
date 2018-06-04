@@ -9,6 +9,7 @@ import loadFareFamilies from '../../services/requests/fareFamilies';
 import { clearCombinations, setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
 import { RootState } from '../reducers';
+import { setRTMode } from '../fareFamilies/isRTMode/actions';
 
 function* worker({ payload }: SearchFareFamiliesRTAction) {
 	const { flightId } = payload;
@@ -16,6 +17,7 @@ function* worker({ payload }: SearchFareFamiliesRTAction) {
 	try {
 		// Show some loader (doesn't matter which one).
 		yield put(startLoadingFareFamilies(0));
+		yield put(setRTMode(true));
 
 		// Get fare families combinations for given RT flight.
 		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
