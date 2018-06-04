@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
-import {
-	FareFamiliesAvailability} from '../../schemas/FareFamiliesAvailability';
+import { FareFamiliesAvailability } from '../../schemas/FareFamiliesAvailability';
 import FareFamily from '../../schemas/FareFamily';
 import { Currency } from '../../enums';
 import { RootState } from '../reducers';
@@ -45,16 +44,31 @@ export const combinationsAreValid = createSelector(
 	(selectedCombinations: SelectedCombinations, combinations: FareFamiliesCombinationsState, isRTMode: boolean): boolean => {
 		let result = true;
 
-		console.log(combinations);
+		if (Object.keys(combinations).length === Object.keys(selectedCombinations).length && Object.keys(combinations).length > 0) {
+			// If we're choosing fare families for RT flight, do a quick check.
+			if (isRTMode) {
+				const selectedCombinationParts: string[] = [];
+				const validCombinations = combinations[0].validCombinations;
 
-		if (Object.keys(combinations).length === Object.keys(selectedCombinations).length) {
-			for (const legId in selectedCombinations) {
-				if (selectedCombinations.hasOwnProperty(legId)) {
-					const legCombinations = combinations[legId];
+				for (const legId in selectedCombinations) {
+					if (selectedCombinations.hasOwnProperty(legId)) {
+						selectedCombinationParts.push(selectedCombinations[legId]);
+					}
+				}
 
-					if (!legCombinations.validCombinations.hasOwnProperty(selectedCombinations[legId])) {
-						result = false;
-						break;
+				if (!validCombinations.hasOwnProperty(selectedCombinationParts.join('_'))) {
+					result = false;
+				}
+			}
+			else {
+				for (const legId in selectedCombinations) {
+					if (selectedCombinations.hasOwnProperty(legId)) {
+						const legCombinations = combinations[legId];
+
+						if (!legCombinations.validCombinations.hasOwnProperty(selectedCombinations[legId])) {
+							result = false;
+							break;
+						}
 					}
 				}
 			}
@@ -142,7 +156,7 @@ export const getFareFamiliesPrices = createSelector(
 						// Loop through all families on segment and try to get the price of each family.
 						familiesBySegments[segmentKey].forEach((family: FareFamily, index: number): void => {
 							const familyKey = `F${index + 1}`;
-							const newCombinationParts = [ ...selectedFamiliesBySegments ];
+							const newCombinationParts = [...selectedFamiliesBySegments];
 
 							// Replace family key on the segment with the new test one.
 							newCombinationParts[segmentId] = familyKey;
