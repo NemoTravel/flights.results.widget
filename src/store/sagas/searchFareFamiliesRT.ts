@@ -44,7 +44,9 @@ function* worker({ payload }: SearchFareFamiliesRTAction) {
 			// New list of families on each segment.
 			const families: FareFamiliesBySegments = {};
 			// Initial selected families on each segments.
-			const initialCombination = initialCombinationParts.splice(0, numOfSegments).join('_');
+			const combinationParts = initialCombinationParts.splice(0, numOfSegments);
+			// Initial combinations key.
+			const initialCombination = combinationParts.join('_');
 
 			for (const segmentKey in fareFamiliesBySegments) {
 				if (fareFamiliesBySegments.hasOwnProperty(segmentKey)) {
@@ -75,18 +77,14 @@ function* worker({ payload }: SearchFareFamiliesRTAction) {
 				fareFamiliesBySegments: families,
 				initialCombination: initialCombination
 			}));
+
+			// Pre-select fare families.
+			for (let segmentId = 0; segmentId < numOfSegments; segmentId++) {
+				const familyId = combinationParts[segmentId];
+
+				yield put(selectFamily(i, segmentId, familyId));
+			}
 		}
-		//
-		// // Split initial combination key apart.
-		// const combinationParts = results ? results.initialCombination.split('_') : [];
-		// const numOfSegments = combinationParts.length;
-		//
-		// // Pre-select fare families.
-		// for (let segmentId = 0; segmentId < numOfSegments; segmentId++) {
-		// 	const familyId = combinationParts[segmentId];
-		//
-		// 	yield put(selectFamily(legId, segmentId, familyId));
-		// }
 
 		yield put(stopLoadingFareFamilies(0));
 	}
