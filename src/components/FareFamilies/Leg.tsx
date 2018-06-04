@@ -69,6 +69,7 @@ class Leg extends React.Component<Props> {
 			<FamiliesSegment
 				key={segmentId}
 				segmentId={segmentId}
+				intSegmentId={index}
 				segment={segment}
 				enabledFamilies={enabledFamilies}
 				initialCombination={initialCombinationsBySegments[index]}

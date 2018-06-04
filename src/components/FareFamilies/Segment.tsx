@@ -9,6 +9,7 @@ interface Props {
 	enabledFamilies: { [familyId: string]: boolean };
 	initialCombination: string;
 	segment: SegmentModel;
+	intSegmentId: number;
 	segmentId: string;
 	onChange: (segmentId: number, familyId: string) => void;
 	families: FareFamily[];
@@ -39,7 +40,7 @@ class Segment extends React.Component<Props, State> {
 			selectedFamilyId: familyId
 		} as State);
 
-		this.props.onChange(this.props.segment.number, familyId);
+		this.props.onChange(this.props.intSegmentId, familyId);
 	}
 
 	renderContent(): React.ReactNode {
