@@ -21,7 +21,7 @@ const splitRTFlight = (flight: Flight): Flight[] => {
 		};
 
 		newFlight.id = `${flight.id}/${index}`;
-		result.push(newFlight as Flight);
+		result.push(new Flight(newFlight));
 	});
 
 	return result;
