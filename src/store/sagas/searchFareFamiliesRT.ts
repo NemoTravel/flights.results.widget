@@ -3,25 +3,79 @@ import {
 	SEARCH_FARE_FAMILIES_RT,
 	SearchFareFamiliesRTAction
 } from '../actions';
-import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
+import FareFamiliesCombinations, { FareFamiliesBySegments } from '../../schemas/FareFamiliesCombinations';
 import { clearSelectedFamilies, selectFamily } from '../fareFamilies/selectedFamilies/actions';
 import loadFareFamilies from '../../services/requests/fareFamilies';
 import { clearCombinations, setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
+import { RootState } from '../reducers';
 
 function* worker({ payload }: SearchFareFamiliesRTAction) {
 	const { flightId } = payload;
 
 	try {
+		// Show some loader (doesn't matter which one).
 		yield put(startLoadingFareFamilies(0));
+
+		// Get fare families combinations for given RT flight.
+		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
+		const state: RootState = yield select();
+		const flight = state.flights[flightId];
+		const numOfLegs = flight.segmentGroups.length;
+
+		// Clear all previous loaded data.
 		yield put(clearCombinations());
 		yield put(clearSelectedFamilies());
 
-		// Get fare families combinations for given flight.
-		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
+		const initialCombinationParts = results.initialCombination.split('_');
+		const fareFamiliesBySegments = results.fareFamiliesBySegments;
 
-		// // Put them in Store.
-		// yield put(setCombinations(legId, results));
+		// Let the shit river flow:
+		// Previously, we've loaded fare families info for selected RT flight.
+		// But all logic of fare families selection is based on the idea of OW+OW flights (eg: each leg should have it's own flight).
+		//
+		// For the RT flight case, we have only ONE instance of flight object for ALL legs.
+		// So we have to split fare families results by legs manually, to avoid UI problems.
+		for (let i = 0; i < numOfLegs; i++) {
+			// Leg of RT flight.
+			const leg = flight.segmentGroups[i];
+			// Number of segments on leg.
+			const numOfSegments = leg.segments.length;
+			// New list of families on each segment.
+			const families: FareFamiliesBySegments = {};
+			// Initial selected families on each segments.
+			const initialCombination = initialCombinationParts.splice(0, numOfSegments).join('_');
+
+			for (const segmentKey in fareFamiliesBySegments) {
+				if (fareFamiliesBySegments.hasOwnProperty(segmentKey)) {
+					// Get `int` number of segment from API.
+					const intSegmentKey = parseInt(segmentKey.replace('S', ''));
+					// Segment index for new object.
+					let newSegmentIndex: number;
+					// Check if leg has given segment.
+					const segment = leg.segments.find((segment, index) => {
+						const result = segment.number === intSegmentKey;
+
+						if (result) {
+							newSegmentIndex = index;
+						}
+
+						return result;
+					});
+
+					// We've found some! Save it to store.
+					if (segment && typeof newSegmentIndex !== 'undefined') {
+						families[`S${newSegmentIndex}`] = fareFamiliesBySegments[segmentKey];
+					}
+				}
+			}
+
+			yield put(setCombinations(i, {
+				...results,
+				fareFamiliesBySegments: families,
+				initialCombination: initialCombination
+			}));
+		}
 		//
 		// // Split initial combination key apart.
 		// const combinationParts = results ? results.initialCombination.split('_') : [];
@@ -41,6 +95,9 @@ function* worker({ payload }: SearchFareFamiliesRTAction) {
 	}
 }
 
+/**
+ * Loading fare families for RT flights.
+ */
 export default function* searchFareFamiliesRTSaga() {
 	yield takeEvery(SEARCH_FARE_FAMILIES_RT, worker);
 }

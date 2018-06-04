@@ -13,7 +13,7 @@ interface FareFamiliesMap {
 	[fareFamilyId: string]: FareFamily;
 }
 
-interface FareFamiliesBySegments {
+export interface FareFamiliesBySegments {
 	[segmentId: string]: FareFamily[];
 }
 

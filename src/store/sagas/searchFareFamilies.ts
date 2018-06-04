@@ -38,6 +38,11 @@ function* runFareFamiliesSearch(legId: number, flightId: string) {
 	}
 }
 
+/**
+ * Load fare families for OW or Multi-OW flights.
+ *
+ * Families for RT flights are loaded by `searchFareFamiliesRTSaga`!
+ */
 export default function* searchFareFamiliesSaga() {
 	while (true) {
 		const { payload }: SearchFareFamiliesAction = yield take(SEARCH_FARE_FAMILIES);
