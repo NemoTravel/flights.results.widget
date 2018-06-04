@@ -106,7 +106,7 @@ export const getFareFamiliesPrices = createSelector(
 		const result: FareFamiliesPrices = {};
 
 		for (const legId in selectedCombinations) {
-			if (selectedCombinations.hasOwnProperty(legId)) {
+			if (selectedCombinations.hasOwnProperty(legId) && combinationsByLegs.hasOwnProperty(legId) && combinationsByLegs[legId]) {
 				const selectedLegCombination = selectedCombinations[legId];
 
 				const

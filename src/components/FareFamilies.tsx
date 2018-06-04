@@ -10,12 +10,10 @@ import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
 import {
 	getFareFamiliesAvailability, getFareFamiliesCombinations,
-	getFareFamiliesPrices,
-	getSelectedFamilies
+	getFareFamiliesPrices
 } from '../store/fareFamilies/selectors';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
 import { FareFamiliesCombinationsState } from '../store/fareFamilies/fareFamiliesCombinations/reducers';
-import { SelectedFamiliesState } from '../store/fareFamilies/selectedFamilies/reducers';
 import { FareFamiliesPrices } from '../schemas/FareFamiliesPrices';
 import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
 import { connect } from '../utils';
@@ -24,7 +22,6 @@ import Toolbar from './Toolbar';
 interface StateProps {
 	selectedFlights: Flight[];
 	isLoading: boolean;
-	selectedFamilies: SelectedFamiliesState;
 	fareFamiliesPrices: FareFamiliesPrices;
 	fareFamiliesAvailability: FareFamiliesAvailability;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
@@ -40,7 +37,6 @@ type Props = StateProps & DispatchProps;
 class FareFamilies extends React.Component<Props> {
 	render(): React.ReactNode {
 		const {
-			selectedFamilies,
 			selectedFlights,
 			fareFamiliesCombinations,
 			fareFamiliesAvailability,
@@ -65,7 +61,6 @@ class FareFamilies extends React.Component<Props> {
 							goToLeg={goToLeg}
 							flight={flight}
 							prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
-							selectedFamilies={selectedFamilies}
 							combinations={fareFamiliesCombinations[legId]}
 							availability={fareFamiliesAvailability[legId]}
 							selectFamily={selectFamily}
@@ -84,8 +79,7 @@ export default connect<StateProps, DispatchProps>({
 	isLoading: isLoadingFareFamilies,
 	fareFamiliesAvailability: getFareFamiliesAvailability,
 	fareFamiliesPrices: getFareFamiliesPrices,
-	fareFamiliesCombinations: getFareFamiliesCombinations,
-	selectedFamilies: getSelectedFamilies
+	fareFamiliesCombinations: getFareFamiliesCombinations
 }, {
 	selectFamily,
 	goToLeg

@@ -36,11 +36,6 @@ function* runFareFamiliesSearch(legId: number, flightId: string) {
 	catch (error) {
 		yield put(stopLoadingFareFamilies(legId));
 	}
-	finally {
-		if (yield cancelled()) {
-			yield put(stopLoadingFareFamilies(legId));
-		}
-	}
 }
 
 export default function* searchFareFamiliesSaga() {

@@ -7,7 +7,6 @@ import FamiliesSegment from './Segment';
 import SegmentModel from '../../schemas/Segment';
 import FlightModel from '../../models/Flight';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
-import { SelectedFamiliesState } from '../../store/fareFamilies/selectedFamilies/reducers';
 import { selectFamily } from '../../store/fareFamilies/selectedFamilies/actions';
 import { goToLeg } from '../../store/currentLeg/actions';
 import Money from '../../schemas/Money';
@@ -17,7 +16,6 @@ import Segment from '../Flight/Segment';
 interface Props {
 	flight: FlightModel;
 	prices: { [segmentId: number]: { [familyId: string]: Money } };
-	selectedFamilies: SelectedFamiliesState;
 	combinations: FareFamiliesCombinations;
 	selectFamily: typeof selectFamily;
 	goToLeg: typeof goToLeg;
@@ -67,16 +65,18 @@ class Leg extends React.Component<Props> {
 		const families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
 		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 
-		return !!combinations && !!families ? <FamiliesSegment
-			key={segmentId}
-			segmentId={segmentId}
-			segment={segment}
-			enabledFamilies={enabledFamilies}
-			initialCombination={initialCombinationsBySegments[index]}
-			families={families}
-			onChange={this.onChange}
-			prices={prices ? prices[index] : {}}
-		/> : null;
+		return !!combinations && !!families ? (
+			<FamiliesSegment
+				key={segmentId}
+				segmentId={segmentId}
+				segment={segment}
+				enabledFamilies={enabledFamilies}
+				initialCombination={initialCombinationsBySegments[index]}
+				families={families}
+				onChange={this.onChange}
+				prices={prices ? prices[index] : {}}
+			/>
+		) : null;
 	}
 
 	render(): React.ReactNode {
