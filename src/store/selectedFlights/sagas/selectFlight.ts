@@ -7,6 +7,7 @@ import { searchFareFamilies, searchFareFamiliesRT } from '../../actions';
 import { RootState } from '../../reducers';
 import { hideFlights } from '../../showAllFlights/actions';
 import Flight from '../../../models/Flight';
+import FlightSchema from '../../../schemas/Flight';
 import { addFlights } from '../../flights/actions';
 import SelectedFlight from '../../../schemas/SelectedFlight';
 
@@ -14,14 +15,15 @@ const splitRTFlight = (flight: Flight): Flight[] => {
 	const result: Flight[] = [];
 
 	flight.segmentGroups.forEach((leg, index) => {
-		const newFlight = {
-			...flight,
+		const newFlight = new Flight({
+			...flight as FlightSchema,
 			segmentGroups: [leg],
 			segments: leg.segments
-		};
+		});
 
 		newFlight.id = `${flight.id}/${index}`;
-		result.push(new Flight(newFlight));
+
+		result.push(newFlight);
 	});
 
 	return result;
