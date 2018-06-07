@@ -82,7 +82,7 @@ class Time extends WithPopover<Props, FilterState> {
 				}
 			}
 
-			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилёт: ${parts.join(', ')}`;
+			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}прилёт: ${parts.join(', ')}`;
 		}
 
 		this.setState({
