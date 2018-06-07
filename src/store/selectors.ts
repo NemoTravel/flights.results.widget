@@ -299,6 +299,26 @@ export const getRelativePrices = createSelector(
 	}
 );
 
+export const getTotalPrices = createSelector(
+	[isLastLeg, getTotalPrice, getRelativePrices],
+	(isLastLeg: boolean, totalPrice: Money, relativePrices: FlightsReplacement): PricesByFlights => {
+		const result: PricesByFlights = {};
+
+		if (isLastLeg) {
+			for (const flightId in relativePrices) {
+				if (relativePrices.hasOwnProperty(flightId)) {
+					result[flightId] = {
+						amount: totalPrice.amount + relativePrices[flightId].price.amount,
+						currency: totalPrice.currency
+					};
+				}
+			}
+		}
+
+		return result;
+	}
+);
+
 export const getPricesForSelectedFlights = createSelector(
 	[getSelectedFlights, getMinPricesByLegs, getMinTotalPossiblePricesByLegs],
 	(flights: Flight[], minPrices: PricesByLegs, minTotalPossiblePricesByLegs: PricesByLegs): FlightsReplacement => {

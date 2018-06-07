@@ -10,6 +10,7 @@ import Button from './Flight/Button';
 import { selectFlight } from '../store/selectedFlights/actions';
 import SelectedFlight from '../schemas/SelectedFlight';
 import FlightModel from '../models/Flight';
+import Money from '../schemas/Money';
 
 const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
 
@@ -18,6 +19,7 @@ interface Props {
 	selectFlight: typeof selectFlight;
 	showPricePrefix: boolean;
 	replacement: SelectedFlight;
+	totalPrice: Money;
 	currentLegId: number;
 }
 
@@ -32,8 +34,13 @@ class ResultsFlight extends React.Component<Props> {
 
 	@autobind
 	renderActionBlock(): React.ReactNode {
-		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
+		const { flight, replacement, totalPrice, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
+		let buttonText = <span>Выбрать</span>;
+
+		if (totalPrice) {
+			buttonText = <Price price={totalPrice}/>;
+		}
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
@@ -62,7 +69,7 @@ class ResultsFlight extends React.Component<Props> {
 				) : null}
 			</div>
 
-			<Button className="flight-summary-buy" onClick={this.onAction}/>
+			<Button className="flight-summary-buy" onClick={this.onAction}>{buttonText}</Button>
 		</div>;
 	}
 
