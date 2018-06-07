@@ -70,7 +70,7 @@ class Airports extends WithPopover<Props, FilterState> {
 		}
 
 		if (hasSelectedArrivalAirports) {
-			chipLabel = `${hasSelectedDepartureAirports ? chipLabel + ', ' : ''}прилёт: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
+			chipLabel = `${hasSelectedDepartureAirports ? chipLabel + ', прилёт' : 'Прилёт'}: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
 		}
 
 		this.setState({
