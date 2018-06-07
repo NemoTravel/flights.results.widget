@@ -129,6 +129,19 @@
   flex-direction: column;
 }
 
+.filters-filter-popover__wrapper_airlines .filters-filter-popover-group {
+  -webkit-column-count: 2;
+  column-count: 2;
+  -webkit-column-gap: 0;
+  column-gap: 0;
+  display: block;
+  max-width: 300px;
+}
+
+.filters-filter-popover__wrapper_airlines .filters-filter-popover-group__label {
+  margin-right: 20px;
+}
+
 .results {
   -webkit-box-flex: 1;
   -ms-flex: 1;
