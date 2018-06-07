@@ -121,7 +121,7 @@ class Flight extends React.Component<Props, State> {
 					</div>
 
 					<div className="flight-summary-stage__date">
-						{firstSegment.depDate.format('DD MMM')}
+						{firstSegment.depDate.format('DD MMM').replace('.', '')}
 					</div>
 				</div>
 
@@ -136,7 +136,7 @@ class Flight extends React.Component<Props, State> {
 					</div>
 
 					<div className={classnames('flight-summary-stage__date', { 'flight-summary-stage__date_warning': flight.arrivalAtNextDay })}>
-						{lastSegment.arrDate.format('DD MMM')}
+						{lastSegment.arrDate.format('DD MMM').replace('.', '')}
 					</div>
 				</div>
 			</div>

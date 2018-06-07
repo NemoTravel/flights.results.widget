@@ -52,7 +52,7 @@ class Segment extends React.Component<Props> {
 							</div>
 
 							<div className="flight-details-segment-stage__date">
-								{segment.depDate.format('DD MMM')}
+								{segment.depDate.format('DD MMM').replace('.', '')}
 							</div>
 						</div>
 
@@ -67,7 +67,7 @@ class Segment extends React.Component<Props> {
 							</div>
 
 							<div className={classnames('flight-details-segment-stage__date', { 'flight-details-segment-stage__date_warning': arrivalAtNextDay })}>
-								{segment.arrDate.format('DD MMM')}
+								{segment.arrDate.format('DD MMM').replace('.', '')}
 							</div>
 						</div>
 					</div>
