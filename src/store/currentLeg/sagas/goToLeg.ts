@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects';
 import { GO_TO_LEG, LegAction, setLeg } from '../actions';
 import { RootState } from '../../reducers';
 import { setCombinations } from '../../fareFamilies/fareFamiliesCombinations/actions';
-import { remoteAllFilters } from '../../filters/actions';
+import { removeAllFilters } from '../../filters/actions';
 import { setSelectedFlight } from '../../selectedFlights/actions';
 import { hideFlights } from '../../showAllFlights/actions';
 import SelectedFlight from '../../../schemas/SelectedFlight';
@@ -12,7 +12,7 @@ import { Action } from 'redux';
 function* worker({ payload: newLegId }: LegAction) {
 	const actions: Action[] = [
 		setLeg(newLegId),
-		remoteAllFilters(),
+		removeAllFilters(),
 		setSelectedFlight(newLegId, null)
 	];
 

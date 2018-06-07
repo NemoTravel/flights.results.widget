@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects';
 import { SELECT_FLIGHT, SelectedFlightAction, setSelectedFlight } from '../actions';
 import { nextLeg } from '../../currentLeg/actions';
 import { isLastLeg } from '../../currentLeg/selectors';
-import { remoteAllFilters } from '../../filters/actions';
+import { removeAllFilters } from '../../filters/actions';
 import { searchFareFamilies, searchFareFamiliesRT } from '../../actions';
 import { RootState } from '../../reducers';
 import { hideFlights } from '../../showAllFlights/actions';
@@ -65,11 +65,11 @@ function* worker({ payload }: SelectedFlightAction) {
 			}
 		}
 
-		actions.push(searchFareFamiliesRT(flight.newFlightId));
+		yield put(searchFareFamiliesRT(flight.newFlightId));
 	}
 	else {
 		actions.push(setSelectedFlight(legId, flight));
-		actions.push(searchFareFamilies(legId, flight.newFlightId));
+		yield put(searchFareFamilies(legId, flight.newFlightId));
 	}
 
 	if (!isComplete) {
@@ -77,7 +77,7 @@ function* worker({ payload }: SelectedFlightAction) {
 	}
 
 	actions.push(hideFlights());
-	actions.push(remoteAllFilters());
+	actions.push(removeAllFilters());
 
 	yield put(batchActions(...actions));
 }
