@@ -9,10 +9,12 @@ import { goToLeg } from '../store/currentLeg/actions';
 import { FlightsReplacement } from '../schemas/SelectedFlight';
 import { getPricesForSelectedFlights } from '../store/selectors';
 import Typography from '@material-ui/core/Typography';
+import { isRT } from '../store/legs/selectors';
 
 interface StateProps {
 	selectedFlights: FlightModel[];
 	prices: FlightsReplacement;
+	isRT: boolean;
 }
 
 interface DispatchProps {
@@ -43,7 +45,7 @@ class SelectedFlights extends React.Component<Props> {
 			<div className="results-selectedFlights">
 				{this.props.selectedFlights.length ? (
 					<div className="results-selectedFlights-title">
-						<Typography variant="headline">Выбранные рейсы</Typography>
+						<Typography variant="headline">{isRT ? 'Рейс туда' : 'Выбранные рейсы'}</Typography>
 					</div>
 				) : null}
 
@@ -56,6 +58,7 @@ class SelectedFlights extends React.Component<Props> {
 }
 
 export default connect<StateProps, DispatchProps>({
+	isRT: isRT,
 	selectedFlights: getSelectedFlights,
 	prices: getPricesForSelectedFlights
 }, { goToLeg })(SelectedFlights);

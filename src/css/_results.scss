@@ -31,7 +31,24 @@
 		margin-top: 20px;
 
 		&-title {
-			margin-bottom: 20px;
+			margin-bottom: 15px;
+		}
+
+		.flight {
+			position: relative;
+
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				width: 5px;
+
+				border-top-left-radius: 2px;
+				border-bottom-left-radius: 2px;
+				background-color: #94ca51;
+			}
 		}
 	}
 
