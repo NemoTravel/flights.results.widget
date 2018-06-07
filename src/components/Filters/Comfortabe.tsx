@@ -51,21 +51,10 @@ class Comfortable extends Filter<Props, FilterState> {
 	}
 
 	render(): React.ReactNode {
-		const chipProps: ChipProps = {
-			label: this.state.chipLabel
-		};
-
-		if (this.state.isActive) {
-			chipProps.onDelete = this.onClear;
-		}
-		else {
-			chipProps.onClick = this.onClick;
-		}
-
 		return this.isVisible() ? (
 			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
 				<Tooltip title="Рейсы той же авиакомпании с вылетом из того же аэропорта" placement="top">
-					<Chip className="filters-filter-chip" {...chipProps}/>
+					<Chip className="filters-filter-chip" {...this.getChipProps()}/>
 				</Tooltip>
 			</div>
 		) : null;
