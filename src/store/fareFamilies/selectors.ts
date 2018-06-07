@@ -15,6 +15,9 @@ export interface SelectedCombinations {
 	[legId: number]: string;
 }
 
+/**
+ * Merge selected families on segments.
+ */
 export const getSelectedCombinations = createSelector(
 	[getSelectedFamilies],
 	(selectedFamilies: SelectedFamiliesState): SelectedCombinations => {
@@ -39,16 +42,19 @@ export const getSelectedCombinations = createSelector(
 	}
 );
 
+/**
+ * Check if selected combination is valid.
+ */
 export const combinationsAreValid = createSelector(
 	[getSelectedCombinations, getFareFamiliesCombinations, getIsRTMode],
-	(selectedCombinations: SelectedCombinations, combinations: FareFamiliesCombinationsState, isRTMode: boolean): boolean => {
+	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState, isRTMode: boolean): boolean => {
 		let result = true;
 
-		if (Object.keys(combinations).length === Object.keys(selectedCombinations).length && Object.keys(combinations).length > 0) {
+		if (Object.keys(combinationsByLegs).length === Object.keys(selectedCombinations).length && Object.keys(combinationsByLegs).length > 0) {
 			// If we're choosing fare families for RT flight, do a quick check.
 			if (isRTMode) {
 				const selectedCombinationParts: string[] = [];
-				const validCombinations = combinations[0].validCombinations;
+				const validCombinations = combinationsByLegs[0].validCombinations;
 
 				for (const legId in selectedCombinations) {
 					if (selectedCombinations.hasOwnProperty(legId)) {
@@ -63,7 +69,7 @@ export const combinationsAreValid = createSelector(
 			else {
 				for (const legId in selectedCombinations) {
 					if (selectedCombinations.hasOwnProperty(legId)) {
-						const legCombinations = combinations[legId];
+						const legCombinations = combinationsByLegs[legId];
 
 						if (!legCombinations.validCombinations.hasOwnProperty(selectedCombinations[legId])) {
 							result = false;
@@ -79,7 +85,7 @@ export const combinationsAreValid = createSelector(
 );
 
 /**
- * Get fare families availability.
+ * List of visible families.
  */
 export const getFareFamiliesAvailability = createSelector(
 	[getFareFamiliesCombinations],
@@ -118,8 +124,8 @@ export const getFareFamiliesAvailability = createSelector(
  * Get price differences for fare families.
  */
 export const getFareFamiliesPrices = createSelector(
-	[getSelectedCombinations, getFareFamiliesCombinations],
-	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPrices => {
+	[getSelectedCombinations, getFareFamiliesCombinations, getIsRTMode],
+	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState, isRTMode: boolean): FareFamiliesPrices => {
 		const result: FareFamiliesPrices = {};
 
 		for (const legId in selectedCombinations) {
@@ -147,6 +153,7 @@ export const getFareFamiliesPrices = createSelector(
 
 				for (const segmentKey in familiesBySegments) {
 					if (familiesBySegments.hasOwnProperty(segmentKey)) {
+						const familiesOnSegment = familiesBySegments[segmentKey];
 						const segmentId = parseInt(segmentKey.replace('S', ''));
 
 						if (!result[legId].hasOwnProperty(segmentId)) {
@@ -154,7 +161,7 @@ export const getFareFamiliesPrices = createSelector(
 						}
 
 						// Loop through all families on segment and try to get the price of each family.
-						familiesBySegments[segmentKey].forEach((family: FareFamily, index: number): void => {
+						familiesOnSegment.forEach((family: FareFamily, index: number): void => {
 							const familyKey = `F${index + 1}`;
 							const newCombinationParts = [...selectedFamiliesBySegments];
 
