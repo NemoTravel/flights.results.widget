@@ -1,7 +1,12 @@
+import * as React from 'react';
+import * as classnames from 'classnames';
+import Chip, { ChipProps } from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
+import { connect } from 'react-redux';
+
 import Filter, { Type as FilterType, State as FilterState } from '../Filter';
 import { RootState } from '../../store/reducers';
 import { toggleComfortable } from '../../store/filters/comfortable/actions';
-import { connect } from 'react-redux';
 import { getIsComfortable } from '../../store/filters/comfortable/selectors';
 import { isFirstLeg } from '../../store/currentLeg/selectors';
 
@@ -43,6 +48,27 @@ class Comfortable extends Filter<Props, FilterState> {
 
 	onClear(): void {
 		this.props.toggleComfortable();
+	}
+
+	render(): React.ReactNode {
+		const chipProps: ChipProps = {
+			label: this.state.chipLabel
+		};
+
+		if (this.state.isActive) {
+			chipProps.onDelete = this.onClear;
+		}
+		else {
+			chipProps.onClick = this.onClick;
+		}
+
+		return this.isVisible() ? (
+			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+				<Tooltip title="Рейсы той же авиакомпании с вылетом из того же аэропорта" placement="top">
+					<Chip className="filters-filter-chip" {...chipProps}/>
+				</Tooltip>
+			</div>
+		) : null;
 	}
 }
 
