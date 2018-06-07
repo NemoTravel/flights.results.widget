@@ -166,59 +166,8 @@
   margin-top: 20px;
 }
 
-.results-selectedFlights-leg {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 17px;
-  height: 50px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 2px dashed #e1e0e1;
-  border-radius: 4px;
-  color: #999999;
-  -webkit-transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.results-selectedFlights-leg:not(:first-child) {
-  margin-top: 15px;
-}
-
-.results-selectedFlights-leg_active {
-  border-color: rgba(158, 209, 249, 0.65);
-  color: #64b5f6;
-}
-
-.results-selectedFlights-leg__icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.results-selectedFlights-leg__icon svg {
-  width: 21px;
-  margin-right: 10px;
-  margin-top: -2px;
-}
-
-.results-selectedFlights-leg__icon_reverse svg {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
+.results-selectedFlights-title {
+  margin-bottom: 20px;
 }
 
 .results-flights-showAllButton {
@@ -754,6 +703,11 @@
 
 .flight_direct .flight-summary:hover {
   background-color: transparent;
+}
+
+.flight_direct .flight-summary:hover .flight-summary-stage-routeInfo__flightTime,
+.flight_direct .flight-summary:hover .flight-details-segment-stage-routeInfo__flightTime {
+  background-color: #ffffff;
 }
 
 .flight_direct .flight-summary-expand {
