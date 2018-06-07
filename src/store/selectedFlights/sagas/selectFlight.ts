@@ -7,9 +7,10 @@ import { searchFareFamilies, searchFareFamiliesRT } from '../../actions';
 import { RootState } from '../../reducers';
 import { hideFlights } from '../../showAllFlights/actions';
 import Flight from '../../../models/Flight';
-import FlightSchema from '../../../schemas/Flight';
 import { addFlights } from '../../flights/actions';
 import SelectedFlight from '../../../schemas/SelectedFlight';
+import { Action } from 'redux';
+import { batchActions } from '../../batching/actions';
 
 const splitRTFlight = (flight: Flight): Flight[] => {
 	const result: Flight[] = [];
@@ -36,6 +37,7 @@ function* worker({ payload }: SelectedFlightAction) {
 	const state: RootState = yield select();
 	const selectedFlights = state.selectedFlights;
 	const numOfLegs = state.legs.length;
+	const actions: Action[] = [];
 
 	if (flight.isRT) {
 		// Split RT-flight into different flights objects by legs.
@@ -44,7 +46,7 @@ function* worker({ payload }: SelectedFlightAction) {
 		const RTPieces = splitRTFlight(state.flights[flight.newFlightId]);
 
 		// Save new flights to the global flights pool.
-		yield put(addFlights(RTPieces));
+		actions.push(addFlights(RTPieces));
 
 		// OK, now let's set our new created flights objects as selected ones.
 		for (let i = 0; i < numOfLegs; i++) {
@@ -59,23 +61,25 @@ function* worker({ payload }: SelectedFlightAction) {
 					newFlightId: RTPieces[i].id
 				};
 
-				yield put(setSelectedFlight(i, newSelectedFlight));
+				actions.push(setSelectedFlight(i, newSelectedFlight));
 			}
 		}
 
-		yield put(searchFareFamiliesRT(flight.newFlightId));
+		actions.push(searchFareFamiliesRT(flight.newFlightId));
 	}
 	else {
-		yield put(setSelectedFlight(legId, flight));
-		yield put(searchFareFamilies(legId, flight.newFlightId));
+		actions.push(setSelectedFlight(legId, flight));
+		actions.push(searchFareFamilies(legId, flight.newFlightId));
 	}
 
 	if (!isComplete) {
-		yield put(nextLeg());
+		actions.push(nextLeg());
 	}
 
-	yield put(hideFlights());
-	yield put(remoteAllFilters());
+	actions.push(hideFlights());
+	actions.push(remoteAllFilters());
+
+	yield put(batchActions(...actions));
 }
 
 export default function* selectFlightSaga() {

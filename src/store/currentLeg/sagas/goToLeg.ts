@@ -6,11 +6,15 @@ import { remoteAllFilters } from '../../filters/actions';
 import { setSelectedFlight } from '../../selectedFlights/actions';
 import { hideFlights } from '../../showAllFlights/actions';
 import SelectedFlight from '../../../schemas/SelectedFlight';
+import { batchActions } from '../../batching/actions';
+import { Action } from 'redux';
 
 function* worker({ payload: newLegId }: LegAction) {
-	yield put(setLeg(newLegId));
-	yield put(remoteAllFilters());
-	yield put(setSelectedFlight(newLegId, null));
+	const actions: Action[] = [
+		setLeg(newLegId),
+		remoteAllFilters(),
+		setSelectedFlight(newLegId, null)
+	];
 
 	const state: RootState = yield select();
 	const selectedFlights = state.selectedFlights;
@@ -21,8 +25,8 @@ function* worker({ payload: newLegId }: LegAction) {
 		if (selectedFlights.hasOwnProperty(legId)) {
 			// Clear out all selected flights for the next legs.
 			if (numberedLegId > newLegId) {
-				yield put(setSelectedFlight(numberedLegId, null));
-				yield put(setCombinations(numberedLegId, null));
+				actions.push(setSelectedFlight(numberedLegId, null));
+				actions.push(setCombinations(numberedLegId, null));
 			}
 
 			// Restore all selected flights from RT to original state for the previous legs.
@@ -34,12 +38,13 @@ function* worker({ payload: newLegId }: LegAction) {
 					newFlightId: selectedFlights[legId].originalFlightId
 				};
 
-				yield put(setSelectedFlight(numberedLegId, selectedFlight));
+				actions.push(setSelectedFlight(numberedLegId, selectedFlight));
 			}
 		}
 	}
 
-	yield put(hideFlights());
+	actions.push(hideFlights());
+	yield put(batchActions(...actions));
 }
 
 export default function* goToLegSaga() {
