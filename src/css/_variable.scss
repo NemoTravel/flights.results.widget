@@ -2,12 +2,17 @@ $common-font-color: rgba(0, 0, 0, 0.87);
 $light-font-color: rgba(0, 0, 0, 0.54);
 $common-content-width: 1280px;
 
-$screen-size-laptop: 1440px;
-$screen-size-tablet: 1130px;
-$screen-size-phone: 768px;
+$screen-size-laptop-large: 1440px;
+$screen-size-laptop: 1130px;
+$screen-size-tablet: 768px;
+$screen-size-phone: 425px;
 
 @mixin adaptivity ($media) {
-	@if $media == laptop {
+	@if $media == laptop-large {
+		@media only screen and (max-width: $screen-size-laptop-large) { @content; }
+	}
+
+	@else if $media == laptop {
 		@media only screen and (max-width: $screen-size-laptop) { @content; }
 	}
 

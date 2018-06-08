@@ -22,8 +22,19 @@
   margin: 20px auto;
 }
 
+@media only screen and (max-width: 768px) {
+  .filters {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+}
+
 .filters_withBottomMargin {
   margin-bottom: 80px;
+}
+
+.filters-filter {
+  margin-bottom: 10px;
 }
 
 .filters__left,
@@ -34,6 +45,13 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .filters__right {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
 }
 
 .filters-title {
@@ -235,6 +253,13 @@
 .results-flights-showAllButton {
   text-align: center;
   margin: 15px 0;
+}
+
+@media only screen and (max-width: 425px) {
+  .results-flights {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
 }
 
 .results-flightNumberSearch {
@@ -857,6 +882,10 @@
   margin-left: 0;
 }
 
+.flight-details-filters-group {
+  display: inline-block;
+}
+
 .flight-details-filter {
   display: inline-block;
 }
@@ -1248,6 +1277,12 @@
   justify-content: space-between;
   padding-left: 246px;
   margin: 10px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .sorting {
+    padding-left: 0;
+  }
 }
 
 .sorting__left,

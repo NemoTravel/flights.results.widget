@@ -55,7 +55,7 @@
 		cursor: pointer;
 		transition: background-color 0.15s, border 0.15s;
 
-		@include adaptivity(phone) {
+		@include adaptivity(tablet) {
 			flex-wrap: wrap;
 			padding-bottom: 60px;
 			position: relative;
@@ -78,7 +78,7 @@
 		}
 
 		&__left {
-			@include adaptivity(phone) {
+			@include adaptivity(tablet) {
 				flex-basis: 100%;
 				flex-wrap: wrap;
 				justify-content: space-between;
@@ -91,12 +91,12 @@
 			align-items: flex-start;
 			width: 320px;
 
-			@include adaptivity(tablet) {
+			@include adaptivity(laptop) {
 				width: auto;
 				padding-left: 10px;
 			}
 
-			@include adaptivity(phone) {
+			@include adaptivity(tablet) {
 				flex-basis: 50%;
 				margin-top: 20px;
 				padding-left: 0;
@@ -107,7 +107,7 @@
 			width: 270px;
 			justify-content: flex-end;
 
-			@include adaptivity(phone) {
+			@include adaptivity(tablet) {
 				flex-basis: 50%;
 				margin-top: 20px;
 			}
@@ -149,7 +149,7 @@
 				transform: rotate(180deg);
 			}
 
-			@include adaptivity(tablet) {
+			@include adaptivity(laptop) {
 				display: none;
 			}
 		}
@@ -162,7 +162,7 @@
 			justify-content: center;
 			user-select: none;
 
-			@include adaptivity(phone) {
+			@include adaptivity(tablet) {
 				flex-basis: 100%;
 			}
 
@@ -189,7 +189,7 @@
 				padding-right: 15px;
 			}
 
-			@include adaptivity(tablet) {
+			@include adaptivity(laptop) {
 				width: 120px;
 				flex-wrap: wrap;
 
@@ -208,7 +208,7 @@
 			&__time {
 				font-size: 1.5rem;
 
-				@include adaptivity(tablet) {
+				@include adaptivity(laptop) {
 					font-size: 1.2rem;
 				}
 			}
@@ -232,7 +232,7 @@
 				width: 110px;
 				text-align: center;
 
-				@include adaptivity(phone) {
+				@include adaptivity(tablet) {
 					width: calc(100% - 70px * 2);
 				}
 
@@ -265,7 +265,7 @@
 					transition: background-color 0.15s;
 				}
 
-				@include adaptivity(tablet) {
+				@include adaptivity(laptop) {
 					margin: 0 5px;
 				}
 			}
@@ -279,7 +279,7 @@
 			margin-right: 24px;
 			color: $light-font-color;
 
-			@include adaptivity(phone) {
+			@include adaptivity(tablet) {
 				margin-right: 0;
 			}
 
@@ -336,7 +336,7 @@
 			&__route {
 				text-align: right;
 
-				@include adaptivity(phone) {
+				@include adaptivity(tablet) {
 					position: absolute;
 					left: 0;
 					padding-left: 24px;
@@ -373,7 +373,7 @@
 				box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 			}
 
-			@include adaptivity(phone) {
+			@include adaptivity(tablet) {
 				position: absolute !important;
 				margin-bottom: 15px !important;
 				bottom: 0;
@@ -483,6 +483,10 @@
 				&:first-of-type {
 					margin-left: 0;
 				}
+			}
+
+			&-group {
+				display: inline-block;
 			}
 		}
 

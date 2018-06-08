@@ -9,14 +9,28 @@
 	width: 100%;
 	margin: 20px auto;
 
+	@include adaptivity(tablet) {
+		flex-wrap: wrap;
+	}
+
 	&_withBottomMargin {
 		margin-bottom: 80px;
+	}
+
+	&-filter {
+		margin-bottom: 10px;
 	}
 
 	&__left,
 	&__right {
 		display: flex;
 		align-items: center;
+	}
+
+	&__right {
+		@include adaptivity(tablet) {
+			flex-wrap: wrap;
+		}
 	}
 
 	&-title {

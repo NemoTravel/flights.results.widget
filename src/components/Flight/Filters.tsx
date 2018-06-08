@@ -229,21 +229,27 @@ class Filters extends React.Component<Props> {
 		});
 
 		return <div className="flight-details-filters">
-			<span className="flight-details-filters-label">Вылет:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">Вылет:</span>
 
-			{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
-			{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
+				{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
+				{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
+			</div>
 
-			<span className="flight-details-filters-label">Прилёт:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">Прилёт:</span>
 
-			{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
-			{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
+				{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
+				{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
+			</div>
 
-			<span className="flight-details-filters-label">Авиакомпании:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">Авиакомпании:</span>
 
-			{allAirlines.map((airline, index) => (
-				this.renderAirlineFilter(airline, index)
-			))}
+				{allAirlines.map((airline, index) => (
+					this.renderAirlineFilter(airline, index)
+				))}
+			</div>
 		</div>;
 	}
 }
