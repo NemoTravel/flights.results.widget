@@ -4,6 +4,7 @@
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 
 	&_isLoading {
 		.results-loader {
@@ -23,8 +24,16 @@
 	}
 
 	&__inner {
+		width: 1340px;
+		margin: 0 auto;
 		padding-top: 50px;
 		padding-bottom: 80px;
+
+		@include adaptivity(laptop) {
+			width: 100%;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
 	}
 
 	&-selectedFlights {

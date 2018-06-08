@@ -55,6 +55,12 @@
 		cursor: pointer;
 		transition: background-color 0.15s, border 0.15s;
 
+		@include adaptivity(phone) {
+			flex-wrap: wrap;
+			padding-bottom: 60px;
+			position: relative;
+		}
+
 		&:hover {
 			background: #fcfcfc;
 
@@ -71,16 +77,40 @@
 			align-items: center;
 		}
 
+		&__left {
+			@include adaptivity(phone) {
+				flex-basis: 100%;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
+		}
+
 		&__middle {
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
 			width: 320px;
+
+			@include adaptivity(tablet) {
+				width: auto;
+				padding-left: 10px;
+			}
+
+			@include adaptivity(phone) {
+				flex-basis: 50%;
+				margin-top: 20px;
+				padding-left: 0;
+			}
 		}
 
 		&__right {
 			width: 270px;
 			justify-content: flex-end;
+
+			@include adaptivity(phone) {
+				flex-basis: 50%;
+				margin-top: 20px;
+			}
 		}
 
 		&_open {
@@ -118,6 +148,10 @@
 			&_open {
 				transform: rotate(180deg);
 			}
+
+			@include adaptivity(tablet) {
+				display: none;
+			}
 		}
 
 		&-logo {
@@ -127,6 +161,10 @@
 			display: flex;
 			justify-content: center;
 			user-select: none;
+
+			@include adaptivity(phone) {
+				flex-basis: 100%;
+			}
 
 			&__image {
 				max-width: 70px;
@@ -150,6 +188,17 @@
 			&__text {
 				padding-right: 15px;
 			}
+
+			@include adaptivity(tablet) {
+				width: 120px;
+				flex-wrap: wrap;
+
+				&__image {
+					&:only-child {
+						max-width: 100px;
+					}
+				}
+			}
 		}
 
 		&-stage {
@@ -158,6 +207,10 @@
 
 			&__time {
 				font-size: 1.5rem;
+
+				@include adaptivity(tablet) {
+					font-size: 1.2rem;
+				}
 			}
 
 			&__date {
@@ -178,6 +231,10 @@
 				margin: 0 24px;
 				width: 110px;
 				text-align: center;
+
+				@include adaptivity(phone) {
+					width: calc(100% - 70px * 2);
+				}
 
 				&__arrow {
 					position: relative;
@@ -207,6 +264,10 @@
 					background: #ffffff;
 					transition: background-color 0.15s;
 				}
+
+				@include adaptivity(tablet) {
+					margin: 0 5px;
+				}
 			}
 		}
 
@@ -217,6 +278,10 @@
 		&-price {
 			margin-right: 24px;
 			color: $light-font-color;
+
+			@include adaptivity(phone) {
+				margin-right: 0;
+			}
 
 			&-profitMark {
 				color: rgb(120, 174, 53);
@@ -270,6 +335,14 @@
 
 			&__route {
 				text-align: right;
+
+				@include adaptivity(phone) {
+					position: absolute;
+					left: 0;
+					padding-left: 24px;
+					bottom: 0;
+					margin-bottom: 24px;
+				}
 			}
 		}
 
@@ -298,6 +371,12 @@
 			&:active {
 				background: #94ca51;
 				box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+			}
+
+			@include adaptivity(phone) {
+				position: absolute !important;
+				margin-bottom: 15px !important;
+				bottom: 0;
 			}
 		}
 	}

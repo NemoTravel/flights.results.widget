@@ -1,3 +1,21 @@
 $common-font-color: rgba(0, 0, 0, 0.87);
 $light-font-color: rgba(0, 0, 0, 0.54);
 $common-content-width: 1280px;
+
+$screen-size-laptop: 1440px;
+$screen-size-tablet: 1130px;
+$screen-size-phone: 768px;
+
+@mixin adaptivity ($media) {
+	@if $media == laptop {
+		@media only screen and (max-width: $screen-size-laptop) { @content; }
+	}
+
+	@else if $media == tablet {
+		@media only screen and (max-width: $screen-size-tablet) { @content; }
+	}
+
+	@else if $media == phone {
+		@media only screen and (max-width: $screen-size-phone) { @content; }
+	}
+}
