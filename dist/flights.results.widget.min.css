@@ -857,7 +857,7 @@
 
 .fareFamilies-leg-segment__families {
   margin: 15px 24px 0;
-  border: 1px solid #eeeeee;
+  padding: 15px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -911,67 +911,55 @@
   -ms-flex: 1;
   flex: 1;
   min-width: 215px;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
+  position: relative;
+  background-color: #f7f7f7 !important;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, -webkit-box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, -webkit-box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, -webkit-box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .fareFamilies-leg-segment-family:not(:last-of-type) {
-  border-right: 1px solid #eeeeee;
+  margin-right: 15px;
+}
+
+.fareFamilies-leg-segment-family:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  background-color: #94ca51;
+  opacity: 0;
+  -webkit-transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.fareFamilies-leg-segment-family_selected {
+  background-color: #ffffff !important;
+}
+
+.fareFamilies-leg-segment-family_selected:after {
+  opacity: 1;
 }
 
 .fareFamilies-leg-segment-family_disabled {
   display: none;
-  cursor: not-allowed;
 }
 
-.fareFamilies-leg-segment-family_disabled svg {
-  fill: rgba(188, 188, 188, 0.6) !important;
-}
-
-.fareFamilies-leg-segment-family_disabled * {
-  pointer-events: none;
-  color: rgba(188, 188, 188, 0.6) !important;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.fareFamilies-leg-segment-family_selected {
-  background-color: #f7f7f7;
-}
-
-.fareFamilies-leg-segment-family_selected .fareFamilies-leg-segment-family__name {
-  background-color: #64b5f6;
-}
-
-.fareFamilies-leg-segment-family_selected .fareFamilies-leg-segment-family__name * {
-  color: #ffffff;
-}
-
-.fareFamilies-leg-segment-family__name {
-  text-align: center;
-  padding: 5px 15px;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
-}
-
-.fareFamilies-leg-segment-family__price {
-  border-top: 1px solid #eeeeee;
-  border-bottom: 1px solid #eeeeee;
-  text-align: center;
-  padding: 10px 0;
-  color: #64b5f6;
+.fareFamilies-leg-segment-family .price {
+  font-weight: 500;
   font-size: 17px;
 }
 
-.fareFamilies-leg-segment-family__price .price-currency {
-  font-size: 13px;
+.fareFamilies-leg-segment-family .price-currency {
+  font-size: 15px;
   margin-left: 5px;
 }
 
 .fareFamilies-leg-segment-family__features {
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .fareFamilies-leg-segment-family-feature {
@@ -995,6 +983,9 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.fareFamilies-leg-segment-family-feature__wrapper_withDescription {
   cursor: help;
 }
 
@@ -1026,6 +1017,30 @@
 
 .fareFamilies-leg-segment-family-feature__icon_Charge svg {
   fill: #ff9800;
+}
+
+.fareFamilies-leg-segment-family__actions {
+  height: 57px;
+  border-top: 1px solid #eeeeee;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.fareFamilies-leg-segment-family__actions-placeholder {
+  margin: 0 4px;
+  color: #94ca51;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  min-width: 88px;
+  min-height: 36px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 1.4em;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  border-radius: 2px;
+  text-transform: uppercase;
 }
 
 .fareFamilies-loader {

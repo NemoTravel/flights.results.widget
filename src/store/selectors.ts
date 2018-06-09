@@ -6,7 +6,7 @@ import * as Sorting from './sorting/selectors';
 import { sortingFunctionsMap } from './sorting/selectors';
 import { FlightsRTState } from './flightsRT/reducers';
 import Money from '../schemas/Money';
-import { getCurrentLegId, isLastLeg } from './currentLeg/selectors';
+import { getCurrentLegId, isFirstLeg, isLastLeg } from './currentLeg/selectors';
 import * as FareFamilies from './fareFamilies/selectors';
 import {
 	getAirlinesIATA,
@@ -300,11 +300,11 @@ export const getRelativePrices = createSelector(
 );
 
 export const getTotalPrices = createSelector(
-	[isLastLeg, getTotalPrice, getRelativePrices],
-	(isLastLeg: boolean, totalPrice: Money, relativePrices: FlightsReplacement): PricesByFlights => {
+	[isLastLeg, isFirstLeg, getTotalPrice, getRelativePrices],
+	(isLastLeg: boolean, isFirstLeg: boolean, totalPrice: Money, relativePrices: FlightsReplacement): PricesByFlights => {
 		const result: PricesByFlights = {};
 
-		if (isLastLeg) {
+		if (isLastLeg && !isFirstLeg) {
 			for (const flightId in relativePrices) {
 				if (relativePrices.hasOwnProperty(flightId)) {
 					result[flightId] = {

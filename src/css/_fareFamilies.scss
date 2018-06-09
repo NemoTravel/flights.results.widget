@@ -13,7 +13,8 @@
 
 			&__families {
 				margin: 15px 24px 0;
-				border: 1px solid #eeeeee;
+				padding: 15px;
+
 				display: flex;
 				overflow-x: auto;
 			}
@@ -53,65 +54,52 @@
 			&-family {
 				flex: 1;
 				min-width: 215px;
-				transition: background-color 0.2s;
+				position: relative;
+
+				background-color: #f7f7f7 !important;
+				transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
 				&:not(:last-of-type) {
-					border-right: 1px solid #eeeeee;
+					margin-right: 15px;
+				}
+
+				&:after {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					width: 5px;
+					background-color: #94ca51;
+
+					opacity: 0;
+					transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+				}
+
+				&_selected {
+					background-color: #ffffff !important;
+
+					&:after {
+						opacity: 1;
+					}
 				}
 
 				&_disabled {
 					display: none;
-					cursor: not-allowed;
-
-					svg {
-						fill: rgba(188, 188, 188, 0.6) !important;
-					}
-
-					* {
-						pointer-events: none;
-						color: rgba(188, 188, 188, 0.6) !important;
-						user-select: none;
-					}
 				}
 
-				&_selected {
-					background-color: #f7f7f7;
-
-					.fareFamilies-leg-segment-family__name {
-						background-color: #64b5f6;
-
-						* {
-							color: #ffffff;
-						}
-					}
-				}
-
-				&__name {
-					text-align: center;
-					padding: 5px 15px;
-					transition: background-color 0.2s;
-				}
-
-				&__price {
-					border-top: 1px solid #eeeeee;
-					border-bottom: 1px solid #eeeeee;
-
-					text-align: center;
-					padding: 10px 0;
-
-					color: #64b5f6;
+				.price {
+					font-weight: 500;
 					font-size: 17px;
 
-					.price {
-						&-currency {
-							font-size: 13px;
-							margin-left: 5px;
-						}
+					&-currency {
+						font-size: 15px;
+						margin-left: 5px;
 					}
 				}
 
 				&__features {
-					padding: 10px;
+					padding: 10px 0;
 				}
 
 				&-feature {
@@ -126,7 +114,10 @@
 					&__wrapper {
 						display: inline-flex;
 						align-items: center;
-						cursor: help;
+
+						&_withDescription {
+							cursor: help;
+						}
 					}
 
 					&__icon {
@@ -157,6 +148,27 @@
 								fill: #ff9800;
 							}
 						}
+					}
+				}
+
+				&__actions {
+					height: 57px;
+					border-top: 1px solid #eeeeee;
+					justify-content: flex-end;
+
+					&-placeholder {
+						margin: 0 4px;
+						color: #94ca51;
+						padding: 8px 16px;
+						font-size: 0.875rem;
+						min-width: 88px;
+						min-height: 36px;
+						box-sizing: border-box;
+						line-height: 1.4em;
+						font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+						font-weight: 500;
+						border-radius: 2px;
+						text-transform: uppercase;
 					}
 				}
 			}
