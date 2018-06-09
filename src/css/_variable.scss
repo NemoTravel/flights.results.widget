@@ -5,7 +5,7 @@ $common-content-width: 1280px;
 $screen-size-laptop-large: 1440px;
 $screen-size-laptop: 1130px;
 $screen-size-tablet: 768px;
-$screen-size-phone: 425px;
+$screen-size-phone: 515px;
 
 @mixin adaptivity ($media) {
 	@if $media == laptop-large {

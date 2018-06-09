@@ -57,7 +57,7 @@
 
 		@include adaptivity(tablet) {
 			flex-wrap: wrap;
-			padding-bottom: 60px;
+			padding-bottom: 40px;
 			position: relative;
 		}
 
@@ -101,6 +101,10 @@
 				margin-top: 20px;
 				padding-left: 0;
 			}
+
+			@include adaptivity(phone) {
+				flex-basis: 100%;
+			}
 		}
 
 		&__right {
@@ -110,6 +114,10 @@
 			@include adaptivity(tablet) {
 				flex-basis: 50%;
 				margin-top: 20px;
+			}
+
+			@include adaptivity(phone) {
+				flex-basis: 100%;
 			}
 		}
 
@@ -164,6 +172,7 @@
 
 			@include adaptivity(tablet) {
 				flex-basis: 100%;
+				margin-bottom: 10px;
 			}
 
 			&__image {
@@ -204,6 +213,16 @@
 		&-stage {
 			width: 65px;
 			text-align: center;
+
+			@include adaptivity(tablet) {
+				&_departure {
+					text-align: left;
+				}
+
+				&_arrival {
+					text-align: right;
+				}
+			}
 
 			&__time {
 				font-size: 1.5rem;
@@ -331,6 +350,10 @@
 						}
 					}
 				}
+
+				@include adaptivity(tablet) {
+					margin-right: 10px;
+				}
 			}
 
 			&__route {
@@ -338,10 +361,10 @@
 
 				@include adaptivity(tablet) {
 					position: absolute;
-					left: 0;
-					padding-left: 24px;
+					right: 0;
+					padding-right: 24px;
 					bottom: 0;
-					margin-bottom: 24px;
+					margin-bottom: 15px;
 				}
 			}
 		}
@@ -374,8 +397,8 @@
 			}
 
 			@include adaptivity(tablet) {
-				position: absolute !important;
-				margin-bottom: 15px !important;
+			//	position: absolute !important;
+			//	margin-bottom: 15px !important;
 				bottom: 0;
 			}
 		}
@@ -388,6 +411,10 @@
 		&-segment {
 			padding-left: 43px;
 
+			@include adaptivity(tablet) {
+				padding-left: 25px;
+			}
+
 			&__left {
 				@extend .flight-summary__left;
 			}
@@ -399,6 +426,10 @@
 			&__right {
 				@extend .flight-summary__right;
 				font-size: 15px;
+
+				@include adaptivity(tablet) {
+					display: none;
+				}
 			}
 
 			&__wrapper {
@@ -408,6 +439,15 @@
 
 				//max-width: 516px;
 				padding: 0 24px;
+
+				@include adaptivity(tablet) {
+					flex-wrap: wrap;
+					padding-left: 20px;
+				}
+
+				@include adaptivity(phone) {
+					padding-left: 0;
+				}
 			}
 
 			&-logo {
@@ -473,7 +513,7 @@
 
 		&-filters {
 			border-top: 1px solid #e0e0e0;
-			padding: 15px 0 15px 43px;
+			padding: 10px 0 15px 43px;
 
 			&-label {
 				margin-left: 20px;
@@ -483,15 +523,34 @@
 				&:first-of-type {
 					margin-left: 0;
 				}
+
+				@include adaptivity(phone) {
+					position: absolute;
+					top: 0;
+				}
 			}
 
 			&-group {
 				display: inline-block;
+				padding: 5px 0;
+
+				@include adaptivity(phone) {
+					position: relative;
+				}
+			}
+
+			@include adaptivity(phone) {
+				padding-left: 25px;
 			}
 		}
 
 		&-filter {
 			display: inline-block;
+
+			@include adaptivity(phone) {
+				margin-top: 15px;
+				margin-bottom: 10px;
+			}
 
 			&-chip {
 				margin-right: 10px;
