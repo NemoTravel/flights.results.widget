@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import autobind from 'autobind-decorator';
-import Button from '@material-ui/core/Button/Button';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import FamiliesSegment from './Segment';
 import SegmentModel from '../../schemas/Segment';
@@ -20,6 +21,7 @@ interface Props {
 	selectFamily: typeof selectFamily;
 	goToLeg: typeof goToLeg;
 	availability: { [segmentId: number]: { [familyId: string]: boolean } };
+	showTitle: boolean;
 }
 
 class Leg extends React.Component<Props> {
@@ -81,15 +83,21 @@ class Leg extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		return <Flight
-			{...this.props}
-			className={classnames('flight', { flight_direct: true })}
-			alwaysUpdate={true}
-			isToggleable={false}
-			showDetails={true}
-			renderDetails={this.renderDetails}
-			renderActionBlock={this.renderActionBlock}
-		/>;
+		return <>
+			{this.props.showTitle ? <Typography className="fareFamilies-title" variant="headline">
+				Выбор тарифа {this.props.flight.legId === 0 ? 'туда' : 'обранто'}
+			</Typography> : null}
+
+			<Flight
+				{...this.props}
+				className={classnames('flight', { flight_direct: true })}
+				alwaysUpdate={true}
+				isToggleable={false}
+				showDetails={true}
+				renderDetails={this.renderDetails}
+				renderActionBlock={this.renderActionBlock}
+			/>
+		</>;
 	}
 }
 
