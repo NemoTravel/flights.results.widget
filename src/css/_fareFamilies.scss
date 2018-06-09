@@ -123,12 +123,10 @@
 						margin-bottom: 10px;
 					}
 
-					&__tooltip {
-						div[role="tooltip"] {
-							max-width: 300px;
-							padding: 8px;
-							font-size: 0.8rem;
-						}
+					&__wrapper {
+						display: inline-flex;
+						align-items: center;
+						cursor: help;
 					}
 
 					&__icon {
