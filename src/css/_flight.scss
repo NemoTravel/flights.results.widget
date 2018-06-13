@@ -85,14 +85,25 @@
 			}
 		}
 
+		&__right {
+			@include adaptivity(laptop) {
+			//	position: relative;
+			}
+		}
+
 		&__middle {
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
 			width: 320px;
 
+			@include adaptivity(laptop-large) {
+				padding-left: 15px;
+			}
+
 			@include adaptivity(laptop) {
-				width: auto;
+				max-width: 100%;
+				min-width: 0;
 				padding-left: 10px;
 			}
 
@@ -124,6 +135,12 @@
 		&_open {
 			&:hover {
 				background: transparent;
+			}
+
+			@include adaptivity(only-laptop) {
+				.flight-summary-stage-routeInfo {
+					width: 85px;
+				}
 			}
 		}
 
@@ -252,7 +269,7 @@
 				text-align: center;
 
 				@include adaptivity(tablet) {
-					width: calc(100% - 70px * 2);
+					width: calc(100% - 70px * 2) !important;
 				}
 
 				&__arrow {
@@ -292,6 +309,10 @@
 
 		&-route {
 			color: $light-font-color;
+
+			@include adaptivity(laptop) {
+				font-size: 11px;
+			}
 		}
 
 		&-price {
@@ -313,6 +334,38 @@
 
 					svg {
 						width: 21px !important;
+					}
+				}
+
+				@include adaptivity(laptop) {
+					position: absolute;
+					right: 0;
+					font-size: 11px;
+					margin-top: 12px;
+					margin-right: 45px;
+
+					&__icon {
+						top: -6px;
+						left: -17px;
+
+						svg {
+							width: 13px !important;
+						}
+					}
+				}
+
+				@include adaptivity(tablet) {
+					font-size: 1em;
+					margin-top: 20px;
+					margin-right: 25px;
+
+					&__icon {
+						top: -5px;
+						left: -27px;
+
+						svg {
+							width: 21px !important;
+						}
 					}
 				}
 			}
@@ -340,6 +393,11 @@
 						margin-left: 5px;
 						color: $light-font-color;
 					}
+
+					@include adaptivity(laptop) {
+						white-space: nowrap;
+						font-size: 17px;
+					}
 				}
 
 				&_profitable {
@@ -358,6 +416,10 @@
 
 			&__route {
 				text-align: right;
+
+				@include adaptivity(laptop) {
+					font-size: 11px;
+				}
 
 				@include adaptivity(tablet) {
 					position: absolute;
@@ -465,6 +527,16 @@
 			&-stage {
 				@extend .flight-summary-stage;
 
+				@include adaptivity(tablet) {
+					&_departure {
+						text-align: left;
+					}
+
+					&_arrival {
+						text-align: right;
+					}
+				}
+
 				&__time {
 					@extend .flight-summary-stage__time;
 				}
@@ -492,6 +564,12 @@
 
 			&-route {
 				@extend .flight-summary-route;
+
+				@include adaptivity(laptop) {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					width: 100%;
+				}
 			}
 
 			&-transfer {

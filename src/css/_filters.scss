@@ -9,7 +9,7 @@
 	width: 100%;
 	margin: 20px auto;
 
-	@include adaptivity(tablet) {
+	@include adaptivity(laptop) {
 		flex-wrap: wrap;
 	}
 
@@ -25,9 +25,18 @@
 	&__right {
 		display: flex;
 		align-items: center;
+
+		@include adaptivity(laptop) {
+			flex-basis: 100%;
+			justify-content: center;
+		}
 	}
 
 	&__right {
+		@include adaptivity(laptop) {
+			margin-top: 20px;
+		}
+
 		@include adaptivity(tablet) {
 			flex-wrap: wrap;
 		}
@@ -36,6 +45,10 @@
 	&-title {
 		display: flex;
 		align-items: center;
+
+		@include adaptivity(phone) {
+			display: none;
+		}
 	}
 
 	&-title {
