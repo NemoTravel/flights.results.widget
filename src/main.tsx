@@ -20,9 +20,6 @@ const momentDurationFormatSetup = require('moment-duration-format');
 const middlewares: Middleware[] = [];
 
 if (process.env.NODE_ENV !== 'production') {
-	// const { whyDidYouUpdate } = require('why-did-you-update');
-	// whyDidYouUpdate(React);
-
 	middlewares.push(logger);
 }
 

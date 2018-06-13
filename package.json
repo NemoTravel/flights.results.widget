@@ -10,7 +10,6 @@
 		"build": "npm run tslint && npm run sass-lint && npm test && cross-env NODE_ENV=production webpack",
 		"build-dev": "cross-env NODE_ENV=dev webpack",
 		"dev": "run-p build-dev server",
-		"prepare": "npm run build",
 		"test": "jest",
 		"start": "npm run server"
 	},
@@ -53,6 +52,7 @@
 		"typescript": "^2.8.3",
 		"url-loader": "^0.5.9",
 		"webpack": "^4.8.3",
+		"webpack-bundle-analyzer": "^2.13.1",
 		"webpack-cli": "^2.1.4",
 		"why-did-you-update": "^0.1.1"
 	},
@@ -60,7 +60,7 @@
 		"@material-ui/core": "^1.0.0",
 		"@material-ui/icons": "^1.0.0",
 		"@nemo.travel/api-parser": "^1.2.2",
-		"@nemo.travel/search-widget": "^2.4.5",
+		"@nemo.travel/search-widget": "^2.4.6",
 		"@types/classnames": "^2.2.3",
 		"@types/jest": "^22.2.0",
 		"@types/js-cookie": "2.1.0",
