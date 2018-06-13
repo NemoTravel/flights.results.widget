@@ -4,6 +4,7 @@
 	&-title {
 		margin-top: 20px !important;
 		margin-bottom: 20px !important;
+		padding-left: 25px;
 	}
 
 	&-leg {
@@ -28,9 +29,31 @@
 					font-size: 1.3rem;
 				}
 
+				@include adaptivity(tablet) {
+					flex-wrap: wrap;
+
+					h1 {
+						font-size: 1rem;
+					}
+				}
+
 				&__left {
 					display: flex;
 					align-items: center;
+
+					@include adaptivity(tablet) {
+						flex-basis: 100%;
+					}
+
+					@include adaptivity(phone) {
+						width: 100%;
+						flex-wrap: wrap;
+
+						h1 {
+							width: 100%;
+							text-align: center;
+						}
+					}
 				}
 
 				&-logo {
@@ -42,11 +65,27 @@
 						max-height: 25px;
 						vertical-align: middle;
 					}
+
+					@include adaptivity(phone) {
+						width: 100%;
+						text-align: center;
+						margin-bottom: 10px;
+					}
 				}
 
 				&__disclaimer {
 					font-size: 17px;
 					color: rgba(0, 0, 0, 0.54);
+
+					@include adaptivity(tablet) {
+						flex-basis: 100%;
+						margin-top: 10px;
+						font-size: 15px;
+					}
+
+					@include adaptivity(phone) {
+						text-align: center;
+					}
 				}
 			}
 
@@ -180,13 +219,34 @@
 	}
 
 	&-selectedFlights {
+		width: 1340px;
+		margin: 0 auto;
+
 		.flight__holder {
 			padding: 0;
+		}
+
+		.flight-summary {
+			padding-bottom: 12px;
 		}
 
 		&-title {
 			@extend .fareFamilies-title;
 			margin-bottom: 20px !important;
+		}
+	}
+
+	&__inner {
+		width: 1340px;
+		margin: 0 auto;
+	}
+
+	@include adaptivity(laptop-large) {
+		&__inner,
+		&-selectedFlights {
+			width: 100%;
+			padding-left: 20px;
+			padding-right: 20px;
 		}
 	}
 }

@@ -33,6 +33,8 @@
 	}
 
 	&__right {
+		margin-bottom: -10px;
+
 		@include adaptivity(laptop) {
 			margin-top: 20px;
 		}
@@ -55,6 +57,7 @@
 		position: relative;
 		top: -1px;
 		margin-right: 10px;
+		margin-bottom: 10px;
 
 		font-size: 14px;
 		color: rgba(0, 0, 0, 0.54);

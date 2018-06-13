@@ -3,11 +3,15 @@ $light-font-color: rgba(0, 0, 0, 0.54);
 $common-content-width: 1280px;
 
 $screen-size-laptop-large: 1440px;
-$screen-size-laptop: 1130px;
+$screen-size-laptop: 1100px;
 $screen-size-tablet: 768px;
 $screen-size-phone: 515px;
 
 @mixin adaptivity ($media) {
+	@if $media == desktop {
+		@media only screen and (min-width: $screen-size-laptop-large) { @content; }
+	}
+
 	@if $media == laptop-large {
 		@media only screen and (max-width: $screen-size-laptop-large) { @content; }
 	}

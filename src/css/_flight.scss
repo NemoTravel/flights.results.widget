@@ -85,12 +85,6 @@
 			}
 		}
 
-		&__right {
-			@include adaptivity(laptop) {
-			//	position: relative;
-			}
-		}
-
 		&__middle {
 			flex-direction: column;
 			justify-content: center;
@@ -222,6 +216,16 @@
 				&__image {
 					&:only-child {
 						max-width: 100px;
+					}
+
+					&:not(:only-child) {
+						margin-right: 0;
+						margin-left: 0;
+						margin-bottom: 10px;
+					}
+
+					&:last-child:not(:only-child) {
+						margin-bottom: 0;
 					}
 				}
 			}
@@ -459,8 +463,6 @@
 			}
 
 			@include adaptivity(tablet) {
-			//	position: absolute !important;
-			//	margin-bottom: 15px !important;
 				bottom: 0;
 			}
 		}
