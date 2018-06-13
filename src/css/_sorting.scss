@@ -8,8 +8,16 @@
 	padding-left: 246px;
 	margin: 10px 0;
 
+	@include adaptivity(laptop) {
+		padding-left: 146px;
+	}
+
 	@include adaptivity(tablet) {
 		padding-left: 0;
+	}
+
+	@include adaptivity(phone) {
+		flex-wrap: wrap;
 	}
 
 	&__left,
@@ -17,16 +25,34 @@
 	&__right {
 		display: flex;
 		align-items: center;
+
+		@include adaptivity(phone) {
+			flex-basis: 100%;
+		}
 	}
 
 	&__middle {
 		width: 320px;
+
+		@include adaptivity(phone) {
+			display: none;
+		}
 	}
 
 	&__right {
 		width: 270px;
 		padding-right: 162px;
 		justify-content: flex-end;
+
+		@include adaptivity(tablet) {
+			padding-right: 25px;
+		}
+
+		@include adaptivity(phone) {
+			padding-right: 0;
+			justify-content: center;
+			margin-top: 10px;
+		}
 	}
 
 	&-item {
@@ -36,6 +62,10 @@
 
 		color: $light-font-color;
 		transition: color 0.2s;
+
+		@include adaptivity(phone) {
+			flex-basis: 100%;
+		}
 
 		&__inner {
 			position: relative;
@@ -93,6 +123,10 @@
 
 		&_FlightTime {
 			width: 158px;
+
+			@include adaptivity(laptop) {
+				width: 120px;
+			}
 		}
 
 		&_ArrivalTime {
@@ -102,6 +136,10 @@
 		&_Price {
 			justify-content: flex-end;
 			width: 113px;
+
+			@include adaptivity(phone) {
+				justify-content: center;
+			}
 		}
 	}
 }
