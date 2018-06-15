@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const Extract = require('mini-css-extract-plugin');
 const packageJSON = require('./package.json');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const moduleName = 'flights.results.widget';
 
 // For DEV mode prepend "NODE_ENV=dev" before "webpack" command.
@@ -41,7 +40,7 @@ const config = {
     },
 
     optimization: {
-		minimize: !isDevMode,
+		minimize: false,
 		noEmitOnErrors: true
 	},
 
@@ -123,7 +122,6 @@ const config = {
 
     plugins: [
         extractSass,
-		new BundleAnalyzerPlugin(),
 		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en/)
     ]
 };
