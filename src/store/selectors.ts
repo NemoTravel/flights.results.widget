@@ -461,7 +461,7 @@ export const getVisibleFlights = createSelector(
 				return false;
 			}
 
-			// Show only `usable` flight if checked.
+			// Show only `comfortable` flight if checked.
 			if (comfortable) {
 				if (lastSegmentArrAirportIATA !== flight.firstSegment.depAirport.IATA) {
 					return false;
