@@ -9,21 +9,27 @@ import { RootState } from '../../store/reducers';
 import { toggleComfortable } from '../../store/filters/comfortable/actions';
 import { getIsComfortable } from '../../store/filters/comfortable/selectors';
 import { isFirstLeg } from '../../store/currentLeg/selectors';
-import { getAllAirlines, getFilteredAirlines } from '../../store/filters/airlines/selectors';
+import {
+	getAllAirlines,
+	getSelectedAirlinesObjects
+} from '../../store/filters/airlines/selectors';
 import { getAirlinesIATA, getSelectedFlights } from '../../store/selectedFlights/selectors';
 import Flight from '../../models/Flight';
 import Airline from '../../schemas/Airline';
 import Airport from '../../schemas/Airport';
-import { getDepartureAirports, getFilteredDepartureAirports } from '../../store/filters/airports/selectors';
+import {
+	getDepartureAirports,
+	getSelectedDepartureAirportsObjects
+} from '../../store/filters/airports/selectors';
 
 interface StateProps {
 	isActive: boolean;
 	isFirstLeg: boolean;
 	allAirlinesInLeg: Airline[];
-	selectedAirlines: string[];
+	selectedAirlines: Airline[];
 	selectedFlights: Flight[];
 	departureAirports: Airport[];
-	selectedDepartureAirports: string[];
+	selectedDepartureAirports: Airport[];
 }
 
 interface DispatchProps {
@@ -42,6 +48,7 @@ class Comfortable extends Filter<Props, FilterState> {
 			this.props.allAirlinesInLeg !== nextProps.allAirlinesInLeg ||
 			this.props.selectedAirlines !== nextProps.selectedAirlines ||
 			this.props.selectedFlights !== nextProps.selectedFlights ||
+			this.props.selectedDepartureAirports !== nextProps.selectedDepartureAirports ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
 	}
@@ -61,35 +68,25 @@ class Comfortable extends Filter<Props, FilterState> {
 			return;
 		}
 
-		return this.isAirlineExist() && this.isAirportExist();
+		return this.isNeededAirlinesExists() && this.isNeededAirportExists();
 	}
 
-	isAirlineExist(): boolean {
-		const airlinesIATA = getAirlinesIATA(this.props.selectedFlights);
+	isNeededAirlinesExists(): boolean {
+		const airlinesIATA = getAirlinesIATA(this.props.selectedFlights),
+			filteredAirlines = this.props.selectedAirlines.length ? this.props.selectedAirlines : this.props.allAirlinesInLeg;
 
-		if (this.props.selectedAirlines.length) {
-			return !!this.props.selectedAirlines.find(airline => {
-				return airlinesIATA.hasOwnProperty(airline);
-			});
-		}
-		else {
-			return !!this.props.allAirlinesInLeg.find(airline => {
-				return airlinesIATA.hasOwnProperty(airline.IATA);
-			});
-		}
+		return !!filteredAirlines.find(airline => {
+			return airlinesIATA.hasOwnProperty(airline.IATA);
+		});
 	}
 
-	isAirportExist(): boolean {
-		const prevLegArrival = this.props.selectedFlights[this.props.selectedFlights.length - 1].lastSegment.arrAirport.IATA;
+	isNeededAirportExists(): boolean {
+		const prevLegArrival = this.props.selectedFlights[this.props.selectedFlights.length - 1].lastSegment.arrAirport.IATA,
+			filteredAirports = this.props.selectedDepartureAirports.length ? this.props.selectedDepartureAirports : this.props.departureAirports;
 
-		if (this.props.selectedDepartureAirports.length) {
-			return this.props.selectedDepartureAirports.indexOf(prevLegArrival) >= 0;
-		}
-		else {
-			return !!this.props.departureAirports.find(airline => {
-				return airline.IATA === prevLegArrival;
-			});
-		}
+		return !!filteredAirports.find(airline => {
+			return airline.IATA === prevLegArrival;
+		});
 	}
 
 	onClear(): void {
@@ -112,10 +109,10 @@ const mapStateToProps = (state: RootState): StateProps => {
 		isActive: getIsComfortable(state),
 		isFirstLeg: isFirstLeg(state),
 		allAirlinesInLeg: getAllAirlines(state),
-		selectedAirlines: getFilteredAirlines(state),
+		selectedAirlines: getSelectedAirlinesObjects(state),
 		selectedFlights: getSelectedFlights(state),
 		departureAirports: getDepartureAirports(state),
-		selectedDepartureAirports: getFilteredDepartureAirports(state)
+		selectedDepartureAirports: getSelectedDepartureAirportsObjects(state)
 	};
 };
 
