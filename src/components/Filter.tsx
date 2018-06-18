@@ -7,7 +7,8 @@ export enum Type {
 	Airlines = 'airlines',
 	Time = 'time',
 	DirectOnly = 'directOnly',
-	FlightSearch = 'flightSearch'
+	FlightSearch = 'flightSearch',
+	Comfortable = 'comfortable'
 }
 
 export interface State {
@@ -41,7 +42,7 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 		} as State);
 	}
 
-	render(): React.ReactNode {
+	getChipProps(): ChipProps {
 		const chipProps: ChipProps = {
 			label: this.state.chipLabel
 		};
@@ -53,8 +54,12 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 			chipProps.onClick = this.onClick;
 		}
 
+		return chipProps;
+	}
+
+	render(): React.ReactNode {
 		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-			<Chip className="filters-filter-chip" {...chipProps}/>
+			<Chip className="filters-filter-chip" {...this.getChipProps()}/>
 		</div> : null;
 	}
 }

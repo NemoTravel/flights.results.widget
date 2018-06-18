@@ -2,11 +2,17 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Typography from '@material-ui/core/Typography';
 
 import FareFamily from '../../schemas/FareFamily';
 import Money from '../../schemas/Money';
 import Price from '../Price';
 import Features from './Features';
+import autobind from 'autobind-decorator';
 
 interface Props {
 	id: string;
@@ -22,17 +28,10 @@ class Family extends React.Component<Props> {
 		isDisabled: false
 	};
 
-	constructor(props: Props) {
-		super(props);
-
-		this.onChange = this.onChange.bind(this);
-	}
-
-	onChange(event: React.ChangeEvent<{}>): void {
+	@autobind
+	onChange(): void {
 		if (!this.props.isDisabled) {
-			const inputValue = (event.target as HTMLInputElement).value;
-
-			this.props.onChange(inputValue);
+			this.props.onChange(this.props.id);
 		}
 	}
 
@@ -48,10 +47,10 @@ class Family extends React.Component<Props> {
 		let result = null;
 
 		if (isDisabled || !price) {
-			result = '—';
+			result = 'Выбрать';
 		}
 		else if (isSelected) {
-			result = 'Выбрано';
+			result = null;
 		}
 		else {
 			result = <Price withPlus={price && price.amount > 0} withMinus={price && price.amount < 0} price={price}/>;
@@ -61,34 +60,40 @@ class Family extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { id, family, isDisabled, isSelected, price } = this.props;
+		const { family, isDisabled, isSelected, price } = this.props;
 
-		return <div className={classnames('fareFamilies-leg-segment-family', {
-			'fareFamilies-leg-segment-family_disabled': isDisabled,
-			'fareFamilies-leg-segment-family_notAvailable': !price,
-			'fareFamilies-leg-segment-family_selected': isSelected
-		})}>
-			<div className="fareFamilies-leg-segment-family__name">
-				<FormControlLabel
-					name="family"
-					label={family.fareFamilyName}
-					checked={this.props.isSelected}
-					value={id}
-					control={<Radio color="primary"/>}
-					onChange={this.onChange}
-				/>
-			</div>
+		return (
+			<Card
+				raised={isSelected}
+				className={classnames('fareFamilies-leg-segment-family', {
+					'fareFamilies-leg-segment-family_disabled': isDisabled,
+					'fareFamilies-leg-segment-family_notAvailable': !price,
+					'fareFamilies-leg-segment-family_selected': isSelected
+				})}
+			>
+				<CardContent>
+					<Typography gutterBottom variant="headline" component="h2">
+						{family.fareFamilyName}
+					</Typography>
 
-			<div className="fareFamilies-leg-segment-family__price">
-				{this.renderPrice()}
-			</div>
+					<Features features={[
+						...family.fareFeatures.baggage,
+						...family.fareFeatures.exare,
+						...family.fareFeatures.misc
+					]}/>
+				</CardContent>
 
-			<Features features={[
-				...family.fareFeatures.baggage,
-				...family.fareFeatures.exare,
-				...family.fareFeatures.misc
-			]}/>
-		</div>;
+				<CardActions className="fareFamilies-leg-segment-family__actions">
+					{isSelected ? (
+						<div className="fareFamilies-leg-segment-family__actions-placeholder">Выбрано</div>
+					) : (
+						<Button variant="raised" color="secondary" onClick={this.onChange}>
+							{this.renderPrice()}
+						</Button>
+					)}
+				</CardActions>
+			</Card>
+		);
 	}
 }
 

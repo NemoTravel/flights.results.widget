@@ -1,72 +1,75 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import StarIcons from '@material-ui/icons/Stars';
+import * as moment from 'moment';
+import autobind from 'autobind-decorator';
 
-import Tooltip from './Flight/Tooltip';
 import Segment from './Flight/Segment';
 import Filters from './Flight/Filters';
-import Price from './Price';
 import FlightModel from '../models/Flight';
 import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
-import Button from './Flight/Button';
-import SelectedFlight from '../schemas/SelectedFlight';
-import { selectFlight } from '../store/selectedFlights/actions';
 
 export interface Props {
 	flight: FlightModel;
-	style?: React.CSSProperties;
-	currentLegId?: number;
-	showPricePrefix?: boolean;
-	replacement?: SelectedFlight;
-	selectFlight?: typeof selectFlight;
+	renderActionBlock: () => React.ReactNode;
+	renderDetails?: () => React.ReactNode;
+	className?: string;
+	isToggleable?: boolean;
+	showFilters?: boolean;
+	showOpenedSummary?: boolean;
+	showDetails?: boolean;
+	alwaysUpdate?: boolean;
 }
 
 interface State {
 	isOpen: boolean;
 }
 
-const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
-
 const MAX_NUM_OF_LOGO_INLINE = 2;
+const stateByFlights: { [flightId: string]: State } = {};
 
-const stateByFlights: { [flightId: number]: State } = {};
+class Flight extends React.Component<Props, State> {
+	static defaultProps: Partial<Props> = {
+		isToggleable: true,
+		showFilters: false,
+		alwaysUpdate: false,
+		showOpenedSummary: false,
+		showDetails: false,
+		className: 'flight'
+	};
 
-class Flight<P> extends React.Component<Props & P, State> {
-	protected mainClassName = 'flight';
+	protected segmentsForDetails: SegmentModel[] = [];
 
-	constructor(props: Props & P) {
+	constructor(props: Props) {
 		super(props);
 
-		this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
+		this.segmentsForDetails = this.props.flight.segments.slice(1);
 
-		this.toggleDetails = this.toggleDetails.bind(this);
-		this.onBuyButtonClick = this.onBuyButtonClick.bind(this);
+		if (this.props.showDetails) {
+			this.state = { isOpen: true };
+		}
+		else {
+			this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
+		}
 	}
 
-	shouldComponentUpdate(nextProps: Props & P, nextState: State): boolean {
-		return this.props.flight.id !== nextProps.flight.id ||
-			this.props.replacement !== nextProps.replacement ||
-			this.state.isOpen !== nextState.isOpen;
+	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+		return this.props.alwaysUpdate || this.props.flight.id !== nextProps.flight.id || this.state.isOpen !== nextState.isOpen;
 	}
 
+	@autobind
 	toggleDetails(): void {
-		this.setState({
-			isOpen: !this.state.isOpen
-		} as State);
+		if (this.props.isToggleable) {
+			this.setState({
+				isOpen: !this.state.isOpen
+			} as State);
+		}
 	}
 
 	componentWillUnmount(): void {
 		stateByFlights[this.props.flight.id] = this.state;
-	}
-
-	onBuyButtonClick(event: React.MouseEvent<HTMLDivElement>): void {
-		event.stopPropagation();
-		event.preventDefault();
-
-		this.props.selectFlight(this.props.replacement, this.props.currentLegId);
 	}
 
 	renderLogo(firstOnly = false): React.ReactNode {
@@ -91,49 +94,13 @@ class Flight<P> extends React.Component<Props & P, State> {
 			});
 	}
 
-	renderSummaryButtonsBlock(): React.ReactNode {
-		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
-		const price = replacement ? replacement.price : flight.totalPrice;
-
-		return <div className="flight-summary__right">
-			<div className="flight-summary-price">
-				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
-
-					<Price withPlus={currentLegId !== 0} price={price}/>
-				</div>
-
-				{price.amount < 0 ? (
-					<Tooltip title={tariffTooltipText} placement="top">
-						<div className="flight-summary-price-profitMark">
-							<div className="flight-summary-price-profitMark__icon">
-								<StarIcons/>
-							</div>
-
-							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
-						</div>
-					</Tooltip>
-				) : null}
-
-				{currentLegId === 0 ? (
-					<div className="flight-summary-price__route">
-						за весь маршрут
-					</div>
-				) : null}
-			</div>
-
-			<Button className="flight-summary-buy" onClick={this.onBuyButtonClick}/>
-		</div>;
-	}
-
-	renderFilters(): React.ReactNode {
-		return <Filters flight={this.props.flight}/>;
-	}
-
 	renderSummary(): React.ReactNode {
 		const flight: FlightModel = this.props.flight;
 		const firstSegment = flight.firstSegment;
 		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
+		const time = this.state.isOpen ?
+			moment.duration(firstSegment.flightTime, 'seconds').format('d [д] h [ч] m [мин]') :
+			flight.totalFlightTimeHuman;
 
 		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen })} onClick={this.toggleDetails}>
 			<div className="flight-summary__left">
@@ -154,13 +121,13 @@ class Flight<P> extends React.Component<Props & P, State> {
 					</div>
 
 					<div className="flight-summary-stage__date">
-						{firstSegment.depDate.format('DD MMM')}
+						{firstSegment.depDate.format('DD MMM').replace('.', '')}
 					</div>
 				</div>
 
 				<div className="flight-summary-stage-routeInfo">
 					<div className="flight-summary-stage-routeInfo__arrow"/>
-					<span className="flight-summary-stage-routeInfo__flightTime">{flight.totalFlightTimeHuman}</span>
+					<span className="flight-summary-stage-routeInfo__flightTime">{time}</span>
 				</div>
 
 				<div className="flight-summary-stage flight-summary-stage_arrival">
@@ -169,16 +136,16 @@ class Flight<P> extends React.Component<Props & P, State> {
 					</div>
 
 					<div className={classnames('flight-summary-stage__date', { 'flight-summary-stage__date_warning': flight.arrivalAtNextDay })}>
-						{lastSegment.arrDate.format('DD MMM')}
+						{lastSegment.arrDate.format('DD MMM').replace('.', '')}
 					</div>
 				</div>
 			</div>
 
 			<div className="flight-summary__middle">
-				{this.state.isOpen ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
+				{this.state.isOpen || this.props.showOpenedSummary ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
 			</div>
 
-			{this.renderSummaryButtonsBlock()}
+			{this.props.renderActionBlock()}
 		</div>;
 	}
 
@@ -214,19 +181,16 @@ class Flight<P> extends React.Component<Props & P, State> {
 	}
 
 	renderDetails(): React.ReactNode {
-		return this.state.isOpen ? <>
-			<div className="flight-details">
-				{this.props.flight.segments.slice(1).map((segment, index) => <Segment key={index} segment={segment}/>)}
-			</div>
-
-			{this.renderFilters()}
-		</> : null;
+		return this.props.renderDetails ? this.props.renderDetails() : <div className="flight-details">
+			{this.segmentsForDetails.map((segment, index) => <Segment key={index} segment={segment}/>)}
+		</div>;
 	}
 
 	render(): React.ReactNode {
-		return <div className={classnames(this.mainClassName, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
+		return <div className={classnames(this.props.className, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
 			{this.renderSummary()}
-			{this.renderDetails()}
+			{this.state.isOpen ? this.renderDetails() : null}
+			{this.state.isOpen && this.props.showFilters ? <Filters flight={this.props.flight}/> : null}
 		</div>;
 	}
 }

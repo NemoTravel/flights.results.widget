@@ -39,10 +39,8 @@ const config = {
         aggregateTimeout: 300
     },
 
-	devtool: 'cheap-module-eval-source-map',
-
     optimization: {
-		minimize: !isDevMode,
+		minimize: false,
 		noEmitOnErrors: true
 	},
 
@@ -91,9 +89,6 @@ const config = {
                 include: [
                     path.resolve(__dirname, 'src/css')
                 ],
-                exclude: [
-                    path.resolve(__dirname, 'src/css/nemo')
-                ],
                 use: [
 					Extract.loader,
 					// Allows to import CSS through JavaScript.
@@ -109,26 +104,12 @@ const config = {
                 ],
             },
 
-            // Handling fonts and converting them to base64 format.
-            {
-                test: /\.woff$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 50000,
-                    mimetype: 'application/font-woff'
-                },
-                include: [
-                    path.resolve(__dirname, 'src/css/fonts')
-                ]
-            },
-
             // Handling SVG images.
             {
                 test: /\.svg$/,
                 loader: 'url-loader',
                 include: [
-                    path.resolve(__dirname, 'src/css/images'),
-                    path.resolve(__dirname, 'src/css/nemo/images')
+                    path.resolve(__dirname, 'src/css/images')
                 ],
                 options: {
                     publicPath: '',
@@ -140,7 +121,8 @@ const config = {
     },
 
     plugins: [
-        extractSass
+        extractSass,
+		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en/)
     ]
 };
 

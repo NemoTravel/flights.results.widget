@@ -15,11 +15,10 @@ import {
 import {
 	getArrivalAirports,
 	getDepartureAirports,
-	getSelectedArrivalAirportsList,
 	getSelectedArrivalAirportsObjects,
-	getSelectedDepartureAirportsList,
 	getSelectedDepartureAirportsObjects
 } from '../../store/filters/airports/selectors';
+import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from '../../store/selectors';
 import { LocationType } from '../../enums';
 
 interface StateProps {
@@ -71,7 +70,7 @@ class Airports extends WithPopover<Props, FilterState> {
 		}
 
 		if (hasSelectedArrivalAirports) {
-			chipLabel = `${hasSelectedDepartureAirports ? chipLabel + ', ' : ''}Прилет: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
+			chipLabel = `${hasSelectedDepartureAirports ? chipLabel + ', прилёт' : 'Прилёт'}: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
 		}
 
 		this.setState({

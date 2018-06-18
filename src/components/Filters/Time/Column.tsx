@@ -27,6 +27,13 @@ class Column extends React.Component<Props> {
 				<FormLabel className="filters-filter-popover-legend" component="legend">{this.props.title}</FormLabel>
 
 				<FormGroup>
+					{this.props.suggestedTimes.indexOf(FlightTimeInterval.Night) >= 0 ? <Checkbox
+						onChange={this.props.onChange}
+						checked={FlightTimeInterval.Night in this.props.selectedTime}
+						value={FlightTimeInterval.Night}
+						label="Ночью (00:00 - 06:00)"
+					/> : null}
+
 					{this.props.suggestedTimes.indexOf(FlightTimeInterval.Morning) >= 0 ? <Checkbox
 						onChange={this.props.onChange}
 						checked={FlightTimeInterval.Morning in this.props.selectedTime}
@@ -46,13 +53,6 @@ class Column extends React.Component<Props> {
 						checked={FlightTimeInterval.Evening in this.props.selectedTime}
 						value={FlightTimeInterval.Evening}
 						label="Вечером (18:00 - 00:00)"
-					/> : null}
-
-					{this.props.suggestedTimes.indexOf(FlightTimeInterval.Night) >= 0 ? <Checkbox
-						onChange={this.props.onChange}
-						checked={FlightTimeInterval.Night in this.props.selectedTime}
-						value={FlightTimeInterval.Night}
-						label="Ночью (00:00 - 06:00)"
 					/> : null}
 				</FormGroup>
 			</FormControl>

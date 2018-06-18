@@ -129,6 +129,11 @@
 		&_open {
 			&:hover {
 				background: transparent;
+
+				.flight-summary-stage-routeInfo__flightTime,
+				.flight-details-segment-stage-routeInfo__flightTime {
+					background: #ffffff;
+				}
 			}
 
 			@include adaptivity(only-laptop) {
@@ -389,7 +394,7 @@
 					text-align: right;
 					color: $common-font-color;
 					font-size: 1.5rem;
-					margin-left: 5px !important;
+					margin-left: 5px;
 
 					&-currency {
 						font-size: 18px;
@@ -444,6 +449,7 @@
 			padding: 0 15px;
 			border-radius: 0;
 
+			max-width: 100px;
 			width: 100px;
 			text-align: center;
 
@@ -465,6 +471,20 @@
 			@include adaptivity(tablet) {
 				bottom: 0;
 			}
+
+			.price {
+				white-space: nowrap;
+				font-size: 18px;
+
+				&-currency {
+					margin-left: 2px;
+				}
+			}
+		}
+
+		&-changeFlight {
+			max-width: 100px;
+			width: 100px;
 		}
 	}
 
@@ -655,6 +675,10 @@
 
 		&:hover {
 			background-color: transparent;
+
+			.flight-summary-stage-routeInfo__flightTime {
+				background-color: #ffffff;
+			}
 		}
 
 		&-expand {

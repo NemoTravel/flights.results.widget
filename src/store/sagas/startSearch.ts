@@ -1,5 +1,5 @@
 import Flight from '../../models/Flight';
-import { call, fork, put, takeEvery } from 'redux-saga/effects';
+import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
 import RequestInfo from '../../schemas/RequestInfo';
 import { startLoading, stopLoading } from '../isLoading/actions';
 import { addFlightsRT } from '../flightsRT/actions';
@@ -10,6 +10,7 @@ import { addFlights } from '../flights/actions';
 import { setFlightsByLeg } from '../flightsByLegs/actions';
 import { goToLeg } from '../currentLeg/actions';
 import { createLegs } from '../../utils';
+import { getCurrentLegId } from '../currentLeg/selectors';
 
 function* runSearch(request: RequestInfo, index: number) {
 	const flights: Flight[] = yield call(loadSearchResults, request);
@@ -48,8 +49,12 @@ function* worker({ payload }: SearchAction) {
 	// Create legs array.
 	yield put(setLegs(createLegs(payload.requests)));
 
-	// Reset selected flights and legs.
-	yield put(goToLeg(0));
+	// If current leg is not `0`, reset selected flights and legs.
+	const currentLeg: number = yield select(getCurrentLegId);
+
+	if (currentLeg) {
+		yield put(goToLeg(0));
+	}
 
 	// Run all searches.
 	yield call(runSearches, payload);

@@ -1,15 +1,16 @@
 import { SearchInfo, SearchInfoSegment } from '@nemo.travel/search-widget';
 
 import RequestInfo from '../schemas/RequestInfo';
-import { NUM_OF_RT_SEGMENTS } from '../utils';
 import { RouteType } from '../enums';
 
 export const START_SEARCH = 'START_SEARCH';
 export const SEARCH_FARE_FAMILIES = 'SEARCH_FARE_FAMILIES';
+export const SEARCH_FARE_FAMILIES_RT = 'SEARCH_FARE_FAMILIES_RT';
 
 export type SearchAction = ReturnType<typeof startSearch>;
 export type SearchActionPayload = ReturnType<typeof createSearchPayload>;
 export type SearchFareFamiliesAction = ReturnType<typeof searchFareFamilies>;
+export type SearchFareFamiliesRTAction = ReturnType<typeof searchFareFamiliesRT>;
 
 const createSearchPayload = (searchInfo: SearchInfo) => {
 	let RTRequest: RequestInfo = null;
@@ -65,12 +66,21 @@ export const startSearch = (searchInfo: SearchInfo) => {
 	};
 };
 
-export const searchFareFamilies = (flightId: number, legId: number) => {
+export const searchFareFamilies = (legId: number, flightId: string) => {
 	return {
 		type: SEARCH_FARE_FAMILIES,
 		payload: {
 			flightId,
 			legId
+		}
+	};
+};
+
+export const searchFareFamiliesRT = (flightId: string) => {
+	return {
+		type: SEARCH_FARE_FAMILIES_RT,
+		payload: {
+			flightId
 		}
 	};
 };

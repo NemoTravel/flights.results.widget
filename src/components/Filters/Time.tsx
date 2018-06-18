@@ -7,10 +7,8 @@ import WithPopover, { State as FilterState } from './WithPopover';
 import { RootState } from '../../store/reducers';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
-import {
-	getAllTimeIntervals, getSelectedArrivalTimeIntervals,
-	getSelectedDepartureTimeIntervals
-} from '../../store/filters/time/selectors';
+import { getAllTimeIntervals } from '../../store/filters/time/selectors';
+import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/selectors';
 import { FlightTimeInterval, LocationType } from '../../enums';
 import { TimeFilterState } from '../../store/filters/time/reducers';
 
@@ -84,7 +82,7 @@ class Time extends WithPopover<Props, FilterState> {
 				}
 			}
 
-			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', ' : ''}Прилёт: ${parts.join(', ')}`;
+			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', прилёт' : 'Прилёт'}: ${parts.join(', ')}`;
 		}
 
 		this.setState({
@@ -120,7 +118,7 @@ class Time extends WithPopover<Props, FilterState> {
 	}
 
 	isVisible(): boolean {
-		return true;
+		return this.props.allTimeIntervals[LocationType.Departure].length > 1 || this.props.allTimeIntervals[LocationType.Arrival].length > 1;
 	}
 
 	renderPopover(): React.ReactNode {

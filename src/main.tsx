@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, Middleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import './css/main.scss';
@@ -17,15 +17,18 @@ import Main from './components/Main';
 import sagas from './store/sagas';
 
 const momentDurationFormatSetup = require('moment-duration-format');
+const middlewares: Middleware[] = [];
 
-// if (process.env.NODE_ENV !== 'production') {
-// 	const { whyDidYouUpdate } = require('why-did-you-update');
-// 	whyDidYouUpdate(React);
-// }
+if (process.env.NODE_ENV !== 'production') {
+	middlewares.push(logger);
+}
 
 export const init = (config: Config) => {
 	const sagaMiddleware = createSagaMiddleware();
-	const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
+
+	middlewares.push(sagaMiddleware);
+
+	const store = createStore(rootReducer, applyMiddleware(...middlewares));
 	const theme = createMuiTheme(themeObject);
 
 	sagaMiddleware.run(sagas);

@@ -5,7 +5,7 @@ import SegmentGroup from './SegmentGroup';
 import FlightModel from '../models/Flight';
 
 export default interface Flight {
-	id: number;
+	id: string;
 	altFlightHasBeenChosen: boolean;
 	altFlights: FlightModel[];
 	codeShareAirlines: Airline[];

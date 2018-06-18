@@ -11,7 +11,8 @@ import WithPopover, { State as WithPopoverState } from './WithPopover';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { RootState } from '../../store/reducers';
 import { addAirline, removeAirline, removeAllAirlines } from '../../store/filters/airlines/actions';
-import { getAllAirlines, getSelectedAirlinesList, getSelectedAirlinesObjects } from '../../store/filters/airlines/selectors';
+import { getAllAirlines, getSelectedAirlinesObjects } from '../../store/filters/airlines/selectors';
+import { getSelectedAirlinesList } from '../../store/selectors';
 
 interface StateProps {
 	airlines: Airline[];

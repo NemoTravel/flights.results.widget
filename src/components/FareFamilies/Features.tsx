@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import CheckCircle from '@material-ui/icons/Check';
@@ -27,22 +28,19 @@ class Features extends React.Component<Props> {
 
 		return <div className="fareFamilies-leg-segment-family__features">
 			{features.map((feature, index) => (
-				<Tooltip
-					key={index}
-					className="fareFamilies-leg-segment-family-feature__tooltip"
-					title={feature.description}
-					placement="top"
-				>
-					<div className="fareFamilies-leg-segment-family-feature">
-						<span className={`fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_${feature.needToPay}`}>
-							{paymentIcons[feature.needToPay]}
-						</span>
+				<div key={index} className="fareFamilies-leg-segment-family-feature">
+					<Tooltip title={feature.description} placement="top">
+						<span className={classnames('fareFamilies-leg-segment-family-feature__wrapper', { 'fareFamilies-leg-segment-family-feature__wrapper_withDescription': !!feature.description })}>
+							<span className={`fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_${feature.needToPay}`}>
+								{paymentIcons[feature.needToPay]}
+							</span>
 
-						<span className="fareFamilies-leg-segment-family-feature__name">
-							{feature.showTitle ? feature.title + ' — ' : ''}{feature.value}
+							<span className="fareFamilies-leg-segment-family-feature__name">
+								{feature.showTitle ? feature.title + ' — ' : ''}{feature.value}
+							</span>
 						</span>
-					</div>
-				</Tooltip>
+					</Tooltip>
+				</div>
 			))}
 		</div>;
 	}

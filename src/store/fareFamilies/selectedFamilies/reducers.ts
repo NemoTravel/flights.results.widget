@@ -1,4 +1,4 @@
-import { SELECT_FAMILY, SelectedFamiliesAction } from './actions';
+import { CLEAR_SELECTED_FAMILIES, SELECT_FAMILY, SelectedFamiliesAction } from './actions';
 import { SelectedFamiliesSegmentCombination } from '../../../schemas/SelectedFamiliesSegmentCombination';
 
 export interface SelectedFamiliesState {
@@ -19,6 +19,9 @@ export const selectedFamiliesReducer = (state: SelectedFamiliesState = {}, actio
 				...state,
 				[action.payload.legId]: selectedFamiliesSegmentCombinationReducer(state[action.payload.legId], action)
 			};
+
+		case CLEAR_SELECTED_FAMILIES:
+			return {};
 	}
 
 	return state;

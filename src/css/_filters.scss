@@ -132,6 +132,19 @@
 						flex-direction: column;
 					}
 				}
+
+				&_airlines {
+					.filters-filter-popover-group {
+						column-count: 2;
+						column-gap: 0;
+						display: block;
+						max-width: 300px;
+
+						&__label {
+							margin-right: 20px;
+						}
+					}
+				}
 			}
 		}
 	}

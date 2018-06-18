@@ -11,7 +11,7 @@ export interface SelectedFlightAction extends Action {
 	};
 }
 
-export const setSelectedFlight = (flight: SelectedFlight, legId: number): SelectedFlightAction => {
+export const setSelectedFlight = (legId: number, flight: SelectedFlight): SelectedFlightAction => {
 	return {
 		type: SET_SELECTED_FLIGHT,
 		payload: {

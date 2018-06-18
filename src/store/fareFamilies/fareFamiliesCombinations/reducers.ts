@@ -1,4 +1,8 @@
-import { FareFamiliesCombinationsAction, SET_FARE_FAMILIES_COMBINATIONS } from './actions';
+import {
+	CLEAR_FARE_FAMILIES_COMBINATIONS,
+	FareFamiliesCombinationsAction,
+	SET_FARE_FAMILIES_COMBINATIONS
+} from './actions';
 import FareFamiliesCombinations from '../../../schemas/FareFamiliesCombinations';
 
 export interface FareFamiliesCombinationsState {
@@ -16,6 +20,9 @@ export const fareFamiliesCombinationsReducer = (state: FareFamiliesCombinationsS
 			}
 
 			return result;
+
+		case CLEAR_FARE_FAMILIES_COMBINATIONS:
+			return {};
 	}
 
 	return state;
