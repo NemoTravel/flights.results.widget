@@ -40,7 +40,7 @@ const config = {
     },
 
     optimization: {
-		minimize: !isDevMode,
+		minimize: false,
 		noEmitOnErrors: true
 	},
 
