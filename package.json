@@ -10,8 +10,9 @@
 		"build": "npm run tslint && npm run sass-lint && npm test && cross-env NODE_ENV=production webpack",
 		"build-dev": "cross-env NODE_ENV=dev webpack",
 		"dev": "run-p build-dev server",
+		"prepare": "npm run build",
 		"test": "jest",
-		"start": "npm run dev"
+		"start": "npm run server"
 	},
 	"pre-commit": [
 		"tslint",
@@ -29,7 +30,7 @@
 	},
 	"homepage": "https://github.com/NemoTravel/results#readme",
 	"devDependencies": {
-		"@types/webpack": "^4.4.0",
+		"@types/webpack": "^4.4.1",
 		"autoprefixer": "^7.2.6",
 		"compression": "^1.7.2",
 		"cross-env": "^5.2.0",
@@ -52,21 +53,21 @@
 		"typescript": "^2.9.2",
 		"url-loader": "^0.5.9",
 		"webpack": "^4.12.0",
-		"webpack-cli": "^3.0.7",
+		"webpack-cli": "^2.1.5",
 		"why-did-you-update": "^0.1.1"
 	},
 	"dependencies": {
-		"@material-ui/core": "^1.2.1",
+		"@material-ui/core": "^1.2.2",
 		"@material-ui/icons": "^1.1.0",
 		"@nemo.travel/api-parser": "^1.2.2",
-		"@nemo.travel/search-widget": "^2.4.8",
+		"@nemo.travel/search-widget": "^2.4.9",
 		"@types/classnames": "^2.2.4",
 		"@types/jest": "^22.2.3",
 		"@types/js-cookie": "2.1.0",
 		"@types/moment": "^2.13.0",
-		"@types/moment-duration-format": "^2.2.0",
+		"@types/moment-duration-format": "^2.2.1",
 		"@types/promise-polyfill": "^6.0.0",
-		"@types/react": "^16.3.17",
+		"@types/react": "^16.4.0",
 		"@types/react-dom": "^16.0.6",
 		"@types/react-redux": "^5.0.20",
 		"@types/react-router-dom": "^4.2.7",
