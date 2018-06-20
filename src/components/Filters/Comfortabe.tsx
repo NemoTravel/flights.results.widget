@@ -7,29 +7,11 @@ import { connect } from 'react-redux';
 import Filter, { Type as FilterType, State as FilterState } from '../Filter';
 import { RootState } from '../../store/reducers';
 import { toggleComfortable } from '../../store/filters/comfortable/actions';
-import { getIsComfortable } from '../../store/filters/comfortable/selectors';
-import { isFirstLeg } from '../../store/currentLeg/selectors';
-import {
-	getAllAirlines,
-	getSelectedAirlinesObjects
-} from '../../store/filters/airlines/selectors';
-import { getAirlinesIATA, getSelectedFlights } from '../../store/selectedFlights/selectors';
-import Flight from '../../models/Flight';
-import Airline from '../../schemas/Airline';
-import Airport from '../../schemas/Airport';
-import {
-	getDepartureAirports,
-	getSelectedDepartureAirportsObjects
-} from '../../store/filters/airports/selectors';
+import { getIsComfortable, isComfortableFilterEnabled } from '../../store/filters/comfortable/selectors';
 
 interface StateProps {
 	isActive: boolean;
-	isFirstLeg: boolean;
-	allAirlinesInLeg: Airline[];
-	selectedAirlines: Airline[];
-	selectedFlights: Flight[];
-	departureAirports: Airport[];
-	selectedDepartureAirports: Airport[];
+	isEnabled: boolean;
 }
 
 interface DispatchProps {
@@ -44,11 +26,7 @@ class Comfortable extends Filter<Props, FilterState> {
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.isActive !== nextProps.isActive ||
-			this.props.isFirstLeg !== nextProps.isFirstLeg ||
-			this.props.allAirlinesInLeg !== nextProps.allAirlinesInLeg ||
-			this.props.selectedAirlines !== nextProps.selectedAirlines ||
-			this.props.selectedFlights !== nextProps.selectedFlights ||
-			this.props.selectedDepartureAirports !== nextProps.selectedDepartureAirports ||
+			this.props.isEnabled !== nextProps.isEnabled ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
 	}
@@ -64,29 +42,7 @@ class Comfortable extends Filter<Props, FilterState> {
 	}
 
 	isVisible(): boolean {
-		if (this.props.isFirstLeg) {
-			return;
-		}
-
-		return this.isNeededAirlinesExists() && this.isNeededAirportExists();
-	}
-
-	isNeededAirlinesExists(): boolean {
-		const airlinesIATA = getAirlinesIATA(this.props.selectedFlights),
-			filteredAirlines = this.props.selectedAirlines.length ? this.props.selectedAirlines : this.props.allAirlinesInLeg;
-
-		return !!filteredAirlines.find(airline => {
-			return airlinesIATA.hasOwnProperty(airline.IATA);
-		});
-	}
-
-	isNeededAirportExists(): boolean {
-		const prevLegArrival = this.props.selectedFlights[this.props.selectedFlights.length - 1].lastSegment.arrAirport.IATA,
-			filteredAirports = this.props.selectedDepartureAirports.length ? this.props.selectedDepartureAirports : this.props.departureAirports;
-
-		return !!filteredAirports.find(airline => {
-			return airline.IATA === prevLegArrival;
-		});
+		return this.props.isEnabled;
 	}
 
 	onClear(): void {
@@ -107,12 +63,7 @@ class Comfortable extends Filter<Props, FilterState> {
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		isActive: getIsComfortable(state),
-		isFirstLeg: isFirstLeg(state),
-		allAirlinesInLeg: getAllAirlines(state),
-		selectedAirlines: getSelectedAirlinesObjects(state),
-		selectedFlights: getSelectedFlights(state),
-		departureAirports: getDepartureAirports(state),
-		selectedDepartureAirports: getSelectedDepartureAirportsObjects(state)
+		isEnabled: isComfortableFilterEnabled(state)
 	};
 };
 
