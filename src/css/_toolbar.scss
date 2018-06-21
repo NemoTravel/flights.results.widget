@@ -9,13 +9,21 @@
 	background: #ffffff;
 
 	&__inner {
-		width: 100%;
-		height: 100%;
-		margin: 0 auto;
+		width: 1340px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-top: 10px;
 
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+
+		@include adaptivity(laptop-large) {
+			width: 100%;
+			margin: 0;
+			padding: 0 25px;
+			padding-top: 10px;
+		}
 	}
 
 	&-totalPrice {

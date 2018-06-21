@@ -174,7 +174,15 @@
 			}
 
 			@include adaptivity(laptop) {
-				display: none;
+				margin-right: 0;
+			}
+
+			@include adaptivity(tablet) {
+				position: absolute;
+				top: 0;
+				margin-top: 5px;
+				right: 0;
+				margin-right: 10px;
 			}
 		}
 
@@ -405,7 +413,7 @@
 
 					@include adaptivity(laptop) {
 						white-space: nowrap;
-						font-size: 17px;
+						font-size: 1.2rem;
 					}
 				}
 
@@ -520,13 +528,15 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-
-				//max-width: 516px;
 				padding: 0 24px;
+
+				@include adaptivity(laptop) {
+					padding-left: 10px;
+				}
 
 				@include adaptivity(tablet) {
 					flex-wrap: wrap;
-					padding-left: 20px;
+					padding-left: 0;
 				}
 
 				@include adaptivity(phone) {
@@ -639,8 +649,8 @@
 				}
 			}
 
-			@include adaptivity(phone) {
-				padding-left: 25px;
+			@include adaptivity(tablet) {
+				padding-left: 24px;
 			}
 		}
 
