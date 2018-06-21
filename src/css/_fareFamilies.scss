@@ -1,3 +1,5 @@
+@import "variable";
+
 .fareFamilies {
 	margin-bottom: 60px;
 
@@ -270,7 +272,7 @@
 	}
 
 	&-selectedFlights {
-		width: 1340px;
+		width: $common-content-width;
 		margin: 0 auto;
 
 		.flight__holder {
@@ -288,7 +290,7 @@
 	}
 
 	&__inner {
-		width: 1340px;
+		width: $common-content-width;
 		margin: 0 auto;
 	}
 
