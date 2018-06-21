@@ -63,18 +63,31 @@ class Leg extends React.Component<Props> {
 	renderFamilies(segment: SegmentModel, index: number): React.ReactNode {
 		const { combinations, prices, availability } = this.props;
 		const segmentId = `S${index}`;
-		const enabledFamilies = availability ? availability[index] : {};
-		const families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
 		const initialCombinationsBySegments = combinations ? combinations.initialCombination.split('_') : '';
 
-		return !!combinations && !!families ? (
+		// List of families on segment.
+		let families = combinations ? combinations.fareFamiliesBySegments[segmentId] : [];
+		// List of families on segment available for selection.
+		let enabledFamilies = availability ? availability[index] : {};
+		// Preselected family code.
+		let initialFamilyCode = initialCombinationsBySegments[index];
+
+		// If there are no info about families available for selection,
+		// but we do have some information about current family on segment, use that instead.
+		if ((!combinations || !families) && this.props.flight.segments[index]) {
+			families = [ this.props.flight.segments[index].fareFamilyFeatures ];
+			initialFamilyCode = 'F1';
+			enabledFamilies = { F1: true };
+		}
+
+		return !!initialFamilyCode && !!families ? (
 			<FamiliesSegment
 				key={segmentId}
 				segmentId={segmentId}
 				intSegmentId={index}
 				segment={segment}
 				enabledFamilies={enabledFamilies}
-				initialCombination={initialCombinationsBySegments[index]}
+				initialCombination={initialFamilyCode}
 				families={families}
 				onChange={this.onChange}
 				prices={prices ? prices[index] : {}}
@@ -85,7 +98,7 @@ class Leg extends React.Component<Props> {
 	render(): React.ReactNode {
 		return <>
 			{this.props.showTitle ? <Typography className="fareFamilies-title" variant="headline">
-				Выбор тарифа {this.props.flight.legId === 0 ? 'туда' : 'обранто'}
+				Выбор тарифа {this.props.flight.legId === 0 ? 'туда' : 'обратно'}
 			</Typography> : null}
 
 			<Flight

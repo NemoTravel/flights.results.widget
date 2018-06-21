@@ -53,8 +53,14 @@
 
 			&-family {
 				flex: 1;
-				min-width: 215px;
 				position: relative;
+
+				max-width: 300px;
+				min-width: 215px;
+
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
 
 				background-color: #f7f7f7 !important;
 				transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;

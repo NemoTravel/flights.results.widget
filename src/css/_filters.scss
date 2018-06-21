@@ -87,9 +87,11 @@
 
 				&__label {
 					flex: 0 0 50%;
-					max-width: 250px;
 					margin-right: 0;
 					user-select: none;
+
+					min-width: 100px;
+					max-width: 250px;
 				}
 			}
 
