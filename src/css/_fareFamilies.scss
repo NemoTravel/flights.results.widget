@@ -1,5 +1,4 @@
 .fareFamilies {
-	margin-top: 50px;
 	margin-bottom: 60px;
 
 	&-title {
@@ -215,6 +214,25 @@
 						font-size: 0.875rem;
 						font-weight: 500;
 						text-transform: uppercase;
+					}
+				}
+			}
+		}
+
+		@include adaptivity(tablet) {
+			.flight-summary {
+				padding-bottom: 12px;
+
+				&-expand {
+					display: none;
+				}
+
+				&-logo {
+					justify-content: left;
+					margin-top: 10px;
+
+					&__image {
+						
 					}
 				}
 			}
