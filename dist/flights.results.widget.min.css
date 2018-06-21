@@ -1179,6 +1179,16 @@
   background: #ffffff;
 }
 
+@media only screen and (max-width: 515px) {
+  .toolbar {
+    height: 100px;
+  }
+
+  .toolbar__back {
+    display: none !important;
+  }
+}
+
 .toolbar__inner {
   width: 1340px;
   margin-left: auto;
@@ -1201,6 +1211,12 @@
     margin: 0;
     padding: 0 25px;
     padding-top: 10px;
+  }
+}
+
+@media only screen and (max-width: 515px) {
+  .toolbar__inner {
+    height: 100%;
   }
 }
 
@@ -1257,8 +1273,31 @@
   font-size: 15px;
 }
 
+@media only screen and (max-width: 515px) {
+  .toolbar-totalPrice {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+  }
+
+  .toolbar-totalPrice__amount,
+  .toolbar-totalPrice__button {
+    margin-bottom: 10px;
+  }
+}
+
 .fareFamilies {
   margin-bottom: 60px;
+}
+
+@media only screen and (max-width: 515px) {
+  .fareFamilies {
+    margin-bottom: 100px;
+  }
 }
 
 .fareFamilies-title,
@@ -1529,20 +1568,34 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .fareFamilies-leg .flight-summary {
+  .fareFamilies__legs .flight-summary {
     padding-bottom: 12px;
   }
 
-  .fareFamilies-leg .flight-summary-expand {
+  .fareFamilies__legs .flight-summary-expand {
     display: none;
   }
 
-  .fareFamilies-leg .flight-summary-logo,
-  .fareFamilies-leg .flight-details-segment-logo {
+  .fareFamilies__legs .flight-summary-logo,
+  .fareFamilies__legs .flight-details-segment-logo {
     -webkit-box-pack: left;
     -ms-flex-pack: left;
     justify-content: left;
     margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .fareFamilies__legs .flight-summary-logo__image,
+  .fareFamilies__legs .flight-details-segment-logo__image {
+    margin-left: 0;
+  }
+
+  .fareFamilies__legs .flight-summary__right,
+  .fareFamilies__legs .flight-details-segment__right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
   }
 }
 

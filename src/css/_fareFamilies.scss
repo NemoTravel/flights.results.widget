@@ -1,6 +1,10 @@
 .fareFamilies {
 	margin-bottom: 60px;
 
+	@include adaptivity(phone) {
+		margin-bottom: 100px;
+	}
+
 	&-title {
 		margin-top: 20px !important;
 		margin-bottom: 20px !important;
@@ -218,7 +222,9 @@
 				}
 			}
 		}
+	}
 
+	&__legs {
 		@include adaptivity(tablet) {
 			.flight-summary {
 				padding-bottom: 12px;
@@ -230,10 +236,18 @@
 				&-logo {
 					justify-content: left;
 					margin-top: 10px;
+					margin-bottom: 20px;
 
 					&__image {
-						
+						margin-left: 0;
 					}
+				}
+
+				&__right {
+					position: absolute;
+					top: 0;
+					right: 0;
+					margin-right: 20px;
 				}
 			}
 		}
