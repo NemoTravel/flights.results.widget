@@ -12,7 +12,7 @@ import SelectedFlight from '../schemas/SelectedFlight';
 import FlightModel from '../models/Flight';
 import Money from '../schemas/Money';
 
-const tariffTooltipText = 'Мы нашли дешевый сквозной тариф на данное направление. Заказ будет оформлен одним билетом на весь маршрут.';
+const tariffTooltipText = <span className="tooltip">Мы нашли дешевый сквозной тариф на данное направление.<br/>Заказ будет оформлен одним билетом на весь маршрут.</span>;
 
 interface Props {
 	flight: FlightModel;
@@ -42,7 +42,7 @@ class ResultsFlight extends React.Component<Props> {
 			buttonText = <Price price={totalPrice}/>;
 		}
 
-		return <div className="flight-summary__right">
+		const block = <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
 					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
@@ -51,15 +51,13 @@ class ResultsFlight extends React.Component<Props> {
 				</div>
 
 				{price.amount < 0 ? (
-					<Tooltip title={tariffTooltipText} placement="top">
-						<div className="flight-summary-price-profitMark">
-							<div className="flight-summary-price-profitMark__icon">
-								<StarIcon/>
-							</div>
-
-							<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
+					<div className="flight-summary-price-profitMark">
+						<div className="flight-summary-price-profitMark__icon">
+							<StarIcon/>
 						</div>
-					</Tooltip>
+
+						<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
+					</div>
 				) : null}
 
 				{currentLegId === 0 ? (
@@ -71,6 +69,10 @@ class ResultsFlight extends React.Component<Props> {
 
 			<Button className="flight-summary-buy" onClick={this.onAction}>{buttonText}</Button>
 		</div>;
+
+		return price.amount < 0 ? (
+			<Tooltip title={tariffTooltipText} placement="top">{block}</Tooltip>
+		) : block;
 	}
 
 	render(): React.ReactNode {

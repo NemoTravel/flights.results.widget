@@ -29,7 +29,7 @@ class Features extends React.Component<Props> {
 		return <div className="fareFamilies-leg-segment-family__features">
 			{features.map((feature, index) => (
 				<div key={index} className="fareFamilies-leg-segment-family-feature">
-					<Tooltip title={feature.description} placement="top">
+					<Tooltip title={feature.description ? <span className="tooltip">{feature.description}</span> : ''} placement="top">
 						<span className={classnames('fareFamilies-leg-segment-family-feature__wrapper', { 'fareFamilies-leg-segment-family-feature__wrapper_withDescription': !!feature.description })}>
 							<span className={`fareFamilies-leg-segment-family-feature__icon fareFamilies-leg-segment-family-feature__icon_${feature.needToPay}`}>
 								{paymentIcons[feature.needToPay]}

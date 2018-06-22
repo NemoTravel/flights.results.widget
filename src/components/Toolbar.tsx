@@ -47,7 +47,7 @@ class Toolbar extends React.Component<Props> {
 						) : null}
 
 						<div className="toolbar-totalPrice__button">
-							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title="Недоступная комбинация">
+							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title={<span className="tooltip">Недоступная комбинация</span>}>
 								<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
 									Продолжить
 								</Button>

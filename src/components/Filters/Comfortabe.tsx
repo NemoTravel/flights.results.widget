@@ -52,7 +52,7 @@ class Comfortable extends Filter<Props, FilterState> {
 	render(): React.ReactNode {
 		return this.isVisible() ? (
 			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-				<Tooltip title="Рейсы той же авиакомпании с вылетом из того же аэропорта" placement="top">
+				<Tooltip title={<span className="tooltip">Рейсы той же авиакомпании с вылетом из того же аэропорта</span>} placement="top">
 					<Chip className="filters-filter-chip" {...this.getChipProps()}/>
 				</Tooltip>
 			</div>

@@ -105,3 +105,12 @@
 		height: 36px !important;
 	}
 }
+
+.tooltip {
+	display: flex;
+	text-align: center;
+	max-width: 370px;
+
+	font-size: 12px;
+	padding: 3px;
+}
