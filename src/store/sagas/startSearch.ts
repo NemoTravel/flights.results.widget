@@ -11,6 +11,7 @@ import { setFlightsByLeg } from '../flightsByLegs/actions';
 import { goToLeg } from '../currentLeg/actions';
 import { createLegs } from '../../utils';
 import { getCurrentLegId } from '../currentLeg/selectors';
+import { getIsLoading } from '../isLoading/selectors';
 
 function* runSearch(request: RequestInfo, index: number) {
 	const flights: Flight[] = yield call(loadSearchResults, request);
@@ -43,24 +44,29 @@ function* runSearches(data: SearchActionPayload) {
 }
 
 function* worker({ payload }: SearchAction) {
-	// Launch loading animation.
-	yield put(startLoading());
+	const isLoading: boolean = yield select(getIsLoading);
 
-	// Create legs array.
-	yield put(setLegs(createLegs(payload.requests)));
+	if (!isLoading) {
 
-	// If current leg is not `0`, reset selected flights and legs.
-	const currentLeg: number = yield select(getCurrentLegId);
+		// Launch loading animation.
+		yield put(startLoading());
 
-	if (currentLeg) {
-		yield put(goToLeg(0));
+		// Create legs array.
+		yield put(setLegs(createLegs(payload.requests)));
+
+		// If current leg is not `0`, reset selected flights and legs.
+		const currentLeg: number = yield select(getCurrentLegId);
+
+		if (currentLeg) {
+			yield put(goToLeg(0));
+		}
+
+		// Run all searches.
+		yield call(runSearches, payload);
+
+		// Stop loading animation.
+		yield put(stopLoading());
 	}
-
-	// Run all searches.
-	yield call(runSearches, payload);
-
-	// Stop loading animation.
-	yield put(stopLoading());
 }
 
 export default function* startSearchSaga() {
