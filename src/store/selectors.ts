@@ -189,7 +189,7 @@ export const getTotalPrice = createSelector(
 							totalPrice.amount += flight.totalPrice.amount;
 						}
 
-						if (flight.isRT) {
+						if (flight.isRT || flight.id.indexOf('/') !== -1) {
 							RTFound = true;
 						}
 					}
