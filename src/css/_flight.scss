@@ -57,7 +57,7 @@
 
 		@include adaptivity(tablet) {
 			flex-wrap: wrap;
-			padding-bottom: 40px;
+			padding-bottom: 20px;
 			position: relative;
 		}
 
@@ -343,6 +343,7 @@
 			&-profitMark {
 				color: rgb(120, 174, 53);
 				position: relative;
+				white-space: nowrap;
 
 				&__icon {
 					position: absolute;
@@ -355,15 +356,14 @@
 				}
 
 				@include adaptivity(laptop) {
-					position: absolute;
-					right: 0;
 					font-size: 11px;
-					margin-top: 12px;
-					margin-right: 45px;
+					max-width: 90px;
+					text-align: right;
+					white-space: normal;
 
 					&__icon {
-						top: -6px;
-						left: -17px;
+						top: -22px;
+						left: -14px;
 
 						svg {
 							width: 13px !important;
@@ -372,16 +372,17 @@
 				}
 
 				@include adaptivity(tablet) {
-					font-size: 1em;
-					margin-top: 20px;
-					margin-right: 25px;
+					font-size: 11px;
+					margin-right: 10px;
+					white-space: nowrap;
+					max-width: unset;
 
 					&__icon {
 						top: -5px;
-						left: -27px;
+						left: -19px;
 
 						svg {
-							width: 21px !important;
+							width: 15px !important;
 						}
 					}
 				}
@@ -439,11 +440,7 @@
 				}
 
 				@include adaptivity(tablet) {
-					position: absolute;
-					right: 0;
-					padding-right: 24px;
-					bottom: 0;
-					margin-bottom: 15px;
+					padding-right: 10px;
 				}
 			}
 		}

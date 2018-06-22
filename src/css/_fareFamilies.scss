@@ -23,6 +23,10 @@
 
 				display: flex;
 				overflow-x: auto;
+
+				@include adaptivity(tablet) {
+					flex-wrap: wrap;
+				}
 			}
 
 			&-title {
@@ -105,6 +109,11 @@
 
 				display: flex;
 				flex-direction: column;
+
+				@include adaptivity(tablet) {
+					flex-basis: 48%;
+					margin: 5px !important;
+				}
 
 				&__content {
 					flex-grow: 1;
