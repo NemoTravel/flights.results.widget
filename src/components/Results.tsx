@@ -30,7 +30,12 @@ interface StateProps {
 
 class Results extends React.Component<StateProps> {
 	renderNoFlights(): React.ReactNode {
-		return this.props.isLoading ? null : <Typography variant="headline">Нет результатов.</Typography>;
+		return this.props.isLoading ? null : (
+			<div className="results-noResultsTitle">
+				<Typography variant="headline">Поиск не дал результатов :(</Typography>
+				<Typography variant="subheading">Попробуйте запустить поиск заново или измените текущие параметры формы поиска.</Typography>
+			</div>
+		);
 	}
 
 	render(): React.ReactNode {
@@ -40,11 +45,12 @@ class Results extends React.Component<StateProps> {
 		if (isLoading) {
 			return <div className="results-loader">
 				<CircularProgress color="secondary" variant="indeterminate"/>
+				<Typography variant="subheading">Ищем лучшие перелеты...</Typography>
 			</div>;
 		}
 
-		return hasAnyFlights ? <>
-			<div className="results__inner">
+		return <div className="results__inner">
+			{hasAnyFlights ? <>
 				{isMultipleLegs ? <SelectedFlights/> : null}
 
 				<Filters currentLeg={currentLeg} isRT={isRT} withSearch={flightSearchActive}/>
@@ -54,8 +60,8 @@ class Results extends React.Component<StateProps> {
 				<div className="results-flights">
 					<FlightsList legId={currentLeg.id}/>
 				</div>
-			</div>
-		</> : this.renderNoFlights();
+			</> : this.renderNoFlights()}
+		</div>;
 	}
 }
 

@@ -27,6 +27,16 @@
 		padding-bottom: 30px;
 	}
 
+	&-noResultsTitle {
+		text-align: center;
+		margin-top: 20px;
+
+		h3 {
+			margin-top: 5px;
+			color: rgba(0, 0, 0, 0.54);
+		}
+	}
+
 	&-selectedFlights {
 		margin-top: 20px;
 
@@ -94,6 +104,11 @@
 		display: none;
 		text-align: center;
 		padding-top: 80px;
+
+		h3 {
+			margin-top: 10px;
+			color: rgba(0, 0, 0, 0.54);
+		}
 	}
 }
 
