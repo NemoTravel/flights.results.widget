@@ -63,12 +63,23 @@ export const getMinPricesByLegs = createSelector(
 		for (const legId in flightsByLegs) {
 			if (flightsByLegs.hasOwnProperty(legId)) {
 				const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
+				const flights = flightsIds.map(flightId => flightsPool[flightId]);
 
-				result[legId] = flightsIds.map(flightId => flightsPool[flightId]).reduce(
-					(minPrice: Money, flight: Flight): Money => {
-						return (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
-					},
-				null);
+				if (flights.length) {
+					let minPrice: Money = null;
+
+					flights.forEach(flight => {
+						minPrice = (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
+					});
+
+					result[legId] = minPrice;
+				}
+				else {
+					result[legId] = {
+						amount: 0,
+						currency: Currency.RUB
+					};
+				}
 			}
 		}
 
