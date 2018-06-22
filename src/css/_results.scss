@@ -103,11 +103,14 @@
 	&-loader {
 		display: none;
 		text-align: center;
-		padding-top: 80px;
+		padding-top: 50px;
 
-		h3 {
-			margin-top: 10px;
-			color: rgba(0, 0, 0, 0.54);
+		&__progressBar {
+			height: 7px !important;
+		}
+
+		h1 {
+			margin-top: 13px;
 		}
 	}
 }
