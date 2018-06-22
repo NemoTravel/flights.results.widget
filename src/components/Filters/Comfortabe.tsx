@@ -7,12 +7,11 @@ import { connect } from 'react-redux';
 import Filter, { Type as FilterType, State as FilterState } from '../Filter';
 import { RootState } from '../../store/reducers';
 import { toggleComfortable } from '../../store/filters/comfortable/actions';
-import { getIsComfortable } from '../../store/filters/comfortable/selectors';
-import { isFirstLeg } from '../../store/currentLeg/selectors';
+import { getIsComfortable, isComfortableFilterEnabled } from '../../store/filters/comfortable/selectors';
 
 interface StateProps {
 	isActive: boolean;
-	isFirstLeg: boolean;
+	isEnabled: boolean;
 }
 
 interface DispatchProps {
@@ -27,7 +26,7 @@ class Comfortable extends Filter<Props, FilterState> {
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.isActive !== nextProps.isActive ||
-			this.props.isFirstLeg !== nextProps.isFirstLeg ||
+			this.props.isEnabled !== nextProps.isEnabled ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
 	}
@@ -43,7 +42,7 @@ class Comfortable extends Filter<Props, FilterState> {
 	}
 
 	isVisible(): boolean {
-		return !this.props.isFirstLeg;
+		return this.props.isEnabled;
 	}
 
 	onClear(): void {
@@ -64,7 +63,7 @@ class Comfortable extends Filter<Props, FilterState> {
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		isActive: getIsComfortable(state),
-		isFirstLeg: isFirstLeg(state)
+		isEnabled: isComfortableFilterEnabled(state)
 	};
 };
 

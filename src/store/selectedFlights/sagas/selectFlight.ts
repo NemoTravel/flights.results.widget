@@ -77,9 +77,9 @@ function* worker({ payload }: SelectedFlightAction) {
 	}
 
 	actions.push(hideFlights());
-	actions.push(removeAllFilters());
 
 	yield put(batchActions(...actions));
+	yield put(removeAllFilters());
 }
 
 export default function* selectFlightSaga() {
