@@ -74,7 +74,7 @@ class Leg extends React.Component<Props> {
 
 		// If there are no info about families available for selection,
 		// but we do have some information about current family on segment, use that instead.
-		if ((!combinations || !families) && this.props.flight.segments[index]) {
+		if ((!combinations || !families) && this.props.flight.segments[index] && this.props.flight.segments[index].fareFamilyFeatures) {
 			families = [ this.props.flight.segments[index].fareFamilyFeatures ];
 			initialFamilyCode = 'F1';
 			enabledFamilies = { F1: true };
@@ -92,7 +92,13 @@ class Leg extends React.Component<Props> {
 				onChange={this.onChange}
 				prices={prices ? prices[index] : {}}
 			/>
-		) : null;
+		) : (
+			<div className="fareFamilies-noFamiliesTitle">
+				<Typography variant="subheading">
+					На этот рейс нельзя выбрать другой тариф
+				</Typography>
+			</div>
+		);
 	}
 
 	render(): React.ReactNode {

@@ -87,7 +87,7 @@ class Family extends React.Component<Props> {
 					{isSelected ? (
 						<div className="fareFamilies-leg-segment-family__actions-placeholder">Выбрано</div>
 					) : (
-						<Button variant="raised" color="secondary" onClick={this.onChange}>
+						<Button variant="outlined" color="secondary" onClick={this.onChange}>
 							{this.renderPrice()}
 						</Button>
 					)}
