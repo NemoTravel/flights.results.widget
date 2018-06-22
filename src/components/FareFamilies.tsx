@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Flight from '../models/Flight';
 import Leg from './FareFamilies/Leg';
@@ -49,11 +49,14 @@ class FareFamilies extends React.Component<Props> {
 			isRT
 		} = this.props;
 
-		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
-			<div className="fareFamilies-loader">
-				<CircularProgress color="secondary" variant="indeterminate"/>
-			</div>
+		if (isLoading) {
+			return <div className="fareFamilies-loader">
+				<LinearProgress className="fareFamilies-loader__progressBar" color="secondary" variant="query"/>
+				<Typography variant="headline">Ищем выгодные тарифы...</Typography>
+			</div>;
+		}
 
+		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
 			<div className="fareFamilies__inner">
 				{isRT ? null : <Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>}
 

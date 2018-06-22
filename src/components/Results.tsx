@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
@@ -44,7 +44,7 @@ class Results extends React.Component<StateProps> {
 
 		if (isLoading) {
 			return <div className="results-loader">
-				<CircularProgress className="results-loader__progressBar" color="secondary" variant="query"/>
+				<LinearProgress className="results-loader__progressBar" color="secondary" variant="query"/>
 				<Typography variant="headline">Ищем лучшие перелеты...</Typography>
 			</div>;
 		}

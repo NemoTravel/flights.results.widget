@@ -131,6 +131,7 @@ class Leg extends React.Component<Props> {
 					{...this.props}
 					className={classnames('flight', { flight_direct: true })}
 					alwaysUpdate={true}
+					showOpenedSummary={this.props.flight.segments.length === 1}
 					showDetails={!shouldBeClosed}
 					renderDetails={this.renderDetails}
 					renderActionBlock={this.renderActionBlock}
