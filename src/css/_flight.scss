@@ -448,22 +448,24 @@
 		}
 	}
 
-	&_direct &-summary:not(.flight-summary_isToggleable) {
-		cursor: default;
+	&_direct &-summary {
+		&:not(.flight-summary_isToggleable) {
+			cursor: default;
 
-		&:hover {
-			background-color: transparent;
-
-			.flight-summary-stage-routeInfo__flightTime {
-				background-color: #ffffff;
-			}
-		}
-
-		&-expand {
-			opacity: 0.3;
-
-			&:active {
+			&:hover {
 				background-color: transparent;
+
+				.flight-summary-stage-routeInfo__flightTime {
+					background-color: #ffffff;
+				}
+			}
+
+			.flight-summary-expand {
+				opacity: 0.3;
+
+				&:active {
+					background-color: transparent;
+				}
 			}
 		}
 	}
