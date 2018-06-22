@@ -102,7 +102,7 @@ class Flight extends React.Component<Props, State> {
 			moment.duration(firstSegment.flightTime, 'seconds').format('d [д] h [ч] m [мин]') :
 			flight.totalFlightTimeHuman;
 
-		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen })} onClick={this.toggleDetails}>
+		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen, 'flight-summary_isToggleable': this.props.isToggleable })} onClick={this.toggleDetails}>
 			<div className="flight-summary__left">
 				<div className={classnames('flight-summary-expand', { 'flight-summary-expand_open': this.state.isOpen })}>
 					<svg fill="rgba(0, 0, 0, 0.54)" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">

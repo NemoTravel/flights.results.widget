@@ -96,20 +96,37 @@ class Leg extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
+		const { combinations } = this.props;
+		let shouldBeClosed = false;
+
+		if (combinations) {
+			let count = 0;
+
+			// If we don't have enought families to show on all segments, just keep the flight block closed by default.
+			for (const segmentId in combinations.fareFamiliesBySegments) {
+				if (combinations.fareFamiliesBySegments.hasOwnProperty(segmentId) && combinations.fareFamiliesBySegments[segmentId].length === 1) {
+					count++;
+				}
+			}
+
+			shouldBeClosed = count === Object.keys(combinations.fareFamiliesBySegments).length;
+		}
+
 		return <>
 			{this.props.showTitle ? <Typography className="fareFamilies-title" variant="headline">
 				Выбор тарифа {this.props.flight.legId === 0 ? 'туда' : 'обратно'}
 			</Typography> : null}
 
-			<Flight
-				{...this.props}
-				className={classnames('flight', { flight_direct: true })}
-				alwaysUpdate={true}
-				isToggleable={false}
-				showDetails={true}
-				renderDetails={this.renderDetails}
-				renderActionBlock={this.renderActionBlock}
-			/>
+			<div>
+				<Flight
+					{...this.props}
+					className={classnames('flight', { flight_direct: true })}
+					alwaysUpdate={true}
+					showDetails={!shouldBeClosed}
+					renderDetails={this.renderDetails}
+					renderActionBlock={this.renderActionBlock}
+				/>
+			</div>
 		</>;
 	}
 }

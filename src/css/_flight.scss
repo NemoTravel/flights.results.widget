@@ -448,7 +448,7 @@
 		}
 	}
 
-	&_direct &-summary {
+	&_direct &-summary:not(.flight-summary_isToggleable) {
 		cursor: default;
 
 		&:hover {
