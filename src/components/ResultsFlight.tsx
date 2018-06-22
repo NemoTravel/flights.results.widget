@@ -67,7 +67,7 @@ class ResultsFlight extends React.Component<Props> {
 				) : null}
 			</div>
 
-			<Button className="flight-summary-buy" onClick={this.onAction}>{buttonText}</Button>
+			<div className="flight-summary-buy" onClick={this.onAction}>{buttonText}</div>
 		</div>;
 
 		return price.amount < 0 ? (
