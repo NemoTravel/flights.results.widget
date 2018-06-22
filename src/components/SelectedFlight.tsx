@@ -46,7 +46,7 @@ class SelectedFlight extends React.Component<Props> {
 				) : null}
 			</div>
 
-			<Button className="flight-summary-changeFlight" onClick={this.onAction} color="secondary">Изменить</Button>
+			<Button className="flight-summary-changeFlight" onClick={this.onAction} variant="outlined" color="secondary">Сменить</Button>
 		</div>;
 	}
 

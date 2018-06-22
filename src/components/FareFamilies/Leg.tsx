@@ -41,7 +41,7 @@ class Leg extends React.Component<Props> {
 	@autobind
 	renderActionBlock(): React.ReactNode {
 		return <div className="flight-summary__right">
-			<Button onClick={this.onAction} color="secondary">Изменить</Button>
+			<Button variant="outlined" onClick={this.onAction} color="secondary">Сменить</Button>
 		</div>;
 	}
 
