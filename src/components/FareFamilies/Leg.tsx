@@ -110,12 +110,15 @@ class Leg extends React.Component<Props> {
 
 			// If we don't have enought families to show on all segments, just keep the flight block closed by default.
 			for (const segmentId in combinations.fareFamiliesBySegments) {
-				if (combinations.fareFamiliesBySegments.hasOwnProperty(segmentId) && combinations.fareFamiliesBySegments[segmentId].length === 1) {
+				if (combinations.fareFamiliesBySegments.hasOwnProperty(segmentId) && combinations.fareFamiliesBySegments[segmentId].length <= 1) {
 					count++;
 				}
 			}
 
 			shouldBeClosed = count === Object.keys(combinations.fareFamiliesBySegments).length;
+		}
+		else {
+			shouldBeClosed = true;
 		}
 
 		return <>
