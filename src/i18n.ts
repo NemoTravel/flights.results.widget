@@ -10,4 +10,4 @@ export const i18n = (key: string): string => {
 	const pool = require(`./i18n/${locale}.json`);
 
 	return pool[key] ? pool[key] : key;
-}
+};
