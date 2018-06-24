@@ -15,6 +15,7 @@ import { setConfig } from './store/config/actions';
 import { Config } from './store/config/reducers';
 import Main from './components/Main';
 import sagas from './store/sagas';
+import * as i18n from './i18n';
 
 const momentDurationFormatSetup = require('moment-duration-format');
 const middlewares: Middleware[] = [];
@@ -36,6 +37,7 @@ export const init = (config: Config) => {
 	store.dispatch(setConfig(config));
 	momentDurationFormatSetup(moment);
 	moment.locale(config.locale);
+	i18n.init(config.locale);
 
 	ReactDOM.render(<Provider store={store}>
 		<MuiThemeProvider theme={theme}>
