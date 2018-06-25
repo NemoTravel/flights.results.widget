@@ -6,7 +6,6 @@ import autobind from 'autobind-decorator';
 
 import Price from './Price';
 import Flight from './Flight';
-import Button from './Flight/Button';
 import { selectFlight } from '../store/selectedFlights/actions';
 import SelectedFlight from '../schemas/SelectedFlight';
 import FlightModel from '../models/Flight';
