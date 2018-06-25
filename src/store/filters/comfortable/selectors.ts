@@ -1,56 +1,65 @@
 import { RootState } from '../../reducers';
 import { createSelector } from 'reselect';
-import { getAllAirlines, getSelectedAirlinesObjects } from '../airlines/selectors';
+import { getAllAirlines } from '../airlines/selectors';
 import { getAirlinesIATA, getSelectedFlights } from '../../selectedFlights/selectors';
-import { getDepartureAirports, getSelectedDepartureAirportsObjects } from '../airports/selectors';
+import { getDepartureAirports } from '../airports/selectors';
 import Airline from '../../../schemas/Airline';
 import Flight from '../../../models/Flight';
 import Airport from '../../../schemas/Airport';
 import { isFirstLeg } from '../../currentLeg/selectors';
+import { getVisibleFlights } from '../../selectors';
 
 export const getIsComfortable = (state: RootState): boolean => state.filters.comfortable;
 
-const isNeededAirlinesExists = createSelector(
-	[
-		getSelectedAirlinesObjects,
-		getAllAirlines,
-		getSelectedFlights
-	],
-	(
-		selectedAirlines: Airline[],
-		allAirlinesInLeg: Airline[],
-		selectedFlights: Flight[]
-	): boolean => {
-		const airlinesIATA = getAirlinesIATA(selectedFlights),
-			filteredAirlines = selectedAirlines.length ? selectedAirlines : allAirlinesInLeg;
+export const isComfortableFlightExists = createSelector(
+	[getVisibleFlights, getSelectedFlights],
+	(visibleFlights: Flight[], selectedFlights: Flight[]): boolean => {
+		const prevLegArrival = selectedFlights.length ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null,
+			airlinesIATA = getAirlinesIATA(selectedFlights);
 
-		return !!filteredAirlines.find(airline => {
-			return airlinesIATA.hasOwnProperty(airline.IATA);
+		return !!visibleFlights.find(flight => {
+			if (flight.firstSegment.depAirport.IATA === prevLegArrival) {
+				return !!flight.segments.find(segment => {
+					return airlinesIATA.hasOwnProperty(segment.airline.IATA);
+				});
+			}
 		});
 	}
 );
 
-const isNeededAirportExists = createSelector(
-	[
-		getSelectedDepartureAirportsObjects,
-		getDepartureAirports,
-		getSelectedFlights
-	],
-	(
-		selectedDepartureAirports: Airport[],
-		departureAirports: Airport[],
-		selectedFlights: Flight[]
-	): boolean => {
-		const prevLegArrival = selectedFlights.length ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null,
-			filteredAirports = selectedDepartureAirports.length ? selectedDepartureAirports : departureAirports;
+const isOneNotComfortableAirlineExists = createSelector(
+	[getAllAirlines, getSelectedFlights],
+	(allAirlinesInLeg: Airline[], selectedFlights: Flight[]): boolean => {
+		const airlinesIATA = getAirlinesIATA(selectedFlights);
 
-		return !!filteredAirports.find(airline => {
-			return airline.IATA === prevLegArrival;
+		return !!allAirlinesInLeg.find(airline => {
+			return !airlinesIATA.hasOwnProperty(airline.IATA);
+		});
+	}
+);
+
+const isOneNotComfortableAirportExists = createSelector(
+	[getDepartureAirports, getSelectedFlights],
+	(departureAirports: Airport[], selectedFlights: Flight[]): boolean => {
+		const prevLegArrival = selectedFlights.length ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null;
+
+		return !!departureAirports.find(airline => {
+			return airline.IATA !== prevLegArrival;
 		});
 	}
 );
 
 export const isComfortableFilterEnabled = createSelector(
-	[isFirstLeg, isNeededAirlinesExists, isNeededAirportExists],
-	(isFirstLeg: boolean, isAirlineExists: boolean, isAirportExists: boolean): boolean => !isFirstLeg && isAirlineExists && isAirportExists
+	[
+		isFirstLeg,
+		isComfortableFlightExists,
+		isOneNotComfortableAirlineExists,
+		isOneNotComfortableAirportExists
+	],
+	(
+		isFirstLeg: boolean,
+		isComfortableFlightExists: boolean,
+		isOtherAirlineExists: boolean,
+		isOtherAirportExists: boolean
+	): boolean => !isFirstLeg && isComfortableFlightExists && (isOtherAirlineExists || isOtherAirportExists)
 );
