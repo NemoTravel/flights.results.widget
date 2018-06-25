@@ -91,7 +91,10 @@ class FlightsList extends React.Component<Props> {
 				) : null}
 			</> :
 			(
-				<Typography variant="headline">Нет результатов.</Typography>
+				<div className="results-noResultsTitle">
+					<Typography variant="headline">Мы не нашли подходящих перелетов.</Typography>
+					<Typography variant="subheading">Попробуйте изменить параметры фильтрации.</Typography>
+				</div>
 			);
 	}
 }
