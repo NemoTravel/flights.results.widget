@@ -25,9 +25,19 @@
 		border-top: none;
 	}
 
+	@include adaptivity(tablet) {
+		border-top: none;
+		margin-top: 15px;
+		border-radius: 2px;
+	}
+
 	&:first-of-type {
 		border-top: none;
 		margin-top: 0;
+
+		@include adaptivity(tablet) {
+			margin-top: 15px;
+		}
 
 		&,
 		.flight-summary {
@@ -57,8 +67,14 @@
 
 		@include adaptivity(tablet) {
 			flex-wrap: wrap;
-			padding-bottom: 20px;
 			position: relative;
+
+			padding-bottom: 15px;
+			border-radius: 2px;
+		}
+
+		@include adaptivity(phone) {
+			padding: 15px 0;
 		}
 
 		&:hover {
@@ -75,6 +91,10 @@
 		&__right {
 			display: flex;
 			align-items: center;
+
+			@include adaptivity(phone) {
+				padding: 0 15px;
+			}
 		}
 
 		&__left {
@@ -108,6 +128,7 @@
 			}
 
 			@include adaptivity(phone) {
+				padding-left: 15px;
 				flex-basis: 100%;
 			}
 		}
@@ -122,6 +143,8 @@
 			}
 
 			@include adaptivity(phone) {
+				border-top: 1px solid #e0e0e0;
+				padding: 15px 15px 0;
 				flex-basis: 100%;
 			}
 		}
@@ -180,9 +203,20 @@
 			@include adaptivity(tablet) {
 				position: absolute;
 				top: 0;
-				margin-top: 5px;
 				right: 0;
+
+				margin-top: 5px;
 				margin-right: 10px;
+			}
+
+			@include adaptivity(phone) {
+				bottom: 12.5px;
+				left: 15px;
+				top: auto;
+				right: auto;
+
+				margin-top: 0;
+				margin-right: 0;
 			}
 		}
 
@@ -430,6 +464,10 @@
 				@include adaptivity(tablet) {
 					margin-right: 10px;
 				}
+
+				@include adaptivity(phone) {
+					margin-right: 15px;
+				}
 			}
 
 			&__route {
@@ -441,6 +479,10 @@
 
 				@include adaptivity(tablet) {
 					padding-right: 10px;
+				}
+
+				@include adaptivity(phone) {
+					padding-right: 15px;
 				}
 			}
 		}
@@ -648,6 +690,10 @@
 
 			@include adaptivity(tablet) {
 				padding-left: 24px;
+			}
+
+			@include adaptivity(phone) {
+				padding-bottom: 0;
 			}
 		}
 

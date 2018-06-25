@@ -13,11 +13,7 @@
 	}
 
 	@include adaptivity(tablet) {
-		padding-left: 0;
-	}
-
-	@include adaptivity(phone) {
-		flex-wrap: wrap;
+		display: none;
 	}
 
 	&__left,

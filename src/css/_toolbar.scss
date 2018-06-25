@@ -11,8 +11,6 @@
 	background: #ffffff;
 
 	@include adaptivity(phone) {
-		height: 100px;
-
 		&__back {
 			display: none !important;
 		}
@@ -31,8 +29,7 @@
 		@include adaptivity(laptop-large) {
 			width: 100%;
 			margin: 0;
-			padding: 0 25px;
-			padding-top: 10px;
+			padding: 10px 25px 0;
 		}
 
 		@include adaptivity(phone) {

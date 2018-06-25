@@ -11,6 +11,10 @@
 		margin-top: 20px !important;
 		margin-bottom: 20px !important;
 		padding-left: 25px;
+
+		@include adaptivity(phone) {
+			padding-left: 0;
+		}
 	}
 
 	&-noFamiliesTitle {
@@ -36,6 +40,10 @@
 
 				@include adaptivity(tablet) {
 					flex-wrap: wrap;
+				}
+
+				@include adaptivity(phone) {
+					padding-bottom: 0;
 				}
 			}
 
@@ -126,6 +134,11 @@
 				@include adaptivity(tablet) {
 					flex-basis: 48%;
 					margin: 5px !important;
+				}
+
+				@include adaptivity(phone) {
+					margin: 0 0 15px 0 !important;
+					max-width: none;
 				}
 
 				&__content {
@@ -271,7 +284,19 @@
 					position: absolute;
 					top: 0;
 					right: 0;
+
+					border-top: none;
 					margin-right: 20px;
+					padding: 0 15px;
+				}
+			}
+		}
+
+		@include adaptivity(phone) {
+			.flight-summary {
+				&__right {
+					margin-right: 15px;
+					padding: 0;
 				}
 			}
 		}
@@ -279,7 +304,6 @@
 
 	&-loader {
 		text-align: center;
-		padding-top: 50px;
 
 		&__progressBar {
 			height: 7px !important;

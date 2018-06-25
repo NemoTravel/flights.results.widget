@@ -58,6 +58,7 @@
 			&:before {
 				content: "";
 				position: absolute;
+				z-index: 1;
 				top: 0;
 				left: 0;
 				bottom: 0;
@@ -86,6 +87,14 @@
 					}
 				}
 			}
+
+			@include adaptivity(phone) {
+				&-summary {
+					&-changeFlight {
+						margin-left: 15px;
+					}
+				}
+			}
 		}
 	}
 
@@ -93,11 +102,6 @@
 		&-showAllButton {
 			text-align: center;
 			margin: 15px 0;
-		}
-
-		@include adaptivity(phone) {
-			margin-left: -20px;
-			margin-right: -20px;
 		}
 	}
 
@@ -135,7 +139,6 @@
 	&-loader {
 		display: none;
 		text-align: center;
-		padding-top: 50px;
 
 		&__progressBar {
 			height: 7px !important;
