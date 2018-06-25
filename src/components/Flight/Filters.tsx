@@ -230,21 +230,27 @@ class Filters extends React.Component<Props> {
 		});
 
 		return <div className="flight-details-filters">
-			<span className="flight-details-filters-label">{i18n('filters-quick-departureTitle')}:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">{i18n('filters-quick-departureTitle')}:</span>
 
-			{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
-			{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
+				{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
+				{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
+			</div>
 
-			<span className="flight-details-filters-label">{i18n('filters-quick-arrivalTitle')}:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">{i18n('filters-quick-arrivalTitle')}:</span>
 
-			{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
-			{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
+				{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
+				{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
+			</div>
 
-			<span className="flight-details-filters-label">{i18n('filters-quick-airlinesTitle')}:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">{i18n('filters-quick-airlinesTitle')}:</span>
 
-			{allAirlines.map((airline, index) => (
-				this.renderAirlineFilter(airline, index)
-			))}
+				{allAirlines.map((airline, index) => (
+					this.renderAirlineFilter(airline, index)
+				))}
+			</div>
 		</div>;
 	}
 }

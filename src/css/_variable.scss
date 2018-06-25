@@ -1,3 +1,34 @@
 $common-font-color: rgba(0, 0, 0, 0.87);
 $light-font-color: rgba(0, 0, 0, 0.54);
-$common-content-width: 1280px;
+$common-content-width: 1340px;
+
+$screen-size-laptop-large: 1440px;
+$screen-size-laptop: 1100px;
+$screen-size-tablet: 768px;
+$screen-size-phone: 515px;
+
+@mixin adaptivity ($media) {
+	@if $media == desktop {
+		@media only screen and (min-width: $screen-size-laptop-large) { @content; }
+	}
+
+	@if $media == laptop-large {
+		@media only screen and (max-width: $screen-size-laptop-large) { @content; }
+	}
+
+	@else if $media == laptop {
+		@media only screen and (max-width: $screen-size-laptop) { @content; }
+	}
+
+	@else if $media == only-laptop {
+		@media only screen and (min-width: $screen-size-tablet) and (max-width: $screen-size-laptop) { @content; }
+	}
+
+	@else if $media == tablet {
+		@media only screen and (max-width: $screen-size-tablet) { @content; }
+	}
+
+	@else if $media == phone {
+		@media only screen and (max-width: $screen-size-phone) { @content; }
+	}
+}

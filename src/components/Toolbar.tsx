@@ -37,7 +37,7 @@ class Toolbar extends React.Component<Props> {
 		return !isLoadingFareFamilies ? (
 			<section className="toolbar">
 				<div className="toolbar__inner">
-					<Button variant="raised" onClick={goBack}>{i18n('toolbar-backTitle')}</Button>
+					<Button className="toolbar__back" variant="raised" onClick={goBack}>{i18n('toolbar-backTitle')}</Button>
 
 					<div className="toolbar-totalPrice">
 						{combinationsAreValid && totalPrice.amount ? (

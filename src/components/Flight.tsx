@@ -116,7 +116,7 @@ class Flight extends React.Component<Props, State> {
 					{this.renderLogo(this.state.isOpen)}
 				</div>
 
-				<div className="flight-summary-stage">
+				<div className="flight-summary-stage flight-summary-stage_departure">
 					<div className="flight-summary-stage__time">
 						{firstSegment.depDate.format('HH:mm')}
 					</div>
@@ -131,7 +131,7 @@ class Flight extends React.Component<Props, State> {
 					<span className="flight-summary-stage-routeInfo__flightTime">{time}</span>
 				</div>
 
-				<div className="flight-summary-stage">
+				<div className="flight-summary-stage flight-summary-stage_arrival">
 					<div className="flight-summary-stage__time">
 						{lastSegment.arrDate.format('HH:mm')}
 					</div>

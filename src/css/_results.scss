@@ -4,6 +4,7 @@
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 
 	&_isLoading {
 		.results-loader {
@@ -23,8 +24,15 @@
 	}
 
 	&__inner {
-		padding-top: 50px;
+		width: $common-content-width;
+		margin: 0 auto;
 		padding-bottom: 30px;
+
+		@include adaptivity(laptop-large) {
+			width: 100%;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
 	}
 
 	&-noResultsTitle {
@@ -59,6 +67,25 @@
 				border-bottom-left-radius: 2px;
 				background-color: #94ca51;
 			}
+
+			@include adaptivity(tablet) {
+				&-summary {
+					&-changeFlight {
+						margin-left: 10px;
+					}
+
+					&-price {
+						&__amount {
+							margin-right: 0;
+						}
+
+						&__route {
+							position: relative;
+							padding-right: 0;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -66,6 +93,11 @@
 		&-showAllButton {
 			text-align: center;
 			margin: 15px 0;
+		}
+
+		@include adaptivity(phone) {
+			margin-left: -20px;
+			margin-right: -20px;
 		}
 	}
 

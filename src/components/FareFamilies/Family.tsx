@@ -72,7 +72,7 @@ class Family extends React.Component<Props> {
 					'fareFamilies-leg-segment-family_selected': isSelected
 				})}
 			>
-				<CardContent>
+				<CardContent className="fareFamilies-leg-segment-family__content">
 					<Typography gutterBottom variant="headline" component="h2">
 						{family.fareFamilyName}
 					</Typography>

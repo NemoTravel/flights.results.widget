@@ -55,6 +55,12 @@
 		cursor: pointer;
 		transition: background-color 0.15s, border 0.15s;
 
+		@include adaptivity(tablet) {
+			flex-wrap: wrap;
+			padding-bottom: 20px;
+			position: relative;
+		}
+
 		&:hover {
 			background: #fcfcfc;
 
@@ -71,16 +77,53 @@
 			align-items: center;
 		}
 
+		&__left {
+			@include adaptivity(tablet) {
+				flex-basis: 100%;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
+		}
+
 		&__middle {
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
 			width: 320px;
+
+			@include adaptivity(laptop-large) {
+				padding-left: 15px;
+			}
+
+			@include adaptivity(laptop) {
+				max-width: 100%;
+				min-width: 0;
+				padding-left: 10px;
+			}
+
+			@include adaptivity(tablet) {
+				flex-basis: 50%;
+				margin-top: 20px;
+				padding-left: 0;
+			}
+
+			@include adaptivity(phone) {
+				flex-basis: 100%;
+			}
 		}
 
 		&__right {
 			width: 270px;
 			justify-content: flex-end;
+
+			@include adaptivity(tablet) {
+				flex-basis: 50%;
+				margin-top: 20px;
+			}
+
+			@include adaptivity(phone) {
+				flex-basis: 100%;
+			}
 		}
 
 		&_open {
@@ -90,6 +133,12 @@
 				.flight-summary-stage-routeInfo__flightTime,
 				.flight-details-segment-stage-routeInfo__flightTime {
 					background: #ffffff;
+				}
+			}
+
+			@include adaptivity(only-laptop) {
+				.flight-summary-stage-routeInfo {
+					width: 85px;
 				}
 			}
 		}
@@ -123,6 +172,18 @@
 			&_open {
 				transform: rotate(180deg);
 			}
+
+			@include adaptivity(laptop) {
+				margin-right: 0;
+			}
+
+			@include adaptivity(tablet) {
+				position: absolute;
+				top: 0;
+				margin-top: 5px;
+				right: 0;
+				margin-right: 10px;
+			}
 		}
 
 		&-logo {
@@ -132,6 +193,11 @@
 			display: flex;
 			justify-content: center;
 			user-select: none;
+
+			@include adaptivity(tablet) {
+				flex-basis: 100%;
+				margin-bottom: 10px;
+			}
 
 			&__image {
 				max-width: 70px;
@@ -155,14 +221,49 @@
 			&__text {
 				padding-right: 15px;
 			}
+
+			@include adaptivity(laptop) {
+				width: 120px;
+				flex-wrap: wrap;
+
+				&__image {
+					&:only-child {
+						max-width: 100px;
+					}
+
+					&:not(:only-child) {
+						margin-right: 0;
+						margin-left: 0;
+						margin-bottom: 10px;
+					}
+
+					&:last-child:not(:only-child) {
+						margin-bottom: 0;
+					}
+				}
+			}
 		}
 
 		&-stage {
 			width: 65px;
 			text-align: center;
 
+			@include adaptivity(tablet) {
+				&_departure {
+					text-align: left;
+				}
+
+				&_arrival {
+					text-align: right;
+				}
+			}
+
 			&__time {
 				font-size: 1.5rem;
+
+				@include adaptivity(laptop) {
+					font-size: 1.2rem;
+				}
 			}
 
 			&__date {
@@ -183,6 +284,10 @@
 				margin: 0 24px;
 				width: 110px;
 				text-align: center;
+
+				@include adaptivity(tablet) {
+					width: calc(100% - 70px * 2) !important;
+				}
 
 				&__arrow {
 					position: relative;
@@ -212,20 +317,33 @@
 					background: #ffffff;
 					transition: background-color 0.15s;
 				}
+
+				@include adaptivity(laptop) {
+					margin: 0 5px;
+				}
 			}
 		}
 
 		&-route {
 			color: $light-font-color;
+
+			@include adaptivity(laptop) {
+				font-size: 11px;
+			}
 		}
 
 		&-price {
 			margin-right: 24px;
 			color: $light-font-color;
 
+			@include adaptivity(tablet) {
+				margin-right: 0;
+			}
+
 			&-profitMark {
 				color: rgb(120, 174, 53);
 				position: relative;
+				white-space: nowrap;
 
 				&__icon {
 					position: absolute;
@@ -234,6 +352,38 @@
 
 					svg {
 						width: 21px !important;
+					}
+				}
+
+				@include adaptivity(laptop) {
+					font-size: 11px;
+					max-width: 90px;
+					text-align: right;
+					white-space: normal;
+
+					&__icon {
+						top: -22px;
+						left: -14px;
+
+						svg {
+							width: 13px !important;
+						}
+					}
+				}
+
+				@include adaptivity(tablet) {
+					font-size: 11px;
+					margin-right: 10px;
+					white-space: nowrap;
+					max-width: unset;
+
+					&__icon {
+						top: -5px;
+						left: -19px;
+
+						svg {
+							width: 15px !important;
+						}
 					}
 				}
 			}
@@ -261,6 +411,11 @@
 						margin-left: 5px;
 						color: $light-font-color;
 					}
+
+					@include adaptivity(laptop) {
+						white-space: nowrap;
+						font-size: 1.2rem;
+					}
 				}
 
 				&_profitable {
@@ -271,10 +426,22 @@
 						}
 					}
 				}
+
+				@include adaptivity(tablet) {
+					margin-right: 10px;
+				}
 			}
 
 			&__route {
 				text-align: right;
+
+				@include adaptivity(laptop) {
+					font-size: 11px;
+				}
+
+				@include adaptivity(tablet) {
+					padding-right: 10px;
+				}
 			}
 		}
 
@@ -306,6 +473,10 @@
 				box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 			}
 
+			@include adaptivity(tablet) {
+				bottom: 0;
+			}
+
 			.price {
 				white-space: nowrap;
 				font-size: 18px;
@@ -329,6 +500,10 @@
 		&-segment {
 			padding-left: 43px;
 
+			@include adaptivity(tablet) {
+				padding-left: 25px;
+			}
+
 			&__left {
 				@extend .flight-summary__left;
 			}
@@ -340,15 +515,30 @@
 			&__right {
 				@extend .flight-summary__right;
 				font-size: 15px;
+
+				@include adaptivity(tablet) {
+					display: none;
+				}
 			}
 
 			&__wrapper {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-
-				//max-width: 516px;
 				padding: 0 24px;
+
+				@include adaptivity(laptop) {
+					padding-left: 10px;
+				}
+
+				@include adaptivity(tablet) {
+					flex-wrap: wrap;
+					padding-left: 0;
+				}
+
+				@include adaptivity(phone) {
+					padding-left: 0;
+				}
 			}
 
 			&-logo {
@@ -365,6 +555,16 @@
 
 			&-stage {
 				@extend .flight-summary-stage;
+
+				@include adaptivity(tablet) {
+					&_departure {
+						text-align: left;
+					}
+
+					&_arrival {
+						text-align: right;
+					}
+				}
 
 				&__time {
 					@extend .flight-summary-stage__time;
@@ -393,6 +593,12 @@
 
 			&-route {
 				@extend .flight-summary-route;
+
+				@include adaptivity(laptop) {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					width: 100%;
+				}
 			}
 
 			&-transfer {
@@ -414,7 +620,7 @@
 
 		&-filters {
 			border-top: 1px solid #e0e0e0;
-			padding: 15px 0 15px 43px;
+			padding: 10px 0 15px 43px;
 
 			&-label {
 				margin-left: 20px;
@@ -424,11 +630,34 @@
 				&:first-of-type {
 					margin-left: 0;
 				}
+
+				@include adaptivity(phone) {
+					position: absolute;
+					top: 0;
+				}
+			}
+
+			&-group {
+				display: inline-block;
+				padding: 5px 0;
+
+				@include adaptivity(phone) {
+					position: relative;
+				}
+			}
+
+			@include adaptivity(tablet) {
+				padding-left: 24px;
 			}
 		}
 
 		&-filter {
 			display: inline-block;
+
+			@include adaptivity(phone) {
+				margin-top: 15px;
+				margin-bottom: 10px;
+			}
 
 			&-chip {
 				margin-right: 10px;
