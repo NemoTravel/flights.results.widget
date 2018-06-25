@@ -21,6 +21,10 @@
 	"results-flight-transfersTitle_1": "пересадка",
 	"results-flight-transfersTitle_2": "пересадки",
 	"results-flight-transfersTitle_3": "пересадок",
+	"results-flight-buyTitle": "Выбрать",
+	"results-flight-wholeFlightTitle": "за весь маршрут",
+	"results-flight-profitable-title": "выгодный тариф",
+	"results-flight-profitable-tooltip": "Мы нашли дешевый сквозной тариф на данное направление.<br/>Заказ будет оформлен одним билетом на весь маршрут.",
 
 	"filters-title": "Фильтры",
 	"filters-departureTitle": "Вылет",
@@ -53,5 +57,6 @@
 	"utils-dates-d": "д",
 	"utils-dates-h": "ч",
 	"utils-dates-m": "мин",
-	"utils-pre-in": "в"
+	"utils-pre-in": "в",
+	"utils-pre-from": "от"
 }

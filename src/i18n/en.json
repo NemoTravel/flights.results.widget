@@ -21,6 +21,10 @@
 	"results-flight-transfersTitle_1": "transfer",
 	"results-flight-transfersTitle_2": "transfers",
 	"results-flight-transfersTitle_3": "transfers",
+	"results-flight-buyTitle": "Choose",
+	"results-flight-wholeFlightTitle": "for the whole trip",
+	"results-flight-profitable-title": "best price",
+	"results-flight-profitable-tooltip": "We have found cheap round trip flight on this route.<br/>You will get one ticket for the whole trip for the best price.",
 
 	"filters-title": "Filters",
 	"filters-departureTitle": "Departure",
@@ -53,5 +57,6 @@
 	"utils-dates-d": "d",
 	"utils-dates-h": "h",
 	"utils-dates-m": "min",
-	"utils-pre-in": "in"
+	"utils-pre-in": "in",
+	"utils-pre-from": "from"
 }
