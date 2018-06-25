@@ -63,6 +63,11 @@
 	"sorting-title_arrival": "Прилёт",
 	"sorting-title_flightTime": "В пути",
 
+	"toolbar-backTitle": "Назад",
+	"toolbar-totalPriceTitle": "итого",
+	"toolbar-continueTitle": "Продолжить",
+	"toolbar-unavailableTitle": "Недоступная комбинация",
+
 	"utils-dates-d": "д",
 	"utils-dates-h": "ч",
 	"utils-dates-m": "мин",

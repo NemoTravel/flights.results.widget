@@ -63,6 +63,11 @@
 	"sorting-title_arrival": "Arrival",
 	"sorting-title_flightTime": "Flight time",
 
+	"toolbar-backTitle": "Back",
+	"toolbar-totalPriceTitle": "total",
+	"toolbar-continueTitle": "Proceed to booking",
+	"toolbar-unavailableTitle": "Unavailable combination",
+
 	"utils-dates-d": "d",
 	"utils-dates-h": "h",
 	"utils-dates-m": "min",

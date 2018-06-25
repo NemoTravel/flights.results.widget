@@ -10,6 +10,7 @@ import { goBack } from '../store/currentLeg/actions';
 import { combinationsAreValid } from '../store/fareFamilies/selectors';
 import { getTotalPrice } from '../store/selectors';
 import { isLoadingFareFamilies } from '../store/isLoadingFareFamilies/selectors';
+import { i18n } from '../i18n';
 
 interface StateProps {
 	totalPrice: Money;
@@ -36,20 +37,20 @@ class Toolbar extends React.Component<Props> {
 		return !isLoadingFareFamilies ? (
 			<section className="toolbar">
 				<div className="toolbar__inner">
-					<Button variant="raised" onClick={goBack}>Назад</Button>
+					<Button variant="raised" onClick={goBack}>{i18n('toolbar-backTitle')}</Button>
 
 					<div className="toolbar-totalPrice">
 						{combinationsAreValid && totalPrice.amount ? (
 							<div className="toolbar-totalPrice__amount">
-								<span className="toolbar-totalPrice__amount-prefix">итого</span>
+								<span className="toolbar-totalPrice__amount-prefix">{i18n('toolbar-totalPriceTitle')}</span>
 								<Price price={totalPrice}/>
 							</div>
 						) : null}
 
 						<div className="toolbar-totalPrice__button">
-							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title={<span className="tooltip">Недоступная комбинация</span>}>
+							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title={<span className="tooltip">{i18n('toolbar-unavailableTitle')}</span>}>
 								<Button variant="raised" color="secondary" disabled={!combinationsAreValid}>
-									Продолжить
+									{i18n('toolbar-continueTitle')}
 								</Button>
 							</Tooltip>
 						</div>
