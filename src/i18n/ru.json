@@ -71,6 +71,10 @@
 	"filters-quick-departureTitle": "Вылет",
 	"filters-quick-arrivalTitle": "Прилёт",
 	"filters-quick-airlinesTitle": "Авиакомпании",
+	"filters-quick-time-interval_morning": "Утром",
+	"filters-quick-time-interval_night": "Ночью",
+	"filters-quick-time-interval_day": "Днём",
+	"filters-quick-time-interval_evening": "Вечером",
 
 	"sorting-title_price": "Стоимость",
 	"sorting-title_departure": "Вылет",
