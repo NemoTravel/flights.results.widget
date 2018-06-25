@@ -8,7 +8,7 @@
 	"fareFamilies-family-selection__title_selected": "Selected",
 
 	"results-changeFlightTitle": "Change",
-	"results-title": "Choose flight",
+	"results-title": "Choose flight for",
 	"results-title_there": "Choose an outbound flight",
 	"results-title_back": "Choose a return flight",
 	"results-title_next": "Choose next flight",
@@ -17,11 +17,14 @@
 	"results-noResultsSubTitle": "Try to run search again or change the search form parameters.",
 	"results-searchInProgressTitle": "Looking for the best flights...",
 
+	"results-selected-title": "Selected flights",
+	"results-selected-title_there": "Outbound flight",
+
 	"results-flight-directTitle": "Direct flight",
 	"results-flight-transfersTitle_1": "transfer",
 	"results-flight-transfersTitle_2": "transfers",
 	"results-flight-transfersTitle_3": "transfers",
-	"results-flight-buyTitle": "Choose",
+	"results-flight-buyTitle": "Book",
 	"results-flight-wholeFlightTitle": "for the whole trip",
 	"results-flight-profitable-title": "best price",
 	"results-flight-profitable-tooltip": "We have found cheap round trip flight on this route.<br/>You will get one ticket for the whole trip for the best price.",

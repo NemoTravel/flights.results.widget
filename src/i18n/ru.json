@@ -17,6 +17,9 @@
 	"results-noResultsSubTitle": "Попробуйте запустить поиск заново или измените текущие параметры формы поиска.",
 	"results-searchInProgressTitle": "Ищем лучшие перелеты...",
 
+	"results-selected-title": "Выбранные рейсы",
+	"results-selected-title_there": "Рейс туда",
+
 	"results-flight-directTitle": "Прямой",
 	"results-flight-transfersTitle_1": "пересадка",
 	"results-flight-transfersTitle_2": "пересадки",
