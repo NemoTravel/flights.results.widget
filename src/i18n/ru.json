@@ -38,7 +38,11 @@
 	"filters-noResultsSubTitle": "Попробуйте изменить параметры фильтрации.",
 
 	"filters-airlines-title": "Авиакомпании",
+	"filters-airlines-snackbar": "Авиакомпания «%airline%» добавлена в фильтры",
+	"filters-airlines-snackbar-remove": "Авиакомпания «%airline%» удалена из фильтров",
 	"filters-airports-title": "Аэропорты",
+	"filters-airports-snackbar": "Аэропорт «%airport%» добавлен в фильтры",
+	"filters-airports-snackbar-remove": "Аэропорт «%airport%» удален из фильтров",
 	"filters-airports-departureCol-title": "Аэропорты вылета",
 	"filters-airports-arrivalCol-title": "Аэропорты прилёта",
 	"filters-comfortable-title": "Удобные рейсы",
@@ -47,6 +51,10 @@
 	"filters-search-title": "Поиск",
 	"filters-search-placeholder": "Поиск по названию авиакомпании, номеру рейса, аэропортам отправления и прибытия",
 	"filters-time-title": "Время",
+	"filters-time-departure-snackbar": "Время вылета «%interval%» добавлено в фильтры",
+	"filters-time-departure-snackbar-remove": "Время вылета «%interval%» удалено из фильтров",
+	"filters-time-arrival-snackbar": "Время прилёта «%interval%» добавлено в фильтры",
+	"filters-time-arrival-snackbar-remove": "Время прилёта «%interval%» удалено из фильтров",
 	"filters-time-interval_morning": "утром",
 	"filters-time-interval_night": "ночью",
 	"filters-time-interval_day": "днём",
@@ -57,6 +65,10 @@
 	"filters-time-column-night": "Ночью (00:00 - 06:00)",
 	"filters-time-column-evening": "Вечером (18:00 - 00:00)",
 	"filters-time-column-day": "Днём (12:00 - 18:00)",
+
+	"filters-quick-departureTitle": "Вылет",
+	"filters-quick-arrivalTitle": "Прилёт",
+	"filters-quick-airlinesTitle": "Авиакомпании",
 
 	"sorting-title_price": "Стоимость",
 	"sorting-title_departure": "Вылет",

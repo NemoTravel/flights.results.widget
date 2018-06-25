@@ -38,7 +38,11 @@
 	"filters-noResultsSubTitle": "Try to tune up the filters.",
 
 	"filters-airlines-title": "Airlines",
+	"filters-airlines-snackbar": "Airline «%airline%» has been added to filters",
+	"filters-airlines-snackbar-remove": "Airline «%airline%» has been removed from filters",
 	"filters-airports-title": "Airports",
+	"filters-airports-snackbar": "Airports «%airport%» has been added to filters",
+	"filters-airports-snackbar-remove": "Airports «%airport%» has been removed from filters",
 	"filters-airports-departureCol-title": "Departure airports",
 	"filters-airports-arrivalCol-title": "Arrival airports",
 	"filters-comfortable-title": "Comfortable flights",
@@ -47,6 +51,10 @@
 	"filters-search-title": "Search",
 	"filters-search-placeholder": "Search by airline company name, flight number or airports names",
 	"filters-time-title": "Time",
+	"filters-time-departure-snackbar": "Departure time «%interval%» has been added to filters",
+	"filters-time-departure-snackbar-remove": "Departure time «%interval%» has been removed from filters",
+	"filters-time-arrival-snackbar": "Arrival time «%interval%» has been added to filters",
+	"filters-time-arrival-snackbar-remove": "Arrival time «%interval%» has been removed from filters",
 	"filters-time-interval_morning": "morning",
 	"filters-time-interval_night": "night",
 	"filters-time-interval_day": "day",
@@ -57,6 +65,10 @@
 	"filters-time-column-night": "Night (00:00 - 06:00)",
 	"filters-time-column-evening": "Evening (18:00 - 00:00)",
 	"filters-time-column-day": "Day (12:00 - 18:00)",
+
+	"filters-quick-departureTitle": "Departure",
+	"filters-quick-arrivalTitle": "Arrival",
+	"filters-quick-airlinesTitle": "Airlines",
 
 	"sorting-title_price": "Total price",
 	"sorting-title_departure": "Departure",
