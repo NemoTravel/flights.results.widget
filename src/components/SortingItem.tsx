@@ -4,6 +4,7 @@ import ArrowDown from '@material-ui/icons/ArrowDownward';
 
 import { setSorting } from '../store/sorting/actions';
 import { SortingDirection, SortingType } from '../enums';
+import { i18n } from '../i18n';
 
 interface Props {
 	isActive?: boolean;
@@ -13,10 +14,10 @@ interface Props {
 }
 
 const sortingLabels = {
-	[SortingType.Price]: 'Стоимость',
-	[SortingType.DepartureTime]: 'Вылет',
-	[SortingType.ArrivalTime]: 'Прилет',
-	[SortingType.FlightTime]: 'В пути'
+	[SortingType.Price]: i18n('sorting-title_price'),
+	[SortingType.DepartureTime]: i18n('sorting-title_departure'),
+	[SortingType.ArrivalTime]: i18n('sorting-title_arrival'),
+	[SortingType.FlightTime]: i18n('sorting-title_flightTime')
 };
 
 class SortingItem extends React.Component<Props> {

@@ -27,7 +27,8 @@
 	"results-flight-buyTitle": "Выбрать",
 	"results-flight-wholeFlightTitle": "за весь маршрут",
 	"results-flight-profitable-title": "выгодный тариф",
-	"results-flight-profitable-tooltip": "Мы нашли дешевый сквозной тариф на данное направление.<br/>Заказ будет оформлен одним билетом на весь маршрут.",
+	"results-flight-profitable-tooltip_1": "Мы нашли дешевый сквозной тариф на данное направление.",
+	"results-flight-profitable-tooltip_2": "Заказ будет оформлен одним билетом на весь маршрут.",
 
 	"filters-title": "Фильтры",
 	"filters-departureTitle": "Вылет",
@@ -56,6 +57,11 @@
 	"filters-time-column-night": "Ночью (00:00 - 06:00)",
 	"filters-time-column-evening": "Вечером (18:00 - 00:00)",
 	"filters-time-column-day": "Днём (12:00 - 18:00)",
+
+	"sorting-title_price": "Стоимость",
+	"sorting-title_departure": "Вылет",
+	"sorting-title_arrival": "Прилёт",
+	"sorting-title_flightTime": "В пути",
 
 	"utils-dates-d": "д",
 	"utils-dates-h": "ч",

@@ -70,7 +70,7 @@ class ResultsFlight extends React.Component<Props> {
 		</div>;
 
 		return price.amount < 0 ? (
-			<Tooltip title={<span className="tooltip">{i18n('results-flight-profitable-tooltip')}</span>} placement="top">{block}</Tooltip>
+			<Tooltip title={<span className="tooltip">{i18n('results-flight-profitable-tooltip_1')}<br/>{i18n('results-flight-profitable-tooltip_2')}</span>} placement="top">{block}</Tooltip>
 		) : block;
 	}
 
