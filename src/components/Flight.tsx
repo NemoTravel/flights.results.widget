@@ -10,6 +10,7 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
+import { i18n } from '../i18n';
 
 export interface Props {
 	flight: FlightModel;
@@ -157,7 +158,7 @@ class Flight extends React.Component<Props, State> {
 
 		return <>
 			<div className="flight-summary-transfers">
-				{isDirect ? 'Прямой' : <div className="flight-summary-transfers__item">{flight.transferInfo}</div>}
+				{isDirect ? i18n('results-flight-directTitle') : <div className="flight-summary-transfers__item">{flight.transferInfo}</div>}
 			</div>
 
 			<div className="flight-summary-route">
@@ -170,7 +171,7 @@ class Flight extends React.Component<Props, State> {
 		const segment = this.props.flight.firstSegment;
 
 		return <>
-			<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
+			<div><strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
 
 			<div className="flight-details-segment-route">
 				{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}

@@ -2,8 +2,9 @@ import Flight from '../../models/Flight';
 import { ISO_DATE_LENGTH, REQUEST_URL } from '../../utils';
 import { parse as parseResults } from '../parsers/results';
 import RequestInfo from '../../schemas/RequestInfo';
+import { Language } from '../../enums';
 
-export default async (requestParams: RequestInfo): Promise<Flight[]> => {
+export default async (requestParams: RequestInfo, locale: Language): Promise<Flight[]> => {
 	const data = new FormData();
 	let responseJSON = JSON.parse(localStorage.getItem(JSON.stringify(requestParams)));
 
@@ -31,7 +32,7 @@ export default async (requestParams: RequestInfo): Promise<Flight[]> => {
 			})
 		}));
 
-		const response = await fetch(`${REQUEST_URL}?go=orderAPI/get&uri=flight/search/run`, {
+		const response = await fetch(`${REQUEST_URL}?go=orderAPI/get&uri=flight/search/run&apilang=${locale}`, {
 			method: 'post',
 			body: data
 		});

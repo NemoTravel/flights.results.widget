@@ -11,11 +11,23 @@
 	"results-title": "Выберите рейс",
 	"results-title_there": "Выберите рейс туда",
 	"results-title_back": "Выберите рейс обратно",
+	"results-title_next": "Выберите рейс на следующее направление",
+	"results-showAllTitle": "Показать остальные",
+	"results-noResultsTitle": "Поиск не дал результатов :(",
+	"results-noResultsSubTitle": "Попробуйте запустить поиск заново или измените текущие параметры формы поиска.",
+	"results-searchInProgressTitle": "Ищем лучшие перелеты...",
+
+	"results-flight-directTitle": "Прямой",
+	"results-flight-transfersTitle_1": "пересадка",
+	"results-flight-transfersTitle_2": "пересадки",
+	"results-flight-transfersTitle_3": "пересадок",
 
 	"filters-title": "Фильтры",
 	"filters-departureTitle": "Вылет",
 	"filters-arrivalTitle": "Прилёт",
 	"filters-arrivalTitle_lowercase": "прилёт",
+	"filters-noResultsTitle": "Мы не нашли подходящих перелетов.",
+	"filters-noResultsSubTitle": "Попробуйте изменить параметры фильтрации.",
 
 	"filters-airlines-title": "Авиакомпании",
 	"filters-airports-title": "Аэропорты",
@@ -36,5 +48,10 @@
 	"filters-time-column-morning": "Утром (06:00 - 12:00)",
 	"filters-time-column-night": "Ночью (00:00 - 06:00)",
 	"filters-time-column-evening": "Вечером (18:00 - 00:00)",
-	"filters-time-column-day": "Днём (12:00 - 18:00)"
+	"filters-time-column-day": "Днём (12:00 - 18:00)",
+
+	"utils-dates-d": "д",
+	"utils-dates-h": "ч",
+	"utils-dates-m": "мин",
+	"utils-pre-in": "в"
 }
