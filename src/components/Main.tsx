@@ -10,9 +10,11 @@ import { isSelectionComplete } from '../store/selectedFlights/selectors';
 import {  startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
+import { Language } from '../enums';
 
 interface StateProps {
 	isLoading: boolean;
+	locale: Language;
 	isSelectionComplete: boolean;
 }
 
@@ -27,7 +29,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 		return (
 			<Router>
 				<div className={wrapperClassName}>
-					<SearchForm onSearch={this.props.startSearch}/>
+					<SearchForm onSearch={this.props.startSearch} locale={this.props.locale}/>
 
 					<Route path="/results" render={() => (
 						<>
@@ -44,6 +46,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
+		locale: state.config.locale,
 		isLoading: state.isLoading,
 		isSelectionComplete: isSelectionComplete(state)
 	};

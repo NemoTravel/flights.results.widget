@@ -13,6 +13,7 @@ import { RootState } from '../../store/reducers';
 import { addAirline, removeAirline, removeAllAirlines } from '../../store/filters/airlines/actions';
 import { getAllAirlines, getSelectedAirlinesObjects } from '../../store/filters/airlines/selectors';
 import { getSelectedAirlinesList } from '../../store/selectors';
+import { i18n } from '../../i18n';
 
 interface StateProps {
 	airlines: Airline[];
@@ -30,7 +31,7 @@ type Props = StateProps & DispatchProps;
 
 class Airlines extends WithPopover<Props, WithPopoverState> {
 	protected type = FilterType.Airlines;
-	protected label = 'Авиакомпании';
+	protected label = i18n('filters-airlines-title');
 
 	constructor(props: Props) {
 		super(props);

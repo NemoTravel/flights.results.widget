@@ -1,11 +1,40 @@
 {
 	"fareFamilies-loader-title": "Looking for best tariffs...",
 	"fareFamilies-title": "Tariff selection",
-	"fareFamilies-title_there": "Tariff selection for outgoing flight",
-	"fareFamilies-title_back": "Tariff selection for return flight",
+	"fareFamilies-title_there": "Tariff selection for an outbound flight",
+	"fareFamilies-title_back": "Tariff selection for a return flight",
 	"fareFamilies-noFamiliesTitle": "No available tariffs for selection for this flight",
 	"fareFamilies-family-selection__title": "Buy",
 	"fareFamilies-family-selection__title_selected": "Selected",
 
-	"results-changeFlightTitle": "Change"
+	"results-changeFlightTitle": "Change",
+	"results-title": "Choose flight",
+	"results-title_there": "Choose an outbound flight",
+	"results-title_back": "Choose a return flight",
+
+	"filters-title": "Filters",
+	"filters-departureTitle": "Departure",
+	"filters-arrivalTitle": "Arrival",
+	"filters-arrivalTitle_lowercase": "arrival",
+
+	"filters-airlines-title": "Airlines",
+	"filters-airports-title": "Airports",
+	"filters-airports-departureCol-title": "Departure airports",
+	"filters-airports-arrivalCol-title": "Arrival airports",
+	"filters-comfortable-title": "Comfortable flights",
+	"filters-comfortable-tooltip": "Flights of the same airline company and with departure from the same airport",
+	"filters-directOnly-title": "Direct only",
+	"filters-search-title": "Search",
+	"filters-search-placeholder": "Search by airline company name, flight number or airports names",
+	"filters-time-title": "Time intervals",
+	"filters-time-interval_morning": "morning",
+	"filters-time-interval_night": "night",
+	"filters-time-interval_day": "day",
+	"filters-time-interval_evening": "evening",
+	"filters-time-departureCol-title": "Departure time",
+	"filters-time-arrivalCol-title": "Arrival time",
+	"filters-time-column-morning": "Morning (06:00 - 12:00)",
+	"filters-time-column-night": "Night (00:00 - 06:00)",
+	"filters-time-column-evening": "Evening (18:00 - 00:00)",
+	"filters-time-column-day": "Day (12:00 - 18:00)"
 }

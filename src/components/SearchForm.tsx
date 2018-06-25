@@ -4,7 +4,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@nemo.travel/search-widget';
 
 import { REQUEST_URL } from '../utils';
-import { Language } from '../enums';
 
 type Props = RouteComponentProps<any> & ComponentProps;
 
@@ -34,7 +33,7 @@ class SearchForm extends React.Component<Props> {
 		const isResultsPage = this.props.location.pathname !== '/';
 
 		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage })}>
-			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.onSearch}/>
+			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={REQUEST_URL} locale={this.props.locale} onSearch={this.onSearch}/>
 		</div>;
 	}
 }

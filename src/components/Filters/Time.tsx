@@ -11,16 +11,17 @@ import { getAllTimeIntervals } from '../../store/filters/time/selectors';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/selectors';
 import { FlightTimeInterval, LocationType } from '../../enums';
 import { TimeFilterState } from '../../store/filters/time/reducers';
+import { i18n } from '../../i18n';
 
 interface TimeIntervalsLabels {
 	[interval: string]: string;
 }
 
 export const timeIntervalsLabels: TimeIntervalsLabels = {
-	[FlightTimeInterval.Morning]: 'утром',
-	[FlightTimeInterval.Afternoon]: 'днём',
-	[FlightTimeInterval.Evening]: 'вечером',
-	[FlightTimeInterval.Night]: 'ночью'
+	[FlightTimeInterval.Morning]: i18n('filters-time-interval_morning'),
+	[FlightTimeInterval.Afternoon]: i18n('filters-time-interval_day'),
+	[FlightTimeInterval.Evening]: i18n('filters-time-interval_evening'),
+	[FlightTimeInterval.Night]: i18n('filters-time-interval_night')
 };
 
 interface StateProps {
@@ -39,7 +40,7 @@ type Props = StateProps & DispatchProps;
 
 class Time extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Time;
-	protected label = 'Время';
+	protected label = i18n('filters-time-title');
 
 	constructor(props: Props) {
 		super(props);
@@ -70,7 +71,7 @@ class Time extends WithPopover<Props, FilterState> {
 				}
 			}
 
-			chipLabel = 'Вылет: ' + parts.join(', ');
+			chipLabel = `${i18n('filters-departureTitle')}: ${parts.join(', ')}`;
 		}
 
 		if (hasSelectedArrivalTimeIntervals) {
@@ -82,7 +83,14 @@ class Time extends WithPopover<Props, FilterState> {
 				}
 			}
 
-			chipLabel = `${hasSelectedDepartureTimeIntervals ? chipLabel + ', прилёт' : 'Прилёт'}: ${parts.join(', ')}`;
+			if (hasSelectedDepartureTimeIntervals) {
+				chipLabel = `${chipLabel}, ${i18n('filters-arrivalTitle_lowercase')}`;
+			}
+			else {
+				chipLabel = i18n('filters-arrivalTitle');
+			}
+
+			chipLabel += `: ${parts.join(', ')}`;
 		}
 
 		this.setState({
@@ -128,7 +136,7 @@ class Time extends WithPopover<Props, FilterState> {
 				onChange={this.onDepartureChange}
 				type={LocationType.Departure}
 				suggestedTimes={this.props.allTimeIntervals[LocationType.Departure]}
-				title="Время вылета"
+				title={i18n('filters-time-departureCol-title')}
 			/> : null}
 
 			{this.props.allTimeIntervals[LocationType.Arrival].length > 1 ? <TimeColumn
@@ -136,7 +144,7 @@ class Time extends WithPopover<Props, FilterState> {
 				onChange={this.onArrivalChange}
 				type={LocationType.Arrival}
 				suggestedTimes={this.props.allTimeIntervals[LocationType.Arrival]}
-				title="Время прилёта"
+				title={i18n('filters-time-arrivalCol-title')}
 			/> : null}
 		</div>;
 	}
