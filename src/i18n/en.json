@@ -21,6 +21,7 @@
 	"results-selected-title_there": "Outbound flight",
 
 	"results-flight-directTitle": "Direct flight",
+	"results-flight-transferInTitle": "transfer in",
 	"results-flight-transfersTitle_1": "transfer",
 	"results-flight-transfersTitle_2": "transfers",
 	"results-flight-transfersTitle_3": "transfers",
@@ -31,6 +32,7 @@
 	"results-flight-profitable-tooltip_2": "You will get one ticket for the whole trip, for the best price.",
 
 	"filters-title": "Filters",
+	"filters-add-tooltip": "Add to filters",
 	"filters-departureTitle": "Departure",
 	"filters-arrivalTitle": "Arrival",
 	"filters-arrivalTitle_lowercase": "arrival",

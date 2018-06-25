@@ -21,6 +21,7 @@
 	"results-selected-title_there": "Рейс туда",
 
 	"results-flight-directTitle": "Прямой",
+	"results-flight-transferInTitle": "пересадка в",
 	"results-flight-transfersTitle_1": "пересадка",
 	"results-flight-transfersTitle_2": "пересадки",
 	"results-flight-transfersTitle_3": "пересадок",
@@ -31,6 +32,7 @@
 	"results-flight-profitable-tooltip_2": "Заказ будет оформлен одним билетом на весь маршрут.",
 
 	"filters-title": "Фильтры",
+	"filters-add-tooltip": "Добавить в фильтры",
 	"filters-departureTitle": "Вылет",
 	"filters-arrivalTitle": "Прилёт",
 	"filters-arrivalTitle_lowercase": "прилёт",

@@ -3,6 +3,7 @@ import * as classnames from 'classnames';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import { OnClickHandler } from '../../schemas/OnClickHandler';
+import { i18n } from '../../i18n';
 
 interface Props {
 	label: string,
@@ -20,7 +21,7 @@ export class QuickFilter extends React.Component<Props> {
 	render(): React.ReactNode {
 		const { label, isActive, onClick, onDelete, isEnabled } = this.props;
 
-		return <Tooltip title={!isActive && onClick ? <span className="tooltip">Добавить в фильтры</span> : ''} placement="top">
+		return <Tooltip title={!isActive && onClick ? <span className="tooltip">{i18n('filters-add-tooltip')}</span> : ''} placement="top">
 			<div className={classnames('flight-details-filter', {'flight-details-filter_active': isActive})}>
 				<Chip
 					className={classnames('flight-details-filter-chip', {'flight-details-filter-chip_disabled': !isEnabled})}
