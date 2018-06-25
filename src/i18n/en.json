@@ -1,3 +1,11 @@
 {
-	
+	"fareFamilies-loader-title": "Looking for best tariffs...",
+	"fareFamilies-title": "Tariff selection",
+	"fareFamilies-title_there": "Tariff selection for outgoing flight",
+	"fareFamilies-title_back": "Tariff selection for return flight",
+	"fareFamilies-noFamiliesTitle": "No available tariffs for selection for this flight",
+	"fareFamilies-family-selection__title": "Buy",
+	"fareFamilies-family-selection__title_selected": "Selected",
+
+	"results-changeFlightTitle": "Change"
 }

@@ -1,3 +1,11 @@
 {
-	
+	"fareFamilies-loader-title": "Ищем выгодные тарифы...",
+	"fareFamilies-title": "Выбора тарифа",
+	"fareFamilies-title_there": "Выбор тарифа туда",
+	"fareFamilies-title_back": "Выбор тарифа обратно",
+	"fareFamilies-noFamiliesTitle": "На этот рейс нельзя выбрать другой тариф",
+	"fareFamilies-family-selection__title": "Выбрать",
+	"fareFamilies-family-selection__title_selected": "Выбрано",
+
+	"results-changeFlightTitle": "Сменить"
 }

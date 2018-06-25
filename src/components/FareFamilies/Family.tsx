@@ -13,6 +13,7 @@ import Money from '../../schemas/Money';
 import Price from '../Price';
 import Features from './Features';
 import autobind from 'autobind-decorator';
+import { i18n } from '../../i18n';
 
 interface Props {
 	id: string;
@@ -47,7 +48,7 @@ class Family extends React.Component<Props> {
 		let result = null;
 
 		if (isDisabled || !price) {
-			result = 'Выбрать';
+			result = i18n('fareFamilies-family-selection__title');
 		}
 		else if (isSelected) {
 			result = null;
@@ -85,7 +86,7 @@ class Family extends React.Component<Props> {
 
 				<CardActions className="fareFamilies-leg-segment-family__actions">
 					{isSelected ? (
-						<div className="fareFamilies-leg-segment-family__actions-placeholder">Выбрано</div>
+						<div className="fareFamilies-leg-segment-family__actions-placeholder">{i18n('fareFamilies-family-selection__title_selected')}</div>
 					) : (
 						<Button variant="outlined" color="secondary" onClick={this.onChange}>
 							{this.renderPrice()}
