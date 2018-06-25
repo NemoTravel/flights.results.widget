@@ -8,13 +8,24 @@ import { Language } from '../enums';
 
 type Props = RouteComponentProps<any> & ComponentProps;
 
-class SearchForm extends React.Component<Props> {
+interface State {
+	isFixed: boolean;
+}
+
+class SearchForm extends React.Component<Props, State> {
+	state: State = {
+		isFixed: false
+	};
+
 	protected searchForm: SearchFormComponent = null;
+	protected searchFormWrapper: HTMLElement = null;
+	protected resultsWidget: HTMLElement = null;
 
 	constructor(props: Props) {
 		super(props);
 
 		this.onSearch = this.onSearch.bind(this);
+		this.changeScroll = this.changeScroll.bind(this);
 	}
 
 	onSearch(searchInfo: SearchInfo): void {
@@ -28,12 +39,40 @@ class SearchForm extends React.Component<Props> {
 		if (this.props.location.pathname === '/results') {
 			this.props.onSearch(this.searchForm.getSeachInfo());
 		}
+
+		this.resultsWidget = document.getElementById('searchResultsRoot');
+
+		window.addEventListener('scroll', this.changeScroll);
+	}
+
+	componentWillUnmount(): void {
+		window.removeEventListener('scroll', this.changeScroll);
+	}
+
+	changeScroll(): void {
+		const top = this.resultsWidget.getBoundingClientRect().top,
+			width = this.resultsWidget.offsetWidth;
+
+		if (top < 0) {
+			if (!this.state.isFixed) {
+				this.setState({
+					isFixed: true
+				});
+
+				this.searchFormWrapper.style.width = String(width) + 'px';
+			}
+		}
+		else if (this.state.isFixed) {
+			this.setState({
+				isFixed: false
+			});
+		}
 	}
 
 	render(): React.ReactNode {
 		const isResultsPage = this.props.location.pathname !== '/';
 
-		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage })}>
+		return <div ref={wrapper => this.searchFormWrapper = wrapper} className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage }, { 'results-searchForm_fixed': this.state.isFixed })}>
 			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.onSearch}/>
 		</div>;
 	}

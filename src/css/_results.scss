@@ -15,6 +15,20 @@
 		}
 	}
 
+	&-searchForm {
+		&_fixed {
+			position: fixed;
+			top: 0;
+			z-index: 10;
+
+			.widget-form {
+				&:after, &-additionalOptions {
+					display: none;
+				}
+			}
+		}
+	}
+
 	.ReactVirtualized__List,
 	.ReactVirtualized__Grid__innerScrollContainer {
 		outline: none !important;
