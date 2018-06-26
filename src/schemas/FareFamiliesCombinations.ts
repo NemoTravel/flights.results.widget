@@ -6,7 +6,7 @@ interface CombinationsPrices {
 }
 
 interface CombinationsFlights {
-	[combination: string]: number;
+	[combination: string]: string;
 }
 
 interface FareFamiliesMap {
