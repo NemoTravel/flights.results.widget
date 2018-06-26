@@ -5,6 +5,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
 import FlightsList from './FlightsList';
+import DummyResults from './DummyResults';
 import { hasAnyFlights } from '../store/flightsByLegs/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
@@ -44,6 +45,7 @@ class Results extends React.Component<StateProps> {
 			return <div className="results-loader">
 				<LinearProgress className="results-loader__progressBar" color="secondary" variant="query"/>
 				<Typography variant="headline">{i18n('results-searchInProgressTitle')}</Typography>
+				<DummyResults/>
 			</div>;
 		}
 

@@ -148,6 +148,85 @@
 			margin-top: 13px;
 		}
 	}
+
+	&-dummy {
+		margin-top: 13px;
+
+		.flight-summary {
+			background: #ececec;
+			color: #d2d1d1;
+			cursor: default;
+
+			&:hover {
+				background: #ececec;
+
+				.flight-summary-stage-routeInfo__flightTime {
+					background: #ececec;
+				}
+			}
+
+			&-expand {
+				&:active {
+					background: none;
+				}
+			}
+
+			&-stage {
+				&-routeInfo__flightTime {
+					background: #ececec;
+				}
+
+				&__time {
+					font-size: 2rem;
+
+					.results-dummy__text {
+						letter-spacing: -10px;
+					}
+				}
+
+				&__date {
+					.results-dummy__text {
+						padding-right: 0;
+						padding-left: 2px;
+					}
+				}
+			}
+		}
+
+		.price-amount {
+			font-size: 2rem;
+
+			.results-dummy__text {
+				letter-spacing: -10px;
+			}
+		}
+
+		&__text {
+			letter-spacing: -4px;
+			padding-right: 4px;
+			color: #d2d1d1;
+		}
+
+		&__logo {
+			width: 80px;
+			height: 35px;
+			background: #d2d1d1;
+		}
+
+		&__buy {
+			width: 100px;
+			height: 36px;
+			background: #d2d1d1;
+			line-height: 36px;
+			font-size: 20px;
+			box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+
+			.results-dummy__text {
+				color: #eaeaea;
+				letter-spacing: -6px;
+			}
+		}
+	}
 }
 
 .snackbar {
