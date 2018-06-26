@@ -1,4 +1,4 @@
-import { ADD_FLIGHTS, FlightsAction } from './actions';
+import { ADD_FLIGHTS, CLEAR_FLIGHTS, FlightsAction } from './actions';
 import Flight from '../../models/Flight';
 
 export interface FlightsState {
@@ -7,6 +7,9 @@ export interface FlightsState {
 
 export const flightsReducer = (state: FlightsState = {}, action: FlightsAction): FlightsState => {
 	switch (action.type) {
+		case CLEAR_FLIGHTS:
+			return {};
+
 		case ADD_FLIGHTS:
 			const newFlightsPool: FlightsState = { ...state };
 

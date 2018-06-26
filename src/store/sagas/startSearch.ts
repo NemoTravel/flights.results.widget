@@ -6,14 +6,20 @@ import { addFlightsRT } from '../flightsRT/actions';
 import loadSearchResults from '../../services/requests/results';
 import { setLegs } from '../legs/actions';
 import { SearchAction, SearchActionPayload, START_SEARCH } from '../actions';
-import { addFlights } from '../flights/actions';
-import { setFlightsByLeg } from '../flightsByLegs/actions';
+import { addFlights, clearFlights } from '../flights/actions';
+import { clearFlightsByLegs, setFlightsByLeg } from '../flightsByLegs/actions';
 import { goToLeg } from '../currentLeg/actions';
 import { createLegs } from '../../utils';
 import { getCurrentLegId } from '../currentLeg/selectors';
 import { getIsLoading } from '../isLoading/selectors';
 import { Language } from '../../enums';
 import { getLocale } from '../config/selectors';
+import { clearSelectedFlights } from '../selectedFlights/actions';
+import { clearSelectedFamilies } from '../fareFamilies/selectedFamilies/actions';
+import { clearCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
+import { setRTMode } from '../fareFamilies/isRTMode/actions';
+import { Action } from 'redux';
+import { batchActions } from '../batching/actions';
 
 const requestInfoIsValid = (info: RequestInfo): boolean => {
 	return !info || !info.segments.find(segment => !segment.departure || !segment.arrival || !segment.departureDate);
@@ -74,6 +80,18 @@ function* worker({ payload }: SearchAction) {
 		if (currentLeg) {
 			yield put(goToLeg(0));
 		}
+
+		const resetActions: Action[] = [
+			clearSelectedFamilies(),
+			clearSelectedFlights(),
+			clearCombinations(),
+			setRTMode(false),
+			clearFlightsByLegs(),
+			clearFlights()
+		];
+
+		// Reset all previously selected stuff.
+		yield put(batchActions(...resetActions));
 
 		// Run all searches.
 		yield call(runSearches, payload, locale);

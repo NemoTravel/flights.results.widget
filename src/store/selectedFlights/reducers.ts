@@ -1,4 +1,4 @@
-import { SelectedFlightAction, SET_SELECTED_FLIGHT } from './actions';
+import { CLEAR_SELECTED_FLIGHTS, SelectedFlightAction, SET_SELECTED_FLIGHT } from './actions';
 import SelectedFlight from '../../schemas/SelectedFlight';
 
 export interface SelectedFlightsState {
@@ -7,6 +7,9 @@ export interface SelectedFlightsState {
 
 export const selectedFlightsReducer = (state: SelectedFlightsState = {}, action: SelectedFlightAction): SelectedFlightsState => {
 	switch (action.type) {
+		case CLEAR_SELECTED_FLIGHTS:
+			return {};
+
 		case SET_SELECTED_FLIGHT:
 			const flight = action.payload.flight;
 			const legId = action.payload.legId;
