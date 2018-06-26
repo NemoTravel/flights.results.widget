@@ -1,21 +1,32 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { all, call, CallEffect, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
+import actualization from '../../../services/requests/actualization';
+import { getLocale } from '../../config/selectors';
+import { Language } from '../../../enums';
 
-function* runActualization(flightIds: string[]) {
-	console.log(flightIds);
+function* runActualizations(flightIds: string[], locale: Language) {
+	const max = flightIds.length;
+	const tasks: CallEffect[] = [];
 
-	yield true;
+	for (let i = 0; i < max; i++) {
+		tasks.push(call(actualization, flightIds[i], locale));
+	}
+
+	const result = yield all(tasks);
+
+	console.log(result);
 }
 
 function* worker({ payload }: ActualizationAction) {
 	const isLoading: boolean = yield select(getIsLoadingActualization);
+	const locale: Language = yield select(getLocale);
 
 	if (!isLoading) {
 		yield put(startLoadingActualization());
 
-		yield call(runActualization, payload.flightIds);
+		yield call(runActualizations, payload.flightIds, locale);
 
 		yield put(stopLoadingActualization());
 	}
