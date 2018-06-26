@@ -7,12 +7,12 @@ import Airline from '../../../schemas/Airline';
 import Flight from '../../../models/Flight';
 import Airport from '../../../schemas/Airport';
 import { isFirstLeg } from '../../currentLeg/selectors';
-import { getVisibleFlights } from '../../selectors';
+import { getFilteredFlights } from '../../selectors';
 
 export const getIsComfortable = (state: RootState): boolean => state.filters.comfortable;
 
 export const isComfortableFlightExists = createSelector(
-	[getVisibleFlights, getSelectedFlights],
+	[getFilteredFlights, getSelectedFlights],
 	(visibleFlights: Flight[], selectedFlights: Flight[]): boolean => {
 		const prevLegArrival = selectedFlights.length ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null,
 			airlinesIATA = getAirlinesIATA(selectedFlights);

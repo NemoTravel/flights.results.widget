@@ -405,11 +405,10 @@ export const filtersConfig = createSelector(
 /**
  * Get an array of flights after filtering.
  */
-export const getVisibleFlights = createSelector(
+export const getFilteredFlights = createSelector(
 	[
 		getFlightsForCurrentLeg,
 		getSelectedFlights,
-		getShowAllFlights,
 		Sorting.getCurrentSorting,
 		getRelativePrices,
 		filtersConfig
@@ -417,7 +416,6 @@ export const getVisibleFlights = createSelector(
 	(
 		flights: Flight[],
 		selectedFlights: Flight[],
-		showAllFlights: boolean,
 		sorting: SortingState,
 		prices: FlightsReplacement,
 		{
@@ -491,11 +489,20 @@ export const getVisibleFlights = createSelector(
 
 		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));
 
+		return newFlights;
+	}
+);
+
+export const getVisibleFlights = createSelector(
+	[getFilteredFlights, getShowAllFlights],
+	(flights: Flight[], showAllFlights: boolean): Flight[] => {
+		let results = flights;
+
 		if (!showAllFlights) {
-			newFlights = newFlights.slice(0, MAX_VISIBLE_FLIGHTS);
+			results = flights.slice(0, MAX_VISIBLE_FLIGHTS);
 		}
 
-		return newFlights;
+		return results;
 	}
 );
 
