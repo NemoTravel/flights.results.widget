@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@nemo.travel/search-widget';
 
 import { REQUEST_URL } from '../utils';
-import { Language } from '../enums';
+import { Language, RouteType } from '../enums';
 
 type Props = RouteComponentProps<any> & ComponentProps;
 
@@ -25,7 +25,7 @@ class SearchForm extends React.Component<Props, State> {
 		super(props);
 
 		this.onSearch = this.onSearch.bind(this);
-		this.changeScroll = this.changeScroll.bind(this);
+		this.scrollEvent = this.scrollEvent.bind(this);
 	}
 
 	onSearch(searchInfo: SearchInfo): void {
@@ -42,14 +42,14 @@ class SearchForm extends React.Component<Props, State> {
 
 		this.resultsWidget = document.getElementById('searchResultsRoot');
 
-		window.addEventListener('scroll', this.changeScroll);
+		window.addEventListener('scroll', this.scrollEvent);
 	}
 
 	componentWillUnmount(): void {
-		window.removeEventListener('scroll', this.changeScroll);
+		window.removeEventListener('scroll', this.scrollEvent);
 	}
 
-	changeScroll(): void {
+	scrollEvent(): void {
 		const top = this.resultsWidget.getBoundingClientRect().top,
 			width = this.resultsWidget.offsetWidth;
 
@@ -70,9 +70,10 @@ class SearchForm extends React.Component<Props, State> {
 	}
 
 	render(): React.ReactNode {
-		const isResultsPage = this.props.location.pathname !== '/';
+		const isResultsPage = this.props.location.pathname !== '/',
+			isCR = this.searchForm ? this.searchForm.getSeachInfo().routeType === RouteType.CR : false;
 
-		return <div ref={wrapper => this.searchFormWrapper = wrapper} className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage }, { 'results-searchForm_fixed': this.state.isFixed })}>
+		return <div ref={wrapper => this.searchFormWrapper = wrapper} className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage }, { 'results-searchForm_fixed': this.state.isFixed && !isCR })}>
 			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={REQUEST_URL} locale={Language.Russian} onSearch={this.onSearch}/>
 		</div>;
 	}

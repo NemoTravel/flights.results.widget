@@ -16,14 +16,24 @@
 	}
 
 	&-searchForm {
+		.widget-form-search__wrapper {
+			transition: padding-left, padding-right 250ms cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
 		&_fixed {
 			position: fixed;
 			top: 0;
 			z-index: 10;
 
 			.widget-form {
-				&:after, &-additionalOptions {
+				&:after,
+				&-additionalOptions {
 					display: none;
+				}
+
+				&-search__wrapper {
+					padding-left: 20px;
+					padding-right: 25px;
 				}
 			}
 		}
