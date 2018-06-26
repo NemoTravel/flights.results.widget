@@ -5,7 +5,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
 import FlightsList from './FlightsList';
-import { hasAnyFlights } from '../store/flights/selectors';
+import { hasAnyFlights } from '../store/flightsByLegs/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';

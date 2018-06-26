@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import Flight from '../models/Flight';
-import { getFlightsIdsByLegs, getListOfSelectedCodes, ListOfSelectedCodes } from './filters/selectors';
+import { getListOfSelectedCodes, ListOfSelectedCodes } from './filters/selectors';
 import { getAllFlights, getFlightsForCurrentLeg } from './flights/selectors';
 import * as Sorting from './sorting/selectors';
 import { sortingFunctionsMap } from './sorting/selectors';
@@ -32,6 +32,7 @@ import {
 import { RootState } from './reducers';
 import { getFilteredArrivalAirports, getFilteredDepartureAirports } from './filters/airports/selectors';
 import { getFilteredAirlines } from './filters/airlines/selectors';
+import { getFlightsIdsByLegs } from './flightsByLegs/selectors';
 
 export interface PricesByFlights {
 	[flightId: string]: Money;
