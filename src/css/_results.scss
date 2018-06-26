@@ -193,6 +193,18 @@
 			}
 		}
 
+		.filters {
+			&__left {
+				h1 {
+					margin-top: 0;
+				}
+			}
+
+			&__right {
+				margin-bottom: 0;
+			}
+		}
+
 		.price-amount {
 			font-size: 2rem;
 
@@ -224,6 +236,24 @@
 			.results-dummy__text {
 				color: #eaeaea;
 				letter-spacing: -6px;
+			}
+		}
+
+		&__filter {
+			height: 32px;
+			display: inline-flex;
+			border-radius: 16px;
+			line-height: 32px;
+			padding-left: 10px;
+			padding-right: 10px;
+			background-color: #d2d1d1;
+
+			&:not(:first-of-type) {
+				margin-left: 10px;
+			}
+
+			.results-dummy__text {
+				color: #eaeaea;
 			}
 		}
 	}

@@ -44,7 +44,6 @@ class Results extends React.Component<StateProps> {
 		if (isLoading) {
 			return <div className="results-loader">
 				<LinearProgress className="results-loader__progressBar" color="secondary" variant="query"/>
-				<Typography variant="headline">{i18n('results-searchInProgressTitle')}</Typography>
 				<DummyResults/>
 			</div>;
 		}
