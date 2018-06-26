@@ -15,6 +15,18 @@ import { getIsLoading } from '../isLoading/selectors';
 import { Language } from '../../enums';
 import { getLocale } from '../config/selectors';
 
+const requestInfoIsValid = (info: RequestInfo): boolean => {
+	return !info || !info.segments.find(segment => !segment.departure || !segment.arrival || !segment.departureDate);
+};
+
+const searchPayloadIsValid = (payload: SearchActionPayload): boolean => {
+	if (!requestInfoIsValid(payload.RTRequest)) {
+		return false;
+	}
+
+	return !payload.requests.find(request => !requestInfoIsValid(request));
+};
+
 function* runSearch(request: RequestInfo, index: number, locale: Language) {
 	const flights: Flight[] = yield call(loadSearchResults, request, locale);
 
@@ -49,8 +61,7 @@ function* worker({ payload }: SearchAction) {
 	const isLoading: boolean = yield select(getIsLoading);
 	const locale: Language = yield select(getLocale);
 
-	if (!isLoading) {
-
+	if (!isLoading && searchPayloadIsValid(payload)) {
 		// Launch loading animation.
 		yield put(startLoading());
 
