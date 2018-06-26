@@ -13,7 +13,7 @@
 	"results-title_back": "Choose a return flight",
 	"results-title_next": "Choose next flight",
 	"results-showAllTitle": "Show all",
-	"results-noResultsTitle": "We haven't found any suitable flights :(",
+	"results-noResultsTitle": "We have not found any suitable flights :(",
 	"results-noResultsSubTitle": "Try to run search again or change the search form parameters.",
 	"results-searchInProgressTitle": "Looking for the best flights...",
 
@@ -36,7 +36,7 @@
 	"filters-departureTitle": "Departure",
 	"filters-arrivalTitle": "Arrival",
 	"filters-arrivalTitle_lowercase": "arrival",
-	"filters-noResultsTitle": "We haven't found any suitable flights.",
+	"filters-noResultsTitle": "We have not found any suitable flights :(",
 	"filters-noResultsSubTitle": "Try to tune up the filters.",
 
 	"filters-airlines-title": "Airlines",
