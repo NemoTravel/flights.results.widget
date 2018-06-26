@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-import Checkbox from './Checkbox';
 import Airline from '../../schemas/Airline';
+import Column from './Airlines/Column';
 import { Type as FilterType } from '../Filter';
 import WithPopover, { State as WithPopoverState } from './WithPopover';
 import { ListOfSelectedCodes } from '../../store/filters/selectors';
@@ -77,22 +76,26 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 	}
 
 	renderPopover(): React.ReactNode {
+		const firstColumnLength = Math.round(this.props.airlines.length / 2);
+
 		return <FormControl component="fieldset">
 			<FormLabel className="filters-filter-popover-legend" component="legend">
 				{this.label}
 			</FormLabel>
 
-			<FormGroup className="filters-filter-popover-group">
-				{this.props.airlines.map((airline, index) => (
-					<Checkbox
-						key={index}
-						label={airline.name}
-						onChange={this.onChange}
-						checked={airline.IATA in this.props.selectedAirlines}
-						value={airline.IATA}
-					/>
-				))}
-			</FormGroup>
+			<div className="filters-filter-popover__columns">
+				<Column
+					airlines={this.props.airlines.slice(0, firstColumnLength)}
+					selectedAirlines={this.props.selectedAirlines}
+					onChange={this.onChange}
+				/>
+
+				<Column
+					airlines={this.props.airlines.slice(firstColumnLength)}
+					selectedAirlines={this.props.selectedAirlines}
+					onChange={this.onChange}
+				/>
+			</div>
 		</FormControl>;
 	}
 }

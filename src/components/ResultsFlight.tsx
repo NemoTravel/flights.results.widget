@@ -6,7 +6,6 @@ import autobind from 'autobind-decorator';
 
 import Price from './Price';
 import Flight from './Flight';
-import Button from './Flight/Button';
 import { selectFlight } from '../store/selectedFlights/actions';
 import SelectedFlight from '../schemas/SelectedFlight';
 import FlightModel from '../models/Flight';
@@ -66,7 +65,7 @@ class ResultsFlight extends React.Component<Props> {
 				) : null}
 			</div>
 
-			<Button className="flight-summary-buy" onClick={this.onAction}>{buttonText}</Button>
+			<div className="flight-summary-buy" onClick={this.onAction}>{buttonText}</div>
 		</div>;
 
 		return price.amount < 0 ? (

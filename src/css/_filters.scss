@@ -136,14 +136,20 @@
 				}
 
 				&_airlines {
-					.filters-filter-popover-group {
-						column-count: 2;
-						column-gap: 0;
-						display: block;
-						max-width: 300px;
+					.filters-filter-popover {
+						&-column {
+							&:not(:last-of-type) {
+								margin-right: 20px;
+							}
+						}
 
-						&__label {
-							margin-right: 20px;
+						&-group {
+							max-width: 150px;
+							min-width: 100px;
+
+							&__label {
+								flex-basis: 100%;
+							}
 						}
 					}
 				}
