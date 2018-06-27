@@ -1,7 +1,7 @@
 import Money from './Money';
 import FareFamily from './FareFamily';
 
-interface CombinationsPrices {
+export interface CombinationsPrices {
 	[combination: string]: Money;
 }
 

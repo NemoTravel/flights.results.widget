@@ -41,7 +41,7 @@ class Toolbar extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { combinationsAreValid, isLoadingFareFamilies, totalPrice, goBack, startActualization } = this.props;
+		const { combinationsAreValid, isLoadingFareFamilies, totalPrice, goBack } = this.props;
 
 		return !isLoadingFareFamilies ? (
 			<section className="toolbar">

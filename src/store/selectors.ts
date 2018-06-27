@@ -33,6 +33,8 @@ import { RootState } from './reducers';
 import { getFilteredArrivalAirports, getFilteredDepartureAirports } from './filters/airports/selectors';
 import { getFilteredAirlines } from './filters/airlines/selectors';
 import { getFlightsIdsByLegs } from './flightsByLegs/selectors';
+import { getIsRTMode } from './fareFamilies/isRTMode/selectors';
+import { CombinationsPrices } from '../schemas/FareFamiliesCombinations';
 
 export interface PricesByFlights {
 	[flightId: string]: Money;
@@ -148,7 +150,8 @@ export const getTotalPrice = createSelector(
 		FareFamilies.getSelectedCombinations,
 		FareFamilies.getFareFamiliesCombinations,
 		getMinPricesByLegs,
-		getMinTotalPossiblePricesByLegs
+		getMinTotalPossiblePricesByLegs,
+		getIsRTMode
 	],
 	(
 		allFlights: FlightsState,
@@ -157,7 +160,8 @@ export const getTotalPrice = createSelector(
 		selectedCombinations: FareFamilies.SelectedCombinations,
 		combinations: FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
-		minTotalPossiblePricesByLegs: PricesByLegs
+		minTotalPossiblePricesByLegs: PricesByLegs,
+		isRTMode: boolean
 	): Money => {
 		let RTFound = false;
 		const totalPrice: Money = {
@@ -165,39 +169,62 @@ export const getTotalPrice = createSelector(
 			currency: Currency.RUB
 		};
 
-		// Loop through selected flights ids.
-		for (const legId in selectedFlightsIds) {
-			if (selectedFlightsIds.hasOwnProperty(legId)) {
-				const intLegId = parseInt(legId);
-				const flightId = selectedFlightsIds[legId].newFlightId;
+		if (selectionComplete && isRTMode) {
+			let prices: CombinationsPrices;
+			const combinationsParts: string[] = [];
 
-				// If main flights have been successfully selected,
-				// then it's time to choose alternative flights (fare families).
-				if (selectionComplete && selectedCombinations[legId] && combinations[legId]) {
-					const combination = selectedCombinations[legId];
-
-					// Check if selected fare families combination is valid and has its own price.
-					if (combinations[legId].combinationsPrices.hasOwnProperty(combination)) {
-						totalPrice.amount += combinations[legId].combinationsPrices[combination].amount;
-					}
-				}
-				else {
-					// Get flight and add its price to the total sum.
-					if (allFlights.hasOwnProperty(flightId)) {
-						const flight = allFlights[flightId];
-
-						if (!RTFound) {
-							totalPrice.amount += flight.totalPrice.amount;
+			for (const legId in selectedFlightsIds) {
+				if (selectedFlightsIds.hasOwnProperty(legId)) {
+					if (selectedCombinations[legId] && combinations[legId]) {
+						if (!prices) {
+							prices = combinations[legId].combinationsPrices;
 						}
 
-						if (flight.isRT || flight.id.indexOf('/') !== -1) {
-							RTFound = true;
-						}
+						combinationsParts.push(selectedCombinations[legId]);
 					}
 				}
+			}
 
-				if (!RTFound && !selectionComplete && minTotalPossiblePricesByLegs[intLegId]) {
-					totalPrice.amount += minTotalPossiblePricesByLegs[intLegId].amount;
+			const resultingCombination = combinationsParts.join('_');
+
+			if (prices && prices.hasOwnProperty(resultingCombination)) {
+				totalPrice.amount = prices[resultingCombination].amount;
+			}
+		}
+		else {
+			for (const legId in selectedFlightsIds) {
+				if (selectedFlightsIds.hasOwnProperty(legId)) {
+					const intLegId = parseInt(legId);
+					const flightId = selectedFlightsIds[legId].newFlightId;
+
+					// If main flights have been successfully selected,
+					// then it's time to choose alternative flights (fare families).
+					if (selectionComplete && selectedCombinations[legId] && combinations[legId]) {
+						const combination = selectedCombinations[legId];
+
+						// Check if selected fare families combination is valid and has its own price.
+						if (combinations[legId].combinationsPrices.hasOwnProperty(combination)) {
+							totalPrice.amount += combinations[legId].combinationsPrices[combination].amount;
+						}
+					}
+					else {
+						// Get flight and add its price to the total sum.
+						if (allFlights.hasOwnProperty(flightId)) {
+							const flight = allFlights[flightId];
+
+							if (!RTFound) {
+								totalPrice.amount += flight.totalPrice.amount;
+							}
+
+							if (flight.isRT || flight.id.indexOf('/') !== -1) {
+								RTFound = true;
+							}
+						}
+					}
+
+					if (!RTFound && !selectionComplete && minTotalPossiblePricesByLegs[intLegId]) {
+						totalPrice.amount += minTotalPossiblePricesByLegs[intLegId].amount;
+					}
 				}
 			}
 		}
