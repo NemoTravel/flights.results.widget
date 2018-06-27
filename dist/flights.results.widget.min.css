@@ -358,6 +358,26 @@
   padding: 3px;
 }
 
+.actualization-loader {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  cursor: wait;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
 .flight {
   min-height: 74px;
   border-top: 1px solid #d7d7d7;
@@ -1146,7 +1166,7 @@
 
 .flight-details-filters {
   border-top: 1px solid #e0e0e0;
-  padding: 10px 0 15px 43px;
+  padding: 10px 0 10px 43px;
 }
 
 .flight-details-filters-label {

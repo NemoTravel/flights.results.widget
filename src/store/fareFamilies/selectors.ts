@@ -7,6 +7,7 @@ import { FareFamiliesCombinationsState } from './fareFamiliesCombinations/reduce
 import { SelectedFamiliesState } from './selectedFamilies/reducers';
 import { FareFamiliesPrices } from '../../schemas/FareFamiliesPrices';
 import { getIsRTMode } from './isRTMode/selectors';
+import { CombinationsFlights } from '../../schemas/FareFamiliesCombinations';
 
 export const getSelectedFamilies = (state: RootState): SelectedFamiliesState => state.fareFamilies.selectedFamilies;
 export const getFareFamiliesCombinations = (state: RootState): FareFamiliesCombinationsState => state.fareFamilies.fareFamiliesCombinations;
@@ -46,18 +47,37 @@ export const getSelectedCombinations = createSelector(
  * Get flight ids after selection of fare families.
  */
 export const getResultingFlightIds = createSelector(
-	[getSelectedCombinations, getFareFamiliesCombinations],
-	(selectedCombinations: SelectedCombinations, combinationsInfo: FareFamiliesCombinationsState): string[] => {
+	[getSelectedCombinations, getFareFamiliesCombinations, getIsRTMode],
+	(selectedCombinations: SelectedCombinations, combinationsInfo: FareFamiliesCombinationsState, isRTMode: boolean): string[] => {
 		const result: string[] = [];
+		const combinationsParts: string[] = [];
+		let validCombinationsInfo: CombinationsFlights;
 
 		for (const legId in selectedCombinations) {
 			if (selectedCombinations.hasOwnProperty(legId) && combinationsInfo.hasOwnProperty(legId)) {
-				const selectedCombination = selectedCombinations[legId];
-				const validCombinations = combinationsInfo[legId].validCombinations;
+				if (isRTMode) {
+					if (!validCombinationsInfo) {
+						validCombinationsInfo = combinationsInfo[legId].validCombinations;
+					}
 
-				if (validCombinations.hasOwnProperty(selectedCombination)) {
-					result.push(validCombinations[selectedCombination]);
+					combinationsParts.push(selectedCombinations[legId]);
 				}
+				else {
+					const selectedCombination = selectedCombinations[legId];
+					const validCombinations = combinationsInfo[legId].validCombinations;
+
+					if (validCombinations.hasOwnProperty(selectedCombination)) {
+						result.push(validCombinations[selectedCombination]);
+					}
+				}
+			}
+		}
+
+		if (isRTMode) {
+			const resultingCombination = combinationsParts.join('_');
+
+			if (validCombinationsInfo.hasOwnProperty(resultingCombination)) {
+				result.push(validCombinationsInfo[resultingCombination]);
 			}
 		}
 
@@ -147,8 +167,8 @@ export const getFareFamiliesAvailability = createSelector(
  * Get price differences for fare families.
  */
 export const getFareFamiliesPrices = createSelector(
-	[getSelectedCombinations, getFareFamiliesCombinations, getIsRTMode],
-	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState, isRTMode: boolean): FareFamiliesPrices => {
+	[getSelectedCombinations, getFareFamiliesCombinations],
+	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPrices => {
 		const result: FareFamiliesPrices = {};
 
 		for (const legId in selectedCombinations) {

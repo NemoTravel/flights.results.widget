@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Flight from '../models/Flight';
 import Leg from './FareFamilies/Leg';
@@ -20,10 +21,12 @@ import { connect } from '../utils';
 import Toolbar from './Toolbar';
 import { isRT } from '../store/legs/selectors';
 import { i18n } from '../i18n';
+import { getIsLoadingActualization } from '../store/isLoadingActualization/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
 	isLoading: boolean;
+	isLoadingActualization: boolean;
 	isRT: boolean;
 	fareFamiliesPrices: FareFamiliesPrices;
 	fareFamiliesAvailability: FareFamiliesAvailability;
@@ -47,6 +50,7 @@ class FareFamilies extends React.Component<Props> {
 			selectFamily,
 			fareFamiliesPrices,
 			isLoading,
+			isLoadingActualization,
 			isRT
 		} = this.props;
 
@@ -77,6 +81,14 @@ class FareFamilies extends React.Component<Props> {
 				</div>
 			</div>
 
+			{isLoadingActualization ? (
+				<div className="actualization">
+					<div className="actualization-loader">
+						<CircularProgress className="actualization-loader__progress" color="secondary" variant="indeterminate"/>
+					</div>
+				</div>
+			) : null}
+
 			<Toolbar/>
 		</section>;
 	}
@@ -85,6 +97,7 @@ class FareFamilies extends React.Component<Props> {
 export default connect<StateProps, DispatchProps>({
 	selectedFlights: getSelectedFlights,
 	isLoading: isLoadingFareFamilies,
+	isLoadingActualization: getIsLoadingActualization,
 	isRT: isRT,
 	fareFamiliesAvailability: getFareFamiliesAvailability,
 	fareFamiliesPrices: getFareFamiliesPrices,

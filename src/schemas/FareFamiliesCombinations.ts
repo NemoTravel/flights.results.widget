@@ -5,7 +5,7 @@ export interface CombinationsPrices {
 	[combination: string]: Money;
 }
 
-interface CombinationsFlights {
+export interface CombinationsFlights {
 	[combination: string]: string;
 }
 
