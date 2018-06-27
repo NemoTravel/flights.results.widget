@@ -7,6 +7,7 @@ import Checkbox from '../Checkbox';
 import { ListOfSelectedCodes } from '../../../store/filters/selectors';
 import { FlightTimeInterval, LocationType } from '../../../enums';
 import { CheckboxChangeHandler } from '../../../schemas/CheckboxHandler';
+import { i18n } from '../../../i18n';
 
 interface Props {
 	selectedTime: ListOfSelectedCodes;
@@ -31,28 +32,28 @@ class Column extends React.Component<Props> {
 						onChange={this.props.onChange}
 						checked={FlightTimeInterval.Night in this.props.selectedTime}
 						value={FlightTimeInterval.Night}
-						label="Ночью (00:00 - 06:00)"
+						label={i18n('filters-time-column-night')}
 					/> : null}
 
 					{this.props.suggestedTimes.indexOf(FlightTimeInterval.Morning) >= 0 ? <Checkbox
 						onChange={this.props.onChange}
 						checked={FlightTimeInterval.Morning in this.props.selectedTime}
 						value={FlightTimeInterval.Morning}
-						label="Утром (06:00 - 12:00)"
+						label={i18n('filters-time-column-morning')}
 					/> : null}
 
 					{this.props.suggestedTimes.indexOf(FlightTimeInterval.Afternoon) >= 0 ? <Checkbox
 						onChange={this.props.onChange}
 						checked={FlightTimeInterval.Afternoon in this.props.selectedTime}
 						value={FlightTimeInterval.Afternoon}
-						label="Днём (12:00 - 18:00)"
+						label={i18n('filters-time-column-day')}
 					/> : null}
 
 					{this.props.suggestedTimes.indexOf(FlightTimeInterval.Evening) >= 0 ? <Checkbox
 						onChange={this.props.onChange}
 						checked={FlightTimeInterval.Evening in this.props.selectedTime}
 						value={FlightTimeInterval.Evening}
-						label="Вечером (18:00 - 00:00)"
+						label={i18n('filters-time-column-evening')}
 					/> : null}
 				</FormGroup>
 			</FormControl>

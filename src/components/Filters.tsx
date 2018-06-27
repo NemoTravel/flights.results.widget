@@ -9,6 +9,7 @@ import TimeFilter from './Filters/Time';
 import ComfortableFilter from './Filters/Comfortabe';
 import FlightSearchFilter from './Filters/FlightSearch';
 import Leg from '../schemas/Leg';
+import { i18n } from '../i18n';
 
 interface Props {
 	currentLeg: Leg;
@@ -28,15 +29,15 @@ class Filters extends React.Component<Props> {
 			<div className="filters__left">
 				<Typography variant="headline">
 					{isRT ? (
-						<span>Выберите рейс {currentLeg.id === 0 ? 'туда' : 'обратно'}</span>
+						<span>{currentLeg.id === 0 ? i18n('results-title_there') : i18n('results-title_back')}</span>
 					) : (
-						<span>Выберите рейс {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}</span>
+						<span>{i18n('results-title')} {currentLeg.departure.city.name} &mdash; {currentLeg.arrival.city.name}</span>
 					)}
 				</Typography>
 			</div>
 
 			<div className="filters__right">
-				<span className="filters-title">Фильтры</span>
+				<span className="filters-title">{i18n('filters-title')}</span>
 
 				<ComfortableFilter/>
 				<DirectOnlyFilter/>

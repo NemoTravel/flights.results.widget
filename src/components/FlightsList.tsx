@@ -14,6 +14,7 @@ import { SnackbarProps, withSnackbar } from './Snackbar';
 import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';
 import { isRT } from '../store/legs/selectors';
 import ResultsFlight from './ResultsFlight';
+import { i18n } from '../i18n';
 
 export interface OwnProps {
 	legId: number;
@@ -47,10 +48,10 @@ class FlightsList extends React.Component<Props> {
 
 	selectFlight(flight: SelectedFlight, legId: number): SelectedFlightAction {
 		if (this.props.isRT && legId === 0) {
-			this.props.showSnackbar('Выберите рейс обратно');
+			this.props.showSnackbar(i18n('results-title_back'));
 		}
 		else if (!this.props.isLastLeg) {
-			this.props.showSnackbar('Выберите рейс на следующее направление');
+			this.props.showSnackbar(i18n('results-title_next'));
 		}
 
 		setTimeout(() => {
@@ -86,12 +87,15 @@ class FlightsList extends React.Component<Props> {
 
 				{hasHiddenFlights ? (
 					<div className="results-flights-showAllButton">
-						<Button variant="raised" onClick={this.showAll}>Показать всё</Button>
+						<Button variant="raised" onClick={this.showAll}>{i18n('results-showAllTitle')}</Button>
 					</div>
 				) : null}
 			</> :
 			(
-				<Typography variant="headline">Нет результатов.</Typography>
+				<div className="results-noResultsTitle">
+					<Typography variant="headline">{i18n('filters-noResultsTitle')}</Typography>
+					<Typography variant="subheading">{i18n('filters-noResultsSubTitle')}</Typography>
+				</div>
 			);
 	}
 }

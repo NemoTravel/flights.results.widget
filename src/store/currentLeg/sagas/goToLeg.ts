@@ -8,12 +8,14 @@ import { hideFlights } from '../../showAllFlights/actions';
 import SelectedFlight from '../../../schemas/SelectedFlight';
 import { batchActions } from '../../batching/actions';
 import { Action } from 'redux';
+import { setRTMode } from '../../fareFamilies/isRTMode/actions';
 
 function* worker({ payload: newLegId }: LegAction) {
 	const actions: Action[] = [
 		setLeg(newLegId),
 		removeAllFilters(),
-		setSelectedFlight(newLegId, null)
+		setSelectedFlight(newLegId, null),
+		setRTMode(false)
 	];
 
 	const state: RootState = yield select();

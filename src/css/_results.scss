@@ -4,6 +4,7 @@
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 
 	&_isLoading {
 		.results-loader {
@@ -47,8 +48,15 @@
 	}
 
 	&__inner {
-		padding-top: 50px;
+		width: $common-content-width;
+		margin: 0 auto;
 		padding-bottom: 30px;
+
+		@include adaptivity(laptop-large) {
+			width: 100%;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
 	}
 
 	&-noResultsTitle {
@@ -74,6 +82,7 @@
 			&:before {
 				content: "";
 				position: absolute;
+				z-index: 1;
 				top: 0;
 				left: 0;
 				bottom: 0;
@@ -82,6 +91,33 @@
 				border-top-left-radius: 2px;
 				border-bottom-left-radius: 2px;
 				background-color: #94ca51;
+			}
+
+			@include adaptivity(tablet) {
+				&-summary {
+					&-changeFlight {
+						margin-left: 10px;
+					}
+
+					&-price {
+						&__amount {
+							margin-right: 0;
+						}
+
+						&__route {
+							position: relative;
+							padding-right: 0;
+						}
+					}
+				}
+			}
+
+			@include adaptivity(phone) {
+				&-summary {
+					&-changeFlight {
+						margin-left: 15px;
+					}
+				}
 			}
 		}
 	}
@@ -127,7 +163,6 @@
 	&-loader {
 		display: none;
 		text-align: center;
-		padding-top: 50px;
 
 		&__progressBar {
 			height: 7px !important;

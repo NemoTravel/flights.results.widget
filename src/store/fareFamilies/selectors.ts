@@ -43,6 +43,29 @@ export const getSelectedCombinations = createSelector(
 );
 
 /**
+ * Get flight ids after selection fare families.
+ */
+export const getResultingFlightIds = createSelector(
+	[getSelectedCombinations, getFareFamiliesCombinations],
+	(selectedCombinations: SelectedCombinations, combinationsInfo: FareFamiliesCombinationsState): string[] => {
+		const result: string[] = [];
+
+		for (const legId in selectedCombinations) {
+			if (selectedCombinations.hasOwnProperty(legId) && combinationsInfo.hasOwnProperty(legId)) {
+				const selectedCombination = selectedCombinations[legId];
+				const validCombinations = combinationsInfo[legId].validCombinations;
+
+				if (validCombinations.hasOwnProperty(selectedCombination)) {
+					result.push(validCombinations[selectedCombination]);
+				}
+			}
+		}
+
+		return result;
+	}
+);
+
+/**
  * Check if selected combination is valid.
  */
 export const combinationsAreValid = createSelector(

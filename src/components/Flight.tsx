@@ -10,6 +10,7 @@ import SegmentModel from '../schemas/Segment';
 import Airline from '../schemas/Airline';
 import { ObjectsMap } from '../store/filters/selectors';
 import { fixImageURL } from '../utils';
+import { i18n } from '../i18n';
 
 export interface Props {
 	flight: FlightModel;
@@ -99,7 +100,7 @@ class Flight extends React.Component<Props, State> {
 		const firstSegment = flight.firstSegment;
 		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
 		const time = this.state.isOpen ?
-			moment.duration(firstSegment.flightTime, 'seconds').format('d [д] h [ч] m [мин]') :
+			moment.duration(firstSegment.flightTime, 'seconds').format(`d [${i18n('utils-dates-d')}] h [${i18n('utils-dates-h')}] m [${i18n('utils-dates-m')}]`) :
 			flight.totalFlightTimeHuman;
 
 		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen, 'flight-summary_isToggleable': this.props.isToggleable })} onClick={this.toggleDetails}>
@@ -115,7 +116,7 @@ class Flight extends React.Component<Props, State> {
 					{this.renderLogo(this.state.isOpen)}
 				</div>
 
-				<div className="flight-summary-stage">
+				<div className="flight-summary-stage flight-summary-stage_departure">
 					<div className="flight-summary-stage__time">
 						{firstSegment.depDate.format('HH:mm')}
 					</div>
@@ -130,7 +131,7 @@ class Flight extends React.Component<Props, State> {
 					<span className="flight-summary-stage-routeInfo__flightTime">{time}</span>
 				</div>
 
-				<div className="flight-summary-stage">
+				<div className="flight-summary-stage flight-summary-stage_arrival">
 					<div className="flight-summary-stage__time">
 						{lastSegment.arrDate.format('HH:mm')}
 					</div>
@@ -157,7 +158,7 @@ class Flight extends React.Component<Props, State> {
 
 		return <>
 			<div className="flight-summary-transfers">
-				{isDirect ? 'Прямой' : <div className="flight-summary-transfers__item">{flight.transferInfo}</div>}
+				{isDirect ? i18n('results-flight-directTitle') : <div className="flight-summary-transfers__item">{flight.transferInfo}</div>}
 			</div>
 
 			<div className="flight-summary-route">
@@ -170,7 +171,7 @@ class Flight extends React.Component<Props, State> {
 		const segment = this.props.flight.firstSegment;
 
 		return <>
-			<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
+			<div><strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
 
 			<div className="flight-details-segment-route">
 				{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}

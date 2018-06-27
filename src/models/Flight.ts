@@ -7,6 +7,7 @@ import Money from '../schemas/Money';
 import { convertNemoDateToMoment, declension, pluralize, UID_LEG_GLUE, UID_SEGMENT_GLUE } from '../utils';
 import Date from '../schemas/Date';
 import Fillable from '../models/Fillable';
+import { i18n } from '../i18n';
 
 export default class Flight extends Fillable<FlightSchema> implements FlightSchema {
 	id: string;
@@ -77,18 +78,19 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 		});
 
 		this.totalFlightTime = totalFlightTime;
-		this.totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
+		this.totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format(`d [${i18n('utils-dates-d')}] h [${i18n('utils-dates-h')}] m [${i18n('utils-dates-m')}]`);
 
 		this.firstSegment = this.segments[0];
 		this.lastSegment = this.segments[this.segments.length - 1];
 		this.arrivalAtNextDay = this.firstSegment.depDate.date() !== this.lastSegment.arrDate.date();
 
 		const numOfTransfers = this.segments.length - 1;
+		const pluralizedTitle = pluralize(numOfTransfers, i18n('results-flight-transfersTitle_1'), i18n('results-flight-transfersTitle_2'), i18n('results-flight-transfersTitle_3'));
 
-		this.transferInfo = `${numOfTransfers} ${pluralize(numOfTransfers, 'пересадка', 'пересадки', 'пересадок')}`;
+		this.transferInfo = `${numOfTransfers} ${pluralizedTitle}`;
 
 		if (numOfTransfers === 1) {
-			this.transferInfo += ` в ${declension(this.segments[0].arrAirport.city.name)}`;
+			this.transferInfo += ` ${i18n('utils-pre-in')} ${declension(this.segments[0].arrAirport.city.name)}`;
 		}
 
 		this.searchIndex = this.uid.toLowerCase() +

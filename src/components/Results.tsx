@@ -5,17 +5,16 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { getCurrentLeg } from '../store/currentLeg/selectors';
 import Leg from '../schemas/Leg';
 import FlightsList from './FlightsList';
-import { hasAnyFlights } from '../store/flights/selectors';
+import { hasAnyFlights } from '../store/flightsByLegs/selectors';
 import Sortings from './Sortings';
 import Filters from './Filters';
 import { hasAnyVisibleFlights } from '../store/selectors';
 import { getLegs, isRT } from '../store/legs/selectors';
 import { flightSearchIsActive } from '../store/filters/flightSearch/selectors';
 import SelectedFlights from './SelectedFlights';
-import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { getIsLoading } from '../store/isLoading/selectors';
-import FlightModel from '../models/Flight';
 import { connect } from '../utils';
+import { i18n } from '../i18n';
 
 interface StateProps {
 	isRT: boolean;
@@ -25,27 +24,26 @@ interface StateProps {
 	currentLeg: Leg;
 	legs: Leg[];
 	flightSearchActive: boolean;
-	selectedFlights: FlightModel[];
 }
 
 class Results extends React.Component<StateProps> {
 	renderNoFlights(): React.ReactNode {
 		return this.props.isLoading ? null : (
 			<div className="results-noResultsTitle">
-				<Typography variant="headline">Поиск не дал результатов :(</Typography>
-				<Typography variant="subheading">Попробуйте запустить поиск заново или измените текущие параметры формы поиска.</Typography>
+				<Typography variant="headline">{i18n('results-noResultsTitle')}</Typography>
+				<Typography variant="subheading">{i18n('results-noResultsSubTitle')}</Typography>
 			</div>
 		);
 	}
 
 	render(): React.ReactNode {
-		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT, flightSearchActive, selectedFlights, legs } = this.props;
+		const { currentLeg, hasAnyFlights, hasAnyVisibleFlights, isLoading, isRT, flightSearchActive, legs } = this.props;
 		const isMultipleLegs = legs.length > 1;
 
 		if (isLoading) {
 			return <div className="results-loader">
 				<LinearProgress className="results-loader__progressBar" color="secondary" variant="query"/>
-				<Typography variant="headline">Ищем лучшие перелеты...</Typography>
+				<Typography variant="headline">{i18n('results-searchInProgressTitle')}</Typography>
 			</div>;
 		}
 
@@ -71,7 +69,6 @@ export default connect<StateProps>({
 	hasAnyFlights: hasAnyFlights,
 	hasAnyVisibleFlights: hasAnyVisibleFlights,
 	currentLeg: getCurrentLeg,
-	selectedFlights: getSelectedFlights,
 	legs: getLegs,
 	flightSearchActive: flightSearchIsActive
 })(Results);

@@ -19,6 +19,7 @@ import { OnClickHandler } from '../../schemas/OnClickHandler';
 import { getAllAirlines } from '../../store/filters/airlines/selectors';
 import { getArrivalAirports, getDepartureAirports } from '../../store/filters/airports/selectors';
 import { TimeFilterState } from '../../store/filters/time/reducers';
+import { i18n } from '../../i18n';
 
 interface OwnProps {
 	flight: Flight;
@@ -70,7 +71,7 @@ class Filters extends React.Component<Props> {
 		const firstSegment = flight.segments[0];
 
 		this.props.addAirport(firstSegment.depAirport.IATA, LocationType.Departure);
-		this.props.showSnackbar(`Аэропорт «${firstSegment.depAirport.name}» был добавлен в фильтры`);
+		this.props.showSnackbar(i18n('filters-airports-snackbar').replace('%airport%', firstSegment.depAirport.name));
 
 		this.scrollToElement();
 	}
@@ -83,7 +84,7 @@ class Filters extends React.Component<Props> {
 		const lastSegment = flight.segments[flight.segments.length - 1];
 
 		this.props.addAirport(lastSegment.arrAirport.IATA, LocationType.Arrival);
-		this.props.showSnackbar(`Аэропорт «${lastSegment.arrAirport.name}» был добавлен в фильтры`);
+		this.props.showSnackbar(i18n('filters-airports-snackbar').replace('%airport%', lastSegment.arrAirport.name));
 
 		this.scrollToElement();
 	}
@@ -98,7 +99,7 @@ class Filters extends React.Component<Props> {
 		const intervalName = getTimeIntervalName(interval);
 
 		this.props.addTimeInterval(interval, LocationType.Departure);
-		this.props.showSnackbar(`Время вылета «${intervalName}» было добавлено в фильтры`);
+		this.props.showSnackbar(i18n('filters-time-departure-snackbar').replace('%interval%', intervalName));
 
 		this.scrollToElement();
 	}
@@ -113,14 +114,14 @@ class Filters extends React.Component<Props> {
 		const intervalName = getTimeIntervalName(interval);
 
 		this.props.addTimeInterval(interval, LocationType.Arrival);
-		this.props.showSnackbar(`Время прилёта «${intervalName}» было добавлено в фильтры`);
+		this.props.showSnackbar(i18n('filters-time-arrival-snackbar').replace('%interval%', intervalName));
 
 		this.scrollToElement();
 	}
 
 	onAirlineClick(airline: Airline): void {
 		this.props.addAirline(airline.IATA);
-		this.props.showSnackbar(`Авиакомпания «${airline.name}» была добавлена в фильтры`);
+		this.props.showSnackbar(i18n('filters-airlines-snackbar').replace('%airline%', airline.name));
 
 		this.scrollToElement();
 	}
@@ -166,7 +167,7 @@ class Filters extends React.Component<Props> {
 
 		const remove = () => {
 			this.props.removeAirport(airport.IATA, locationType);
-			this.props.showSnackbar(`Аэропорт «${airport.name}» удален из фильтров`);
+			this.props.showSnackbar(i18n('filters-airports-snackbar-remove').replace('%airport%', airport.name));
 		};
 
 		const onClick = locationType === LocationType.Departure ? this.onDepartureAirportClick : this.onArrivalAirportClick;
@@ -183,10 +184,10 @@ class Filters extends React.Component<Props> {
 			this.props.removeTimeInterval(getTimeIntervalForDate(time), locationType);
 
 			if (locationType === LocationType.Departure) {
-				this.props.showSnackbar(`Время вылета «${label}» удалено из фильтров`);
+				this.props.showSnackbar(i18n('filters-time-departure-snackbar-remove').replace('%interval%', label));
 			}
 			else {
-				this.props.showSnackbar(`Время прилёта «${label}» удалено из фильтров`);
+				this.props.showSnackbar(i18n('filters-time-arrival-snackbar-remove').replace('%interval%', label));
 			}
 		};
 
@@ -208,7 +209,7 @@ class Filters extends React.Component<Props> {
 
 		const remove = () => {
 			this.props.removeAirline(airline.IATA);
-			this.props.showSnackbar(`Авиакомпания «${airline.name}» удалена из фильтров`);
+			this.props.showSnackbar(i18n('filters-airlines-snackbar-remove').replace('%airline%', airline.name));
 		};
 
 		return this.renderFilter(airline.name, isActive, allSugestedAirlines.length > 1 ? onClick : null, remove, index);
@@ -229,21 +230,27 @@ class Filters extends React.Component<Props> {
 		});
 
 		return <div className="flight-details-filters">
-			<span className="flight-details-filters-label">Вылет:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">{i18n('filters-quick-departureTitle')}:</span>
 
-			{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
-			{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
+				{this.renderAirportFilter(firstSegment.depAirport, LocationType.Departure)}
+				{this.renderTimeFilter(firstSegment.depDate, LocationType.Departure)}
+			</div>
 
-			<span className="flight-details-filters-label">Прилёт:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">{i18n('filters-quick-arrivalTitle')}:</span>
 
-			{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
-			{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
+				{this.renderAirportFilter(lastSegment.arrAirport, LocationType.Arrival)}
+				{this.renderTimeFilter(lastSegment.arrDate, LocationType.Arrival)}
+			</div>
 
-			<span className="flight-details-filters-label">Авиакомпании:</span>
+			<div className="flight-details-filters-group">
+				<span className="flight-details-filters-label">{i18n('filters-quick-airlinesTitle')}:</span>
 
-			{allAirlines.map((airline, index) => (
-				this.renderAirlineFilter(airline, index)
-			))}
+				{allAirlines.map((airline, index) => (
+					this.renderAirlineFilter(airline, index)
+				))}
+			</div>
 		</div>;
 	}
 }

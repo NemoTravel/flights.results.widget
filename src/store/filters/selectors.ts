@@ -1,6 +1,3 @@
-import { FlightsByLegsState } from '../flightsByLegs/reducers';
-import { RootState } from '../reducers';
-
 export interface ListOfSelectedCodes {
 	[code: string]: boolean;
 }
@@ -12,14 +9,6 @@ export interface ObjectWithIATA {
 export interface ObjectsMap<T> {
 	[IATA: string]: T;
 }
-
-/**
- * Get flights objects grouped by leg id.
- *
- * @param {RootState} state
- * @returns {FlightsByLegsState}
- */
-export const getFlightsIdsByLegs = (state: RootState): FlightsByLegsState => state.flightsByLegs;
 
 /**
  * Get an object with selected codes used for filtering (airlines and airports filters).

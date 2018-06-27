@@ -20,6 +20,7 @@ import {
 } from '../../store/filters/airports/selectors';
 import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from '../../store/selectors';
 import { LocationType } from '../../enums';
+import { i18n } from '../../i18n';
 
 interface StateProps {
 	departureAirports: Airport[];
@@ -40,7 +41,7 @@ type Props = StateProps & DispatchProps;
 
 class Airports extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Airports;
-	protected label = 'Аэропорты';
+	protected label = i18n('filters-airports-title');
 
 	constructor(props: Props) {
 		super(props);
@@ -66,11 +67,18 @@ class Airports extends WithPopover<Props, FilterState> {
 		let chipLabel = this.label;
 
 		if (hasSelectedDepartureAirports) {
-			chipLabel = 'Вылет: ' + selectedDepartureAirportsObject.map(airport => airport.name).join(', ');
+			chipLabel = `${i18n('filters-departureTitle')}: ${selectedDepartureAirportsObject.map(airport => airport.name).join(', ')}`;
 		}
 
 		if (hasSelectedArrivalAirports) {
-			chipLabel = `${hasSelectedDepartureAirports ? chipLabel + ', прилёт' : 'Прилёт'}: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
+			if (hasSelectedDepartureAirports) {
+				chipLabel = `${chipLabel}, ${i18n('filters-arrivalTitle_lowercase')}`;
+			}
+			else {
+				chipLabel = `${i18n('filters-arrivalTitle')}`;
+			}
+
+			chipLabel += `: ${selectedArrivalAirportsObject.map(airport => airport.name).join(', ')}`;
 		}
 
 		this.setState({
@@ -116,7 +124,7 @@ class Airports extends WithPopover<Props, FilterState> {
 					selectedAirports={this.props.selectedDepartureAirports}
 					airports={this.props.departureAirports}
 					onChange={this.onDepartureChange}
-					title="Аэропорты вылета"
+					title={i18n('filters-airports-departureCol-title')}
 				/>
 			) : null}
 
@@ -125,7 +133,7 @@ class Airports extends WithPopover<Props, FilterState> {
 					selectedAirports={this.props.selectedArrivalAirports}
 					airports={this.props.arrivalAirports}
 					onChange={this.onArrivalChange}
-					title="Аэропорты прилета"
+					title={i18n('filters-airports-arrivalCol-title')}
 				/>
 			) : null}
 		</div>;

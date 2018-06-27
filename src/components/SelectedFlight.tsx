@@ -8,6 +8,7 @@ import SelectedFlightSchema from '../schemas/SelectedFlight';
 import { goToLeg } from '../store/currentLeg/actions';
 import Price from './Price';
 import FlightModel from '../models/Flight';
+import { i18n } from '../i18n';
 
 interface Props {
 	flight: FlightModel;
@@ -34,19 +35,19 @@ class SelectedFlight extends React.Component<Props> {
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
+					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span> : null}
 
 					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
 
 				{currentLegId === 0 ? (
 					<div className="flight-summary-price__route">
-						за весь маршрут
+						{i18n('results-flight-wholeFlightTitle')}
 					</div>
 				) : null}
 			</div>
 
-			<Button className="flight-summary-changeFlight" onClick={this.onAction} variant="outlined" color="secondary">Сменить</Button>
+			<Button className="flight-summary-changeFlight" onClick={this.onAction} variant="outlined" color="secondary">{i18n('results-changeFlightTitle')}</Button>
 		</div>;
 	}
 

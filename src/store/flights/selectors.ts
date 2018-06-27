@@ -1,4 +1,4 @@
-import { getFlightsIdsByLegs } from '../filters/selectors';
+import { getFlightsIdsByLegs } from '../flightsByLegs/selectors';
 import { createSelector } from 'reselect';
 import Flight from '../../models/Flight';
 import { FlightsState } from './reducers';
@@ -13,14 +13,6 @@ import { FlightsByLegsState } from '../flightsByLegs/reducers';
  * @returns {FlightsState}
  */
 export const getAllFlights = (state: RootState): FlightsState => state.flights;
-
-/**
- * Check if there are any loaded flights.
- */
-export const hasAnyFlights = createSelector(
-	[getAllFlights],
-	(allFlights: FlightsState): boolean => !!Object.keys(allFlights).length
-);
 
 /**
  * Get an array of all flights on the current selected leg.

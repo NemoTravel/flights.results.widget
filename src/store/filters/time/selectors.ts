@@ -5,6 +5,7 @@ import { FlightTimeInterval, LocationType } from '../../../enums';
 import { TimeFilterState } from './reducers';
 import Flight from '../../../models/Flight';
 import { getFlightsForCurrentLeg } from '../../flights/selectors';
+import { i18n } from '../../../i18n';
 
 export const getTimeIntervalForDate = (date: Moment): FlightTimeInterval => {
 	const hours = date.hours();
@@ -32,16 +33,16 @@ export const getTimeIntervalForDate = (date: Moment): FlightTimeInterval => {
 export const getTimeIntervalName = (interval: FlightTimeInterval): string => {
 	switch (interval) {
 		case FlightTimeInterval.Afternoon:
-			return 'Днём';
+			return i18n('filters-quick-time-interval_day');
 
 		case FlightTimeInterval.Morning:
-			return 'Утром';
+			return i18n('filters-quick-time-interval_morning');
 
 		case FlightTimeInterval.Evening:
-			return 'Вечером';
+			return i18n('filters-quick-time-interval_evening');
 
 		case FlightTimeInterval.Night:
-			return 'Ночью';
+			return i18n('filters-quick-time-interval_night');
 	}
 };
 

@@ -13,6 +13,7 @@ import { goToLeg } from '../../store/currentLeg/actions';
 import Money from '../../schemas/Money';
 import Flight from '../Flight';
 import Segment from '../Flight/Segment';
+import { i18n } from '../../i18n';
 
 interface Props {
 	flight: FlightModel;
@@ -41,7 +42,7 @@ class Leg extends React.Component<Props> {
 	@autobind
 	renderActionBlock(): React.ReactNode {
 		return <div className="flight-summary__right">
-			<Button variant="outlined" onClick={this.onAction} color="secondary">Сменить</Button>
+			<Button variant="outlined" onClick={this.onAction} color="secondary">{i18n('results-changeFlightTitle')}</Button>
 		</div>;
 	}
 
@@ -95,7 +96,7 @@ class Leg extends React.Component<Props> {
 		) : (
 			<div className="fareFamilies-noFamiliesTitle">
 				<Typography variant="subheading">
-					На этот рейс нельзя выбрать другой тариф
+					{i18n('fareFamilies-noFamiliesTitle')}
 				</Typography>
 			</div>
 		);
@@ -123,7 +124,7 @@ class Leg extends React.Component<Props> {
 
 		return <>
 			{this.props.showTitle ? <Typography className="fareFamilies-title" variant="headline">
-				Выбор тарифа {this.props.flight.legId === 0 ? 'туда' : 'обратно'}
+				{this.props.flight.legId === 0 ? i18n('fareFamilies-title_there') : i18n('fareFamilies-title_back')}
 			</Typography> : null}
 
 			<div>

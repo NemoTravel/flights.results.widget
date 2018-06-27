@@ -19,6 +19,7 @@ import { FareFamiliesAvailability } from '../schemas/FareFamiliesAvailability';
 import { connect } from '../utils';
 import Toolbar from './Toolbar';
 import { isRT } from '../store/legs/selectors';
+import { i18n } from '../i18n';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -52,13 +53,13 @@ class FareFamilies extends React.Component<Props> {
 		if (isLoading) {
 			return <div className="fareFamilies-loader">
 				<LinearProgress className="fareFamilies-loader__progressBar" color="secondary" variant="query"/>
-				<Typography variant="headline">Ищем выгодные тарифы...</Typography>
+				<Typography variant="headline">{i18n('fareFamilies-loader-title')}</Typography>
 			</div>;
 		}
 
 		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
 			<div className="fareFamilies__inner">
-				{isRT ? null : <Typography className="fareFamilies-title" variant="headline">Выбор тарифа</Typography>}
+				{isRT ? null : <Typography className="fareFamilies-title" variant="headline">{i18n('fareFamilies-title')}</Typography>}
 
 				<div className="fareFamilies__legs">
 					{selectedFlights.map((flight, legId) => (

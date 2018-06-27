@@ -12,6 +12,7 @@ import { flightSearchIsActive, getFlightSearch } from '../../store/filters/fligh
 import { RootState } from '../../store/reducers';
 import Filter, { Type as FilterType } from '../Filter';
 import { FiltersState } from '../../store/filters/reducers';
+import { i18n } from '../../i18n';
 
 const CTRL_KEY_CODE = 'Control';
 const META_KEY_CODE = 'Meta';
@@ -32,7 +33,7 @@ type Props = StateProps & DispatchProps;
 
 class FlightSearch extends Filter<Props, FiltersState> {
 	protected type = FilterType.FlightSearch;
-	protected label = 'Поиск';
+	protected label = i18n('filters-search-title');
 	private ctrlIsDown: boolean = false;
 
 	constructor(props: Props) {
@@ -128,7 +129,7 @@ class FlightSearch extends Filter<Props, FiltersState> {
 			<Chip
 				className="filters-filter-chip"
 				avatar={this.renderAvatar()}
-				label={'Поиск'}
+				label={this.label}
 				onClick={this.onClick}
 			/>
 
@@ -138,7 +139,7 @@ class FlightSearch extends Filter<Props, FiltersState> {
 					onChange={this.onText}
 					fullWidth={true}
 					autoFocus={true}
-					placeholder={'Поиск по названию авиакомпании, номеру рейса, аэропортам отправления и прибытия'}
+					placeholder={i18n('filters-search-placeholder')}
 					endAdornment={this.clearButton()}
 				/>
 			</div> : null}

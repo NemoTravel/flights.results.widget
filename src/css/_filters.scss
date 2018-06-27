@@ -9,25 +9,55 @@
 	width: 100%;
 	margin: 20px auto;
 
+	@include adaptivity(laptop) {
+		flex-wrap: wrap;
+	}
+
 	&_withBottomMargin {
 		margin-bottom: 80px;
+	}
+
+	&-filter {
+		margin-bottom: 10px;
 	}
 
 	&__left,
 	&__right {
 		display: flex;
 		align-items: center;
+
+		@include adaptivity(laptop) {
+			flex-basis: 100%;
+			justify-content: center;
+		}
+	}
+
+	&__right {
+		margin-bottom: -10px;
+
+		@include adaptivity(laptop) {
+			margin-top: 20px;
+		}
+
+		@include adaptivity(tablet) {
+			flex-wrap: wrap;
+		}
 	}
 
 	&-title {
 		display: flex;
 		align-items: center;
+
+		@include adaptivity(phone) {
+			display: none;
+		}
 	}
 
 	&-title {
 		position: relative;
 		top: -1px;
 		margin-right: 10px;
+		margin-bottom: 10px;
 
 		font-size: 14px;
 		color: rgba(0, 0, 0, 0.54);
@@ -106,14 +136,20 @@
 				}
 
 				&_airlines {
-					.filters-filter-popover-group {
-						column-count: 2;
-						column-gap: 0;
-						display: block;
-						max-width: 300px;
+					.filters-filter-popover {
+						&-column {
+							&:not(:last-of-type) {
+								margin-right: 20px;
+							}
+						}
 
-						&__label {
-							margin-right: 20px;
+						&-group {
+							max-width: 150px;
+							min-width: 100px;
+
+							&__label {
+								flex-basis: 100%;
+							}
 						}
 					}
 				}

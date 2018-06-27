@@ -4,6 +4,7 @@ import ArrowDown from '@material-ui/icons/ArrowDownward';
 
 import { setSorting } from '../store/sorting/actions';
 import { SortingDirection, SortingType } from '../enums';
+import { i18n } from '../i18n';
 
 interface Props {
 	isActive?: boolean;
@@ -11,13 +12,6 @@ interface Props {
 	type: SortingType;
 	setSorting: typeof setSorting;
 }
-
-const sortingLabels = {
-	[SortingType.Price]: 'Стоимость',
-	[SortingType.DepartureTime]: 'Вылет',
-	[SortingType.ArrivalTime]: 'Прилет',
-	[SortingType.FlightTime]: 'В пути'
-};
 
 class SortingItem extends React.Component<Props> {
 	static defaultProps: Partial<Props> = {
@@ -49,6 +43,13 @@ class SortingItem extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const { type, direction, isActive } = this.props;
+
+		const sortingLabels = {
+			[SortingType.Price]: i18n('sorting-title_price'),
+			[SortingType.DepartureTime]: i18n('sorting-title_departure'),
+			[SortingType.ArrivalTime]: i18n('sorting-title_arrival'),
+			[SortingType.FlightTime]: i18n('sorting-title_flightTime')
+		};
 
 		return <div className={classnames(`sorting-item sorting-item_${direction} sorting-item_${type}`, { 'sorting-item_active': isActive })}>
 			<div className="sorting-item__inner">

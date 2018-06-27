@@ -4,6 +4,7 @@ import * as moment from 'moment';
 
 import SegmentModel from '../../schemas/Segment';
 import { declension, fixImageURL } from '../../utils';
+import { i18n } from '../../i18n';
 
 interface Props {
 	segment: SegmentModel;
@@ -27,16 +28,16 @@ class Segment extends React.Component<Props> {
 	render(): React.ReactNode {
 		const segment = this.props.segment;
 		const totalFlightTime = segment.flightTime + segment.waitingTime;
-		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format('d [д] h [ч] m [мин]');
+		const totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format(`d [${i18n('utils-dates-d')}] h [${i18n('utils-dates-h')}] m [${i18n('utils-dates-m')}]`);
 		const hasTransfer = !!segment.prevSegment;
-		const waitingTime = moment.duration(segment.prevSegment.waitingTime, 'seconds').format('d [д] h [ч] m [мин]');
+		const waitingTime = moment.duration(segment.prevSegment.waitingTime, 'seconds').format(`d [${i18n('utils-dates-d')}] h [${i18n('utils-dates-h')}] m [${i18n('utils-dates-m')}]`);
 		const arrivalAtNextDay = segment.depDate.date() !== segment.arrDate.date();
 
 		return <>
 			<div className="flight-details-segment">
 				{hasTransfer ? (
 					<div className="flight-details-segment-transfer">
-						{TransferIcon} {waitingTime} пересадка в {declension(segment.prevSegment.arrAirport.city.name)}
+						{TransferIcon} {waitingTime} {i18n('results-flight-transferInTitle')} {declension(segment.prevSegment.arrAirport.city.name)}
 					</div>
 				) : null}
 
@@ -46,7 +47,7 @@ class Segment extends React.Component<Props> {
 							{this.renderLogo()}
 						</div>
 
-						<div className="flight-details-segment-stage">
+						<div className="flight-details-segment-stage flight-details-segment-stage_departure">
 							<div className="flight-details-segment-stage__time">
 								{segment.depDate.format('HH:mm')}
 							</div>
@@ -61,7 +62,7 @@ class Segment extends React.Component<Props> {
 							<span className="flight-details-segment-stage-routeInfo__flightTime">{totalFlightTimeHuman}</span>
 						</div>
 
-						<div className="flight-details-segment-stage">
+						<div className="flight-details-segment-stage flight-details-segment-stage_arrival">
 							<div className="flight-details-segment-stage__time">
 								{segment.arrDate.format('HH:mm')}
 							</div>

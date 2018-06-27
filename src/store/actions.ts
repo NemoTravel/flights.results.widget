@@ -6,8 +6,10 @@ import { RouteType } from '../enums';
 export const START_SEARCH = 'START_SEARCH';
 export const SEARCH_FARE_FAMILIES = 'SEARCH_FARE_FAMILIES';
 export const SEARCH_FARE_FAMILIES_RT = 'SEARCH_FARE_FAMILIES_RT';
+export const START_ACTUALIZATION = 'START_ACTUALIZATION';
 
 export type SearchAction = ReturnType<typeof startSearch>;
+export type ActualizationAction = ReturnType<typeof startActualization>;
 export type SearchActionPayload = ReturnType<typeof createSearchPayload>;
 export type SearchFareFamiliesAction = ReturnType<typeof searchFareFamilies>;
 export type SearchFareFamiliesRTAction = ReturnType<typeof searchFareFamiliesRT>;
@@ -81,6 +83,15 @@ export const searchFareFamiliesRT = (flightId: string) => {
 		type: SEARCH_FARE_FAMILIES_RT,
 		payload: {
 			flightId
+		}
+	};
+};
+
+export const startActualization = (flightIds: string[]) => {
+	return {
+		type: START_ACTUALIZATION,
+		payload: {
+			flightIds
 		}
 	};
 };

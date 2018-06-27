@@ -19,6 +19,7 @@ import { showAllFlightsReducer as showAllFlights } from './showAllFlights/reduce
 import Leg from '../schemas/Leg';
 import { FareFamiliesState } from './fareFamilies/reducers';
 import { batchActionsReducer } from './batching/reducers';
+import { loadingActualizationReducer as isLoadingActualization } from './isLoadingActualization/reducers';
 
 export interface RootState {
 	config: Config;
@@ -29,6 +30,7 @@ export interface RootState {
 	flightsByLegs: FlightsByLegsState;
 	isLoading: boolean;
 	isLoadingFareFamilies: FareFamiliesLoadingState;
+	isLoadingActualization: boolean;
 	selectedFlights: SelectedFlightsState;
 	fareFamilies: FareFamiliesState;
 	legs: Leg[];
@@ -49,5 +51,6 @@ export const rootReducer = batchActionsReducer(combineReducers<RootState>({
 	fareFamilies,
 	sorting,
 	legs,
-	showAllFlights
+	showAllFlights,
+	isLoadingActualization
 }));

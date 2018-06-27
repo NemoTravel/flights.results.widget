@@ -5,6 +5,7 @@ import { RootState } from '../../store/reducers';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
 import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
 import { hasAnyTransferFlights } from '../../store/selectors';
+import { i18n } from '../../i18n';
 
 interface StateProps {
 	directOnly: boolean;
@@ -19,7 +20,7 @@ type Props = StateProps & DispatchProps;
 
 class DirectOnly extends Filter<Props, FilterState> {
 	protected type = FilterType.DirectOnly;
-	protected label = 'Без пересадок';
+	protected label = i18n('filters-directOnly-title');
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.directOnly !== nextProps.directOnly ||

@@ -6,13 +6,11 @@ import autobind from 'autobind-decorator';
 
 import Price from './Price';
 import Flight from './Flight';
-import Button from './Flight/Button';
 import { selectFlight } from '../store/selectedFlights/actions';
 import SelectedFlight from '../schemas/SelectedFlight';
 import FlightModel from '../models/Flight';
 import Money from '../schemas/Money';
-
-const tariffTooltipText = <span className="tooltip">Мы нашли дешевый сквозной тариф на данное направление.<br/>Заказ будет оформлен одним билетом на весь маршрут.</span>;
+import { i18n } from '../i18n';
 
 interface Props {
 	flight: FlightModel;
@@ -36,7 +34,7 @@ class ResultsFlight extends React.Component<Props> {
 	renderActionBlock(): React.ReactNode {
 		const { flight, replacement, totalPrice, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
-		let buttonText = <span>Выбрать</span>;
+		let buttonText = <span>{i18n('results-flight-buyTitle')}</span>;
 
 		if (totalPrice) {
 			buttonText = <Price price={totalPrice}/>;
@@ -45,7 +43,7 @@ class ResultsFlight extends React.Component<Props> {
 		const block = <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">от</span> : null}
+					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span> : null}
 
 					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
@@ -56,22 +54,22 @@ class ResultsFlight extends React.Component<Props> {
 							<StarIcon/>
 						</div>
 
-						<span className="flight-summary-price-profitMark__text">выгодный тариф</span>
+						<span className="flight-summary-price-profitMark__text">{i18n('results-flight-profitable-title')}</span>
 					</div>
 				) : null}
 
 				{currentLegId === 0 ? (
 					<div className="flight-summary-price__route">
-						за весь маршрут
+						{i18n('results-flight-wholeFlightTitle')}
 					</div>
 				) : null}
 			</div>
 
-			<Button className="flight-summary-buy" onClick={this.onAction}>{buttonText}</Button>
+			<div className="flight-summary-buy" onClick={this.onAction}>{buttonText}</div>
 		</div>;
 
 		return price.amount < 0 ? (
-			<Tooltip title={tariffTooltipText} placement="top">{block}</Tooltip>
+			<Tooltip title={<span className="tooltip">{i18n('results-flight-profitable-tooltip_1')}<br/>{i18n('results-flight-profitable-tooltip_2')}</span>} placement="top">{block}</Tooltip>
 		) : block;
 	}
 

@@ -10,6 +10,7 @@ import { FlightsReplacement } from '../schemas/SelectedFlight';
 import { getPricesForSelectedFlights } from '../store/selectors';
 import Typography from '@material-ui/core/Typography';
 import { isRT } from '../store/legs/selectors';
+import { i18n } from '../i18n';
 
 interface StateProps {
 	selectedFlights: FlightModel[];
@@ -45,7 +46,7 @@ class SelectedFlights extends React.Component<Props> {
 			<div className="results-selectedFlights">
 				{this.props.selectedFlights.length ? (
 					<div className="results-selectedFlights-title">
-						<Typography variant="headline">{isRT ? 'Рейс туда' : 'Выбранные рейсы'}</Typography>
+						<Typography variant="headline">{isRT ? i18n('results-selected-title_there') : i18n('results-selected-title')}</Typography>
 					</div>
 				) : null}
 
