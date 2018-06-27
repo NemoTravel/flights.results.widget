@@ -64,15 +64,29 @@ function* worker({ payload }: SelectedFlightAction) {
 				actions.push(setSelectedFlight(i, newSelectedFlight));
 			}
 		}
-
-		yield put(searchFareFamiliesRT(flight.newFlightId));
 	}
 	else {
 		actions.push(setSelectedFlight(legId, flight));
-		yield put(searchFareFamilies(legId, flight.newFlightId));
 	}
 
-	if (!isComplete) {
+	if (isComplete) {
+		if (flight.isRT) {
+			// Run one fare families search.
+			yield put(searchFareFamiliesRT(flight.newFlightId));
+		}
+		else {
+			// Run fare families search for the last selected flight.
+			yield put(searchFareFamilies(legId, flight.newFlightId));
+
+			// Run fare families searches for all previously selected flights.
+			for (const legId in selectedFlights) {
+				if (selectedFlights.hasOwnProperty(legId)) {
+					yield put(searchFareFamilies(parseInt(legId), selectedFlights[legId].newFlightId));
+				}
+			}
+		}
+	}
+	else {
 		actions.push(nextLeg());
 	}
 
