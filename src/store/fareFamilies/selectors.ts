@@ -43,7 +43,7 @@ export const getSelectedCombinations = createSelector(
 );
 
 /**
- * Get flight ids after selection fare families.
+ * Get flight ids after selection of fare families.
  */
 export const getResultingFlightIds = createSelector(
 	[getSelectedCombinations, getFareFamiliesCombinations],

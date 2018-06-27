@@ -54,8 +54,8 @@ class Leg extends React.Component<Props> {
 			{this.renderFamilies(segments[0], 0)}
 
 			{segments.slice(1).map((segment, index) => (
-				<Segment key={index} segment={segment} renderAdditionalBlock={() => {
-					return this.renderFamilies(segment, index);
+				<Segment key={index + 1} segment={segment} renderAdditionalBlock={() => {
+					return this.renderFamilies(segment, index + 1);
 				}}/>
 			))}
 		</div>;
