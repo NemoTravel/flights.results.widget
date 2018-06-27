@@ -84,7 +84,7 @@ class FareFamilies extends React.Component<Props> {
 			{isLoadingActualization ? (
 				<div className="actualization">
 					<div className="actualization-loader">
-						<CircularProgress className="actualization-loader__progress" color="secondary" variant="indeterminate"/>
+						<CircularProgress className="actualization-loader__progress" color="primary" variant="indeterminate"/>
 					</div>
 				</div>
 			) : null}
