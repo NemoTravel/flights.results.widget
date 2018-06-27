@@ -5,7 +5,8 @@ import { problemReducer as problem } from './problem/reducers';
 
 export enum ActualizationProblem {
 	Price,
-	Availability
+	Availability,
+	Unknown
 }
 
 export interface ActualizationState {

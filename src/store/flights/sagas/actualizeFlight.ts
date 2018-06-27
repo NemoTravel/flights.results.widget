@@ -7,6 +7,10 @@ import { getLocale } from '../../config/selectors';
 import { Language } from '../../../enums';
 import AvailabilityInfo from '../../../schemas/AvailabilityInfo';
 import { REQUEST_URL } from '../../../utils';
+import { batchActions } from '../../batching/actions';
+import { setProblemType } from '../../actualization/problem/actions';
+import { ActualizationProblem } from '../../actualization/reducers';
+import { setInfo } from '../../actualization/info/actions';
 
 function* runActualizations(flightIds: string[], locale: Language) {
 	const max = flightIds.length;
@@ -26,18 +30,26 @@ function* runActualizations(flightIds: string[], locale: Language) {
 	const unavailableFlights = result.filter(flightInfo => !flightInfo.isAvailable);
 
 	if (unavailableFlights.length) {
-		console.warn(unavailableFlights);
-		throw new Error('Некоторые перелеты стали неактуальны');
+		yield put(batchActions(
+			setProblemType(ActualizationProblem.Availability),
+			setInfo(unavailableFlights),
+			stopLoadingActualization()
+		));
 	}
+	else {
+		const modifiedFlights = result.filter(flightInfo => flightInfo.priceInfo.hasChanged);
 
-	const modifiedFlights = result.filter(flightInfo => flightInfo.priceInfo.hasChanged);
-
-	if (modifiedFlights.length) {
-		console.warn(modifiedFlights);
-		throw new Error('У некоторых перелетов изменилась цена');
+		if (modifiedFlights.length) {
+			yield put(batchActions(
+				setProblemType(ActualizationProblem.Price),
+				setInfo(modifiedFlights),
+				stopLoadingActualization()
+			));
+		}
+		else {
+			window.location.href = `${REQUEST_URL}${result[0].orderLink.replace('/', '')}`;
+		}
 	}
-
-	window.location.href = `${REQUEST_URL}${result[0].orderLink.replace('/', '')}`;
 }
 
 function* worker({ payload }: ActualizationAction) {
@@ -46,14 +58,7 @@ function* worker({ payload }: ActualizationAction) {
 
 	if (!isLoading) {
 		yield put(startLoadingActualization());
-
-		try {
-			yield call(runActualizations, payload.flightIds, locale);
-		}
-		catch (e) {
-			yield put(stopLoadingActualization());
-			throw e;
-		}
+		yield call(runActualizations, payload.flightIds, locale);
 	}
 }
 
