@@ -1,6 +1,10 @@
 import * as React from 'react';
 
 class Flight extends React.Component {
+	shouldComponentUpdate(): boolean {
+		return false;
+	}
+
 	render(): React.ReactNode {
 		return <div className="flight">
 			<div className="flight-summary">
