@@ -11,6 +11,13 @@
 	background-color: #f5f5f5;
 	color: rgba(0, 0, 0, 0.87);
 
+	transform: translateY(30vh);
+	transition: transform 0.2s ease-out;
+
+	&_pinned {
+		transform: translateY(0);
+	}
+
 	&_isLoading {
 		.results-loader {
 			display: block;

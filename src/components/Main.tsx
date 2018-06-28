@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Results from './Results';
 import FareFamilies from './FareFamilies';
@@ -24,24 +24,24 @@ interface DispatchProps {
 	startSearch: typeof startSearch;
 }
 
-class Main extends React.Component<StateProps & DispatchProps> {
+type Props = RouteComponentProps<any> & StateProps & DispatchProps;
+
+class Main extends React.Component<Props> {
 	render(): React.ReactNode {
-		const wrapperClassName = classNames('results', { results_isLoading: this.props.isLoading });
+		const wrapperClassName = classNames('results', { results_isLoading: this.props.isLoading, results_pinned: this.props.location.pathname !== '/' });
 
 		return (
-			<Router>
-				<div className={wrapperClassName}>
-					<SearchForm onSearch={this.props.startSearch} nemoURL={this.props.nemoURL} locale={this.props.locale}/>
+			<div className={wrapperClassName}>
+				<SearchForm onSearch={this.props.startSearch} nemoURL={this.props.nemoURL} locale={this.props.locale}/>
 
-					<Route path="/results" render={() => (
-						<>
-							{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
-						</>
-					)}/>
+				<Route path="/results" render={() => (
+					<>
+						{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
+					</>
+				)}/>
 
-					{Snackbar}
-				</div>
-			</Router>
+				{Snackbar}
+			</div>
 		);
 	}
 }
@@ -59,4 +59,4 @@ const mapDispatchToProps = {
 	startSearch
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));

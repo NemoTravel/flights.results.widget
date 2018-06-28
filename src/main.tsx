@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { applyMiddleware, createStore, Middleware } from 'redux';
 import { Provider } from 'react-redux';
+import { HashRouter as Router } from 'react-router-dom';
 
 import './css/main.scss';
 import themeObject from './themes/default';
@@ -41,7 +42,9 @@ export const init = (config: Config) => {
 
 	ReactDOM.render(<Provider store={store}>
 		<MuiThemeProvider theme={theme}>
-			<Main/>
+			<Router>
+				<Main/>
+			</Router>
 		</MuiThemeProvider>
 	</Provider>, config.rootElement);
 };
