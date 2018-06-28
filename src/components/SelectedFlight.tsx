@@ -16,6 +16,7 @@ interface Props {
 	showPricePrefix: boolean;
 	replacement: SelectedFlightSchema;
 	currentLegId: number;
+	nemoURL: string;
 }
 
 class SelectedFlight extends React.Component<Props> {

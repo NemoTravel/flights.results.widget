@@ -22,6 +22,7 @@ export interface Props {
 	showOpenedSummary?: boolean;
 	showDetails?: boolean;
 	alwaysUpdate?: boolean;
+	nemoURL: string;
 }
 
 interface State {
@@ -90,7 +91,7 @@ class Flight extends React.Component<Props, State> {
 			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
 			airlinesInFlight.map((airline, index) => {
 				return airline.logoIcon ?
-					<img key={index} className="flight-summary-logo__image" title={airline.name} src={fixImageURL(airline.logoIcon)}/> :
+					<img key={index} className="flight-summary-logo__image" title={airline.name} src={fixImageURL(airline.logoIcon, this.props.nemoURL)}/> :
 					<div key={index} className="flight-summary-logo__text">{airline.name}</div>;
 			});
 	}
@@ -183,7 +184,7 @@ class Flight extends React.Component<Props, State> {
 
 	renderDetails(): React.ReactNode {
 		return this.props.renderDetails ? this.props.renderDetails() : <div className="flight-details">
-			{this.segmentsForDetails.map((segment, index) => <Segment key={index} segment={segment}/>)}
+			{this.segmentsForDetails.map((segment, index) => <Segment key={index} nemoURL={this.props.nemoURL} segment={segment}/>)}
 		</div>;
 	}
 

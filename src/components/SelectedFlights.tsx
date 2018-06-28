@@ -11,11 +11,13 @@ import { getPricesForSelectedFlights } from '../store/selectors';
 import Typography from '@material-ui/core/Typography';
 import { isRT } from '../store/legs/selectors';
 import { i18n } from '../i18n';
+import { getNemoURL } from '../store/config/selectors';
 
 interface StateProps {
 	selectedFlights: FlightModel[];
 	prices: FlightsReplacement;
 	isRT: boolean;
+	nemoURL: string;
 }
 
 interface DispatchProps {
@@ -27,11 +29,12 @@ type Props = StateProps & DispatchProps;
 class SelectedFlights extends React.Component<Props> {
 	@autobind
 	renderFlight(flight: FlightModel): React.ReactNode {
-		const { goToLeg, prices } = this.props;
+		const { goToLeg, prices, nemoURL } = this.props;
 
 		return (
 			<SelectedFlight
 				key={flight.legId}
+				nemoURL={nemoURL}
 				flight={flight}
 				goToLeg={goToLeg}
 				currentLegId={flight.legId}
@@ -60,6 +63,7 @@ class SelectedFlights extends React.Component<Props> {
 
 export default connect<StateProps, DispatchProps>({
 	isRT: isRT,
+	nemoURL: getNemoURL,
 	selectedFlights: getSelectedFlights,
 	prices: getPricesForSelectedFlights
 }, { goToLeg })(SelectedFlights);

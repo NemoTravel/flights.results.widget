@@ -93,7 +93,6 @@
 		"quotemark": [true, "single", "jsx-double"],
 		"semicolon": [true, "always", "ignore-bound-class-methods", "ignore-interfaces"],
 		"type-literal-delimiter": true,
-		"interface-name": [true, "never-prefix"],
 		"object-literal-sort-keys": false,
 		"member-access": false
 	},

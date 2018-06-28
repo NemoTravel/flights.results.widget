@@ -15,6 +15,7 @@ import { FlightsReplacement, default as SelectedFlight } from '../schemas/Select
 import { isRT } from '../store/legs/selectors';
 import ResultsFlight from './ResultsFlight';
 import { i18n } from '../i18n';
+import { getNemoURL } from '../store/config/selectors';
 
 export interface OwnProps {
 	legId: number;
@@ -29,6 +30,7 @@ interface StateProps {
 	isLastLeg: boolean;
 	isRT: boolean;
 	hasHiddenFlights: boolean;
+	nemoURL: string;
 }
 
 interface DispatchProps {
@@ -69,13 +71,14 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { legId, prices, hasHiddenFlights, totalPrices } = this.props;
+		const { legId, prices, hasHiddenFlights, totalPrices, nemoURL } = this.props;
 
 		return this.props.flights.length ?
 			<>
 				{this.props.flights.map(flight => (
 					<ResultsFlight
 						key={flight.id}
+						nemoURL={nemoURL}
 						replacement={prices[flight.id]}
 						totalPrice={totalPrices[flight.id]}
 						flight={flight}
@@ -103,6 +106,7 @@ class FlightsList extends React.Component<Props> {
 const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & StateProps => {
 	return {
 		...ownProps,
+		nemoURL: getNemoURL(state),
 		prices: getRelativePrices(state),
 		totalPrices: getTotalPrices(state),
 		flights: getVisibleFlights(state),

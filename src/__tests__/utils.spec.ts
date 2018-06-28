@@ -1,7 +1,7 @@
 /* global describe */
 /* global it */
 /* global expect */
-import { addCodeInList, declension, removeCodeFromList, fixImageURL, REQUEST_URL } from '../utils';
+import { addCodeInList, declension, removeCodeFromList, fixImageURL } from '../utils';
 
 describe('utils', () => {
 	describe('addCodeInList', () => {
@@ -31,10 +31,11 @@ describe('utils', () => {
 
 	describe('fixImageURL', () => {
 		it('should create valid URL without double slashes', () => {
+			const REQUEST_URL = 'http://frontend.mlsd.ru/';
 			const expectedURL = `${REQUEST_URL}image.jpg`;
 
-			expect(fixImageURL('image.jpg')).toEqual(expectedURL);
-			expect(fixImageURL('/image.jpg')).toEqual(expectedURL);
+			expect(fixImageURL('image.jpg', REQUEST_URL)).toEqual(expectedURL);
+			expect(fixImageURL('/image.jpg', REQUEST_URL)).toEqual(expectedURL);
 		});
 	});
 

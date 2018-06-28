@@ -23,6 +23,7 @@ interface Props {
 	goToLeg: typeof goToLeg;
 	availability: { [segmentId: number]: { [familyId: string]: boolean } };
 	showTitle: boolean;
+	nemoURL: string;
 }
 
 class Leg extends React.Component<Props> {
@@ -54,7 +55,7 @@ class Leg extends React.Component<Props> {
 			{this.renderFamilies(segments[0], 0)}
 
 			{segments.slice(1).map((segment, index) => (
-				<Segment key={index + 1} segment={segment} renderAdditionalBlock={() => {
+				<Segment key={index + 1} segment={segment} nemoURL={this.props.nemoURL} renderAdditionalBlock={() => {
 					return this.renderFamilies(segment, index + 1);
 				}}/>
 			))}

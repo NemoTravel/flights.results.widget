@@ -19,6 +19,7 @@ interface Props {
 	replacement: SelectedFlight;
 	totalPrice: Money;
 	currentLegId: number;
+	nemoURL: string;
 }
 
 class ResultsFlight extends React.Component<Props> {

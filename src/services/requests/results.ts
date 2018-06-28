@@ -1,45 +1,39 @@
 import Flight from '../../models/Flight';
-import { ISO_DATE_LENGTH, REQUEST_URL } from '../../utils';
+import { ISO_DATE_LENGTH } from '../../utils';
 import { parse as parseResults } from '../parsers/results';
 import RequestInfo from '../../schemas/RequestInfo';
 import { Language } from '../../enums';
 
-export default async (requestParams: RequestInfo, locale: Language): Promise<Flight[]> => {
+export default async (requestParams: RequestInfo, locale: Language, nemoURL: string): Promise<Flight[]> => {
 	const data = new FormData();
-	let responseJSON = JSON.parse(localStorage.getItem(JSON.stringify(requestParams)));
 
-	if (!responseJSON || true) {
-		data.append('data', JSON.stringify({
-			...requestParams,
-			segments: requestParams.segments.map(segment => {
-				const result: any = {
-					departureDate: segment.departureDate.format().substr(0, ISO_DATE_LENGTH),
-					departure: {
-						IATA: segment.departure.IATA,
-						isCity: !!segment.departure.isCity
-					},
-					arrival: {
-						IATA: segment.arrival.IATA,
-						isCity: !!segment.arrival.isCity
-					}
-				};
-
-				if (segment.returnDate) {
-					result.returnDate = segment.returnDate.format().substr(0, ISO_DATE_LENGTH);
+	data.append('data', JSON.stringify({
+		...requestParams,
+		segments: requestParams.segments.map(segment => {
+			const result: any = {
+				departureDate: segment.departureDate.format().substr(0, ISO_DATE_LENGTH),
+				departure: {
+					IATA: segment.departure.IATA,
+					isCity: !!segment.departure.isCity
+				},
+				arrival: {
+					IATA: segment.arrival.IATA,
+					isCity: !!segment.arrival.isCity
 				}
+			};
 
-				return result;
-			})
-		}));
+			if (segment.returnDate) {
+				result.returnDate = segment.returnDate.format().substr(0, ISO_DATE_LENGTH);
+			}
 
-		const response = await fetch(`${REQUEST_URL}?go=orderAPI/get&uri=flight/search/run&apilang=${locale}`, {
-			method: 'post',
-			body: data
-		});
+			return result;
+		})
+	}));
 
-		responseJSON = await response.json();
-		localStorage.setItem(JSON.stringify(requestParams), JSON.stringify(responseJSON));
-	}
+	const response = await fetch(`${nemoURL}index.php?go=orderAPI/get&uri=flight/search/run&apilang=${locale}`, {
+		method: 'post',
+		body: data
+	});
 
-	return parseResults(responseJSON);
+	return parseResults(await response.json());
 };

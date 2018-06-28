@@ -3,21 +3,20 @@ import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
 import actualization from '../../../services/requests/actualization';
-import { getLocale } from '../../config/selectors';
+import { getLocale, getNemoURL } from '../../config/selectors';
 import { Language } from '../../../enums';
 import AvailabilityInfo from '../../../schemas/AvailabilityInfo';
-import { REQUEST_URL } from '../../../utils';
 import { batchActions } from '../../batching/actions';
 import { setProblemType } from '../../actualization/problem/actions';
 import { ActualizationProblem } from '../../actualization/reducers';
 import { setInfo } from '../../actualization/info/actions';
 
-function* runActualizations(flightIds: string[], locale: Language) {
+function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
 	const max = flightIds.length;
 	const tasks: CallEffect[] = [];
 
 	for (let i = 0; i < max; i++) {
-		tasks.push(call(actualization, flightIds[i], locale));
+		tasks.push(call(actualization, flightIds[i], locale, nemoURL));
 	}
 
 	const result: AvailabilityInfo[] = yield all(tasks);
@@ -47,7 +46,7 @@ function* runActualizations(flightIds: string[], locale: Language) {
 			));
 		}
 		else {
-			window.location.href = `${REQUEST_URL}${result[0].orderLink.replace('/', '')}`;
+			window.location.href = `${nemoURL}${result[0].orderLink.replace('/', '')}`;
 		}
 	}
 }
@@ -55,10 +54,11 @@ function* runActualizations(flightIds: string[], locale: Language) {
 function* worker({ payload }: ActualizationAction) {
 	const isLoading: boolean = yield select(getIsLoadingActualization);
 	const locale: Language = yield select(getLocale);
+	const nemoURL: string = yield select(getNemoURL);
 
 	if (!isLoading) {
 		yield put(startLoadingActualization());
-		yield call(runActualizations, payload.flightIds, locale);
+		yield call(runActualizations, payload.flightIds, locale, nemoURL);
 	}
 }
 

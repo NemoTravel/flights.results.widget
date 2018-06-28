@@ -37,7 +37,7 @@ export const init = (config: Config) => {
 	store.dispatch(setConfig(config));
 	momentDurationFormatSetup(moment);
 	moment.locale(config.locale);
-	i18n.init(config.locale);
+	i18n.init(config.locale, config.i18n);
 
 	ReactDOM.render(<Provider store={store}>
 		<MuiThemeProvider theme={theme}>

@@ -13,7 +13,7 @@ import { createLegs } from '../../utils';
 import { getCurrentLegId } from '../currentLeg/selectors';
 import { getIsLoading } from '../isLoading/selectors';
 import { Language } from '../../enums';
-import { getLocale } from '../config/selectors';
+import { getLocale, getNemoURL } from '../config/selectors';
 import { clearSelectedFlights } from '../selectedFlights/actions';
 import { clearSelectedFamilies } from '../fareFamilies/selectedFamilies/actions';
 import { clearCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
@@ -33,8 +33,8 @@ const searchPayloadIsValid = (payload: SearchActionPayload): boolean => {
 	return !payload.requests.find(request => !requestInfoIsValid(request));
 };
 
-function* runSearch(request: RequestInfo, index: number, locale: Language) {
-	const flights: Flight[] = yield call(loadSearchResults, request, locale);
+function* runSearch(request: RequestInfo, index: number, locale: Language, nemoURL: string) {
+	const flights: Flight[] = yield call(loadSearchResults, request, locale, nemoURL);
 
 	flights.forEach(flight => flight.legId = index);
 
@@ -42,30 +42,31 @@ function* runSearch(request: RequestInfo, index: number, locale: Language) {
 	yield put(setFlightsByLeg(flights, index));
 }
 
-function* runRTSearch(request: RequestInfo, locale: Language) {
-	const flights: Flight[] = yield call(loadSearchResults, request, locale);
+function* runRTSearch(request: RequestInfo, locale: Language, nemoURL: string) {
+	const flights: Flight[] = yield call(loadSearchResults, request, locale, nemoURL);
 
 	yield put(addFlights(flights));
 	yield put(addFlightsRT(flights));
 }
 
-function* runSearches(data: SearchActionPayload, locale: Language) {
+function* runSearches(data: SearchActionPayload, locale: Language, nemoURL: string) {
 	if (data.RTRequest) {
 		// Run async round-trip search.
-		yield fork(runRTSearch, data.RTRequest, locale);
+		yield fork(runRTSearch, data.RTRequest, locale, nemoURL);
 	}
 
 	// Split round-trip search into separate one-way searches.
 	const numOfLegs = data.requests.length;
 
 	for (let i = 0; i < numOfLegs; i++) {
-		yield fork(runSearch, data.requests[i], i, locale);
+		yield fork(runSearch, data.requests[i], i, locale, nemoURL);
 	}
 }
 
 function* worker({ payload }: SearchAction) {
 	const isLoading: boolean = yield select(getIsLoading);
 	const locale: Language = yield select(getLocale);
+	const nemoURL: string = yield select(getNemoURL);
 
 	if (!isLoading && searchPayloadIsValid(payload)) {
 		// Launch loading animation.
@@ -94,7 +95,7 @@ function* worker({ payload }: SearchAction) {
 		yield put(batchActions(...resetActions));
 
 		// Run all searches.
-		yield call(runSearches, payload, locale);
+		yield call(runSearches, payload, locale, nemoURL);
 
 		// Stop loading animation.
 		yield put(stopLoading());

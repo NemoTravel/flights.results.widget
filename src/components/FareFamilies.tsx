@@ -22,12 +22,14 @@ import Toolbar from './Toolbar';
 import { isRT } from '../store/legs/selectors';
 import { i18n } from '../i18n';
 import { getIsLoadingActualization } from '../store/isLoadingActualization/selectors';
+import { getNemoURL } from '../store/config/selectors';
 
 interface StateProps {
 	selectedFlights: Flight[];
 	isLoading: boolean;
 	isLoadingActualization: boolean;
 	isRT: boolean;
+	nemoURL: string;
 	fareFamiliesPrices: FareFamiliesPrices;
 	fareFamiliesAvailability: FareFamiliesAvailability;
 	fareFamiliesCombinations: FareFamiliesCombinationsState;
@@ -51,7 +53,8 @@ class FareFamilies extends React.Component<Props> {
 			fareFamiliesPrices,
 			isLoading,
 			isLoadingActualization,
-			isRT
+			isRT,
+			nemoURL
 		} = this.props;
 
 		if (isLoading) {
@@ -70,6 +73,7 @@ class FareFamilies extends React.Component<Props> {
 						<Leg
 							key={flight.id}
 							goToLeg={goToLeg}
+							nemoURL={nemoURL}
 							flight={flight}
 							prices={fareFamiliesPrices ? fareFamiliesPrices[legId] : {}}
 							combinations={fareFamiliesCombinations[legId]}
@@ -99,6 +103,7 @@ export default connect<StateProps, DispatchProps>({
 	isLoading: isLoadingFareFamilies,
 	isLoadingActualization: getIsLoadingActualization,
 	isRT: isRT,
+	nemoURL: getNemoURL,
 	fareFamiliesAvailability: getFareFamiliesAvailability,
 	fareFamiliesPrices: getFareFamiliesPrices,
 	fareFamiliesCombinations: getFareFamiliesCombinations

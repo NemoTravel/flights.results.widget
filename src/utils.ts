@@ -8,7 +8,6 @@ import RequestInfo from './schemas/RequestInfo';
 import Leg from './schemas/Leg';
 import { RootState } from './store/reducers';
 
-export const REQUEST_URL = 'http://frontend.mlsd.ru/';
 export const UID_LEG_GLUE = '|';
 export const UID_SEGMENT_GLUE = '_';
 export const ISO_DATE_LENGTH = 19;
@@ -41,16 +40,12 @@ export const convertNemoDateToMoment = (date: Date): moment.Moment => {
 	return moment(dateString);
 };
 
-export const fixImageURL = (url: string): string => {
-	let result: string;
+export const trimSlashes = (target: string): string => {
+	return target.replace(/\/+$/, '').replace(/^\/+/, '');
+};
 
-	// If base URL ends with '/' - leave it as is.
-	result = REQUEST_URL[REQUEST_URL.length - 1] === '/' ? REQUEST_URL : REQUEST_URL + '/';
-
-	// If images URL starts with '/' - remove it (prevent double-slash bug).
-	result += url && url[0] === '/' ? url.substr(1) : url;
-
-	return result;
+export const fixImageURL = (imageURL: string, nemoURL: string): string => {
+	return nemoURL + trimSlashes(imageURL);
 };
 
 export const addCodeInList = (list: string[], code: string): string[] => {

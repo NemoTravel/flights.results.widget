@@ -1,10 +1,15 @@
 import { Language } from './enums';
+import I18nPool from './schemas/I18nPool';
 
 let locale = Language.English;
-const poolCache: { [key: string]: string } = {};
+let poolCache: I18nPool = {};
 
-export const init = (newLocale: Language): void => {
+export const init = (newLocale: Language, extender?: I18nPool): void => {
 	locale = newLocale;
+
+	if (typeof extender === 'object' && Object.keys(extender).length) {
+		poolCache = { ...poolCache, ...extender };
+	}
 };
 
 export const i18n = (key: string): string => {

@@ -1,5 +1,5 @@
 import { Task } from 'redux-saga';
-import { call, cancel, cancelled, fork, put, take } from 'redux-saga/effects';
+import { call, cancel, cancelled, fork, put, select, take } from 'redux-saga/effects';
 
 import { SEARCH_FARE_FAMILIES, SearchFareFamiliesAction } from '../actions';
 import FareFamiliesCombinations from '../../schemas/FareFamiliesCombinations';
@@ -8,6 +8,7 @@ import loadFareFamilies from '../../services/requests/fareFamilies';
 import { setCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
 import { setRTMode } from '../fareFamilies/isRTMode/actions';
+import { getNemoURL } from '../config/selectors';
 
 const pool: { [flightId: string]: Task } = {};
 
@@ -17,7 +18,8 @@ function* runFareFamiliesSearch(legId: number, flightId: string) {
 		yield put(setRTMode(false));
 
 		// Get fare families combinations for given flight.
-		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
+		const nemoURL: string = yield select(getNemoURL);
+		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId, nemoURL);
 
 		// Put them in Store.
 		yield put(setCombinations(legId, results));

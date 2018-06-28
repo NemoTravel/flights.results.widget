@@ -8,6 +8,7 @@ import { i18n } from '../../i18n';
 
 interface Props {
 	segment: SegmentModel;
+	nemoURL: string;
 	renderAdditionalBlock?: () => React.ReactNode;
 }
 
@@ -21,7 +22,7 @@ class Segment extends React.Component<Props> {
 		const segment = this.props.segment;
 
 		return this.props.segment.airline.logoIcon
-			? <img className="flight-details-segment-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon)}/>
+			? <img className="flight-details-segment-logo__image" title={segment.airline.name} src={fixImageURL(segment.airline.logoIcon, this.props.nemoURL)}/>
 			: <div className="flight-details-segment-logo__text">{segment.airline.name}</div>;
 	}
 

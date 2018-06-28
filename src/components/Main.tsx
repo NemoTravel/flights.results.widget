@@ -7,14 +7,16 @@ import Results from './Results';
 import FareFamilies from './FareFamilies';
 import { RootState } from '../store/reducers';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
-import {  startSearch } from '../store/actions';
+import { startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
 import { Language } from '../enums';
+import { getLocale, getNemoURL } from '../store/config/selectors';
 
 interface StateProps {
 	isLoading: boolean;
 	locale: Language;
+	nemoURL: string;
 	isSelectionComplete: boolean;
 }
 
@@ -29,7 +31,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 		return (
 			<Router>
 				<div className={wrapperClassName}>
-					<SearchForm onSearch={this.props.startSearch} locale={this.props.locale}/>
+					<SearchForm onSearch={this.props.startSearch} nemoURL={this.props.nemoURL} locale={this.props.locale}/>
 
 					<Route path="/results" render={() => (
 						<>
@@ -46,7 +48,8 @@ class Main extends React.Component<StateProps & DispatchProps> {
 
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
-		locale: state.config.locale,
+		locale: getLocale(state),
+		nemoURL: getNemoURL(state),
 		isLoading: state.isLoading,
 		isSelectionComplete: isSelectionComplete(state)
 	};

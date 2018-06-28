@@ -10,6 +10,7 @@ import { clearCombinations, setCombinations } from '../fareFamilies/fareFamilies
 import { startLoadingFareFamilies, stopLoadingFareFamilies } from '../isLoadingFareFamilies/actions';
 import { RootState } from '../reducers';
 import { setRTMode } from '../fareFamilies/isRTMode/actions';
+import { getNemoURL } from '../config/selectors';
 
 function* worker({ payload }: SearchFareFamiliesRTAction) {
 	const { flightId } = payload;
@@ -20,7 +21,8 @@ function* worker({ payload }: SearchFareFamiliesRTAction) {
 		yield put(setRTMode(true));
 
 		// Get fare families combinations for given RT flight.
-		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId);
+		const nemoURL: string = yield select(getNemoURL);
+		const results: FareFamiliesCombinations = yield call(loadFareFamilies, flightId, nemoURL);
 		const state: RootState = yield select();
 		const flight = state.flights[flightId];
 		const numOfLegs = flight.segmentGroups.length;
