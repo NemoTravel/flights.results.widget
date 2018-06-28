@@ -6,7 +6,11 @@ import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@n
 import { REQUEST_URL } from '../utils';
 import { RouteType } from '../enums';
 
-type Props = RouteComponentProps<any> & ComponentProps;
+interface StateProps {
+	rootElement: HTMLElement;
+}
+
+type Props = RouteComponentProps<any> & ComponentProps & StateProps;
 
 interface State {
 	isFixed: boolean;
@@ -18,8 +22,6 @@ class SearchForm extends React.Component<Props, State> {
 	};
 
 	protected searchForm: SearchFormComponent = null;
-	protected searchFormWrapper: HTMLElement = null;
-	protected resultsWidget: HTMLElement = null;
 
 	constructor(props: Props) {
 		super(props);
@@ -40,8 +42,6 @@ class SearchForm extends React.Component<Props, State> {
 			this.props.onSearch(this.searchForm.getSeachInfo());
 		}
 
-		this.resultsWidget = document.getElementById('searchResultsRoot');
-
 		window.addEventListener('scroll', this.scrollEvent);
 	}
 
@@ -50,16 +50,13 @@ class SearchForm extends React.Component<Props, State> {
 	}
 
 	scrollEvent(): void {
-		const top = this.resultsWidget.getBoundingClientRect().top,
-			width = this.resultsWidget.offsetWidth;
+		const top = this.props.rootElement.getBoundingClientRect().top;
 
 		if (top < 0) {
 			if (!this.state.isFixed) {
 				this.setState({
 					isFixed: true
 				});
-
-				this.searchFormWrapper.style.width = String(width) + 'px';
 			}
 		}
 		else if (this.state.isFixed) {
@@ -73,7 +70,7 @@ class SearchForm extends React.Component<Props, State> {
 		const isResultsPage = this.props.location.pathname !== '/',
 			isCR = this.searchForm ? this.searchForm.getSeachInfo().routeType === RouteType.CR : false;
 
-		return <div ref={wrapper => this.searchFormWrapper = wrapper} className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage }, { 'results-searchForm_fixed': this.state.isFixed && !isCR })}>
+		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage }, { 'results-searchForm_fixed': this.state.isFixed && !isCR })}>
 			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={REQUEST_URL} locale={this.props.locale} onSearch={this.onSearch}/>
 		</div>;
 	}

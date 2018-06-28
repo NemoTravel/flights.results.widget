@@ -16,6 +16,7 @@ interface StateProps {
 	isLoading: boolean;
 	locale: Language;
 	isSelectionComplete: boolean;
+	rootElement: HTMLElement;
 }
 
 interface DispatchProps {
@@ -29,7 +30,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 		return (
 			<Router>
 				<div className={wrapperClassName}>
-					<SearchForm onSearch={this.props.startSearch} locale={this.props.locale}/>
+					<SearchForm onSearch={this.props.startSearch} rootElement={this.props.rootElement} locale={this.props.locale}/>
 
 					<Route path="/results" render={() => (
 						<>
@@ -48,6 +49,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		locale: state.config.locale,
 		isLoading: state.isLoading,
+		rootElement: state.config.rootElement,
 		isSelectionComplete: isSelectionComplete(state)
 	};
 };
