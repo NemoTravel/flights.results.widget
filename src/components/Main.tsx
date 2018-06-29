@@ -30,7 +30,7 @@ class Main extends React.Component<StateProps & DispatchProps> {
 		return (
 			<Router>
 				<div className={wrapperClassName}>
-					<SearchForm onSearch={this.props.startSearch} rootElement={this.props.rootElement} locale={this.props.locale}/>
+					<SearchForm onSearch={this.props.startSearch} resultsWidgetElement={this.props.rootElement} locale={this.props.locale}/>
 
 					<Route path="/results" render={() => (
 						<>

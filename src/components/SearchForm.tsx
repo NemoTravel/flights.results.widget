@@ -6,11 +6,11 @@ import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@n
 import { REQUEST_URL } from '../utils';
 import { RouteType } from '../enums';
 
-interface StateProps {
-	rootElement: HTMLElement;
+interface OwnProps {
+	resultsWidgetElement: HTMLElement;
 }
 
-type Props = RouteComponentProps<any> & ComponentProps & StateProps;
+type Props = RouteComponentProps<any> & ComponentProps & OwnProps;
 
 interface State {
 	isFixed: boolean;
@@ -50,7 +50,7 @@ class SearchForm extends React.Component<Props, State> {
 	}
 
 	scrollEvent(): void {
-		const top = this.props.rootElement.getBoundingClientRect().top;
+		const top = this.props.resultsWidgetElement.getBoundingClientRect().top;
 
 		if (top < 0) {
 			if (!this.state.isFixed) {
