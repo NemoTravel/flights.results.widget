@@ -76,7 +76,7 @@ export const getResultingFlightIds = createSelector(
 		if (isRTMode) {
 			const resultingCombination = combinationsParts.join('_');
 
-			if (validCombinationsInfo.hasOwnProperty(resultingCombination)) {
+			if (validCombinationsInfo && validCombinationsInfo.hasOwnProperty(resultingCombination)) {
 				result.push(validCombinationsInfo[resultingCombination]);
 			}
 		}
