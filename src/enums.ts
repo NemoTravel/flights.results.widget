@@ -11,7 +11,15 @@ export enum PassengerType {
 }
 
 export enum Currency {
-	RUB = 'RUB'
+	RUB = 'RUB',
+	USD = 'USD',
+	GBP = 'GBP',
+	EUR = 'EUR',
+	CNY = 'CNY',
+	LVL = 'LVL',
+	UAH = 'UAH',
+	CZK = 'CZK',
+	JPY = 'JPY'
 }
 
 export enum LocationType {
