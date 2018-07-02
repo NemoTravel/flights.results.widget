@@ -32,7 +32,8 @@ export default async (requestParams: RequestInfo, locale: Language, nemoURL: str
 
 	const response = await fetch(`${nemoURL}index.php?go=orderAPI/get&uri=flight/search/run&apilang=${locale}`, {
 		method: 'post',
-		body: data
+		body: data,
+		credentials: 'include'
 	});
 
 	return parseResults(await response.json());
