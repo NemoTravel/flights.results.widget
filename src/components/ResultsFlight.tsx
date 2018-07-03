@@ -23,6 +23,12 @@ interface Props {
 }
 
 class ResultsFlight extends React.Component<Props> {
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.flight.id !== nextProps.flight.id ||
+			this.props.totalPrice !== nextProps.totalPrice ||
+			this.props.replacement !== nextProps.replacement;
+	}
+
 	@autobind
 	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();

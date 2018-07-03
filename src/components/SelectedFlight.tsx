@@ -20,6 +20,11 @@ interface Props {
 }
 
 class SelectedFlight extends React.Component<Props> {
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return this.props.flight.id !== nextProps.flight.id ||
+			this.props.replacement !== nextProps.replacement;
+	}
+
 	@autobind
 	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();

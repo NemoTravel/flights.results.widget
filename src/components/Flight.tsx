@@ -21,7 +21,6 @@ export interface Props {
 	showFilters?: boolean;
 	showOpenedSummary?: boolean;
 	showDetails?: boolean;
-	alwaysUpdate?: boolean;
 	nemoURL: string;
 }
 
@@ -36,7 +35,6 @@ class Flight extends React.Component<Props, State> {
 	static defaultProps: Partial<Props> = {
 		isToggleable: true,
 		showFilters: false,
-		alwaysUpdate: false,
 		showOpenedSummary: false,
 		showDetails: false,
 		className: 'flight'
@@ -55,10 +53,6 @@ class Flight extends React.Component<Props, State> {
 		else {
 			this.state = stateByFlights[this.props.flight.id] ? stateByFlights[this.props.flight.id] : { isOpen: false };
 		}
-	}
-
-	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-		return this.props.alwaysUpdate || this.props.flight.id !== nextProps.flight.id || this.state.isOpen !== nextState.isOpen;
 	}
 
 	@autobind
