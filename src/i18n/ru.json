@@ -94,8 +94,10 @@
 
 	"error-actualization-priceChanged": "Во время бронирования изменилась цена перелета. Текущая стоимость",
 	"error-actualization-priceChanged_header": "Изменилась цена",
-	"error-actualization-avability": "Во время бронирования один из перелетов стал недоступен. Попробуйте выбрать новый",
-	"error-actualization-avability_header": "Мест нет",
-	"error-actualization-back": "Изменить",
+	"error-actualization-availability": "К сожалению, закончились места на рейсе %-departure-% - %-arrival-% компании %-airline-%. Попробуйте выбрать другой перелет",
+	"error-actualization-availability_header": "Места закончились :`(",
+	"error-actualization-other": "Мы не смогли зарезервировать выбранные полеты из-за технической ошибки. Попробуйте позже или выберите другие перелеты",
+	"error-actualization-other_header": "Что-то пошло не так...",
+	"error-actualization-back": "Выбрать другой перелет",
 	"error-actualization-continue": "Продолжить"
 }

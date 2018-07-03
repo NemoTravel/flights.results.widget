@@ -90,5 +90,14 @@
 	"utils-dates-h": "h",
 	"utils-dates-m": "min",
 	"utils-pre-in": "in",
-	"utils-pre-from": "from"
+	"utils-pre-from": "from",
+
+	"error-actualization-priceChanged": "Sorry the fare that we tried to book is no longer valid. You can buy this flight at the new price of",
+	"error-actualization-priceChanged_header": "Price has changed",
+	"error-actualization-availability": "Sorry we can't book seats on the flight %-departure-% - %-arrival-% %-airline-% airline. Please, choose other flight",
+	"error-actualization-availability_header": "No seats available :`(",
+	"error-actualization-other": "We can't book this flights due to internal error. Please, try again later or choose other flight",
+	"error-actualization-other_header": "Something was wrong...",
+	"error-actualization-back": "Choose other flight",
+	"error-actualization-continue": "Next"
 }

@@ -22,8 +22,13 @@ function* runActualizations(flightIds: string[], locale: Language, nemoURL: stri
 	const result: AvailabilityInfo[] = yield all(tasks);
 
 	if (!result.length || !!result.find(flightInfo => !flightInfo)) {
-		console.warn('Произошла непредвиденная ошибка!');
-		throw new Error('Произошла непредвиденная ошибка!');
+		yield put(batchActions(
+			setProblemType(ActualizationProblem.Unknown),
+			setInfo([]),
+			stopLoadingActualization()
+		));
+
+		return;
 	}
 
 	const unavailableFlights = result.filter(flightInfo => !flightInfo.isAvailable);

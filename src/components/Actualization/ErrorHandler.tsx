@@ -8,14 +8,17 @@ import { i18n } from '../../i18n';
 import Button from '@material-ui/core/Button';
 import DialogMessage from '../DialogMessage';
 import Price from '../Price';
+import { getNemoURL } from '../../store/config/selectors';
 
-const ERROR_AVABILITY = 'avability';
+const ERROR_AVAILABILITY = 'availability';
 const ERROR_PRICE = 'priceChanged';
+const ERROR_UNKNOWN = 'other';
 const NO_ERROR = 'noError';
 
 export interface StateProps {
 	problem: ActualizationProblem;
 	info: AvailabilityInfo[];
+	nemoURL: string;
 }
 
 interface DispatchProps {
@@ -31,17 +34,29 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps, State> {
 		typeError: NO_ERROR
 	};
 
+	constructor(props: StateProps & DispatchProps) {
+		super(props);
+
+		this.changeFlight = this.changeFlight.bind(this);
+		this.goToBooking = this.goToBooking.bind(this);
+	}
+
 	componentWillReceiveProps({ problem, info }: StateProps): void {
 		let typeError = '';
 
 		if (problem === ActualizationProblem.Availability) {
-			typeError = ERROR_AVABILITY;
+			typeError = ERROR_AVAILABILITY;
 		}
 		else if (problem === ActualizationProblem.Price) {
 			typeError = ERROR_PRICE;
 		}
+		else if (problem === ActualizationProblem.Unknown) {
+			typeError = ERROR_UNKNOWN;
+		}
 
-		this.setState({ typeError });
+		if (this.state.typeError !== typeError) {
+			this.setState({ typeError });
+		}
 	}
 
 	renderHeader(): React.ReactNode {
@@ -49,35 +64,50 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps, State> {
 	}
 
 	renderContent(): React.ReactNode {
-		const contentText = i18n(`error-actualization-${this.state.typeError}`);
+		let contentText = i18n(`error-actualization-${this.state.typeError}`);
 
 		if (this.state.typeError === ERROR_PRICE) {
-			return <>{contentText}
+			return <>
+				{contentText}
 				<Price price={this.props.info[this.props.info.length - 1].priceInfo.newPrice}/>
 			</>;
 		}
+		else if (this.state.typeError === ERROR_AVAILABILITY) {
+			const firstModifiedFlight = this.props.info[0].flight;
 
-		return <>{i18n(`error-actualization-${this.state.typeError}`)}</>;
+			contentText = contentText.replace('%-departure-%', firstModifiedFlight.firstSegment.depAirport.city.name)
+				.replace('%-arrival-%', firstModifiedFlight.lastSegment.arrAirport.city.name)
+				.replace('%-airline-%', firstModifiedFlight.validatingCarrier.name);
+		}
+
+		return <>{contentText}</>;
+	}
+
+	changeFlight(): void {
+		this.setState({ typeError: NO_ERROR });
+		this.props.goToLeg(0);
+	}
+
+	goToBooking(): void {
+		if (this.props.info.length) {
+			const url = this.props.info[0].orderLink;
+
+			window.location.href = `${this.props.nemoURL}${url.replace('/', '')}`;
+		}
 	}
 
 	renderAction(): React.ReactNode {
-		if (this.state.typeError === ERROR_PRICE) {
-			return <>
-				<Button onClick={() => { this.setState({ typeError: NO_ERROR }); this.props.goToLeg(0); }} color="default">
-					Выбрать другой перелет
+		return <>
+			<Button onClick={this.changeFlight} color="default">
+				{i18n('error-actualization-back')}
+			</Button>
+
+			{this.state.typeError === ERROR_PRICE ?
+				<Button onClick={this.goToBooking} color="primary">
+					{i18n('error-actualization-continue')}
 				</Button>
-				<Button onClick={() => { }} color="primary">
-					Продолжить
-				</Button>
-			</>;
-		}
-		else {
-			return <>
-				<Button onClick={() => { this.setState({ typeError: NO_ERROR }); this.props.goToLeg(0); }} color="default">
-					Выбрать другой перелет
-				</Button>
-			</>;
-		}
+			: null}
+		</>;
 	}
 
 	render(): React.ReactNode {
@@ -93,7 +123,8 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps, State> {
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		problem: state.actualization.problem,
-		info: state.actualization.info
+		info: state.actualization.info,
+		nemoURL: getNemoURL(state)
 	};
 };
 
