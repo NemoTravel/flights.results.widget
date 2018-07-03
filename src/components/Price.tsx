@@ -1,5 +1,9 @@
 import * as React from 'react';
 import Money from '../schemas/Money';
+import { Currency } from '../enums';
+import { RootState } from '../store/reducers';
+import { connect } from 'react-redux';
+import { getCurrencyCoefficient } from '../store/selectors';
 
 interface Props {
 	price: Money;
@@ -7,26 +11,48 @@ interface Props {
 	withMinus?: boolean;
 }
 
+interface StateProps {
+	currency: Currency;
+	coefficient: number;
+}
+
 const THOUSANDS_INDEX = 3;
 
-export default ({ price, withPlus = false }: Props) => {
-	if (!price) {
-		return null;
+class Price extends React.Component<Props & StateProps> {
+	shouldComponentUpdate(nextProps: Props & StateProps): boolean {
+		return true;
 	}
 
-	const amount = price.amount.toString().replace(/[+\-]/, '');
-	const withMinus = price.amount < 0;
-	let result = amount;
+	render(): React.ReactNode {
+		if (!this.props.price) {
+			return null;
+		}
 
-	if (amount.length > THOUSANDS_INDEX) {
-		const head = amount.substr(0, amount.length - THOUSANDS_INDEX);
-		const tail = amount.substr(amount.length - THOUSANDS_INDEX);
+		let amount = this.props.price.amount.toString().replace(/[+\-]/, '');
+		const withMinus = this.props.price.amount < 0;
+		let result = amount;
 
-		result = (head ? head + ' ' : '') + tail;
-	}
+		amount = (parseFloat(amount) * this.props.coefficient).toString();
 
-	return <span className="price">
-		<span className="price-amount">{withPlus && price.amount >= 0 ? '+' : ''}{withMinus ? '–' : ''} {result}</span>
-		<span className="price-currency">₽</span>
+		if (amount.length > THOUSANDS_INDEX) {
+			const head = amount.substr(0, amount.length - THOUSANDS_INDEX);
+			const tail = amount.substr(amount.length - THOUSANDS_INDEX);
+
+			result = (head ? head + ' ' : '') + tail;
+		}
+
+		return <span className="price">
+		<span className="price-amount">{this.props.withPlus && this.props.price.amount >= 0 ? '+' : ''}{withMinus ? '–' : ''} {result}</span>
+		<span className="price-currency">{this.props.currency}</span>
 	</span>;
+	}
+}
+
+const mapStateToProps = (state: RootState): StateProps => {
+	return {
+		currency: state.currency,
+		coefficient: getCurrencyCoefficient(state)
+	};
 };
+
+export default connect(mapStateToProps)(Price);

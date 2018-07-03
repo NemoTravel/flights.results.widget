@@ -35,6 +35,7 @@ import { getFilteredAirlines } from './filters/airlines/selectors';
 import { getFlightsIdsByLegs } from './flightsByLegs/selectors';
 import { getIsRTMode } from './fareFamilies/isRTMode/selectors';
 import { CombinationsPrices } from '../schemas/FareFamiliesCombinations';
+import CurrencyRates from '../schemas/CurrencyRates';
 
 export interface PricesByFlights {
 	[flightId: string]: Money;
@@ -136,6 +137,16 @@ export const hasAnyTransferFlights = createSelector(
 		const numOfTransferFlights = flights.filter(flight => flight.segments.length > 1).length;
 
 		return numOfTransferFlights > 1 && numOfTransferFlights !== flights.length;
+	}
+);
+
+const getCurrency = (state: RootState): Currency => state.currency;
+const getRate = (state: RootState): CurrencyRates => state.config.currencyRates;
+
+export const getCurrencyCoefficient = createSelector(
+	[getCurrency, getRate],
+	(currency: Currency, rate: CurrencyRates): number => {
+		return parseFloat(rate[currency]);
 	}
 );
 
