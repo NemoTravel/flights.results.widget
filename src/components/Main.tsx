@@ -43,7 +43,7 @@ class Main extends React.Component<Props> {
 					</div>
 				) : null}
 
-				<Route path="/results" render={() => (
+				<Route path="/results/:id(\d+/?)+" render={({ match }) => (
 					<>
 						{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
 					</>
