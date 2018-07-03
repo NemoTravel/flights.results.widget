@@ -1,7 +1,7 @@
 import Flight from '../../models/Flight';
 import { Action } from 'redux';
 import { all, call, CallEffect, put, select, takeEvery } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 
 import RequestInfo from '../../schemas/RequestInfo';
 import { startLoading, stopLoading } from '../isLoading/actions';
@@ -61,7 +61,7 @@ function* runSearches(data: SearchActionPayload, locale: Language, nemoURL: stri
 	const numOfLegs = data.requests.length;
 	const requests: CallEffect[] = [];
 
-	yield put(push('/results'));
+	yield put(replace('/results'));
 
 	// Split round-trip search into separate one-way searches.
 	for (let i = 0; i < numOfLegs; i++) {

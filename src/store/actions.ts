@@ -14,7 +14,7 @@ export type SearchActionPayload = ReturnType<typeof createSearchPayload>;
 export type SearchFareFamiliesAction = ReturnType<typeof searchFareFamilies>;
 export type SearchFareFamiliesRTAction = ReturnType<typeof searchFareFamiliesRT>;
 
-const createSearchPayload = (searchInfo: SearchInfo) => {
+export const createSearchPayload = (searchInfo: SearchInfo) => {
 	let RTRequest: RequestInfo = null;
 	let requests: RequestInfo[] = [];
 

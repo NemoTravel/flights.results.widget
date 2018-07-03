@@ -1,8 +1,16 @@
 import Flight from '../../models/Flight';
 import { ISO_DATE_LENGTH } from '../../utils';
-import { parse as parseResults } from '../parsers/results';
+import { parse as parseResults, parseLoadResults } from '../parsers/results';
 import RequestInfo from '../../schemas/RequestInfo';
 import { Language } from '../../enums';
+
+export const loadResults = async (searchResultsId: string, locale: Language, nemoURL: string): Promise<Flight[]> => {
+	const response = await fetch(`${nemoURL}index.php?go=orderAPI/get&uri=flight/search/${searchResultsId}&apilang=${locale}`, {
+		credentials: 'include'
+	});
+
+	return parseLoadResults(await response.json(), searchResultsId);
+};
 
 export default async (requestParams: RequestInfo, locale: Language, nemoURL: string): Promise<Flight[]> => {
 	const data = new FormData();
