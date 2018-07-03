@@ -5,7 +5,7 @@ export interface ResultsState {
 	isRT?: boolean;
 }
 
-export const resultsReducer = (state: ResultsState[], action: ResultsAction): ResultsState[] => {
+export const resultsReducer = (state: ResultsState[] = [], action: ResultsAction): ResultsState[] => {
 	switch (action.type) {
 		case SET_RESULTS_INFO:
 			return action.payload;

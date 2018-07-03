@@ -1,29 +1,27 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@nemo.travel/search-widget';
+import { Component as SearchFormComponent, ComponentProps } from '@nemo.travel/search-widget';
+import { connect } from 'react-redux';
 
-type Props = RouteComponentProps<any> & ComponentProps;
+import { RootState } from '../store/reducers';
+import { getLocale, getNemoURL } from '../store/config/selectors';
+import { startSearch } from '../store/actions';
+import { RouterState } from 'connected-react-router';
+
+type StateProps = ComponentProps & Partial<RouterState>;
+
+interface DispatchProps {
+	startSearch: typeof startSearch;
+}
+
+type Props = StateProps & DispatchProps;
 
 class SearchForm extends React.Component<Props> {
 	protected searchForm: SearchFormComponent = null;
 
-	constructor(props: Props) {
-		super(props);
-
-		this.onSearch = this.onSearch.bind(this);
-	}
-
-	onSearch(searchInfo: SearchInfo): void {
-		const { history, onSearch } = this.props;
-
-		onSearch(searchInfo);
-		history.replace('/results/123/123');
-	}
-
 	componentDidMount(): void {
-		if (this.props.location.pathname === '/results') {
-			this.props.onSearch(this.searchForm.getSeachInfo());
+		if (/\/results\/(\d+\/?)+/.test(this.props.location.pathname)) {
+			this.props.startSearch(this.searchForm.getSeachInfo());
 		}
 	}
 
@@ -31,9 +29,21 @@ class SearchForm extends React.Component<Props> {
 		const isResultsPage = this.props.location.pathname !== '/';
 
 		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage })}>
-			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={this.props.nemoURL} locale={this.props.locale} onSearch={this.onSearch}/>
+			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={this.props.nemoURL} locale={this.props.locale} onSearch={this.props.startSearch}/>
 		</div>;
 	}
 }
 
-export default withRouter(SearchForm);
+const mapStateToProps = (state: RootState): StateProps => {
+	return {
+		location: state.router.location,
+		locale: getLocale(state),
+		nemoURL: getNemoURL(state)
+	};
+};
+
+const mapDispatchToProps = {
+	startSearch
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

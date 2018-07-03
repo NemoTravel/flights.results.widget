@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { RouterState } from 'connected-react-router';
 
 import { flightsByLegsReducer as flightsByLegs, FlightsByLegsState } from './flightsByLegs/reducers';
 import { loadingReducer as isLoading } from './isLoading/reducers';
@@ -38,6 +39,7 @@ export interface RootState {
 	showAllFlights: boolean;
 	actualization: ActualizationState;
 	results: ResultsState[];
+	router?: RouterState;
 }
 
 export const rootReducer = batchActionsReducer(combineReducers<RootState>({

@@ -22,11 +22,7 @@ interface StateProps {
 	isSelectionComplete: boolean;
 }
 
-interface DispatchProps {
-	startSearch: typeof startSearch;
-}
-
-type Props = RouteComponentProps<any> & StateProps & DispatchProps;
+type Props = RouteComponentProps<any> & StateProps;
 
 class Main extends React.Component<Props> {
 	render(): React.ReactNode {
@@ -34,7 +30,7 @@ class Main extends React.Component<Props> {
 
 		return (
 			<div className={wrapperClassName}>
-				<SearchForm onSearch={this.props.startSearch} nemoURL={this.props.nemoURL} locale={this.props.locale}/>
+				<SearchForm/>
 
 				{this.props.isLoading ? (
 					<div className="results-loader">
@@ -43,7 +39,7 @@ class Main extends React.Component<Props> {
 					</div>
 				) : null}
 
-				<Route path="/results/:id(\d+/?)+" render={({ match }) => (
+				<Route path="/results/:id(\d+/?)+" render={() => (
 					<>
 						{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
 					</>
@@ -64,8 +60,4 @@ const mapStateToProps = (state: RootState): StateProps => {
 	};
 };
 
-const mapDispatchToProps = {
-	startSearch
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));
+export default connect(mapStateToProps)(withRouter(Main));

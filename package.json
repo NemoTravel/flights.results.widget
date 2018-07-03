@@ -75,6 +75,8 @@
 		"@types/redux-logger": "^3.0.6",
 		"autobind-decorator": "^2.1.0",
 		"classnames": "^2.2.6",
+		"connected-react-router": "^4.3.0",
+		"history": "^4.7.2",
 		"moment": "^2.22.2",
 		"moment-duration-format": "^2.2.2",
 		"promise-polyfill": "^6.0.2",
