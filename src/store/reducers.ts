@@ -18,6 +18,8 @@ import { FareFamiliesState } from './fareFamilies/reducers';
 import { batchActionsReducer } from './batching/reducers';
 import { loadingActualizationReducer as isLoadingActualization } from './isLoadingActualization/reducers';
 import { ActualizationState, actualizationReducer as actualization } from './actualization/reducers';
+import { ResultsState } from './results/reducers';
+import { resultsReducer as results } from './results/reducers';
 
 export interface RootState {
 	config: Config;
@@ -35,6 +37,7 @@ export interface RootState {
 	sorting: SortingState;
 	showAllFlights: boolean;
 	actualization: ActualizationState;
+	results: ResultsState[];
 }
 
 export const rootReducer = batchActionsReducer(combineReducers<RootState>({
@@ -52,5 +55,6 @@ export const rootReducer = batchActionsReducer(combineReducers<RootState>({
 	legs,
 	showAllFlights,
 	isLoadingActualization,
-	actualization
+	actualization,
+	results
 }));
