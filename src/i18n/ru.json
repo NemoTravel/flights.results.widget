@@ -90,5 +90,12 @@
 	"utils-dates-h": "ч",
 	"utils-dates-m": "мин",
 	"utils-pre-in": "в",
-	"utils-pre-from": "от"
+	"utils-pre-from": "от",
+
+	"error-actualization-priceChanged": "Во время бронирования изменилась цена перелета. Текущая стоимость",
+	"error-actualization-priceChanged_header": "Изменилась цена",
+	"error-actualization-avability": "Во время бронирования один из перелетов стал недоступен. Попробуйте выбрать новый",
+	"error-actualization-avability_header": "Мест нет",
+	"error-actualization-back": "Изменить",
+	"error-actualization-continue": "Продолжить"
 }
