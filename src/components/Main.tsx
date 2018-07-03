@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { connect } from 'react-redux';
-import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { RouterState } from 'connected-react-router';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Results from './Results';
 import FareFamilies from './FareFamilies';
 import { RootState } from '../store/reducers';
 import { isSelectionComplete } from '../store/selectedFlights/selectors';
-import { startSearch } from '../store/actions';
 import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
 import { Language } from '../enums';
@@ -22,11 +22,14 @@ interface StateProps {
 	isSelectionComplete: boolean;
 }
 
-type Props = RouteComponentProps<any> & StateProps;
+type Props = Partial<RouterState> & StateProps;
 
 class Main extends React.Component<Props> {
 	render(): React.ReactNode {
-		const wrapperClassName = classNames('results', { results_isLoading: this.props.isLoading, results_pinned: this.props.location.pathname !== '/' });
+		const wrapperClassName = classNames('results', {
+			results_isLoading: this.props.isLoading,
+			results_pinned: this.props.isLoading || this.props.location.pathname !== '/'
+		});
 
 		return (
 			<div className={wrapperClassName}>
@@ -51,13 +54,14 @@ class Main extends React.Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: RootState): StateProps => {
+const mapStateToProps = (state: RootState): Props => {
 	return {
 		locale: getLocale(state),
 		nemoURL: getNemoURL(state),
+		location: state.router.location,
 		isLoading: state.isLoading,
 		isSelectionComplete: isSelectionComplete(state)
 	};
 };
 
-export default connect(mapStateToProps)(withRouter(Main));
+export default connect(mapStateToProps)(Main);

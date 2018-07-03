@@ -1,5 +1,8 @@
 import Flight from '../../models/Flight';
-import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
+import { Action } from 'redux';
+import { all, call, CallEffect, put, select, takeEvery } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
+
 import RequestInfo from '../../schemas/RequestInfo';
 import { startLoading, stopLoading } from '../isLoading/actions';
 import { addFlightsRT } from '../flightsRT/actions';
@@ -18,8 +21,9 @@ import { clearSelectedFlights } from '../selectedFlights/actions';
 import { clearSelectedFamilies } from '../fareFamilies/selectedFamilies/actions';
 import { clearCombinations } from '../fareFamilies/fareFamiliesCombinations/actions';
 import { setRTMode } from '../fareFamilies/isRTMode/actions';
-import { Action } from 'redux';
 import { batchActions } from '../batching/actions';
+import { clearResultsInfo, setResultsInfo } from '../results/actions';
+import { ResultsState } from '../results/reducers';
 
 const requestInfoIsValid = (info: RequestInfo): boolean => {
 	return !info || !info.segments.find(segment => !segment.departure || !segment.arrival || !segment.departureDate);
@@ -40,6 +44,8 @@ function* runSearch(request: RequestInfo, index: number, locale: Language, nemoU
 
 	yield put(addFlights(flights));
 	yield put(setFlightsByLeg(flights, index));
+
+	return flights;
 }
 
 function* runRTSearch(request: RequestInfo, locale: Language, nemoURL: string) {
@@ -47,20 +53,46 @@ function* runRTSearch(request: RequestInfo, locale: Language, nemoURL: string) {
 
 	yield put(addFlights(flights));
 	yield put(addFlightsRT(flights));
+
+	return flights;
 }
 
 function* runSearches(data: SearchActionPayload, locale: Language, nemoURL: string) {
-	if (data.RTRequest) {
-		// Run async round-trip search.
-		yield fork(runRTSearch, data.RTRequest, locale, nemoURL);
-	}
+	const numOfLegs = data.requests.length;
+	const requests: CallEffect[] = [];
+
+	yield put(push('/results/'));
 
 	// Split round-trip search into separate one-way searches.
-	const numOfLegs = data.requests.length;
-
 	for (let i = 0; i < numOfLegs; i++) {
-		yield fork(runSearch, data.requests[i], i, locale, nemoURL);
+		requests.push(call(runSearch, data.requests[i], i, locale, nemoURL));
 	}
+
+	// Run async round-trip search.
+	if (data.RTRequest) {
+		requests.push(call(runRTSearch, data.RTRequest, locale, nemoURL));
+	}
+
+	const flights: Flight[][] = yield all(requests);
+	const numOfResults = flights.length;
+	const results: ResultsState[] = [];
+	const URL: string[] = [];
+
+	for (let i = 0; i < numOfResults; i++) {
+		if (flights[i].length) {
+			const searchResultsId = flights[i][0].searchId;
+
+			results.push({
+				id: searchResultsId,
+				isRT: numOfResults > 1 && i === numOfResults - 1
+			});
+
+			URL.push(searchResultsId.toString());
+		}
+	}
+
+	yield put(setResultsInfo(results));
+	yield put(push(`/results/${URL.join('/')}`));
 }
 
 function* worker({ payload }: SearchAction) {
@@ -88,7 +120,8 @@ function* worker({ payload }: SearchAction) {
 			clearCombinations(),
 			setRTMode(false),
 			clearFlightsByLegs(),
-			clearFlights()
+			clearFlights(),
+			clearResultsInfo()
 		];
 
 		// Reset all previously selected stuff.
