@@ -1,17 +1,19 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import { RouterState } from 'connected-react-router';
 import { Component as SearchFormComponent, ComponentProps } from '@nemo.travel/search-widget';
 import { connect } from 'react-redux';
 
 import { RootState } from '../store/reducers';
 import { getLocale, getNemoURL } from '../store/config/selectors';
 import { startSearch } from '../store/actions';
-import { RouterState } from 'connected-react-router';
+import { loadSearchResults } from '../store/results/actions';
 
 type StateProps = ComponentProps & Partial<RouterState>;
 
 interface DispatchProps {
 	startSearch: typeof startSearch;
+	loadSearchResults: typeof loadSearchResults;
 }
 
 type Props = StateProps & DispatchProps;
@@ -21,6 +23,9 @@ class SearchForm extends React.Component<Props> {
 
 	componentDidMount(): void {
 		if (/\/results\/(\d+\/?)+/.test(this.props.location.pathname)) {
+			this.props.loadSearchResults(this.props.location.pathname);
+		}
+		else if (this.props.location.pathname === '/results') {
 			this.props.startSearch(this.searchForm.getSeachInfo());
 		}
 	}
@@ -43,7 +48,8 @@ const mapStateToProps = (state: RootState): StateProps => {
 };
 
 const mapDispatchToProps = {
-	startSearch
+	startSearch,
+	loadSearchResults
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

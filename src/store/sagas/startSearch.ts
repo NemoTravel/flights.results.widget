@@ -61,7 +61,7 @@ function* runSearches(data: SearchActionPayload, locale: Language, nemoURL: stri
 	const numOfLegs = data.requests.length;
 	const requests: CallEffect[] = [];
 
-	yield put(push('/results/'));
+	yield put(push('/results'));
 
 	// Split round-trip search into separate one-way searches.
 	for (let i = 0; i < numOfLegs; i++) {
