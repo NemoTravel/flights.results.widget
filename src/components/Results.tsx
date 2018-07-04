@@ -27,7 +27,7 @@ interface StateProps {
 
 class Results extends React.Component<StateProps> {
 	renderNoFlights(): React.ReactNode {
-		return this.props.isLoading ? null : (
+		return !this.props.isLoading && (
 			<div className="results-noResultsTitle">
 				<Typography variant="headline">{i18n('results-noResultsTitle')}</Typography>
 				<Typography variant="subheading">{i18n('results-noResultsSubTitle')}</Typography>
@@ -41,11 +41,11 @@ class Results extends React.Component<StateProps> {
 
 		return <div className="results__inner">
 			{hasAnyFlights ? <>
-				{isMultipleLegs ? <SelectedFlights/> : null}
+				{isMultipleLegs && <SelectedFlights/>}
 
-				<Filters currentLeg={currentLeg} isRT={isRT} withSearch={flightSearchActive}/>
+				<Filters isRT={isRT} currentLeg={currentLeg} withSearch={flightSearchActive}/>
 
-				{hasAnyVisibleFlights ? <Sortings/> : ''}
+				{hasAnyVisibleFlights && <Sortings/>}
 
 				<div className="results-flights">
 					<FlightsList legId={currentLeg.id}/>

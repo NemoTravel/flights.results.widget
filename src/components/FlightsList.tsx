@@ -16,6 +16,7 @@ import { isRT } from '../store/legs/selectors';
 import ResultsFlight from './ResultsFlight';
 import { i18n } from '../i18n';
 import { getNemoURL } from '../store/config/selectors';
+import autobind from 'autobind-decorator';
 
 export interface OwnProps {
 	legId: number;
@@ -41,13 +42,7 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps & SnackbarProps;
 
 class FlightsList extends React.Component<Props> {
-	constructor(props: Props) {
-		super(props);
-
-		this.selectFlight = this.selectFlight.bind(this);
-		this.showAll = this.showAll.bind(this);
-	}
-
+	@autobind
 	selectFlight(flight: SelectedFlight, legId: number): SelectedFlightAction {
 		if (this.props.isRT && legId === 0) {
 			this.props.showSnackbar(i18n('results-title_back'));
@@ -66,6 +61,7 @@ class FlightsList extends React.Component<Props> {
 		return this.props.selectFlight(flight, legId);
 	}
 
+	@autobind
 	showAll(): void {
 		this.props.showAllFlights();
 	}
@@ -88,11 +84,11 @@ class FlightsList extends React.Component<Props> {
 					/>
 				))}
 
-				{hasHiddenFlights ? (
+				{hasHiddenFlights && (
 					<div className="results-flights-showAllButton">
 						<Button variant="raised" onClick={this.showAll}>{i18n('results-showAllTitle')}</Button>
 					</div>
-				) : null}
+				)}
 			</> :
 			(
 				<div className="results-noResultsTitle">

@@ -21,8 +21,10 @@ interface Props {
 
 class SelectedFlight extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.flight.id !== nextProps.flight.id ||
-			this.props.replacement !== nextProps.replacement;
+		return (
+			this.props.flight.id !== nextProps.flight.id ||
+			this.props.replacement !== nextProps.replacement
+		);
 	}
 
 	@autobind
@@ -37,20 +39,21 @@ class SelectedFlight extends React.Component<Props> {
 	renderActionBlock(): React.ReactNode {
 		const { flight, replacement, currentLegId, showPricePrefix } = this.props;
 		const price = replacement ? replacement.price : flight.totalPrice;
+		const classNames = classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 });
 
 		return <div className="flight-summary__right">
 			<div className="flight-summary-price">
-				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span> : null}
+				<div className={classNames}>
+					{showPricePrefix && <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span>}
 
 					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
 
-				{currentLegId === 0 ? (
+				{currentLegId === 0 && (
 					<div className="flight-summary-price__route">
 						{i18n('results-flight-wholeFlightTitle')}
 					</div>
-				) : null}
+				)}
 			</div>
 
 			<Button className="flight-summary-changeFlight" onClick={this.onAction} variant="outlined" color="secondary">{i18n('results-changeFlightTitle')}</Button>

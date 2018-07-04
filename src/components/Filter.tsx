@@ -58,9 +58,11 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 	}
 
 	render(): React.ReactNode {
-		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-			<Chip className="filters-filter-chip" {...this.getChipProps()}/>
-		</div> : null;
+		return this.isVisible() && (
+			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+				<Chip className="filters-filter-chip" {...this.getChipProps()}/>
+			</div>
+		);
 	}
 }
 

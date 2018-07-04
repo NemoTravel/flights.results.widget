@@ -19,8 +19,10 @@ type Props = StateProps & DispatchProps;
 
 class Sorting extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.currentSorting.type !== nextProps.currentSorting.type ||
-			this.props.currentSorting.direction !== nextProps.currentSorting.direction;
+		return (
+			this.props.currentSorting.type !== nextProps.currentSorting.type ||
+			this.props.currentSorting.direction !== nextProps.currentSorting.direction
+		);
 	}
 
 	render(): React.ReactNode {

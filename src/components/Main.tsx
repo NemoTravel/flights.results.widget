@@ -35,17 +35,15 @@ class Main extends React.Component<Props> {
 			<div className={wrapperClassName}>
 				<SearchForm/>
 
-				{this.props.isLoading ? (
+				{this.props.isLoading && (
 					<div className="results-loader">
 						<LinearProgress className="results-loader__progressBar" color="secondary" variant="query"/>
 						<DummyResults/>
 					</div>
-				) : null}
+				)}
 
 				<Route path="/results/:id(\d+/?)+" render={() => (
-					<>
-						{this.props.isSelectionComplete ? <FareFamilies/> : <Results/>}
-					</>
+					this.props.isSelectionComplete ? <FareFamilies/> : <Results/>
 				)}/>
 
 				{Snackbar}

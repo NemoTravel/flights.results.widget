@@ -26,9 +26,11 @@ class SortingItem extends React.Component<Props> {
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.isActive !== nextProps.isActive ||
+		return (
+			this.props.isActive !== nextProps.isActive ||
 			this.props.type !== nextProps.type ||
-			this.props.direction !== nextProps.direction;
+			this.props.direction !== nextProps.direction
+		);
 	}
 
 	onClick(): void {
@@ -43,6 +45,7 @@ class SortingItem extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const { type, direction, isActive } = this.props;
+		const classNames = classnames(`sorting-item sorting-item_${direction} sorting-item_${type}`, { 'sorting-item_active': isActive });
 
 		const sortingLabels = {
 			[SortingType.Price]: i18n('sorting-title_price'),
@@ -51,7 +54,7 @@ class SortingItem extends React.Component<Props> {
 			[SortingType.FlightTime]: i18n('sorting-title_flightTime')
 		};
 
-		return <div className={classnames(`sorting-item sorting-item_${direction} sorting-item_${type}`, { 'sorting-item_active': isActive })}>
+		return <div className={classNames}>
 			<div className="sorting-item__inner">
 				<span className="sorting-item__text" onClick={this.onClick}>
 					{sortingLabels[type]}

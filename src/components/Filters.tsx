@@ -19,13 +19,18 @@ interface Props {
 
 class Filters extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.currentLeg !== nextProps.currentLeg || this.props.isRT !== nextProps.isRT || this.props.withSearch !== nextProps.withSearch;
+		return (
+			this.props.currentLeg !== nextProps.currentLeg ||
+			this.props.isRT !== nextProps.isRT ||
+			this.props.withSearch !== nextProps.withSearch
+		);
 	}
 
 	render(): React.ReactNode {
 		const { currentLeg, isRT, withSearch } = this.props;
+		const classNames = classnames('filters', {filters_withBottomMargin: withSearch});
 
-		return <section className={classnames('filters', {filters_withBottomMargin: withSearch})}>
+		return <section className={classNames}>
 			<div className="filters__left">
 				<Typography variant="headline">
 					{isRT ? (

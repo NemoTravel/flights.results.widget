@@ -4,6 +4,11 @@ import { i18n } from '../i18n';
 import Typography from '@material-ui/core/Typography';
 
 const DUMMY_FLIGHTS_COUNT = 15;
+const flightsArray: React.ReactNode[] = [];
+
+for (let i = 0; i < DUMMY_FLIGHTS_COUNT; i++) {
+	flightsArray.push(<Flight key={i}/>);
+}
 
 class DummyResults extends React.Component {
 	shouldComponentUpdate(): boolean {
@@ -24,22 +29,10 @@ class DummyResults extends React.Component {
 		</section>;
 	}
 
-	renderDummyFlights(): React.ReactNode {
-		const flightsArray = [];
-
-		for (let i = 0; i < DUMMY_FLIGHTS_COUNT; i++) {
-			flightsArray.push(<Flight key={i}/>);
-		}
-
-		return flightsArray;
-	}
-
 	render(): React.ReactNode {
 		return <div className="results__inner results-dummy">
-
 			{this.renderHeader()}
-
-			{this.renderDummyFlights()}
+			{flightsArray}
 		</div>;
 	}
 }

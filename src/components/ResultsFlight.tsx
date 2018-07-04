@@ -24,9 +24,11 @@ interface Props {
 
 class ResultsFlight extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.flight.id !== nextProps.flight.id ||
+		return (
+			this.props.flight.id !== nextProps.flight.id ||
 			this.props.totalPrice !== nextProps.totalPrice ||
-			this.props.replacement !== nextProps.replacement;
+			this.props.replacement !== nextProps.replacement
+		);
 	}
 
 	@autobind
@@ -50,12 +52,12 @@ class ResultsFlight extends React.Component<Props> {
 		const block = <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span> : null}
+					{showPricePrefix && <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span>}
 
 					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
 
-				{price.amount < 0 ? (
+				{price.amount < 0 && (
 					<div className="flight-summary-price-profitMark">
 						<div className="flight-summary-price-profitMark__icon">
 							<StarIcon/>
@@ -63,13 +65,13 @@ class ResultsFlight extends React.Component<Props> {
 
 						<span className="flight-summary-price-profitMark__text">{i18n('results-flight-profitable-title')}</span>
 					</div>
-				) : null}
+				)}
 
-				{currentLegId === 0 ? (
+				{currentLegId === 0 && (
 					<div className="flight-summary-price__route">
 						{i18n('results-flight-wholeFlightTitle')}
 					</div>
-				) : null}
+				)}
 			</div>
 
 			<div className="flight-summary-buy" onClick={this.onAction}>{buttonText}</div>

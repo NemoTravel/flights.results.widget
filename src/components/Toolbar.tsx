@@ -30,10 +30,12 @@ type Props = StateProps & DispatchProps;
 
 class Toolbar extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return nextProps.isLoadingFareFamilies !== this.props.isLoadingFareFamilies ||
+		return (
+			nextProps.isLoadingFareFamilies !== this.props.isLoadingFareFamilies ||
 			nextProps.combinationsAreValid !== this.props.combinationsAreValid ||
 			nextProps.resultingFlightIds !== this.props.resultingFlightIds ||
-			nextProps.totalPrice.amount !== this.props.totalPrice.amount;
+			nextProps.totalPrice.amount !== this.props.totalPrice.amount
+		);
 	}
 
 	@autobind
@@ -44,18 +46,18 @@ class Toolbar extends React.Component<Props> {
 	render(): React.ReactNode {
 		const { combinationsAreValid, isLoadingFareFamilies, totalPrice, goBack } = this.props;
 
-		return !isLoadingFareFamilies ? (
+		return !isLoadingFareFamilies && (
 			<section className="toolbar">
 				<div className="toolbar__inner">
 					<Button className="toolbar__back" variant="raised" onClick={goBack}>{i18n('toolbar-backTitle')}</Button>
 
 					<div className="toolbar-totalPrice">
-						{combinationsAreValid && totalPrice.amount ? (
+						{combinationsAreValid && totalPrice.amount && (
 							<div className="toolbar-totalPrice__amount">
 								<span className="toolbar-totalPrice__amount-prefix">{i18n('toolbar-totalPriceTitle')}</span>
 								<Price price={totalPrice}/>
 							</div>
-						) : null}
+						)}
 
 						<div className="toolbar-totalPrice__button">
 							<Tooltip className="toolbar-totalPrice__button-tooltip" open={!combinationsAreValid} title={<span className="tooltip">{i18n('toolbar-unavailableTitle')}</span>}>
@@ -67,7 +69,7 @@ class Toolbar extends React.Component<Props> {
 					</div>
 				</div>
 			</section>
-		) : null;
+		);
 	}
 }
 

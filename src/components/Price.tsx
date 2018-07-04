@@ -22,11 +22,11 @@ export default ({ price, withPlus = false }: Props) => {
 		const head = amount.substr(0, amount.length - THOUSANDS_INDEX);
 		const tail = amount.substr(amount.length - THOUSANDS_INDEX);
 
-		result = (head ? head + ' ' : '') + tail;
+		result = (head && head + ' ') + tail;
 	}
 
 	return <span className="price">
-		<span className="price-amount">{withPlus && price.amount >= 0 ? '+' : ''}{withMinus ? '–' : ''} {result}</span>
+		<span className="price-amount">{withPlus && price.amount >= 0 && '+'}{withMinus && '–'} {result}</span>
 		<span className="price-currency">₽</span>
 	</span>;
 };

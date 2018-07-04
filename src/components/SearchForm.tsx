@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import autobind from 'autobind-decorator';
 import { RouterState } from 'connected-react-router';
 import { Component as SearchFormComponent, ComponentProps } from '@nemo.travel/search-widget';
 import { connect } from 'react-redux';
@@ -21,6 +22,11 @@ type Props = StateProps & DispatchProps;
 class SearchForm extends React.Component<Props> {
 	protected searchForm: SearchFormComponent = null;
 
+	@autobind
+	getSearchFormRef(component: SearchFormComponent): void {
+		this.searchForm = component;
+	}
+
 	componentDidMount(): void {
 		if (/\/results\/(\d+\/?)+/.test(this.props.location.pathname)) {
 			this.props.loadSearchResults(this.props.location.pathname);
@@ -32,9 +38,15 @@ class SearchForm extends React.Component<Props> {
 
 	render(): React.ReactNode {
 		const isResultsPage = this.props.location.pathname !== '/';
+		const classNames = classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage });
 
-		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage })}>
-			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={this.props.nemoURL} locale={this.props.locale} onSearch={this.props.startSearch}/>
+		return <div className={classNames}>
+			<SearchFormComponent
+				ref={this.getSearchFormRef}
+				nemoURL={this.props.nemoURL}
+				locale={this.props.locale}
+				onSearch={this.props.startSearch}
+			/>
 		</div>;
 	}
 }
