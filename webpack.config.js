@@ -40,7 +40,7 @@ const config = {
     },
 
     optimization: {
-		minimize: false,
+		minimize: true,
 		noEmitOnErrors: true
 	},
 

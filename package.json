@@ -60,7 +60,7 @@
 		"@material-ui/core": "^1.2.3",
 		"@material-ui/icons": "^1.1.0",
 		"@nemo.travel/api-parser": "^1.2.2",
-		"@nemo.travel/search-widget": "^2.4.13",
+		"@nemo.travel/search-widget": "^2.4.20",
 		"@types/classnames": "^2.2.4",
 		"@types/jest": "^22.2.3",
 		"@types/js-cookie": "2.1.0",
