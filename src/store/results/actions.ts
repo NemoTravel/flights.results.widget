@@ -10,11 +10,12 @@ export type ResultsAction = ReturnType<typeof setResultsInfo>;
 
 const createSearchResultsPayload = (pathname: string): ResultsState[] => {
 	const parts = pathname.split('/').slice(2);
+	const isOW = parts.length === 1;
 	const lastIndex = parts.length - 1;
 
-	return parts.map((resultsId, index) => ({
+	return parts.filter(resultsId => !!trimSlashes(resultsId)).map((resultsId, index) => ({
 		id: parseInt(trimSlashes(resultsId)),
-		isRT: lastIndex === index
+		isRT: !isOW && lastIndex === index
 	}));
 };
 
