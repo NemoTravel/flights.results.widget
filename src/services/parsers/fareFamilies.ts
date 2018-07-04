@@ -12,7 +12,8 @@ export const parse = (response: APIParser.Response, parentFlightId: string): Far
 			combinationsPrices: responseInfo['combinationsPrices'],
 			fareFamilies: responseInfo['fareFamilies'],
 			fareFamiliesBySegments: responseInfo['fareFamiliesBySegments'],
-			validCombinations: responseInfo['validCombinations']
+			validCombinations: responseInfo['validCombinations'],
+			baggageReplacement: responseInfo['baggageReplacement']
 		};
 	}
 

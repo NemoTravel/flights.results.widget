@@ -14,6 +14,7 @@ import Price from '../Price';
 import Features from './Features';
 import autobind from 'autobind-decorator';
 import { i18n } from '../../i18n';
+import FareFamilyFeature from '../../schemas/FareFamilyFeature';
 
 interface Props {
 	id: string;
@@ -22,6 +23,7 @@ interface Props {
 	isDisabled?: boolean;
 	onChange: (familyId: string) => void;
 	price: Money;
+	baggage: FareFamilyFeature;
 }
 
 class Family extends React.Component<Props> {
@@ -61,7 +63,14 @@ class Family extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { family, isDisabled, isSelected, price } = this.props;
+		const { family, isDisabled, isSelected, price, baggage } = this.props;
+		let baggageFeatures = family.fareFeatures.baggage;
+
+		if (baggage) {
+			// Replace baggage info from DB with the info from GDS.
+			baggageFeatures = family.fareFeatures.baggage.filter(feature => feature.name !== 'baggage');
+			baggageFeatures.push(baggage);
+		}
 
 		return (
 			<Card
@@ -78,7 +87,7 @@ class Family extends React.Component<Props> {
 					</Typography>
 
 					<Features features={[
-						...family.fareFeatures.baggage,
+						...baggageFeatures,
 						...family.fareFeatures.exare,
 						...family.fareFeatures.misc
 					]}/>
