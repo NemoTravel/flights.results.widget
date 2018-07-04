@@ -207,6 +207,13 @@
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
 }
 
+@media only screen and (max-width: 515px) {
+  .results {
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
 .results_pinned {
   -webkit-transform: none;
   transform: none;
@@ -1628,12 +1635,12 @@
 }
 
 .fareFamilies {
-  margin-bottom: 60px;
+  padding-bottom: 60px;
 }
 
 @media only screen and (max-width: 515px) {
   .fareFamilies {
-    margin-bottom: 100px;
+    padding-bottom: 100px;
   }
 }
 

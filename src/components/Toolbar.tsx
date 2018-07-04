@@ -52,7 +52,7 @@ class Toolbar extends React.Component<Props> {
 					<Button className="toolbar__back" variant="raised" onClick={goBack}>{i18n('toolbar-backTitle')}</Button>
 
 					<div className="toolbar-totalPrice">
-						{combinationsAreValid && totalPrice.amount && (
+						{combinationsAreValid && !!totalPrice.amount && (
 							<div className="toolbar-totalPrice__amount">
 								<span className="toolbar-totalPrice__amount-prefix">{i18n('toolbar-totalPriceTitle')}</span>
 								<Price price={totalPrice}/>
