@@ -43,7 +43,7 @@ class Main extends React.Component<Props> {
 				)}
 
 				<Route path="/results/:id(\d+/?)+" render={() => (
-					this.props.isSelectionComplete ? <FareFamilies/> : <Results/>
+					this.props.isSelectionComplete ? <FareFamilies/> : (!this.props.isLoading && <Results/>)
 				)}/>
 
 				{Snackbar}

@@ -69,26 +69,6 @@ function* worker({ payload }: ResultsAction) {
 		// Create legs array.
 		yield put(setLegs(createLegs(createSearchPayload(searchInfo).requests)));
 
-		// If current leg is not `0`, reset selected flights and legs.
-		const currentLeg: number = yield select(getCurrentLegId);
-
-		if (currentLeg) {
-			yield put(goToLeg(0));
-		}
-
-		const resetActions: Action[] = [
-			clearSelectedFamilies(),
-			clearSelectedFlights(),
-			clearCombinations(),
-			setRTMode(false),
-			clearFlightsByLegs(),
-			clearFlights(),
-			clearResultsInfo()
-		];
-
-		// Reset all previously selected stuff.
-		yield put(batchActions(...resetActions));
-
 		// Load search results.
 		yield call(loadAllResults, payload, locale, nemoURL);
 
