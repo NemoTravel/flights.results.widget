@@ -6,7 +6,14 @@ import FlightModel from '../models/Flight';
 import { RootState } from '../store/reducers';
 import { SelectedFlightAction, selectFlight } from '../store/selectedFlights/actions';
 import { isFirstLeg, isLastLeg, isMultipleLegs } from '../store/currentLeg/selectors';
-import { getRelativePrices, getTotalPrices, getVisibleFlights, PricesByFlights } from '../store/selectors';
+import {
+	FlightsVisibility,
+	getRelativePrices, getSortedFlights,
+	getTotalPrices,
+	getVisibleFlights,
+	getVisibleFlightsMap,
+	PricesByFlights
+} from '../store/selectors';
 import { hasHiddenFlights } from '../store/selectors';
 import Button from '@material-ui/core/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
@@ -17,6 +24,7 @@ import ResultsFlight from './ResultsFlight';
 import { i18n } from '../i18n';
 import { getNemoURL } from '../store/config/selectors';
 import autobind from 'autobind-decorator';
+import { getFlightsForCurrentLeg } from '../store/flights/selectors';
 
 export interface OwnProps {
 	legId: number;
@@ -26,6 +34,7 @@ interface StateProps {
 	prices: FlightsReplacement;
 	totalPrices: PricesByFlights;
 	flights: FlightModel[];
+	visibilityMap: FlightsVisibility;
 	isMultipleLegs: boolean;
 	isFirstLeg: boolean;
 	isLastLeg: boolean;
@@ -67,22 +76,32 @@ class FlightsList extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		const { legId, prices, hasHiddenFlights, totalPrices, nemoURL } = this.props;
+		const { legId, prices, hasHiddenFlights, totalPrices, nemoURL, visibilityMap } = this.props;
+		let visibleHasBeenFound = false;
 
 		return this.props.flights.length ?
 			<>
-				{this.props.flights.map(flight => (
-					<ResultsFlight
+				{this.props.flights.map(flight => {
+					let isFirstVisible = false;
+
+					if (!visibleHasBeenFound && visibilityMap[flight.id]) {
+						visibleHasBeenFound = true;
+						isFirstVisible = true;
+					}
+
+					return <ResultsFlight
 						key={flight.id}
 						nemoURL={nemoURL}
+						isHidden={!visibilityMap[flight.id]}
+						isFirstVisible={isFirstVisible}
 						replacement={prices[flight.id]}
 						totalPrice={totalPrices[flight.id]}
 						flight={flight}
 						selectFlight={this.selectFlight}
 						currentLegId={legId}
 						showPricePrefix={this.props.isFirstLeg && this.props.isMultipleLegs}
-					/>
-				))}
+					/>;
+				})}
 
 				{hasHiddenFlights && (
 					<div className="results-flights-showAll">
@@ -105,7 +124,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): OwnProps & State
 		nemoURL: getNemoURL(state),
 		prices: getRelativePrices(state),
 		totalPrices: getTotalPrices(state),
-		flights: getVisibleFlights(state),
+		flights: getSortedFlights(state),
+		visibilityMap: getVisibleFlightsMap(state),
 		isMultipleLegs: isMultipleLegs(state),
 		isFirstLeg: isFirstLeg(state),
 		isLastLeg: isLastLeg(state),

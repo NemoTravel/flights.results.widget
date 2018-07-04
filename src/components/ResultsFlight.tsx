@@ -20,6 +20,8 @@ interface Props {
 	totalPrice: Money;
 	currentLegId: number;
 	nemoURL: string;
+	isHidden: boolean;
+	isFirstVisible: boolean;
 }
 
 class ResultsFlight extends React.Component<Props> {
@@ -27,6 +29,8 @@ class ResultsFlight extends React.Component<Props> {
 		return (
 			this.props.flight.id !== nextProps.flight.id ||
 			this.props.totalPrice !== nextProps.totalPrice ||
+			this.props.isHidden !== nextProps.isHidden ||
+			this.props.isFirstVisible !== nextProps.isFirstVisible ||
 			this.props.replacement !== nextProps.replacement
 		);
 	}
@@ -83,7 +87,18 @@ class ResultsFlight extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		return <Flight {...this.props} showFilters={true} renderActionBlock={this.renderActionBlock}/>;
+		return (
+			<Flight
+				{...this.props}
+				className={classnames('flight', {
+					flight_hidden: this.props.isHidden,
+					flight_visible: !this.props.isHidden,
+					flight_firstVisible: this.props.isFirstVisible
+				})}
+				showFilters={true}
+				renderActionBlock={this.renderActionBlock}
+			/>
+		);
 	}
 }
 

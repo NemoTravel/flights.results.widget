@@ -44,6 +44,10 @@ interface PricesByLegs {
 	[legId: number]: Money;
 }
 
+export interface FlightsVisibility {
+	[flightId: string]: boolean;
+}
+
 export interface FilterSelectors {
 	selectedAirlines: ListOfSelectedCodes;
 	selectedDepartureAirports: ListOfSelectedCodes;
@@ -436,15 +440,11 @@ export const getFilteredFlights = createSelector(
 	[
 		getFlightsForCurrentLeg,
 		getSelectedFlights,
-		Sorting.getCurrentSorting,
-		getRelativePrices,
 		filtersConfig
 	],
 	(
 		flights: Flight[],
 		selectedFlights: Flight[],
-		sorting: SortingState,
-		prices: FlightsReplacement,
 		{
 			selectedAirlines,
 			selectedDepartureAirports,
@@ -456,10 +456,11 @@ export const getFilteredFlights = createSelector(
 			comfortable
 		}: FilterSelectors
 	): Flight[] => {
-		const selectedAirlineCodes = comfortable ? getAirlinesIATA(selectedFlights) : {},
+		const
+			selectedAirlineCodes = comfortable ? getAirlinesIATA(selectedFlights) : {},
 			lastSegmentArrAirportIATA = comfortable ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null;
 
-		let newFlights = flights.filter(flight => {
+		return flights.filter(flight => {
 			const firstSegment = flight.segments[0];
 			const lastSegment = flight.segments[flight.segments.length - 1];
 
@@ -513,10 +514,13 @@ export const getFilteredFlights = createSelector(
 
 			return true;
 		});
+	}
+);
 
-		newFlights = newFlights.sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));
-
-		return newFlights;
+export const getSortedFlights = createSelector(
+	[getFlightsForCurrentLeg, Sorting.getCurrentSorting, getRelativePrices],
+	(flights: Flight[], sorting: SortingState, prices: FlightsReplacement): Flight[] => {
+		return flights.slice().sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));
 	}
 );
 
@@ -530,6 +534,19 @@ export const getVisibleFlights = createSelector(
 		}
 
 		return results;
+	}
+);
+
+export const getVisibleFlightsMap = createSelector(
+	[getVisibleFlights],
+	(flights: Flight[]) => {
+		const result: FlightsVisibility = {};
+
+		flights.forEach(flight => {
+			result[flight.id] = true;
+		});
+
+		return result;
 	}
 );
 
