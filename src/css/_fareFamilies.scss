@@ -1,7 +1,7 @@
 @import "variable";
 
 .fareFamilies {
-	padding-bottom: 60px;
+	padding-bottom: 80px;
 
 	@include adaptivity(phone) {
 		padding-bottom: 100px;

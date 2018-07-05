@@ -23,6 +23,7 @@ import { isRT } from '../store/legs/selectors';
 import { i18n } from '../i18n';
 import { getIsLoadingActualization } from '../store/isLoadingActualization/selectors';
 import { getNemoURL } from '../store/config/selectors';
+import ErrorHandler from './Actualization/ErrorHandler';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -98,6 +99,7 @@ class FareFamilies extends React.Component<Props> {
 			)}
 
 			<Toolbar/>
+			<ErrorHandler/>
 		</section>;
 	}
 }

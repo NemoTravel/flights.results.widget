@@ -24,7 +24,14 @@ export const getFlightsForCurrentLeg = createSelector(
 	[getAllFlights, getFlightsIdsByLegs, getCurrentLegId],
 	(allFlights: FlightsState, flightsByLegs: FlightsByLegsState, legId: number): Flight[] => {
 		const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
+		const result: Flight[] = [];
 
-		return flightsIds.map(flightId => allFlights[flightId]);
+		flightsIds.forEach(flightId => {
+			if (allFlights.hasOwnProperty(flightId)) {
+				result.push(allFlights[flightId]);
+			}
+		});
+
+		return result;
 	}
 );

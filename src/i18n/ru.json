@@ -90,5 +90,21 @@
 	"utils-dates-h": "ч",
 	"utils-dates-m": "мин",
 	"utils-pre-in": "в",
-	"utils-pre-from": "от"
+	"utils-pre-from": "от",
+
+	"error-actualization-Price": "Во время проверки наличия свободных мест выяснилось, что цена выбранных билетов изменилась. Вы можете продолжить бронирование с новой ценой или выбрать другие перелёты.",
+	"error-actualization-Price_header": "Изменилась стоимость билетов",
+	"error-actualization-Price-action_reselect": "Перевыбрать",
+	"error-actualization-Price-action_continue": "Продолжить",
+
+	"error-actualization-Availability": "К сожалению, на некоторых рейсах закончились свободные места. Вы будете перенаправлены на этап выбора других перелетов.",
+	"error-actualization-Availability_header": "Нет свободных мест :(",
+	"error-actualization-Availability-action_reselect": "Выбрать другие перелёты",
+
+	"error-actualization-Unknown": "Мы не смогли проверить наличие свободных мест на выбранных рейсах из-за технической ошибки. Попробуйте позже или выберите другой перелёт.",
+	"error-actualization-Unknown_header": "Что-то пошло не так...",
+	"error-actualization-Unknown-action_OK": "Понятно",
+
+	"error-actualization-back": "Выбрать другой перелёт",
+	"error-actualization-continue": "Продолжить"
 }
