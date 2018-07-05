@@ -92,12 +92,15 @@
 	"utils-pre-in": "in",
 	"utils-pre-from": "from",
 
-	"error-actualization-priceChanged": "Sorry the fare that we tried to book is no longer valid. You can buy this flight at the new price of",
-	"error-actualization-priceChanged_header": "Price has changed",
-	"error-actualization-availability": "Sorry we can't book seats on the flight %-departure-% - %-arrival-% %-airline-% airline. Please, choose other flight",
-	"error-actualization-availability_header": "No seats available :`(",
-	"error-actualization-other": "We can't book this flights due to internal error. Please, try again later or choose other flight",
-	"error-actualization-other_header": "Something was wrong...",
-	"error-actualization-back": "Choose other flight",
+	"error-actualization-Price": "During the seats availability check we have found out, that the price of the chosen flights has changed. You can still buy those flights for the new price or choose the other ones.",
+	"error-actualization-Price_header": "The price has changed",
+
+	"error-actualization-Availability": "Unfortunately, there are no available seats left on the chosen flights. Please, choose another flight.",
+	"error-actualization-Availability_header": "No available seats :(",
+
+	"error-actualization-Unknown": "We can't book this flights due to internal service error. Please, try again later or choose another flight.",
+	"error-actualization-Unknown_header": "Something went wrong...",
+
+	"error-actualization-back": "Choose another flight",
 	"error-actualization-continue": "Next"
 }

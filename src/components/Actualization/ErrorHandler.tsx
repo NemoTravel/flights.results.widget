@@ -26,27 +26,11 @@ interface DispatchProps {
 
 class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 	renderHeader(): React.ReactNode {
-		return <>{i18n(`error-actualization-${this.props.problem}_header`)}</>;
+		return i18n(`error-actualization-${this.props.problem}_header`);
 	}
 
 	renderContent(): React.ReactNode {
-		let contentText = i18n(`error-actualization-${this.props.problem}`);
-
-		if (this.props.problem === ActualizationProblem.Price) {
-			return <>
-				{contentText}
-				<Price price={this.props.info[this.props.info.length - 1].priceInfo.newPrice}/>
-			</>;
-		}
-		else if (this.props.problem === ActualizationProblem.Availability) {
-			const firstModifiedFlight = this.props.info[0].flight;
-
-			contentText = contentText.replace('%-departure-%', firstModifiedFlight.firstSegment.depAirport.city.name)
-				.replace('%-arrival-%', firstModifiedFlight.lastSegment.arrAirport.city.name)
-				.replace('%-airline-%', firstModifiedFlight.validatingCarrier.name);
-		}
-
-		return <>{contentText}</>;
+		return i18n(`error-actualization-${this.props.problem}`);
 	}
 
 	@autobind
@@ -65,17 +49,32 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 	}
 
 	renderAction(): React.ReactNode {
-		return <>
-			<Button onClick={this.changeFlight} color="default">
-				{i18n('error-actualization-back')}
-			</Button>
+		switch (this.props.problem) {
+			case ActualizationProblem.Availability:
+				return (
+					<Button className="dialog-actions__button" onClick={this.changeFlight} color="secondary" variant="outlined">
+						{i18n('error-actualization-Availability-action_reselect')}
+					</Button>
+				);
 
-			{this.props.problem === ActualizationProblem.Price &&
-				<Button onClick={this.goToBooking} color="primary">
-					{i18n('error-actualization-continue')}
-				</Button>
-			}
-		</>;
+			case ActualizationProblem.Price:
+				return <>
+					<Button className="dialog-actions__button" onClick={this.changeFlight} color="default">
+						{i18n('error-actualization-Price-action_reselect')}
+					</Button>
+
+					<Button className="dialog-actions__button" onClick={this.goToBooking} color="secondary" variant="outlined">
+						{i18n('error-actualization-Price-action_continue')}
+					</Button>
+				</>;
+
+			default:
+				return (
+					<Button className="dialog-actions__button" onClick={this.goToBooking} color="secondary" variant="outlined">
+						{i18n('error-actualization-Unknown-action_OK')}
+					</Button>
+				);
+		}
 	}
 
 	render(): React.ReactNode {

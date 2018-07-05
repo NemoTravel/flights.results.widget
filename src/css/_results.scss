@@ -379,3 +379,13 @@
 		background-color: rgba(255, 255, 255, 0.4);
 	}
 }
+
+.dialog {
+	&-actions {
+		margin: 10px 6px !important;
+
+		&__button {
+			margin: 0 4px !important;
+		}
+	}
+}

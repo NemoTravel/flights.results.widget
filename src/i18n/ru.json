@@ -92,12 +92,19 @@
 	"utils-pre-in": "в",
 	"utils-pre-from": "от",
 
-	"error-actualization-priceChanged": "Во время бронирования изменилась цена перелета. Текущая стоимость",
-	"error-actualization-priceChanged_header": "Изменилась цена",
-	"error-actualization-availability": "К сожалению, закончились места на рейсе %-departure-% - %-arrival-% компании %-airline-%. Попробуйте выбрать другой перелет",
-	"error-actualization-availability_header": "Места закончились :`(",
-	"error-actualization-other": "Мы не смогли зарезервировать выбранные полеты из-за технической ошибки. Попробуйте позже или выберите другие перелеты",
-	"error-actualization-other_header": "Что-то пошло не так...",
-	"error-actualization-back": "Выбрать другой перелет",
+	"error-actualization-Price": "Во время проверки наличия свободных мест выяснилось, что цена выбранных билетов изменилась. Вы можете продолжить бронирование с новой ценой или выбрать другие перелёты.",
+	"error-actualization-Price_header": "Изменилась стоимость билетов",
+	"error-actualization-Price-action_reselect": "Перевыбрать",
+	"error-actualization-Price-action_continue": "Продолжить",
+
+	"error-actualization-Availability": "К сожалению, на выбранных рейсах закончились свободные места. Выберите другие перелёты.",
+	"error-actualization-Availability_header": "Нет свободных мест :(",
+	"error-actualization-Availability-action_reselect": "Понятно",
+
+	"error-actualization-Unknown": "Мы не смогли проверить наличие свободных мест на выбранных рейсах из-за технической ошибки. Попробуйте позже или выберите другой перелёт.",
+	"error-actualization-Unknown_header": "Что-то пошло не так...",
+	"error-actualization-Unknown-action_OK": "Понятно",
+
+	"error-actualization-back": "Выбрать другой перелёт",
 	"error-actualization-continue": "Продолжить"
 }

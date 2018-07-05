@@ -13,20 +13,19 @@ export interface Props {
 
 class DialogMessage extends React.Component<Props> {
 	shouldComponentUpdate(nextProps: Props): boolean {
-		return this.props.visible !== nextProps.visible ||
+		return (
+			this.props.visible !== nextProps.visible ||
 			this.props.header !== nextProps.header ||
 			this.props.actions !== nextProps.actions ||
-			this.props.content !== nextProps.content;
+			this.props.content !== nextProps.content
+		);
 	}
 
 	render(): React.ReactNode {
-		return <Dialog open={this.props.visible} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-
-			{this.props.header ? <DialogTitle id="alert-dialog-title">{this.props.header}</DialogTitle> : null}
-
-			{this.props.content ? <DialogContent>{this.props.content}</DialogContent> : null}
-
-			{this.props.actions ? <DialogActions>{this.props.actions}</DialogActions> : null}
+		return <Dialog className="dialog" open={this.props.visible} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+			{this.props.header && <DialogTitle className="dialog-title" id="alert-dialog-title">{this.props.header}</DialogTitle>}
+			{this.props.content && <DialogContent className="dialog-content">{this.props.content}</DialogContent>}
+			{this.props.actions && <DialogActions className="dialog-actions">{this.props.actions}</DialogActions>}
 		</Dialog>;
 	}
 }

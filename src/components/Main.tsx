@@ -12,7 +12,6 @@ import SearchForm from './SearchForm';
 import Snackbar from './Snackbar';
 import { Language } from '../enums';
 import { getLocale, getNemoURL } from '../store/config/selectors';
-import DialogMessage from './DialogMessage';
 
 interface StateProps {
 	isLoading: boolean;
