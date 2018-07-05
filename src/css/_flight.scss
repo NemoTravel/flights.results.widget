@@ -20,11 +20,11 @@
 			border-top-right-radius: 2px;
 		}
 
-		@include adaptivity('phone') {
+		@include adaptivity(phone) {
 			padding-bottom: 75px;
 			position: relative;
 
-			.flight{
+			.flight {
 				&-details:not(:empty) {
 					padding-top: 10px;
 					border-top: 1px solid #e0e0e0;

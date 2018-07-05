@@ -58,6 +58,28 @@
 			margin-bottom: 0;
 		}
 
+		&__wrapper {
+			@include adaptivity(tablet) {
+				.widget {
+					display: none;
+				}
+
+				.results-searchForm-short {
+					display: block;
+				}
+
+				&_opened {
+					.widget {
+						display: block;
+					}
+
+					.results-searchForm-short {
+						display: none;
+					}
+				}
+			}
+		}
+
 		.widget {
 			&-form {
 				&-search {
@@ -112,6 +134,19 @@
 						width: 100%;
 					}
 				}
+			}
+		}
+
+		&-short {
+			display: none;
+			background: #64b5f6;
+			padding: 15px;
+
+			&__button {
+				@extend .flight-summary-buy;
+
+				width: 100% !important;
+				max-width: none !important;
 			}
 		}
 	}
