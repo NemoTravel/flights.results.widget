@@ -22,6 +22,18 @@ export enum Currency {
 	JPY = 'JPY'
 }
 
+export enum CurrencyCode {
+	RUB = '₽',
+	USD = '$',
+	GBP = '£',
+	EUR = '€',
+	CNY = 'CNY',
+	LVL = 'LVL',
+	UAH = '₴',
+	CZK = 'CZK',
+	JPY = '¥'
+}
+
 export enum LocationType {
 	Departure = 'departure',
 	Arrival = 'arrival'
