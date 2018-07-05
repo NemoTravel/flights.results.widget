@@ -9,6 +9,10 @@ export interface FlightsAction extends Action {
 	payload: Flight[];
 }
 
+export interface RemoveFlightsAction extends Action {
+	payload: string[];
+}
+
 export const addFlights = (flights: Flight[]): FlightsAction => {
 	return {
 		type: ADD_FLIGHTS,
@@ -16,10 +20,10 @@ export const addFlights = (flights: Flight[]): FlightsAction => {
 	};
 };
 
-export const removeFlights = (flights: Flight[]): FlightsAction => {
+export const removeFlights = (flightsId: string[]): RemoveFlightsAction => {
 	return {
 		type: REMOVE_FLIGHTS,
-		payload: flights
+		payload: flightsId
 	};
 };
 

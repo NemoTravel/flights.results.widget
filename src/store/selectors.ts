@@ -66,7 +66,13 @@ export const getMinPricesByLegs = createSelector(
 		for (const legId in flightsByLegs) {
 			if (flightsByLegs.hasOwnProperty(legId)) {
 				const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
-				const flights = flightsIds.map(flightId => flightsPool[flightId]);
+				const flights: Flight[] = [];
+
+				flightsIds.forEach(flightId => {
+					if (flightsPool.hasOwnProperty(flightId)) {
+						flights.push(flightsPool[flightId]);
+					}
+				});
 
 				if (flights.length) {
 					let minPrice: Money = null;

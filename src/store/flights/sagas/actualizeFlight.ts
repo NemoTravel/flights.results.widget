@@ -11,25 +11,41 @@ import { setProblemType } from '../../actualization/problem/actions';
 import { ActualizationProblem } from '../../actualization/reducers';
 import { setInfo } from '../../actualization/info/actions';
 import { clearActualizationProblems } from '../../actualization/actions';
-import { removeFlights } from '../actions';
+import { addFlights, removeFlights } from '../actions';
+import { addFlightByLeg } from '../../flightsByLegs/actions';
 
 function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
-	const max = flightIds.length;
+	const numOfFlights = flightIds.length;
 	const tasks: CallEffect[] = [];
 
-	for (let i = 0; i < max; i++) {
+	for (let i = 0; i < numOfFlights; i++) {
 		tasks.push(call(actualization, flightIds[i], locale, nemoURL));
 	}
 
 	const result: AvailabilityInfo[] = yield all(tasks);
 
 	// Something went wrong. Abort.
-	if (!result.length || result.length !== max || !!result.find(flightInfo => !flightInfo)) {
+	if (!result.length || result.length !== numOfFlights || !!result.find(flightInfo => !flightInfo)) {
 		return yield put(batchActions(
 			setProblemType(ActualizationProblem.Unknown),
 			setInfo([]),
 			stopLoadingActualization()
 		));
+	}
+
+	// Check if any flight ID has changed during actualization.
+	for (let i = 0; i < numOfFlights; i++) {
+		const oldFlightId = flightIds[i].toString();
+		const newFlight = result[i].flight;
+
+		if (oldFlightId !== newFlight.id.toString()) {
+			// OK, flight ID has changed, remove the old one and add the new one.
+			yield put(batchActions(
+				removeFlights([oldFlightId]),
+				addFlights([newFlight]),
+				addFlightByLeg(newFlight, i)
+			));
+		}
 	}
 
 	// There are some unavailable flights. Abort.
@@ -39,7 +55,7 @@ function* runActualizations(flightIds: string[], locale: Language, nemoURL: stri
 		return yield put(batchActions(
 			setProblemType(ActualizationProblem.Availability),
 			setInfo(unavailableFlights),
-			removeFlights(unavailableFlights.map(flightInfo => flightInfo.flight)),
+			removeFlights(unavailableFlights.map(flightInfo => flightInfo.flight.id)),
 			stopLoadingActualization()
 		));
 	}
