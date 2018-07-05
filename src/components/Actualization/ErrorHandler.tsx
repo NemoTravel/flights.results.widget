@@ -9,7 +9,6 @@ import { goToLeg } from '../../store/currentLeg/actions';
 import { connect } from 'react-redux';
 import { i18n } from '../../i18n';
 import DialogMessage from '../DialogMessage';
-import Price from '../Price';
 import { getNemoURL } from '../../store/config/selectors';
 import { clearActualizationProblems } from '../../store/actualization/actions';
 
@@ -52,7 +51,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 		switch (this.props.problem) {
 			case ActualizationProblem.Availability:
 				return (
-					<Button className="dialog-actions__button" onClick={this.changeFlight} color="secondary" variant="outlined">
+					<Button className="dialog-actions__button" onClick={this.changeFlight} color="primary">
 						{i18n('error-actualization-Availability-action_reselect')}
 					</Button>
 				);
@@ -63,14 +62,14 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 						{i18n('error-actualization-Price-action_reselect')}
 					</Button>
 
-					<Button className="dialog-actions__button" onClick={this.goToBooking} color="secondary" variant="outlined">
+					<Button className="dialog-actions__button" onClick={this.goToBooking} color="primary" variant="outlined">
 						{i18n('error-actualization-Price-action_continue')}
 					</Button>
 				</>;
 
 			default:
 				return (
-					<Button className="dialog-actions__button" onClick={this.goToBooking} color="secondary" variant="outlined">
+					<Button className="dialog-actions__button" onClick={this.goToBooking} color="primary">
 						{i18n('error-actualization-Unknown-action_OK')}
 					</Button>
 				);

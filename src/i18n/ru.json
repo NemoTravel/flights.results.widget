@@ -97,9 +97,9 @@
 	"error-actualization-Price-action_reselect": "Перевыбрать",
 	"error-actualization-Price-action_continue": "Продолжить",
 
-	"error-actualization-Availability": "К сожалению, на выбранных рейсах закончились свободные места. <br> Пожалуйста, выберите другие перелёты.",
+	"error-actualization-Availability": "К сожалению, на некоторых рейсах закончились свободные места. Вы будете перенаправлены на этап выбора других перелетов.",
 	"error-actualization-Availability_header": "Нет свободных мест :(",
-	"error-actualization-Availability-action_reselect": "Понятно",
+	"error-actualization-Availability-action_reselect": "Выбрать другие перелёты",
 
 	"error-actualization-Unknown": "Мы не смогли проверить наличие свободных мест на выбранных рейсах из-за технической ошибки. Попробуйте позже или выберите другой перелёт.",
 	"error-actualization-Unknown_header": "Что-то пошло не так...",

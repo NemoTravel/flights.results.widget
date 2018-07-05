@@ -381,6 +381,11 @@
 }
 
 .dialog {
+	&-content {
+		font-size: 0.9rem;
+		line-height: 20px;
+	}
+
 	&-actions {
 		margin: 10px 6px !important;
 
