@@ -1,19 +1,17 @@
 import * as React from 'react';
+import autobind from 'autobind-decorator';
+import Button from '@material-ui/core/Button';
+
 import { ActualizationProblem } from '../../store/actualization/reducers';
 import AvailabilityInfo from '../../schemas/AvailabilityInfo';
 import { RootState } from '../../store/reducers';
 import { goToLeg } from '../../store/currentLeg/actions';
 import { connect } from 'react-redux';
 import { i18n } from '../../i18n';
-import Button from '@material-ui/core/Button';
 import DialogMessage from '../DialogMessage';
 import Price from '../Price';
 import { getNemoURL } from '../../store/config/selectors';
-
-const ERROR_AVAILABILITY = 'availability';
-const ERROR_PRICE = 'priceChanged';
-const ERROR_UNKNOWN = 'other';
-const NO_ERROR = 'noError';
+import { clearActualizationProblems } from '../../store/actualization/actions';
 
 export interface StateProps {
 	problem: ActualizationProblem;
@@ -23,56 +21,24 @@ export interface StateProps {
 
 interface DispatchProps {
 	goToLeg: typeof goToLeg;
+	clearActualizationProblems: typeof clearActualizationProblems;
 }
 
-interface State {
-	typeError: string;
-}
-
-class ErrorHandler extends React.Component<StateProps & DispatchProps, State> {
-	state: State = {
-		typeError: NO_ERROR
-	};
-
-	constructor(props: StateProps & DispatchProps) {
-		super(props);
-
-		this.changeFlight = this.changeFlight.bind(this);
-		this.goToBooking = this.goToBooking.bind(this);
-	}
-
-	componentWillReceiveProps({ problem, info }: StateProps): void {
-		let typeError = '';
-
-		if (problem === ActualizationProblem.Availability) {
-			typeError = ERROR_AVAILABILITY;
-		}
-		else if (problem === ActualizationProblem.Price) {
-			typeError = ERROR_PRICE;
-		}
-		else if (problem === ActualizationProblem.Unknown) {
-			typeError = ERROR_UNKNOWN;
-		}
-
-		if (this.state.typeError !== typeError) {
-			this.setState({ typeError });
-		}
-	}
-
+class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 	renderHeader(): React.ReactNode {
-		return <>{i18n(`error-actualization-${this.state.typeError}_header`)}</>;
+		return <>{i18n(`error-actualization-${this.props.problem}_header`)}</>;
 	}
 
 	renderContent(): React.ReactNode {
-		let contentText = i18n(`error-actualization-${this.state.typeError}`);
+		let contentText = i18n(`error-actualization-${this.props.problem}`);
 
-		if (this.state.typeError === ERROR_PRICE) {
+		if (this.props.problem === ActualizationProblem.Price) {
 			return <>
 				{contentText}
 				<Price price={this.props.info[this.props.info.length - 1].priceInfo.newPrice}/>
 			</>;
 		}
-		else if (this.state.typeError === ERROR_AVAILABILITY) {
+		else if (this.props.problem === ActualizationProblem.Availability) {
 			const firstModifiedFlight = this.props.info[0].flight;
 
 			contentText = contentText.replace('%-departure-%', firstModifiedFlight.firstSegment.depAirport.city.name)
@@ -83,11 +49,13 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps, State> {
 		return <>{contentText}</>;
 	}
 
+	@autobind
 	changeFlight(): void {
-		this.setState({ typeError: NO_ERROR });
+		this.props.clearActualizationProblems();
 		this.props.goToLeg(0);
 	}
 
+	@autobind
 	goToBooking(): void {
 		if (this.props.info.length) {
 			const url = this.props.info[0].orderLink;
@@ -102,17 +70,17 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps, State> {
 				{i18n('error-actualization-back')}
 			</Button>
 
-			{this.state.typeError === ERROR_PRICE ?
+			{this.props.problem === ActualizationProblem.Price &&
 				<Button onClick={this.goToBooking} color="primary">
 					{i18n('error-actualization-continue')}
 				</Button>
-			: null}
+			}
 		</>;
 	}
 
 	render(): React.ReactNode {
 		return <DialogMessage
-			visible={this.state.typeError !== NO_ERROR}
+			visible={this.props.problem !== ActualizationProblem.NoError}
 			header={this.renderHeader()}
 			content={this.renderContent()}
 			actions={this.renderAction()}
@@ -129,7 +97,8 @@ const mapStateToProps = (state: RootState): StateProps => {
 };
 
 const mapDispatchToProps = {
-	goToLeg
+	goToLeg,
+	clearActualizationProblems
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandler);

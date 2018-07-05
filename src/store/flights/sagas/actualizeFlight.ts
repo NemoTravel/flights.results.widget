@@ -1,4 +1,4 @@
-import { all, call, CallEffect, fork, put, select, takeEvery } from 'redux-saga/effects';
+import { all, call, CallEffect, put, select, takeEvery } from 'redux-saga/effects';
 import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
@@ -10,6 +10,7 @@ import { batchActions } from '../../batching/actions';
 import { setProblemType } from '../../actualization/problem/actions';
 import { ActualizationProblem } from '../../actualization/reducers';
 import { setInfo } from '../../actualization/info/actions';
+import { clearActualizationProblems } from '../../actualization/actions';
 
 function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
 	const max = flightIds.length;
@@ -63,6 +64,7 @@ function* worker({ payload }: ActualizationAction) {
 
 	if (!isLoading) {
 		yield put(startLoadingActualization());
+		yield put(clearActualizationProblems());
 		yield call(runActualizations, payload.flightIds, locale, nemoURL);
 	}
 }
