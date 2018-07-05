@@ -25,6 +25,6 @@ export const digitsAfterPoint: CurrencyRoundList = {
 export const getCurrencyCoefficient = createSelector(
 	[getCurrency, getRate],
 	(currency: Currency, rate: CurrencyRates): number => {
-		return parseFloat(rate[currency]);
+		return rate.hasOwnProperty(currency) ? parseFloat(rate[currency]) : 1;
 	}
 );
