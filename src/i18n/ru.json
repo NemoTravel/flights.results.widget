@@ -97,7 +97,7 @@
 	"error-actualization-Price-action_reselect": "Перевыбрать",
 	"error-actualization-Price-action_continue": "Продолжить",
 
-	"error-actualization-Availability": "К сожалению, на выбранных рейсах закончились свободные места. Выберите другие перелёты.",
+	"error-actualization-Availability": "К сожалению, на выбранных рейсах закончились свободные места. <br> Пожалуйста, выберите другие перелёты.",
 	"error-actualization-Availability_header": "Нет свободных мест :(",
 	"error-actualization-Availability-action_reselect": "Понятно",
 

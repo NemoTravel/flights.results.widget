@@ -1,4 +1,4 @@
-import { ADD_FLIGHTS, CLEAR_FLIGHTS, FlightsAction } from './actions';
+import { ADD_FLIGHTS, CLEAR_FLIGHTS, FlightsAction, REMOVE_FLIGHTS } from './actions';
 import Flight from '../../models/Flight';
 
 export interface FlightsState {
@@ -16,6 +16,20 @@ export const flightsReducer = (state: FlightsState = {}, action: FlightsAction):
 			action.payload.forEach(flight => newFlightsPool[flight.id] = flight);
 
 			return newFlightsPool;
+
+		case REMOVE_FLIGHTS:
+			const removeMap: FlightsState = {};
+			const result: FlightsState = {};
+
+			action.payload.forEach(flight => removeMap[flight.id] = flight);
+
+			for (const flightId in state) {
+				if (state.hasOwnProperty(flightId) && !removeMap.hasOwnProperty(flightId)) {
+					result[flightId] = state[flightId];
+				}
+			}
+
+			return result;
 	}
 
 	return state;
