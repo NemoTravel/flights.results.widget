@@ -1,4 +1,4 @@
-import { all, call, CallEffect, fork, put, select, takeEvery } from 'redux-saga/effects';
+import { all, call, CallEffect, put, select, takeEvery } from 'redux-saga/effects';
 import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
@@ -10,45 +10,69 @@ import { batchActions } from '../../batching/actions';
 import { setProblemType } from '../../actualization/problem/actions';
 import { ActualizationProblem } from '../../actualization/reducers';
 import { setInfo } from '../../actualization/info/actions';
+import { clearActualizationProblems } from '../../actualization/actions';
+import { addFlights, removeFlights } from '../actions';
+import { addFlightByLeg } from '../../flightsByLegs/actions';
 
 function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
-	const max = flightIds.length;
+	const numOfFlights = flightIds.length;
 	const tasks: CallEffect[] = [];
 
-	for (let i = 0; i < max; i++) {
+	for (let i = 0; i < numOfFlights; i++) {
 		tasks.push(call(actualization, flightIds[i], locale, nemoURL));
 	}
 
 	const result: AvailabilityInfo[] = yield all(tasks);
 
-	if (!result.length || !!result.find(flightInfo => !flightInfo)) {
-		console.warn('Произошла непредвиденная ошибка!');
-		throw new Error('Произошла непредвиденная ошибка!');
-	}
-
-	const unavailableFlights = result.filter(flightInfo => !flightInfo.isAvailable);
-
-	if (unavailableFlights.length) {
-		yield put(batchActions(
-			setProblemType(ActualizationProblem.Availability),
-			setInfo(unavailableFlights),
+	// Something went wrong. Abort.
+	if (!result.length || result.length !== numOfFlights || !!result.find(flightInfo => !flightInfo)) {
+		return yield put(batchActions(
+			setProblemType(ActualizationProblem.Unknown),
+			setInfo([]),
 			stopLoadingActualization()
 		));
 	}
-	else {
-		const modifiedFlights = result.filter(flightInfo => flightInfo.priceInfo.hasChanged);
 
-		if (modifiedFlights.length) {
+	// Check if any flight ID has changed during actualization.
+	for (let i = 0; i < numOfFlights; i++) {
+		const oldFlightId = flightIds[i].toString();
+		const newFlight = result[i].flight;
+
+		if (oldFlightId !== newFlight.id.toString()) {
+			// OK, flight ID has changed, remove the old one and add the new one.
 			yield put(batchActions(
-				setProblemType(ActualizationProblem.Price),
-				setInfo(modifiedFlights),
-				stopLoadingActualization()
+				removeFlights([oldFlightId]),
+				addFlights([newFlight]),
+				addFlightByLeg(newFlight, i)
 			));
 		}
-		else {
-			window.location.href = `${nemoURL}${result[0].orderLink.replace('/', '')}`;
-		}
 	}
+
+	// There are some unavailable flights. Abort.
+	const unavailableFlights = result.filter(flightInfo => !flightInfo.isAvailable);
+
+	if (unavailableFlights.length) {
+		return yield put(batchActions(
+			setProblemType(ActualizationProblem.Availability),
+			setInfo(unavailableFlights),
+			removeFlights(unavailableFlights.map(flightInfo => flightInfo.flight.id)),
+			stopLoadingActualization()
+		));
+	}
+
+	// The price has changed. Abort.
+	const modifiedFlights = result.filter(flightInfo => flightInfo.priceInfo.hasChanged);
+
+	if (modifiedFlights.length) {
+		return yield put(batchActions(
+			setProblemType(ActualizationProblem.Price),
+			setInfo(modifiedFlights),
+			stopLoadingActualization()
+		));
+	}
+
+	// All fine. Move on.
+	window.location.href = `${nemoURL}${result[0].orderLink.replace('/', '')}`;
 }
 
 function* worker({ payload }: ActualizationAction) {
@@ -58,6 +82,7 @@ function* worker({ payload }: ActualizationAction) {
 
 	if (!isLoading) {
 		yield put(startLoadingActualization());
+		yield put(clearActualizationProblems());
 		yield call(runActualizations, payload.flightIds, locale, nemoURL);
 	}
 }
