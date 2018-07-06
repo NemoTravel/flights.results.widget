@@ -42,6 +42,7 @@ export const init = (config: Config) => {
 	sagaMiddleware.run(sagas);
 
 	store.dispatch(setConfig(config));
+	store.dispatch(setCurrency(store.getState().config.defaultCurrency));
 	momentDurationFormatSetup(moment);
 	moment.locale(config.locale);
 	i18n.init(config.locale, config.i18n);

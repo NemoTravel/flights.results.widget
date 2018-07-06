@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { RootState } from '../reducers';
 import { Currency } from '../../enums';
 
-const getCurrency = (state: RootState): Currency => state.currency;
+export const getCurrency = (state: RootState): Currency => state.currency;
 const getRate = (state: RootState): CurrencyRates => state.config.currencyRates;
 
 interface CurrencyRoundList {

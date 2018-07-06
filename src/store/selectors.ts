@@ -35,6 +35,7 @@ import { getFilteredAirlines } from './filters/airlines/selectors';
 import { getFlightsIdsByLegs } from './flightsByLegs/selectors';
 import { getIsRTMode } from './fareFamilies/isRTMode/selectors';
 import { CombinationsPrices } from '../schemas/FareFamiliesCombinations';
+import { getCurrency } from './currency/selectors';
 
 export interface PricesByFlights {
 	[flightId: string]: Money;
@@ -59,8 +60,8 @@ export interface FilterSelectors {
  * Get a list of min prices for each leg.
  */
 export const getMinPricesByLegs = createSelector(
-	[getAllFlights, getFlightsIdsByLegs],
-	(flightsPool: FlightsState, flightsByLegs: FlightsByLegsState): PricesByLegs => {
+	[getAllFlights, getFlightsIdsByLegs, getCurrency],
+	(flightsPool: FlightsState, flightsByLegs: FlightsByLegsState, currency: Currency): PricesByLegs => {
 		const result: PricesByLegs = {};
 
 		for (const legId in flightsByLegs) {
@@ -80,7 +81,7 @@ export const getMinPricesByLegs = createSelector(
 				else {
 					result[legId] = {
 						amount: 0,
-						currency: Currency.RUB
+						currency: currency
 					};
 				}
 			}
@@ -104,14 +105,14 @@ export const getMinPricesByLegs = createSelector(
  * - leg 3 min total possible price is $0
  */
 export const getMinTotalPossiblePricesByLegs = createSelector(
-	[getMinPricesByLegs],
-	(minPricesByLegs: PricesByLegs): PricesByLegs => {
+	[getMinPricesByLegs, getCurrency],
+	(minPricesByLegs: PricesByLegs, currency: Currency): PricesByLegs => {
 		const result: PricesByLegs = {};
 
 		for (const legId in minPricesByLegs) {
 			if (minPricesByLegs.hasOwnProperty(legId)) {
 				if (!result.hasOwnProperty(legId)) {
-					result[legId] = { amount: 0, currency: Currency.RUB };
+					result[legId] = { amount: 0, currency: currency };
 				}
 
 				// For each leg: loop through all next legs and sum up their min prices.
@@ -151,7 +152,8 @@ export const getTotalPrice = createSelector(
 		FareFamilies.getFareFamiliesCombinations,
 		getMinPricesByLegs,
 		getMinTotalPossiblePricesByLegs,
-		getIsRTMode
+		getIsRTMode,
+		getCurrency
 	],
 	(
 		allFlights: FlightsState,
@@ -161,12 +163,13 @@ export const getTotalPrice = createSelector(
 		combinations: FareFamiliesCombinationsState,
 		minPricesByLegs: PricesByLegs,
 		minTotalPossiblePricesByLegs: PricesByLegs,
-		isRTMode: boolean
+		isRTMode: boolean,
+		currency: Currency
 	): Money => {
 		let RTFound = false;
 		const totalPrice: Money = {
 			amount: 0,
-			currency: Currency.RUB
+			currency: currency
 		};
 
 		if (selectionComplete && isRTMode) {
