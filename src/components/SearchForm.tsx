@@ -10,8 +10,14 @@ import { getLocale, getNemoURL } from '../store/config/selectors';
 import { startSearch } from '../store/actions';
 import { loadSearchResults } from '../store/results/actions';
 import { i18n } from '../i18n';
+import { getRoute } from '../store/selectors';
+import { Route } from '../enums';
 
-type StateProps = ComponentProps & Partial<RouterState>;
+interface OwnProps {
+	route: Route;
+}
+
+type StateProps = OwnProps & ComponentProps & Partial<RouterState>;
 
 interface DispatchProps {
 	startSearch: typeof startSearch;
@@ -52,7 +58,9 @@ class SearchForm extends React.Component<Props, State> {
 
 	@autobind
 	handleOutsideClick(): void {
-		this.setState({ openedOnMobile: false });
+		if (this.props.route === Route.ResultsWithIds) {
+			this.setState({ openedOnMobile: false });
+		}
 	}
 
 	@autobind
@@ -65,12 +73,19 @@ class SearchForm extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		if (/\/results\/(\d+\/?)+/.test(this.props.location.pathname)) {
+		if (this.props.route === Route.ResultsWithIds) {
 			this.props.loadSearchResults(this.props.location.pathname);
 		}
-		else if (this.props.location.pathname === '/results') {
+		else if (this.props.route === Route.Results) {
 			this.props.startSearch(this.searchForm.getSeachInfo());
 		}
+		else {
+			this.setState({ openedOnMobile: true });
+		}
+	}
+
+	componentWillReceiveProps({ route }: OwnProps): void {
+		this.setState({ openedOnMobile: route !== Route.ResultsWithIds });
 	}
 
 	render(): React.ReactNode {
@@ -99,7 +114,8 @@ const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		location: state.router.location,
 		locale: getLocale(state),
-		nemoURL: getNemoURL(state)
+		nemoURL: getNemoURL(state),
+		route: getRoute(state)
 	};
 };
 

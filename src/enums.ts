@@ -51,3 +51,9 @@ export enum FlightTimeInterval {
 	Afternoon = '12:00-18:00',
 	Evening = '18:00-00:00'
 }
+
+export enum Route {
+	Initial,
+	Results,
+	ResultsWithIds
+}

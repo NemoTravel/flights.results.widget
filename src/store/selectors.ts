@@ -17,7 +17,7 @@ import {
 } from './selectedFlights/selectors';
 import { getFlightsRT } from './flightsRT/selectors';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
-import { Currency } from '../enums';
+import { Currency, Route } from '../enums';
 import { FlightsReplacement } from '../schemas/SelectedFlight';
 import { FlightsByLegsState } from './flightsByLegs/reducers';
 import { SelectedFlightsState } from './selectedFlights/reducers';
@@ -562,5 +562,21 @@ export const hasHiddenFlights = createSelector(
 	[getShowAllFlights, getFlightsForCurrentLeg, getVisibleFlights],
 	(showAllFlights: boolean, allFlights: Flight[], visibleFlights: Flight[]): boolean => {
 		return !showAllFlights && allFlights.length > MAX_VISIBLE_FLIGHTS && !(visibleFlights.length < MAX_VISIBLE_FLIGHTS);
+	}
+);
+
+export const getRouterLocation = (state: RootState) => state.router.location.pathname;
+
+export const getRoute = createSelector(
+	[getRouterLocation],
+	(location: string): Route => {
+		if (/\/results\/(\d+\/?)+/.test(location)) {
+			return Route.ResultsWithIds;
+		}
+		else if (location === '/results') {
+			return Route.Results;
+		}
+
+		return Route.Initial;
 	}
 );
