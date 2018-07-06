@@ -205,9 +205,16 @@
 			}
 
 			@include adaptivity(phone) {
+				padding-bottom: 0;
+
 				&-summary {
 					&-changeFlight {
 						margin-left: 15px;
+					}
+
+					&__right {
+						position: relative;
+						padding-bottom: 0;
 					}
 				}
 			}

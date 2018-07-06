@@ -293,10 +293,21 @@
 		}
 
 		@include adaptivity(phone) {
-			.flight-summary {
-				&__right {
-					margin-right: 15px;
-					padding: 0;
+			.flight {
+				padding-bottom: 0;
+
+				&-summary {
+					&__right {
+						position: relative;
+						margin-right: 15px;
+						padding: 0;
+					}
+				}
+
+				&-details:not(:empty) {
+					border-top: none;
+					padding-top: 0;
+					margin-top: -15px;
 				}
 			}
 		}
