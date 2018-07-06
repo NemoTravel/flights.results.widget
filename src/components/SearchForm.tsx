@@ -1,39 +1,67 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Component as SearchFormComponent, ComponentProps, SearchInfo } from '@nemo.travel/search-widget';
+import autobind from 'autobind-decorator';
+import { RouterState } from 'connected-react-router';
+import { Component as SearchFormComponent, ComponentProps } from '@nemo.travel/search-widget';
+import { connect } from 'react-redux';
 
-type Props = RouteComponentProps<any> & ComponentProps;
+import { RootState } from '../store/reducers';
+import { getLocale, getNemoURL } from '../store/config/selectors';
+import { startSearch } from '../store/actions';
+import { loadSearchResults } from '../store/results/actions';
+
+type StateProps = ComponentProps & Partial<RouterState>;
+
+interface DispatchProps {
+	startSearch: typeof startSearch;
+	loadSearchResults: typeof loadSearchResults;
+}
+
+type Props = StateProps & DispatchProps;
 
 class SearchForm extends React.Component<Props> {
 	protected searchForm: SearchFormComponent = null;
 
-	constructor(props: Props) {
-		super(props);
-
-		this.onSearch = this.onSearch.bind(this);
-	}
-
-	onSearch(searchInfo: SearchInfo): void {
-		const { history, onSearch } = this.props;
-
-		onSearch(searchInfo);
-		history.replace('/results');
+	@autobind
+	getSearchFormRef(component: SearchFormComponent): void {
+		this.searchForm = component;
 	}
 
 	componentDidMount(): void {
-		if (this.props.location.pathname === '/results') {
-			this.props.onSearch(this.searchForm.getSeachInfo());
+		if (/\/results\/(\d+\/?)+/.test(this.props.location.pathname)) {
+			this.props.loadSearchResults(this.props.location.pathname);
+		}
+		else if (this.props.location.pathname === '/results') {
+			this.props.startSearch(this.searchForm.getSeachInfo());
 		}
 	}
 
 	render(): React.ReactNode {
 		const isResultsPage = this.props.location.pathname !== '/';
+		const classNames = classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage });
 
-		return <div className={classnames('results-searchForm', { 'results-searchForm_pinned': isResultsPage })}>
-			<SearchFormComponent ref={component => this.searchForm = component} nemoURL={this.props.nemoURL} locale={this.props.locale} onSearch={this.onSearch}/>
+		return <div className={classNames}>
+			<SearchFormComponent
+				ref={this.getSearchFormRef}
+				nemoURL={this.props.nemoURL}
+				locale={this.props.locale}
+				onSearch={this.props.startSearch}
+			/>
 		</div>;
 	}
 }
 
-export default withRouter(SearchForm);
+const mapStateToProps = (state: RootState): StateProps => {
+	return {
+		location: state.router.location,
+		locale: getLocale(state),
+		nemoURL: getNemoURL(state)
+	};
+};
+
+const mapDispatchToProps = {
+	startSearch,
+	loadSearchResults
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);

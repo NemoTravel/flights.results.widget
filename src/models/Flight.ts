@@ -8,8 +8,9 @@ import { convertNemoDateToMoment, declension, pluralize, UID_LEG_GLUE, UID_SEGME
 import Date from '../schemas/Date';
 import Fillable from '../models/Fillable';
 import { i18n } from '../i18n';
+import { ObjectsMap } from '../store/filters/selectors';
 
-export default class Flight extends Fillable<FlightSchema> implements FlightSchema {
+export default class Flight extends Fillable<FlightSchema> {
 	id: string;
 	altFlightHasBeenChosen: boolean;
 	altFlights: Flight[];
@@ -36,11 +37,14 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 	transferInfo: string;
 	isRT: boolean = false;
 	legId: number;
+	airlinesList: Airline[];
 
 	fill(flightSource: FlightSchema): void {
 		super.fill(flightSource);
 
 		const UID: string[] = [];
+		const airlinesMap: ObjectsMap<Airline> = {};
+		const airlinesInFlight: Airline[] = [];
 		let totalFlightTime = 0;
 
 		this.id = flightSource.id.toString();
@@ -75,8 +79,15 @@ export default class Flight extends Fillable<FlightSchema> implements FlightSche
 
 		this.segments.forEach(segment => {
 			totalFlightTime += segment.flightTime + segment.waitingTime;
+
+			// Pull airline object from segment.
+			if (!airlinesMap.hasOwnProperty(segment.airline.IATA)) {
+				airlinesMap[segment.airline.IATA] = segment.airline;
+				airlinesInFlight.push(segment.airline);
+			}
 		});
 
+		this.airlinesList = airlinesInFlight;
 		this.totalFlightTime = totalFlightTime;
 		this.totalFlightTimeHuman = moment.duration(totalFlightTime, 'seconds').format(`d [${i18n('utils-dates-d')}] h [${i18n('utils-dates-h')}] m [${i18n('utils-dates-m')}]`);
 

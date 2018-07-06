@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { RouterState } from 'connected-react-router';
 
 import { flightsByLegsReducer as flightsByLegs, FlightsByLegsState } from './flightsByLegs/reducers';
 import { loadingReducer as isLoading } from './isLoading/reducers';
@@ -20,6 +21,8 @@ import { loadingActualizationReducer as isLoadingActualization } from './isLoadi
 import { ActualizationState, actualizationReducer as actualization } from './actualization/reducers';
 import { Currency } from '../enums';
 import { currencyReducer as currency } from './currency/reducers';
+import { ResultsState } from './results/reducers';
+import { resultsReducer as results } from './results/reducers';
 
 export interface RootState {
 	config: Config;
@@ -37,6 +40,8 @@ export interface RootState {
 	sorting: SortingState;
 	showAllFlights: boolean;
 	actualization: ActualizationState;
+	results: ResultsState[];
+	router?: RouterState;
 	currency: Currency;
 }
 
@@ -56,5 +61,6 @@ export const rootReducer = batchActionsReducer(combineReducers<RootState>({
 	showAllFlights,
 	isLoadingActualization,
 	actualization,
+	results,
 	currency
 }));

@@ -6,6 +6,7 @@ import searchFareFamiliesSaga from './sagas/searchFareFamilies';
 import selectedFlightsSagas from './selectedFlights/sagas';
 import searchFareFamiliesRTSaga from './sagas/searchFareFamiliesRT';
 import flightsSagas from './flights/sagas';
+import resultsSagas from './results/sagas';
 
 export default function*() {
 	yield all([
@@ -15,6 +16,7 @@ export default function*() {
 		currentLegSagas(),
 		filtersSagas(),
 		selectedFlightsSagas(),
-		flightsSagas()
+		flightsSagas(),
+		resultsSagas()
 	]);
 }

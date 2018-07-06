@@ -23,6 +23,7 @@ import { isRT } from '../store/legs/selectors';
 import { i18n } from '../i18n';
 import { getIsLoadingActualization } from '../store/isLoadingActualization/selectors';
 import { getNemoURL } from '../store/config/selectors';
+import ErrorHandler from './Actualization/ErrorHandler';
 
 interface StateProps {
 	selectedFlights: Flight[];
@@ -64,9 +65,13 @@ class FareFamilies extends React.Component<Props> {
 			</div>;
 		}
 
-		return <section className={classnames('fareFamilies', { fareFamilies_isLoading: isLoading })}>
+		const classNames = classnames('fareFamilies', { fareFamilies_isLoading: isLoading });
+
+		return <section className={classNames}>
 			<div className="fareFamilies__inner">
-				{isRT ? null : <Typography className="fareFamilies-title" variant="headline">{i18n('fareFamilies-title')}</Typography>}
+				{!isRT && (
+					<Typography className="fareFamilies-title" variant="headline">{i18n('fareFamilies-title')}</Typography>
+				)}
 
 				<div className="fareFamilies__legs">
 					{selectedFlights.map((flight, legId) => (
@@ -85,15 +90,16 @@ class FareFamilies extends React.Component<Props> {
 				</div>
 			</div>
 
-			{isLoadingActualization ? (
+			{isLoadingActualization && (
 				<div className="actualization">
 					<div className="actualization-loader">
 						<CircularProgress className="actualization-loader__progress" color="primary" variant="indeterminate"/>
 					</div>
 				</div>
-			) : null}
+			)}
 
 			<Toolbar/>
+			<ErrorHandler/>
 		</section>;
 	}
 }

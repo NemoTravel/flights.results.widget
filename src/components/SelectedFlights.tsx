@@ -27,6 +27,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 class SelectedFlights extends React.Component<Props> {
+
 	@autobind
 	renderFlight(flight: FlightModel): React.ReactNode {
 		const { goToLeg, prices, nemoURL } = this.props;
@@ -47,11 +48,11 @@ class SelectedFlights extends React.Component<Props> {
 	render(): React.ReactNode {
 		return (
 			<div className="results-selectedFlights">
-				{this.props.selectedFlights.length ? (
+				{!!this.props.selectedFlights.length && (
 					<div className="results-selectedFlights-title">
 						<Typography variant="headline">{isRT ? i18n('results-selected-title_there') : i18n('results-selected-title')}</Typography>
 					</div>
-				) : null}
+				)}
 
 				<div className="results-selectedFlights__wrapper">
 					{this.props.selectedFlights.map(this.renderFlight)}

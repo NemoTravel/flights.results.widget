@@ -85,7 +85,6 @@ class Leg extends React.Component<Props> {
 		return !!initialFamilyCode && !!families ? (
 			<FamiliesSegment
 				key={segmentId}
-				segmentId={segmentId}
 				intSegmentId={index}
 				segment={segment}
 				enabledFamilies={enabledFamilies}
@@ -93,6 +92,7 @@ class Leg extends React.Component<Props> {
 				families={families}
 				onChange={this.onChange}
 				prices={prices ? prices[index] : {}}
+				baggageReplacement={combinations.baggageReplacement}
 			/>
 		) : (
 			<div className="fareFamilies-noFamiliesTitle">
@@ -132,7 +132,6 @@ class Leg extends React.Component<Props> {
 				<Flight
 					{...this.props}
 					className={classnames('flight', { flight_direct: true })}
-					alwaysUpdate={true}
 					showOpenedSummary={this.props.flight.segments.length === 1}
 					showDetails={!shouldBeClosed}
 					renderDetails={this.renderDetails}

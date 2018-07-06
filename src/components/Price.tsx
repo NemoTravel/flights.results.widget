@@ -68,9 +68,9 @@ class Price extends React.Component<Props & StateProps> {
 		const currency = CurrencyCode[this.props.currency];
 
 		return <span className="price">
-		<span className="price-amount">{this.props.withPlus && this.props.price.amount >= 0 ? '+' : ''}{withMinus ? '–' : ''} {amount}</span>
-		<span className="price-currency">{currency}</span>
-	</span>;
+			<span className="price-amount">{this.props.withPlus && this.props.price.amount >= 0 && '+'}{withMinus && '–'} {amount}</span>
+			<span className="price-currency">{currency}</span>
+		</span>;
 	}
 }
 

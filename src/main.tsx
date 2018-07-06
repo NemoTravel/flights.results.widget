@@ -2,12 +2,13 @@ import './ponyfills';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as moment from 'moment';
+import { createHashHistory } from 'history';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
+import { connectRouter, routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
-import { HashRouter as Router } from 'react-router-dom';
 
 import './css/main.scss';
 import themeObject from './themes/default';
@@ -31,10 +32,12 @@ let storeGlobal: Store<RootState>;
 
 export const init = (config: Config) => {
 	const sagaMiddleware = createSagaMiddleware();
+	const history = createHashHistory();
 
 	middlewares.push(sagaMiddleware);
+	middlewares.push(routerMiddleware(history));
 
-	const store = createStore(rootReducer, applyMiddleware(...middlewares));
+	const store = createStore(connectRouter(history)(rootReducer), applyMiddleware(...middlewares));
 	const theme = createMuiTheme(themeObject);
 
 	storeGlobal = store;
@@ -49,9 +52,9 @@ export const init = (config: Config) => {
 
 	ReactDOM.render(<Provider store={store}>
 		<MuiThemeProvider theme={theme}>
-			<Router>
+			<ConnectedRouter history={history}>
 				<Main/>
-			</Router>
+			</ConnectedRouter>
 		</MuiThemeProvider>
 	</Provider>, config.rootElement);
 };

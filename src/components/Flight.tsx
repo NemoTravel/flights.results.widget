@@ -21,7 +21,6 @@ export interface Props {
 	showFilters?: boolean;
 	showOpenedSummary?: boolean;
 	showDetails?: boolean;
-	alwaysUpdate?: boolean;
 	nemoURL: string;
 }
 
@@ -36,7 +35,6 @@ class Flight extends React.Component<Props, State> {
 	static defaultProps: Partial<Props> = {
 		isToggleable: true,
 		showFilters: false,
-		alwaysUpdate: false,
 		showOpenedSummary: false,
 		showDetails: false,
 		className: 'flight'
@@ -57,10 +55,6 @@ class Flight extends React.Component<Props, State> {
 		}
 	}
 
-	shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-		return this.props.alwaysUpdate || this.props.flight.id !== nextProps.flight.id || this.state.isOpen !== nextState.isOpen;
-	}
-
 	@autobind
 	toggleDetails(): void {
 		if (this.props.isToggleable) {
@@ -74,29 +68,28 @@ class Flight extends React.Component<Props, State> {
 		stateByFlights[this.props.flight.id] = this.state;
 	}
 
+	renderLogoAsText(airlines: Airline[]): React.ReactNode {
+		return <div className="flight-summary-logo__text">{airlines.map(airline => airline.name).join(', ')}</div>;
+	}
+
+	renderLogoAsImages(airlines: Airline[]): React.ReactNode {
+		return airlines.map((airline, index) => (
+			airline.logoIcon ?
+				<img key={index} className="flight-summary-logo__image" title={airline.name} src={fixImageURL(airline.logoIcon, this.props.nemoURL)}/> :
+				<div key={index} className="flight-summary-logo__text">{airline.name}</div>
+		));
+	}
+
 	renderLogo(firstOnly = false): React.ReactNode {
 		const { flight } = this.props;
-		const airlinesMap: ObjectsMap<Airline> = {};
-		const airlinesInFlight: Airline[] = [];
-		const segments: SegmentModel[] = firstOnly ? [ flight.segments[0] ] : flight.segments;
+		const airlines: Airline[] = firstOnly ? [ flight.segments[0].airline ] : flight.airlinesList;
 
-		segments.forEach(segment => {
-			if (!airlinesMap.hasOwnProperty(segment.airline.IATA)) {
-				airlinesMap[segment.airline.IATA] = segment.airline;
-				airlinesInFlight.push(segment.airline);
-			}
-		});
-
-		return airlinesInFlight.length > MAX_NUM_OF_LOGO_INLINE ?
-			<div className="flight-summary-logo__text">{airlinesInFlight.map(airline => airline.name).join(', ')}</div> :
-			airlinesInFlight.map((airline, index) => {
-				return airline.logoIcon ?
-					<img key={index} className="flight-summary-logo__image" title={airline.name} src={fixImageURL(airline.logoIcon, this.props.nemoURL)}/> :
-					<div key={index} className="flight-summary-logo__text">{airline.name}</div>;
-			});
+		return airlines.length > MAX_NUM_OF_LOGO_INLINE ? this.renderLogoAsText(airlines) : this.renderLogoAsImages(airlines);
 	}
 
 	renderSummary(): React.ReactNode {
+		const classNames = classnames('flight-summary', { 'flight-summary_open': this.state.isOpen, 'flight-summary_isToggleable': this.props.isToggleable });
+		const expandClassNames = classnames('flight-summary-expand', { 'flight-summary-expand_open': this.state.isOpen });
 		const flight: FlightModel = this.props.flight;
 		const firstSegment = flight.firstSegment;
 		const lastSegment = this.state.isOpen ? firstSegment : flight.lastSegment;
@@ -104,9 +97,9 @@ class Flight extends React.Component<Props, State> {
 			moment.duration(firstSegment.flightTime, 'seconds').format(`d [${i18n('utils-dates-d')}] h [${i18n('utils-dates-h')}] m [${i18n('utils-dates-m')}]`) :
 			flight.totalFlightTimeHuman;
 
-		return <div className={classnames('flight-summary', { 'flight-summary_open': this.state.isOpen, 'flight-summary_isToggleable': this.props.isToggleable })} onClick={this.toggleDetails}>
+		return <div className={classNames} onClick={this.toggleDetails}>
 			<div className="flight-summary__left">
-				<div className={classnames('flight-summary-expand', { 'flight-summary-expand_open': this.state.isOpen })}>
+				<div className={expandClassNames}>
 					<svg fill="rgba(0, 0, 0, 0.54)" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
 						<path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
 						<path d="M0-.75h24v24H0z" fill="none"/>
@@ -175,24 +168,28 @@ class Flight extends React.Component<Props, State> {
 			<div><strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
 
 			<div className="flight-details-segment-route">
-				{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}
+				{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name && ', ' + segment.depAirport.name}
 				&nbsp;&mdash;&nbsp;
-				{segment.arrAirport.city.name}{segment.arrAirport.city.name !== segment.arrAirport.name ? ', ' + segment.arrAirport.name : null}
+				{segment.arrAirport.city.name}{segment.arrAirport.city.name !== segment.arrAirport.name && ', ' + segment.arrAirport.name}
 			</div>
 		</>;
 	}
 
 	renderDetails(): React.ReactNode {
-		return this.props.renderDetails ? this.props.renderDetails() : <div className="flight-details">
-			{this.segmentsForDetails.map((segment, index) => <Segment key={index} nemoURL={this.props.nemoURL} segment={segment}/>)}
-		</div>;
+		return this.props.renderDetails ? this.props.renderDetails() : (
+			<div className="flight-details">
+				{this.segmentsForDetails.map((segment, index) => <Segment key={index} nemoURL={this.props.nemoURL} segment={segment}/>)}
+			</div>
+		);
 	}
 
 	render(): React.ReactNode {
-		return <div className={classnames(this.props.className, { flight_open: this.state.isOpen })} data-flight-id={this.props.flight.id}>
+		const classNames = classnames(this.props.className, { flight_open: this.state.isOpen });
+
+		return <div className={classNames} data-flight-id={this.props.flight.id}>
 			{this.renderSummary()}
-			{this.state.isOpen ? this.renderDetails() : null}
-			{this.state.isOpen && this.props.showFilters ? <Filters flight={this.props.flight}/> : null}
+			{this.state.isOpen && this.renderDetails()}
+			{this.state.isOpen && this.props.showFilters && <Filters flight={this.props.flight}/>}
 		</div>;
 	}
 }

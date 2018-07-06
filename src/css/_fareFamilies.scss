@@ -1,10 +1,10 @@
 @import "variable";
 
 .fareFamilies {
-	margin-bottom: 60px;
+	padding-bottom: 80px;
 
 	@include adaptivity(phone) {
-		margin-bottom: 100px;
+		padding-bottom: 100px;
 	}
 
 	&-title {

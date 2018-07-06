@@ -31,7 +31,8 @@
 		border-radius: 2px;
 	}
 
-	&:first-of-type {
+	&:first-of-type,
+	&_firstVisible {
 		border-top: none;
 		margin-top: 0;
 

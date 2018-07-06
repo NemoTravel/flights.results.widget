@@ -4,16 +4,17 @@ import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
 import SegmentModel from '../../schemas/Segment';
 import Money from '../../schemas/Money';
+import { BaggageReplacement } from '../../schemas/FareFamiliesCombinations';
 
 interface Props {
 	enabledFamilies: { [familyId: string]: boolean };
 	initialCombination: string;
 	segment: SegmentModel;
 	intSegmentId: number;
-	segmentId: string;
 	onChange: (segmentId: number, familyId: string) => void;
 	families: FareFamily[];
 	prices: { [familyId: string]: Money };
+	baggageReplacement: BaggageReplacement;
 }
 
 interface State {
@@ -44,12 +45,13 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	renderContent(): React.ReactNode {
-		const { initialCombination, families, enabledFamilies, prices } = this.props;
+		const { initialCombination, families, enabledFamilies, prices, baggageReplacement, intSegmentId } = this.props;
 		const selectedFamilyId = this.state.selectedFamilyId || initialCombination;
 
 		return <form className="fareFamilies-leg-segment__families">
 			{families ? families.map((family, index) => {
 				const familyId = `F${index + 1}`;
+				const replacement = baggageReplacement[familyId] && baggageReplacement[familyId][intSegmentId];
 
 				return enabledFamilies.hasOwnProperty(familyId) ? (
 					<Family
@@ -57,6 +59,7 @@ class Segment extends React.Component<Props, State> {
 						id={familyId}
 						onChange={this.onChange}
 						family={family}
+						baggage={replacement}
 						isSelected={selectedFamilyId === familyId}
 						price={prices ? prices[familyId] : null}
 					/>

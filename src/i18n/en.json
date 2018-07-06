@@ -90,5 +90,21 @@
 	"utils-dates-h": "h",
 	"utils-dates-m": "min",
 	"utils-pre-in": "in",
-	"utils-pre-from": "from"
+	"utils-pre-from": "from",
+
+	"error-actualization-Price": "During the seats availability check we have found out, that the price of the chosen flights has changed. You can still buy those flights for the new price or choose the other ones.",
+	"error-actualization-Price_header": "The price has changed",
+	"error-actualization-Price-action_reselect": "Rechoose",
+	"error-actualization-Price-action_continue": "Proceed to booking",
+
+	"error-actualization-Availability": "Unfortunately, there are no available seats left on the chosen flights. Please, choose another flight.",
+	"error-actualization-Availability_header": "No available seats :(",
+	"error-actualization-Availability-action_reselect": "Choose another flight",
+
+	"error-actualization-Unknown": "We can't book this flights due to internal service error. Please, try again later or choose another flight.",
+	"error-actualization-Unknown_header": "Something went wrong...",
+	"error-actualization-Unknown-action_OK": "OK",
+
+	"error-actualization-back": "Choose another flight",
+	"error-actualization-continue": "Next"
 }

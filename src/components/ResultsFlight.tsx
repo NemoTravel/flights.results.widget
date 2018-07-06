@@ -20,9 +20,21 @@ interface Props {
 	totalPrice: Money;
 	currentLegId: number;
 	nemoURL: string;
+	isHidden: boolean;
+	isFirstVisible: boolean;
 }
 
 class ResultsFlight extends React.Component<Props> {
+	shouldComponentUpdate(nextProps: Props): boolean {
+		return (
+			this.props.flight.id !== nextProps.flight.id ||
+			this.props.totalPrice !== nextProps.totalPrice ||
+			this.props.isHidden !== nextProps.isHidden ||
+			this.props.isFirstVisible !== nextProps.isFirstVisible ||
+			this.props.replacement !== nextProps.replacement
+		);
+	}
+
 	@autobind
 	onAction(event: React.MouseEvent<HTMLDivElement>): void {
 		event.stopPropagation();
@@ -44,12 +56,12 @@ class ResultsFlight extends React.Component<Props> {
 		const block = <div className="flight-summary__right">
 			<div className="flight-summary-price">
 				<div className={classnames('flight-summary-price__amount', { 'flight-summary-price__amount_profitable': price.amount < 0 })}>
-					{showPricePrefix ? <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span> : null}
+					{showPricePrefix && <span className="flight-summary-price__amount-prefix">{i18n('utils-pre-from')}</span>}
 
 					<Price withPlus={currentLegId !== 0} price={price}/>
 				</div>
 
-				{price.amount < 0 ? (
+				{price.amount < 0 && (
 					<div className="flight-summary-price-profitMark">
 						<div className="flight-summary-price-profitMark__icon">
 							<StarIcon/>
@@ -57,13 +69,13 @@ class ResultsFlight extends React.Component<Props> {
 
 						<span className="flight-summary-price-profitMark__text">{i18n('results-flight-profitable-title')}</span>
 					</div>
-				) : null}
+				)}
 
-				{currentLegId === 0 ? (
+				{currentLegId === 0 && (
 					<div className="flight-summary-price__route">
 						{i18n('results-flight-wholeFlightTitle')}
 					</div>
-				) : null}
+				)}
 			</div>
 
 			<div className="flight-summary-buy" onClick={this.onAction}>{buttonText}</div>
@@ -75,7 +87,18 @@ class ResultsFlight extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		return <Flight {...this.props} showFilters={true} renderActionBlock={this.renderActionBlock}/>;
+		return (
+			<Flight
+				{...this.props}
+				className={classnames('flight', {
+					flight_hidden: this.props.isHidden,
+					flight_visible: !this.props.isHidden,
+					flight_firstVisible: this.props.isFirstVisible
+				})}
+				showFilters={true}
+				renderActionBlock={this.renderActionBlock}
+			/>
+		);
 	}
 }
 
