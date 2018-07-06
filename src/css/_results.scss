@@ -49,6 +49,11 @@
 			padding-left: 20px;
 			padding-right: 20px;
 		}
+
+		@include adaptivity(phone) {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
 	}
 
 	&-searchForm {

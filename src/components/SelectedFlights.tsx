@@ -46,13 +46,11 @@ class SelectedFlights extends React.Component<Props> {
 	}
 
 	render(): React.ReactNode {
-		return (
+		return !!this.props.selectedFlights.length && (
 			<div className="results-selectedFlights">
-				{!!this.props.selectedFlights.length && (
-					<div className="results-selectedFlights-title">
-						<Typography variant="headline">{isRT ? i18n('results-selected-title_there') : i18n('results-selected-title')}</Typography>
-					</div>
-				)}
+				<div className="results-selectedFlights-title">
+					<Typography variant="headline">{isRT ? i18n('results-selected-title_there') : i18n('results-selected-title')}</Typography>
+				</div>
 
 				<div className="results-selectedFlights__wrapper">
 					{this.props.selectedFlights.map(this.renderFlight)}
