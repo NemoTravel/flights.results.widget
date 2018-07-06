@@ -19,6 +19,30 @@
 			border-top-left-radius: 2px;
 			border-top-right-radius: 2px;
 		}
+
+		@include adaptivity(phone) {
+			padding-bottom: 75px;
+			position: relative;
+
+			.flight {
+				&-details:not(:empty) {
+					padding-top: 10px;
+					border-top: 1px solid #e0e0e0;
+					margin-top: 0;
+				}
+
+				&-summary {
+					position: static;
+
+					&__right {
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						padding-bottom: 15px;
+					}
+				}
+			}
+		}
 	}
 
 	&_open + & {
