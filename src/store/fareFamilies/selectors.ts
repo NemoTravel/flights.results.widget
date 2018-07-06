@@ -8,6 +8,7 @@ import { SelectedFamiliesState } from './selectedFamilies/reducers';
 import { FareFamiliesPrices } from '../../schemas/FareFamiliesPrices';
 import { getIsRTMode } from './isRTMode/selectors';
 import { CombinationsFlights } from '../../schemas/FareFamiliesCombinations';
+import { getCurrency } from '../currency/selectors';
 
 export const getSelectedFamilies = (state: RootState): SelectedFamiliesState => state.fareFamilies.selectedFamilies;
 export const getFareFamiliesCombinations = (state: RootState): FareFamiliesCombinationsState => state.fareFamilies.fareFamiliesCombinations;
@@ -167,8 +168,8 @@ export const getFareFamiliesAvailability = createSelector(
  * Get price differences for fare families.
  */
 export const getFareFamiliesPrices = createSelector(
-	[getSelectedCombinations, getFareFamiliesCombinations],
-	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState): FareFamiliesPrices => {
+	[getSelectedCombinations, getFareFamiliesCombinations, getCurrency],
+	(selectedCombinations: SelectedCombinations, combinationsByLegs: FareFamiliesCombinationsState, currency: Currency): FareFamiliesPrices => {
 		const result: FareFamiliesPrices = {};
 
 		for (const legId in selectedCombinations) {
@@ -176,7 +177,7 @@ export const getFareFamiliesPrices = createSelector(
 				const selectedLegCombination = selectedCombinations[legId];
 
 				const
-					dumbPrice = { amount: 0, currency: Currency.RUB },
+					dumbPrice = { amount: 0, currency: currency },
 
 					// Fare families combinations information on leg.
 					combinations = combinationsByLegs[legId],

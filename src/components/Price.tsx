@@ -1,5 +1,9 @@
 import * as React from 'react';
 import Money from '../schemas/Money';
+import { Currency, CurrencyCode } from '../enums';
+import { RootState } from '../store/reducers';
+import { connect } from 'react-redux';
+import { getCurrencyCoefficient, digitsAfterPoint } from '../store/currency/selectors';
 
 interface Props {
 	price: Money;
@@ -7,26 +11,74 @@ interface Props {
 	withMinus?: boolean;
 }
 
+interface StateProps {
+	currency: Currency;
+	coefficient: number;
+}
+
 const THOUSANDS_INDEX = 3;
 
-export default ({ price, withPlus = false }: Props) => {
-	if (!price) {
-		return null;
+class Price extends React.Component<Props & StateProps> {
+	shouldComponentUpdate(nextProps: Props & StateProps): boolean {
+		return this.props.currency !== nextProps.currency ||
+			this.props.coefficient !== nextProps.coefficient ||
+			this.props.price !== nextProps.price;
 	}
 
-	const amount = price.amount.toString().replace(/[+\-]/, '');
-	const withMinus = price.amount < 0;
-	let result = amount;
+	getFormattedAmount(amount: string): string {
+		let tmpAmount = amount,
+			fraction = '';
 
-	if (amount.length > THOUSANDS_INDEX) {
-		const head = amount.substr(0, amount.length - THOUSANDS_INDEX);
-		const tail = amount.substr(amount.length - THOUSANDS_INDEX);
+		const parts = [],
+			pointIndex = tmpAmount.indexOf('.');
 
-		result = (head && head + ' ') + tail;
+		if (pointIndex >= 0) {
+			fraction = tmpAmount.substr(pointIndex);
+			tmpAmount = tmpAmount.substr(0, pointIndex);
+		}
+
+		while(tmpAmount) {
+			parts.push(tmpAmount.substr(-THOUSANDS_INDEX));
+			tmpAmount = tmpAmount.substr(0, tmpAmount.length - THOUSANDS_INDEX);
+		}
+
+		parts.reverse();
+
+		return parts.join(' ') + fraction;
 	}
 
-	return <span className="price">
-		<span className="price-amount">{withPlus && price.amount >= 0 && '+'}{withMinus && '–'} {result}</span>
-		<span className="price-currency">₽</span>
-	</span>;
+	getConvertedAmount(amount: string): string {
+		const currency = this.props.currency,
+			currencyRound = Math.pow(10, digitsAfterPoint[currency]),
+			currencyCoefficient = this.props.coefficient;
+
+		return (Math.round(parseFloat(amount) * currencyCoefficient * currencyRound) / currencyRound).toString();
+	}
+
+	render(): React.ReactNode {
+		if (!this.props.price) {
+			return null;
+		}
+
+		let amount = this.props.price.amount.toString().replace(/[+\-]/, '');
+		const withMinus = this.props.price.amount < 0;
+
+		amount = this.getFormattedAmount(this.getConvertedAmount(amount));
+
+		const currency = CurrencyCode[this.props.currency];
+
+		return <span className="price">
+			<span className="price-amount">{this.props.withPlus && this.props.price.amount >= 0 && '+'}{withMinus && '–'} {amount}</span>
+			<span className="price-currency">{currency}</span>
+		</span>;
+	}
+}
+
+const mapStateToProps = (state: RootState): StateProps => {
+	return {
+		currency: state.currency,
+		coefficient: getCurrencyCoefficient(state)
+	};
 };
+
+export default connect(mapStateToProps)(Price);
