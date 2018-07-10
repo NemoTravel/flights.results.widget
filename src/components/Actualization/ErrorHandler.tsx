@@ -11,6 +11,7 @@ import { i18n } from '../../i18n';
 import DialogMessage from '../DialogMessage';
 import { getNemoURL } from '../../store/config/selectors';
 import { clearActualizationProblems } from '../../store/actualization/actions';
+import Price from '../Price';
 
 export interface StateProps {
 	problem: ActualizationProblem;
@@ -29,7 +30,26 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 	}
 
 	renderContent(): React.ReactNode {
-		return i18n(`error-actualization-${this.props.problem}`);
+		switch (this.props.problem) {
+			case ActualizationProblem.Availability:
+				return i18n(`error-actualization-${this.props.problem}`);
+
+			case ActualizationProblem.Price:
+				return <>
+					<div className="fareFamilies-error__priceChanged">
+						<div className="fareFamilies-error__price_old">
+							<Price price={this.props.info[0].priceInfo.oldPrice}/>
+						</div>
+						<div className="fareFamilies-error__price_new">
+							<Price price={this.props.info[0].priceInfo.newPrice}/>
+						</div>
+					</div>
+					{i18n(`error-actualization-${this.props.problem}`)}
+				</>;
+
+			default:
+				return i18n(`error-actualization-${this.props.problem}`);
+		}
 	}
 
 	@autobind

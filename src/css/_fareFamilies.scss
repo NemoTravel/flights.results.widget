@@ -355,4 +355,55 @@
 			padding-right: 20px;
 		}
 	}
+
+	&-error {
+		&__priceChanged {
+			display: flex;
+			margin-bottom: 20px;
+			margin-top: 5px;
+
+			.price-amount {
+				font-size: 27px;
+				font-weight: 500;
+			}
+
+			.price-currency {
+				margin-left: 5px;
+			}
+		}
+
+		&__price {
+			&_old {
+				color: #d0d0d0;
+				position: relative;
+				margin-right: 10px;
+
+				&:before {
+					border-top: 2px solid red;
+					width: 100%;
+					content: '';
+					position: absolute;
+					left: 0;
+					margin-top: 8px;
+					transform: rotate(-18deg);
+				}
+			}
+
+			&_new {
+				color: #78ae35;
+
+				&:before {
+					content: '';
+					border-top: 3px solid;
+					border-left: 3px solid;
+					transform: rotate(135deg);
+					display: inline-block;
+					width: 10px;
+					height: 10px;
+					margin-bottom: 3px;
+					margin-right: 10px;
+				}
+			}
+		}
+	}
 }
