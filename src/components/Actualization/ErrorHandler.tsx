@@ -12,6 +12,10 @@ import DialogMessage from '../DialogMessage';
 import { getNemoURL } from '../../store/config/selectors';
 import { clearActualizationProblems } from '../../store/actualization/actions';
 import Price from '../Price';
+import Flight from '../Flight';
+import CheckCircle from '@material-ui/icons/CheckCircle';
+import RemoveIcon from '@material-ui/icons/RemoveCircle';
+import Tooltip from '../Flight/Tooltip';
 
 export interface StateProps {
 	problem: ActualizationProblem;
@@ -29,14 +33,43 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 		return i18n(`error-actualization-${this.props.problem}_header`);
 	}
 
+	renderFlights(): React.ReactNode {
+		return this.props.info.map((info, index) => {
+			const className = 'fareFamilies-error-flight ' + (!info.isAvailable ? 'fareFamilies-error-flight__notAvailable' : 'fareFamilies-error-flight__available'),
+				title = i18n(info.isAvailable ? 'error-actualization-Availability_flight_available' : 'error-actualization-Availability_flight_notAvailable');
+
+			return <Tooltip title={title} placement="top">
+				<div className={className}>
+					<div className="fareFamilies-error-flight__icon">
+						{info.isAvailable ? <CheckCircle/> : <RemoveIcon/>}
+					</div>
+
+					<Flight
+						flight={info.flight}
+						renderActionBlock={() => <></>}
+						nemoURL={this.props.nemoURL}
+						key={index}
+						isToggleable={false}
+					/>
+				</div>
+			</Tooltip>;
+		});
+	}
+
 	renderContent(): React.ReactNode {
 		switch (this.props.problem) {
 			case ActualizationProblem.Availability:
-				return i18n(`error-actualization-${this.props.problem}`);
+				return <>
+					<div className="fareFamilies-error-notAvailable">
+						{this.renderFlights()}
+					</div>
+
+					{i18n(`error-actualization-${this.props.problem}`)}
+				</>;
 
 			case ActualizationProblem.Price:
 				return <>
-					<div className="fareFamilies-error__priceChanged">
+					<div className="fareFamilies-error-priceChanged">
 						<div className="fareFamilies-error__price_old">
 							<Price price={this.props.info[0].priceInfo.oldPrice}/>
 						</div>
@@ -44,6 +77,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 							<Price price={this.props.info[0].priceInfo.newPrice}/>
 						</div>
 					</div>
+
 					{i18n(`error-actualization-${this.props.problem}`)}
 				</>;
 

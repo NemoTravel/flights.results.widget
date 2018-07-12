@@ -99,6 +99,8 @@
 
 	"error-actualization-Availability": "Unfortunately, there are no available seats left on the chosen flights. Please, choose another flight.",
 	"error-actualization-Availability_header": "No available seats :(",
+	"error-actualization-Availability_flight_notAvailable": "No seats available",
+	"error-actualization-Availability_flight_available": "Seats are available",
 	"error-actualization-Availability-action_reselect": "Choose another flight",
 
 	"error-actualization-Unknown": "We can't book this flights due to internal service error. Please, try again later or choose another flight.",

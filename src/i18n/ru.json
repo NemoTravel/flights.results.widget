@@ -99,6 +99,8 @@
 
 	"error-actualization-Availability": "К сожалению, на некоторых рейсах закончились свободные места. Вы будете перенаправлены на этап выбора других перелетов.",
 	"error-actualization-Availability_header": "Нет свободных мест :(",
+	"error-actualization-Availability_flight_notAvailable": "Нет свободных мест",
+	"error-actualization-Availability_flight_available": "Есть свободные места",
 	"error-actualization-Availability-action_reselect": "Выбрать другие перелёты",
 
 	"error-actualization-Unknown": "Мы не смогли проверить наличие свободных мест на выбранных рейсах из-за технической ошибки. Попробуйте позже или выберите другой перелёт.",
