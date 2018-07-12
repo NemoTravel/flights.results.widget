@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import Chip, { ChipProps } from '@material-ui/core/Chip';
+import MenuItem from '@material-ui/core/MenuItem';
 
 export enum Type {
 	Airports = 'airports',
@@ -61,6 +62,7 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 		return this.isVisible() && (
 			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
 				<Chip className="filters-filter-chip" {...this.getChipProps()}/>
+				<MenuItem className="filters-filter-menu" onClick={this.onClick}>{this.state.chipLabel}</MenuItem>
 			</div>
 		);
 	}

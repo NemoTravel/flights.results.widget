@@ -14,6 +14,7 @@ import SelectedFlights from './SelectedFlights';
 import { getIsLoading } from '../store/isLoading/selectors';
 import { connect } from '../utils';
 import { i18n } from '../i18n';
+import MobileFilters from './MobileFilters';
 
 interface StateProps {
 	isRT: boolean;
@@ -46,6 +47,8 @@ class Results extends React.Component<StateProps> {
 				<Filters isRT={isRT} currentLeg={currentLeg} withSearch={flightSearchActive}/>
 
 				{hasAnyVisibleFlights && <Sortings/>}
+
+				<MobileFilters/>
 
 				<div className="results-flights">
 					<FlightsList legId={currentLeg.id}/>

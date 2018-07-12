@@ -3,6 +3,7 @@ import * as classnames from 'classnames';
 import Chip, { ChipProps } from '@material-ui/core/Chip';
 import Popover from '@material-ui/core/Popover';
 import Filter, { State as FilterState } from '../Filter';
+import MenuItem from '@material-ui/core/MenuItem';
 
 export interface State extends FilterState {
 	element?: HTMLElement;
@@ -71,6 +72,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive || this.state.isOpen })} ref={this.getElement}>
 			<Chip className="filters-filter-chip" {...chipProps}/>
+			<MenuItem onClick={this.onClick}>{this.state.chipLabel}</MenuItem>
 
 			<Popover
 				className={`filters-filter-popover filters-filter-popover_${this.type}`}
