@@ -4,10 +4,23 @@ import Chip, { ChipProps } from '@material-ui/core/Chip';
 import Popover from '@material-ui/core/Popover';
 import Filter, { State as FilterState } from '../Filter';
 import MenuItem from '@material-ui/core/MenuItem';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import { i18n } from '../../i18n';
 
 export interface State extends FilterState {
 	element?: HTMLElement;
 	isOpen?: boolean;
+	isFullScreenOpen?: boolean;
+}
+
+function Transition(props: any) {
+	return <Slide direction="up" {...props} />;
 }
 
 abstract class WithPopover<P, S> extends Filter<P, State | S> {
@@ -15,6 +28,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 		chipLabel: '',
 		isActive: false,
 		isOpen: false,
+		isFullScreenOpen: false,
 		element: null
 	};
 
@@ -24,6 +38,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 		this.getElement = this.getElement.bind(this);
 		this.openPopover = this.openPopover.bind(this);
 		this.closePopover = this.closePopover.bind(this);
+		this.fullScreenOpen = this.fullScreenOpen.bind(this);
 	}
 
 	abstract renderPopover(): React.ReactNode;
@@ -42,6 +57,14 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 	onClick(): void {
 		this.openPopover();
+	}
+
+	fullScreenOpen(): void {
+		this.setState({
+			isFullScreenOpen: !this.state.isFullScreenOpen
+		} as State);
+
+		this.onPopoverOpen();
 	}
 
 	openPopover(): void {
@@ -72,7 +95,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive || this.state.isOpen })} ref={this.getElement}>
 			<Chip className="filters-filter-chip" {...chipProps}/>
-			<MenuItem onClick={this.onClick}>{this.state.chipLabel}</MenuItem>
+			<MenuItem onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
 
 			<Popover
 				className={`filters-filter-popover filters-filter-popover_${this.type}`}
@@ -93,6 +116,23 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 					{this.renderPopover()}
 				</div>
 			</Popover>
+
+			<Dialog open={this.state.isFullScreenOpen} onClose={() => {}} fullScreen={true} TransitionComponent={Transition}>
+				<AppBar>
+					<Toolbar>
+						<IconButton color="inherit" onClick={this.fullScreenOpen} aria-label="Close">
+							<CloseIcon/>
+						</IconButton>
+						<Typography variant="title" color="inherit">
+							{i18n(`filters-${this.type}-title`)}
+						</Typography>
+					</Toolbar>
+				</AppBar>
+
+				<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
+					{this.renderPopover()}
+				</div>
+			</Dialog>
 		</div> : null;
 	}
 }

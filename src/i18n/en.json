@@ -78,6 +78,7 @@
 	"filters-quick-time-interval_day": "Day",
 	"filters-quick-time-interval_evening": "Evening",
 
+	"sorting-title": "Sorting",
 	"sorting-title_price": "Total price",
 	"sorting-title_departure": "Departure",
 	"sorting-title_arrival": "Arrival",

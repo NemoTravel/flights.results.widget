@@ -44,7 +44,8 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 			this.props.selectedAirlinesObject !== nextProps.selectedAirlinesObject ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
-			this.state.chipLabel !== nextState.chipLabel;
+			this.state.chipLabel !== nextState.chipLabel ||
+			this.state.isFullScreenOpen !== nextState.isFullScreenOpen;
 	}
 
 	onChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
@@ -78,25 +79,27 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 	renderPopover(): React.ReactNode {
 		const firstColumnLength = Math.round(this.props.airlines.length / 2);
 
-		return <FormControl component="fieldset">
-			<FormLabel className="filters-filter-popover-legend" component="legend">
-				{this.label}
-			</FormLabel>
+		return <div className="filters-filter-popover__columns">
+			<FormControl component="fieldset">
+				<FormLabel className="filters-filter-popover-legend" component="legend">
+					{this.label}
+				</FormLabel>
 
-			<div className="filters-filter-popover__columns">
-				<Column
-					airlines={this.props.airlines.slice(0, firstColumnLength)}
-					selectedAirlines={this.props.selectedAirlines}
-					onChange={this.onChange}
-				/>
+				<div className="filters-filter-popover__columns">
+					<Column
+						airlines={this.props.airlines.slice(0, firstColumnLength)}
+						selectedAirlines={this.props.selectedAirlines}
+						onChange={this.onChange}
+					/>
 
-				<Column
-					airlines={this.props.airlines.slice(firstColumnLength)}
-					selectedAirlines={this.props.selectedAirlines}
-					onChange={this.onChange}
-				/>
-			</div>
-		</FormControl>;
+					<Column
+						airlines={this.props.airlines.slice(firstColumnLength)}
+						selectedAirlines={this.props.selectedAirlines}
+						onChange={this.onChange}
+					/>
+				</div>
+			</FormControl>
+		</div>;
 	}
 }
 

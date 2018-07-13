@@ -430,10 +430,19 @@
 	}
 
 	&-mobileFilters {
-		display: flex;
+		display: none;
 		justify-content: space-between;
 		font-size: 0.875rem;
 		color: #757575;
+
+		@include adaptivity('tablet') {
+			display: flex;
+		}
+
+		&__filters, &__sorting {
+			display: flex;
+			align-items: center;
+		}
 	}
 }
 

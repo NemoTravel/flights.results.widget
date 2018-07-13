@@ -54,7 +54,8 @@ class Time extends WithPopover<Props, FilterState> {
 			this.props.selectedArrivalTimeIntervals !== nextProps.selectedArrivalTimeIntervals ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
-			this.state.chipLabel !== nextState.chipLabel;
+			this.state.chipLabel !== nextState.chipLabel ||
+			this.state.isFullScreenOpen !== nextState.isFullScreenOpen;
 	}
 
 	componentWillReceiveProps({ selectedDepartureTimeIntervals, selectedArrivalTimeIntervals }: Props): void {

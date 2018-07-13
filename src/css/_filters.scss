@@ -40,6 +40,10 @@
 			flex-basis: 100%;
 			justify-content: center;
 		}
+
+		@include adaptivity(tablet) {
+			display: none;
+		}
 	}
 
 	&__right {
@@ -76,6 +80,10 @@
 	&-filter {
 		&:not(:first-of-type) {
 			margin-left: 10px;
+
+			@include adaptivity('tablet') {
+				margin-left: 0;
+			}
 		}
 
 		&-chip {
@@ -149,6 +157,10 @@
 
 			&__wrapper {
 				padding: 20px 20px 5px;
+
+				@include adaptivity('tablet') {
+					margin-top: 55px;
+				}
 
 				&_airports {
 					.filters-filter-popover-group {
