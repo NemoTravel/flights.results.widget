@@ -483,6 +483,13 @@
 				align-items: center;
 				margin-left: 10px;
 			}
+
+			&__iconContainer {
+				border: 1px solid currentColor;
+				border-radius: 50%;
+				width: 26px;
+				height: 26px;
+			}
 		}
 	}
 }

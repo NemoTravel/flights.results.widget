@@ -13,8 +13,8 @@ import { getNemoURL } from '../../store/config/selectors';
 import { clearActualizationProblems } from '../../store/actualization/actions';
 import Price from '../Price';
 import Flight from '../Flight';
-import CheckCircle from '@material-ui/icons/CheckCircle';
-import RemoveIcon from '@material-ui/icons/RemoveCircle';
+import Check from '@material-ui/icons/Check';
+import Close from '@material-ui/icons/Close';
 import Tooltip from '../Flight/Tooltip';
 
 export interface StateProps {
@@ -38,15 +38,16 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 			const className = 'fareFamilies-error-flight ' + (!info.isAvailable ? 'fareFamilies-error-flight__notAvailable' : 'fareFamilies-error-flight__available'),
 				title = i18n(info.isAvailable ? 'error-actualization-Availability_flight_available' : 'error-actualization-Availability_flight_notAvailable');
 
-			return <Tooltip title={title} placement="top">
+			return <Tooltip title={title} placement="top" key={index}>
 				<div className={className}>
 					<div className="fareFamilies-error-flight__icon">
-						{info.isAvailable ? <CheckCircle/> : <RemoveIcon/>}
+						<div className="fareFamilies-error-flight__iconContainer">
+							{info.isAvailable ? <Check/> : <Close/>}
+						</div>
 					</div>
 
 					<Flight
 						flight={info.flight}
-						renderActionBlock={() => <></>}
 						nemoURL={this.props.nemoURL}
 						key={index}
 						isToggleable={false}
