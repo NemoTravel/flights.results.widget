@@ -13,6 +13,10 @@ import { FlightTimeInterval, LocationType } from '../../enums';
 import { TimeFilterState } from '../../store/filters/time/reducers';
 import { i18n } from '../../i18n';
 
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
+
 interface TimeIntervalsLabels {
 	[interval: string]: string;
 }
@@ -36,7 +40,7 @@ interface DispatchProps {
 	removeAllTimeIntervals: typeof removeAllTimeIntervals;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Time extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Time;
@@ -128,6 +132,10 @@ class Time extends WithPopover<Props, FilterState> {
 
 	isVisible(): boolean {
 		return this.props.allTimeIntervals[LocationType.Departure].length > 1 || this.props.allTimeIntervals[LocationType.Arrival].length > 1;
+	}
+
+	onMobileClick(): void {
+		this.props.handleMobileClick();
 	}
 
 	renderPopover(): React.ReactNode {

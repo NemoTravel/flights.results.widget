@@ -22,6 +22,10 @@ import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from
 import { LocationType } from '../../enums';
 import { i18n } from '../../i18n';
 
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
+
 interface StateProps {
 	departureAirports: Airport[];
 	arrivalAirports: Airport[];
@@ -37,7 +41,7 @@ interface DispatchProps {
 	removeAllAirports: typeof removeAllAirports;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Airports extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Airports;
@@ -116,6 +120,10 @@ class Airports extends WithPopover<Props, FilterState> {
 
 	isVisible(): boolean {
 		return this.props.departureAirports.length > 1 || this.props.arrivalAirports.length > 1;
+	}
+
+	onMobileClick(): void {
+		this.props.handleMobileClick();
 	}
 
 	renderPopover(): React.ReactNode {

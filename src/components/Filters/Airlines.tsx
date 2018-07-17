@@ -14,6 +14,10 @@ import { getAllAirlines, getSelectedAirlinesObjects } from '../../store/filters/
 import { getSelectedAirlinesList } from '../../store/selectors';
 import { i18n } from '../../i18n';
 
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
+
 interface StateProps {
 	airlines: Airline[];
 	selectedAirlines: ListOfSelectedCodes;
@@ -26,7 +30,7 @@ interface DispatchProps {
 	removeAllAirlines: typeof removeAllAirlines;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Airlines extends WithPopover<Props, WithPopoverState> {
 	protected type = FilterType.Airlines;
@@ -74,6 +78,10 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 
 	isVisible(): boolean {
 		return this.props.airlines.length > 1;
+	}
+
+	onMobileClick(): void {
+		this.props.handleMobileClick();
 	}
 
 	renderPopover(): React.ReactNode {

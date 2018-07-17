@@ -14,7 +14,7 @@ import { ScreenMaxSize } from '../../enums';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 
 interface OwnProps {
-	handleMobileClick?: void;
+	handleMobileClick?: () => void;
 }
 
 interface StateProps {
@@ -26,7 +26,7 @@ interface DispatchProps {
 	toggleComfortable: typeof toggleComfortable;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Comfortable extends Filter<Props, FilterState> {
 	protected type = FilterType.Comfortable;
@@ -57,6 +57,11 @@ class Comfortable extends Filter<Props, FilterState> {
 		this.props.toggleComfortable();
 	}
 
+	onMobileClick(): void {
+		this.onClick();
+		this.props.handleMobileClick();
+	}
+
 	render(): React.ReactNode {
 		return this.isVisible() ? (
 			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
@@ -67,7 +72,7 @@ class Comfortable extends Filter<Props, FilterState> {
 				</MediaQuery>
 
 				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-					<MenuItem className="filters-filter-menu" onClick={this.onClick}>{i18n('filters-comfortable-title')}</MenuItem>
+					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{i18n('filters-comfortable-title')}</MenuItem>
 				</MediaQuery>
 			</div>
 		) : null;

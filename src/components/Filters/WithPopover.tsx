@@ -66,7 +66,9 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 			isFullScreenOpen: !this.state.isFullScreenOpen
 		} as State);
 
-		this.onPopoverOpen();
+		if (this.state.isFullScreenOpen) {
+			this.onMobileClick();
+		}
 	}
 
 	openPopover(): void {

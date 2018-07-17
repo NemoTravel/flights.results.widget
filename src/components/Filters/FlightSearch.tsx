@@ -98,6 +98,8 @@ class FlightSearch extends Filter<Props, FiltersState> {
 		}
 	}
 
+	onMobileClick(): void { }
+
 	onClear(): void {
 		this.props.setFlightSearch('');
 

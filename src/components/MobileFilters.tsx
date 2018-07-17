@@ -41,11 +41,11 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 
 	renderFilterPopup(): React.ReactNode {
 		return <Menu id="filter-menu" open={this.state.filterPopupOpened} anchorEl={this.anchorFilters} onClose={() => { this.setState({ filterPopupOpened: false }); }}>
-			<ComfortableFilter/>
-			<DirectOnlyFilter/>
-			<AirlineFilter/>
-			<AirportsFilter/>
-			<TimeFilter/>
+			<ComfortableFilter handleMobileClick={this.handlePopupClose}/>
+			<DirectOnlyFilter handleMobileClick={this.handlePopupClose}/>
+			<AirlineFilter handleMobileClick={this.handlePopupClose}/>
+			<AirportsFilter handleMobileClick={this.handlePopupClose}/>
+			<TimeFilter handleMobileClick={this.handlePopupClose}/>
 		</Menu>;
 	}
 
@@ -64,6 +64,13 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 		}
 
 		return same;
+	}
+
+	@autobind
+	handlePopupClose(): void {
+		this.setState({
+			filterPopupOpened: false
+		});
 	}
 
 	renderSortingPopup(): React.ReactNode {

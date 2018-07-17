@@ -7,6 +7,10 @@ import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
 import { hasAnyTransferFlights } from '../../store/selectors';
 import { i18n } from '../../i18n';
 
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
+
 interface StateProps {
 	directOnly: boolean;
 	hasAnyTransferFlights: boolean;
@@ -16,7 +20,7 @@ interface DispatchProps {
 	toggleDirectFlights: typeof toggleDirectFlights;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class DirectOnly extends Filter<Props, FilterState> {
 	protected type = FilterType.DirectOnly;
@@ -37,6 +41,11 @@ class DirectOnly extends Filter<Props, FilterState> {
 
 	onClick(): void {
 		this.props.toggleDirectFlights();
+	}
+
+	onMobileClick(): void {
+		this.onClick();
+		this.props.handleMobileClick();
 	}
 
 	onClear(): void {
