@@ -64,13 +64,6 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .filters__left,
-  .filters__right {
-    display: none;
-  }
-}
-
 .filters__right {
   margin-bottom: -10px;
 }
@@ -83,8 +76,7 @@
 
 @media only screen and (max-width: 768px) {
   .filters__right {
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+    display: none;
   }
 }
 
@@ -2371,6 +2363,7 @@
 @media only screen and (max-width: 768px) {
   .sorting-item__text {
     border-bottom: none;
+    padding-right: 10px;
   }
 }
 
@@ -2394,7 +2387,7 @@
 
 @media only screen and (max-width: 768px) {
   .sorting-item__arrow {
-    right: 8px;
+    right: -9px;
   }
 }
 

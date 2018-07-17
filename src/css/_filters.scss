@@ -40,10 +40,6 @@
 			flex-basis: 100%;
 			justify-content: center;
 		}
-
-		@include adaptivity(tablet) {
-			display: none;
-		}
 	}
 
 	&__right {
@@ -54,7 +50,7 @@
 		}
 
 		@include adaptivity(tablet) {
-			flex-wrap: wrap;
+			display: none;
 		}
 	}
 
