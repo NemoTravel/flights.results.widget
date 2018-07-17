@@ -63,17 +63,30 @@
 			flex-basis: 100%;
 		}
 
+		@include adaptivity(tablet) {
+			display: block;
+			color: currentColor;
+		}
+
 		&__inner {
 			position: relative;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+
+			@include adaptivity(tablet) {
+				justify-content: left;
+			}
 		}
 
 		&__text {
 			cursor: pointer;
 			border-bottom: 1px dashed;
 			user-select: none;
+
+			@include adaptivity(tablet) {
+				border-bottom: none;
+			}
 		}
 
 		&__arrow {
@@ -91,6 +104,10 @@
 				width: 14px;
 				height: 14px;
 			}
+
+			@include adaptivity(tablet) {
+				right: 8px;
+			}
 		}
 
 		&_active {
@@ -98,6 +115,10 @@
 
 			.sorting-item__arrow {
 				display: block;
+			}
+
+			@include adaptivity(tablet) {
+				color: currentColor;
 			}
 		}
 
@@ -123,6 +144,10 @@
 			@include adaptivity(laptop) {
 				width: 120px;
 			}
+
+			@include adaptivity(tablet) {
+				width: auto;
+			}
 		}
 
 		&_ArrivalTime {
@@ -135,6 +160,10 @@
 
 			@include adaptivity(phone) {
 				justify-content: center;
+			}
+
+			@include adaptivity(tablet) {
+				width: auto;
 			}
 		}
 	}

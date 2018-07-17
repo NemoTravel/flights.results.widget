@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { i18n } from '../../i18n';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../../enums';
 
 export interface State extends FilterState {
 	element?: HTMLElement;
@@ -83,6 +85,30 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 		this.onPopoverClose();
 	}
 
+	mobileRender(): React.ReactNode {
+		return <>
+			<MenuItem onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
+
+			<Dialog open={this.state.isFullScreenOpen} onClose={() => {}} fullScreen={true} TransitionComponent={Transition}>
+				<AppBar>
+					<Toolbar>
+						<IconButton color="inherit" onClick={this.fullScreenOpen} aria-label="Close">
+							<CloseIcon/>
+						</IconButton>
+
+						<Typography variant="title" color="inherit">
+							{i18n(`filters-${this.type}-title`)}
+						</Typography>
+					</Toolbar>
+				</AppBar>
+
+				<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
+					{this.renderPopover()}
+				</div>
+			</Dialog>
+		</>;
+	}
+
 	render(): React.ReactNode {
 		const chipProps: ChipProps = {
 			label: this.state.chipLabel,
@@ -94,45 +120,33 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 		}
 
 		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive || this.state.isOpen })} ref={this.getElement}>
-			<Chip className="filters-filter-chip" {...chipProps}/>
-			<MenuItem onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
+			<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+				<Chip className="filters-filter-chip" {...chipProps}/>
 
-			<Popover
-				className={`filters-filter-popover filters-filter-popover_${this.type}`}
-				open={this.state.isOpen}
-				onClose={this.closePopover}
-				anchorReference="anchorEl"
-				anchorEl={this.state.element}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right'
-				}}
-			>
-				<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
-					{this.renderPopover()}
-				</div>
-			</Popover>
+				<Popover
+					className={`filters-filter-popover filters-filter-popover_${this.type}`}
+					open={this.state.isOpen}
+					onClose={this.closePopover}
+					anchorReference="anchorEl"
+					anchorEl={this.state.element}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right'
+					}}
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'right'
+					}}
+				>
+					<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
+						{this.renderPopover()}
+					</div>
+				</Popover>
+			</MediaQuery>
 
-			<Dialog open={this.state.isFullScreenOpen} onClose={() => {}} fullScreen={true} TransitionComponent={Transition}>
-				<AppBar>
-					<Toolbar>
-						<IconButton color="inherit" onClick={this.fullScreenOpen} aria-label="Close">
-							<CloseIcon/>
-						</IconButton>
-						<Typography variant="title" color="inherit">
-							{i18n(`filters-${this.type}-title`)}
-						</Typography>
-					</Toolbar>
-				</AppBar>
-
-				<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
-					{this.renderPopover()}
-				</div>
-			</Dialog>
+			<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+				{this.mobileRender()}
+			</MediaQuery>
 		</div> : null;
 	}
 }

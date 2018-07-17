@@ -9,6 +9,13 @@ import { RootState } from '../../store/reducers';
 import { toggleComfortable } from '../../store/filters/comfortable/actions';
 import { getIsComfortable, isComfortableFilterEnabled } from '../../store/filters/comfortable/selectors';
 import { i18n } from '../../i18n';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../../enums';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+
+interface OwnProps {
+	handleMobileClick?: void;
+}
 
 interface StateProps {
 	isActive: boolean;
@@ -53,9 +60,15 @@ class Comfortable extends Filter<Props, FilterState> {
 	render(): React.ReactNode {
 		return this.isVisible() ? (
 			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-				<Tooltip title={<span className="tooltip">{i18n('filters-comfortable-tooltip')}</span>} placement="top">
-					<Chip className="filters-filter-chip" {...this.getChipProps()}/>
-				</Tooltip>
+				<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+					<Tooltip title={<span className="tooltip">{i18n('filters-comfortable-tooltip')}</span>} placement="top">
+						<Chip className="filters-filter-chip" {...this.getChipProps()}/>
+					</Tooltip>
+				</MediaQuery>
+
+				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+					<MenuItem className="filters-filter-menu" onClick={this.onClick}>{i18n('filters-comfortable-title')}</MenuItem>
+				</MediaQuery>
 			</div>
 		) : null;
 	}

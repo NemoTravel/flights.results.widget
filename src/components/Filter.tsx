@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as classnames from 'classnames';
 import Chip, { ChipProps } from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../enums';
 
 export enum Type {
 	Airports = 'airports',
@@ -31,11 +33,13 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 
 		this.onClick = this.onClick.bind(this);
 		this.onClear = this.onClear.bind(this);
+		this.onMobileClick = this.onMobileClick.bind(this);
 	}
 
 	abstract onClick(): void;
 	abstract onClear(): void;
 	abstract isVisible(): boolean;
+	abstract onMobileClick(): void;
 
 	componentDidMount(): void {
 		this.setState({
@@ -61,8 +65,13 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 	render(): React.ReactNode {
 		return this.isVisible() && (
 			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-				<Chip className="filters-filter-chip" {...this.getChipProps()}/>
-				<MenuItem className="filters-filter-menu" onClick={this.onClick}>{this.state.chipLabel}</MenuItem>
+				<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+					<Chip className="filters-filter-chip" {...this.getChipProps()}/>
+				</MediaQuery>
+
+				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
+				</MediaQuery>
 			</div>
 		);
 	}

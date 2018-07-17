@@ -2331,6 +2331,13 @@
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .sorting-item {
+    display: block;
+    color: currentColor;
+  }
+}
+
 .sorting-item__inner {
   position: relative;
   display: -webkit-box;
@@ -2344,6 +2351,14 @@
   justify-content: center;
 }
 
+@media only screen and (max-width: 768px) {
+  .sorting-item__inner {
+    -webkit-box-pack: left;
+    -ms-flex-pack: left;
+    justify-content: left;
+  }
+}
+
 .sorting-item__text {
   cursor: pointer;
   border-bottom: 1px dashed;
@@ -2351,6 +2366,12 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .sorting-item__text {
+    border-bottom: none;
+  }
 }
 
 .sorting-item__arrow {
@@ -2371,12 +2392,24 @@
   height: 14px;
 }
 
+@media only screen and (max-width: 768px) {
+  .sorting-item__arrow {
+    right: 8px;
+  }
+}
+
 .sorting-item_active {
   color: #64b5f6;
 }
 
 .sorting-item_active .sorting-item__arrow {
   display: block;
+}
+
+@media only screen and (max-width: 768px) {
+  .sorting-item_active {
+    color: currentColor;
+  }
 }
 
 .sorting-item_ASC .sorting-item__arrow {
@@ -2403,6 +2436,12 @@
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .sorting-item_FlightTime {
+    width: auto;
+  }
+}
+
 .sorting-item_ArrivalTime {
   width: 65px;
 }
@@ -2419,5 +2458,11 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .sorting-item_Price {
+    width: auto;
   }
 }
