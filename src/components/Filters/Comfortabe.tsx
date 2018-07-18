@@ -30,7 +30,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class Comfortable extends Filter<Props, FilterState> {
 	protected type = FilterType.Comfortable;
-	protected label = i18n('filters-comfortable-title');
+	protected label = 'filters-comfortable-title';
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.isActive !== nextProps.isActive ||
