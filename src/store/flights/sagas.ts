@@ -1,8 +1,9 @@
 import { all } from 'redux-saga/effects';
-import actualizeFlightSaga from './sagas/actualizeFlight';
+import { actualizeFlightSaga, cannotChangeFamily } from './sagas/actualizeFlight';
 
 export default function* flightsSagas() {
 	yield all([
-		actualizeFlightSaga()
+		actualizeFlightSaga(),
+		cannotChangeFamily()
 	]);
 }

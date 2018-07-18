@@ -1,4 +1,4 @@
-import { all, call, CallEffect, put, select, takeEvery } from 'redux-saga/effects';
+import { all, call, CallEffect, put, select, take, takeEvery } from 'redux-saga/effects';
 import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
@@ -13,6 +13,9 @@ import { setInfo } from '../../actualization/info/actions';
 import { clearActualizationProblems } from '../../actualization/actions';
 import { addFlights, removeFlights } from '../actions';
 import { addFlightByLeg } from '../../flightsByLegs/actions';
+import { STOP_LOADING_FARE_FAMILIES } from '../../isLoadingFareFamilies/actions';
+import { isLoadingFareFamilies } from '../../isLoadingFareFamilies/selectors';
+import { canBeOneLegFareFamilySelected, getResultingFlightIds } from '../../fareFamilies/selectors';
 
 function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
 	const numOfFlights = flightIds.length;
@@ -87,6 +90,22 @@ function* worker({ payload }: ActualizationAction) {
 	}
 }
 
-export default function* actualizeFlightSaga() {
+export function* actualizeFlightSaga() {
 	yield takeEvery(START_ACTUALIZATION, worker);
+}
+
+export function* cannotChangeFamily() {
+	while (true) {
+		const isStopped = yield take(STOP_LOADING_FARE_FAMILIES);
+		const isLoadingYet = yield select(isLoadingFareFamilies);
+
+		if (!isLoadingYet) {
+			const fareAvability = yield select(canBeOneLegFareFamilySelected);
+			const flightIds: string[] = yield select(getResultingFlightIds);
+
+			if (!fareAvability) {
+				yield worker({ type: START_ACTUALIZATION, payload: { flightIds: flightIds } });
+			}
+		}
+	}
 }
