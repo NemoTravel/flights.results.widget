@@ -66,7 +66,17 @@ class Airports extends WithPopover<Props, FilterState> {
 			this.state.isFullScreenOpen !== nextState.isFullScreenOpen;
 	}
 
+	componentDidMount(): void {
+		const { selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject } = this.props;
+
+		this.updateState(selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject);
+	}
+
 	componentWillReceiveProps({ selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject }: Props): void {
+		this.updateState(selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject);
+	}
+
+	updateState(selectedDepartureAirports: ListOfSelectedCodes, selectedArrivalAirports: ListOfSelectedCodes, selectedDepartureAirportsObject: Airport[], selectedArrivalAirportsObject: Airport[]): void {
 		const hasSelectedDepartureAirports = !!Object.keys(selectedDepartureAirports).length;
 		const hasSelectedArrivalAirports = !!Object.keys(selectedArrivalAirports).length;
 		let chipLabel = this.label;
