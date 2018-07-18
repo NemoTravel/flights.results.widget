@@ -180,7 +180,7 @@ export const canBeOneLegFareFamilySelected = createSelector(
 					}
 				}
 
-				if (count > 0) {
+				if (count > 1) {
 					isValid = true;
 				}
 			}

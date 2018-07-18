@@ -96,10 +96,11 @@ export function* actualizeFlightSaga() {
 
 export function* cannotChangeFamily() {
 	while (true) {
-		const isStopped = yield take(STOP_LOADING_FARE_FAMILIES);
-		const isLoadingYet = yield select(isLoadingFareFamilies);
+		yield take(STOP_LOADING_FARE_FAMILIES);
 
-		if (!isLoadingYet) {
+		const isLoading = yield select(isLoadingFareFamilies);
+
+		if (!isLoading) {
 			const fareAvability = yield select(canBeOneLegFareFamilySelected);
 			const flightIds: string[] = yield select(getResultingFlightIds);
 

@@ -69,7 +69,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 
 			default:
 				return (
-					<Button className="dialog-actions__button" onClick={this.goToBooking} color="primary">
+					<Button className="dialog-actions__button" onClick={this.changeFlight} color="primary">
 						{i18n('error-actualization-Unknown-action_OK')}
 					</Button>
 				);
