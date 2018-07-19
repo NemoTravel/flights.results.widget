@@ -13,11 +13,18 @@ import { RootState } from '../../store/reducers';
 import Filter, { Type as FilterType } from '../Filter';
 import { FiltersState } from '../../store/filters/reducers';
 import { i18n } from '../../i18n';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../../enums';
+import MenuItem from '@material-ui/core/es/MenuItem';
 
 const CTRL_KEY_CODE = 'Control';
 const META_KEY_CODE = 'Meta';
 const ESC_KEY_CODE = 'Escape';
 const F_KEY_CODE = 'f';
+
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
 
 interface StateProps {
 	getFlightSearch: string;
@@ -29,7 +36,7 @@ interface DispatchProps {
 	toggleFlightSearch: typeof toggleFlightSearch;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class FlightSearch extends Filter<Props, FiltersState> {
 	protected type = FilterType.FlightSearch;
@@ -98,7 +105,10 @@ class FlightSearch extends Filter<Props, FiltersState> {
 		}
 	}
 
-	onMobileClick(): void { }
+	onMobileClick(): void {
+		this.onClick();
+		this.props.handleMobileClick();
+	}
 
 	onClear(): void {
 		this.props.setFlightSearch('');
@@ -128,23 +138,29 @@ class FlightSearch extends Filter<Props, FiltersState> {
 		const isActive = this.state.isActive;
 
 		return <div className={classnames('filters-filter', { 'filters-filter_active': isActive })}>
-			<Chip
-				className="filters-filter-chip"
-				avatar={this.renderAvatar()}
-				label={this.label}
-				onClick={this.onClick}
-			/>
-
-			{isActive ? <div className="results-flightNumberSearch">
-				<Input
-					type="text"
-					onChange={this.onText}
-					fullWidth={true}
-					autoFocus={true}
-					placeholder={i18n('filters-search-placeholder')}
-					endAdornment={this.clearButton()}
+			<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+				<Chip
+					className="filters-filter-chip"
+					avatar={this.renderAvatar()}
+					label={this.label}
+					onClick={this.onClick}
 				/>
-			</div> : null}
+
+				{isActive ? <div className="results-flightNumberSearch">
+					<Input
+						type="text"
+						onChange={this.onText}
+						fullWidth={true}
+						autoFocus={true}
+						placeholder={i18n('filters-search-placeholder')}
+						endAdornment={this.clearButton()}
+					/>
+				</div> : null}
+			</MediaQuery>
+
+			<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+				<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
+			</MediaQuery>
 		</div>;
 	}
 }

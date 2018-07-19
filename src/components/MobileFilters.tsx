@@ -19,6 +19,14 @@ import SortingItem from './SortingItem';
 import { isOneFilterActive } from '../store/selectors';
 import Button from '@material-ui/core/Button';
 import { removeAllFilters } from '../store/filters/actions';
+import FlightSearch from './Filters/FlightSearch';
+import AppBar from '@material-ui/core/AppBar';
+import Input from '@material-ui/core/Input';
+import { flightSearchIsActive } from '../store/filters/flightSearch/selectors';
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { setFlightSearch, toggleFlightSearch } from '../store/filters/flightSearch/actions';
 
 interface State {
 	filterPopupOpened: boolean;
@@ -28,11 +36,14 @@ interface State {
 interface StateProps {
 	sotring: SortingState;
 	isOneFilterActive: boolean;
+	flightSearchIsActive: boolean;
 }
 
 interface DispatchProps {
 	setSorting: typeof setSorting;
 	removeAllFilters: typeof removeAllFilters;
+	toggleFlightSearch: typeof toggleFlightSearch;
+	setFlightSearch: typeof setFlightSearch;
 }
 
 class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
@@ -41,6 +52,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 		sortingPopupOpened: false
 	};
 
+	searchInputRef: HTMLElement = null;
 	anchorFilters: HTMLElement = null;
 	anchorSorting: HTMLElement = null;
 
@@ -67,6 +79,48 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 		this.setState({ sortingPopupOpened: true });
 	}
 
+	@autobind
+	onSearchText(element: React.KeyboardEvent<HTMLInputElement>): void {
+		this.props.setFlightSearch(element.currentTarget.value);
+	}
+
+	@autobind
+	closeFlightSearch(): void {
+		this.props.toggleFlightSearch();
+		this.props.setFlightSearch('');
+	}
+
+	componentWillReceiveProps({ flightSearchIsActive }: StateProps): void {
+		// Material UI don't want to set focus via autoFocus={true} in this case
+		if (flightSearchIsActive) {
+			setTimeout(() => {
+				this.searchInputRef.focus();
+			}, 500);
+		}
+	}
+
+	renderFlightSearch(): React.ReactNode {
+		return <>
+			<AppBar className="results-mobileFilters-flightSearch">
+				<Toolbar>
+					<IconButton color="inherit" onClick={this.closeFlightSearch} aria-label="Close">
+						<CloseIcon/>
+					</IconButton>
+
+					<Input
+						type="text"
+						fullWidth={true}
+						autoFocus={true}
+						placeholder={i18n('filters-search-placeholder')}
+						onKeyDown={this.onSearchText}
+						className="results-mobileFilters-flightSearch__textField"
+						inputRef={ref => this.searchInputRef = ref}
+					/>
+				</Toolbar>
+			</AppBar>
+		</>;
+	}
+
 	renderSortingPopup(): React.ReactNode {
 		return <Menu id="sorting-menu" open={this.state.sortingPopupOpened} anchorEl={this.anchorSorting} onClose={() => { this.setState({ sortingPopupOpened: false }); }}>
 			{this.renderSortigItems()}
@@ -80,6 +134,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 			<AirlineFilter handleMobileClick={this.handlePopupClose}/>
 			<AirportsFilter handleMobileClick={this.handlePopupClose}/>
 			<TimeFilter handleMobileClick={this.handlePopupClose}/>
+			<FlightSearch handleMobileClick={this.handlePopupClose}/>
 		</Menu>;
 	}
 
@@ -118,6 +173,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 
 			{this.renderFilterPopup()}
 			{this.renderSortingPopup()}
+			{this.props.flightSearchIsActive ? this.renderFlightSearch() : null}
 		</div>;
 	}
 }
@@ -125,13 +181,16 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		sotring: state.sorting,
-		isOneFilterActive: isOneFilterActive(state)
+		isOneFilterActive: isOneFilterActive(state),
+		flightSearchIsActive: flightSearchIsActive(state)
 	};
 };
 
 const mapDispatchToProps = {
 	setSorting,
-	removeAllFilters
+	removeAllFilters,
+	toggleFlightSearch,
+	setFlightSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MobileFilters);

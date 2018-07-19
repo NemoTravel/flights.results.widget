@@ -440,6 +440,12 @@
 			}
 		}
 
+		&-flightSearch {
+			&__textField input {
+				color: #fff;
+			}
+		}
+
 		&__container {
 			display: flex;
 			justify-content: space-between;
