@@ -39,6 +39,13 @@ class Comfortable extends Filter<Props, FilterState> {
 			this.state.chipLabel !== nextState.chipLabel;
 	}
 
+	componentDidMount(): void {
+		this.setState({
+			isActive: this.props.isActive,
+			chipLabel: this.label
+		});
+	}
+
 	componentWillReceiveProps(props: Props): void {
 		this.setState({
 			isActive: props.isActive
@@ -72,7 +79,9 @@ class Comfortable extends Filter<Props, FilterState> {
 				</MediaQuery>
 
 				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{i18n('filters-comfortable-title')}</MenuItem>
+					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>
+						{i18n('filters-comfortable-title' + (this.state.isActive ? '_active' : ''))}
+					</MenuItem>
 				</MediaQuery>
 			</div>
 		) : null;

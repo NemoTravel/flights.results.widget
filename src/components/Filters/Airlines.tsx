@@ -67,7 +67,17 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 		this.props.removeAllAirlines();
 	}
 
+	componentDidMount(): void {
+		const { selectedAirlines, selectedAirlinesObject } = this.props;
+
+		this.updateState(selectedAirlines, selectedAirlinesObject);
+	}
+
 	componentWillReceiveProps({ selectedAirlines, selectedAirlinesObject }: Props): void {
+		this.updateState(selectedAirlines, selectedAirlinesObject);
+	}
+
+	updateState(selectedAirlines: ListOfSelectedCodes, selectedAirlinesObject: Airline[]): void {
 		const hasSelectedAirlines = !!Object.keys(selectedAirlines).length;
 
 		this.setState({

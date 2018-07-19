@@ -24,7 +24,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class DirectOnly extends Filter<Props, FilterState> {
 	protected type = FilterType.DirectOnly;
-	protected label = i18n('filters-directOnly-title');
+	protected label = 'filters-directOnly-title';
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.directOnly !== nextProps.directOnly ||
@@ -33,9 +33,20 @@ class DirectOnly extends Filter<Props, FilterState> {
 			this.state.chipLabel !== nextState.chipLabel;
 	}
 
-	componentWillReceiveProps(props: Props): void {
+	componentDidMount(): void {
 		this.setState({
-			isActive: props.directOnly
+			isActive: this.props.directOnly,
+			chipLabel: this.label
+		} as FilterState);
+	}
+
+	componentWillReceiveProps({ directOnly }: Props): void {
+		this.updateState(directOnly);
+	}
+
+	updateState(directOnly: boolean): void {
+		this.setState({
+			isActive: directOnly
 		} as FilterState);
 	}
 

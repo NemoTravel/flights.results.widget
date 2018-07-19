@@ -62,7 +62,17 @@ class Time extends WithPopover<Props, FilterState> {
 			this.state.isFullScreenOpen !== nextState.isFullScreenOpen;
 	}
 
+	componentDidMount(): void {
+		const { selectedDepartureTimeIntervals, selectedArrivalTimeIntervals } = this.props;
+
+		this.updateState(selectedDepartureTimeIntervals, selectedArrivalTimeIntervals);
+	}
+
 	componentWillReceiveProps({ selectedDepartureTimeIntervals, selectedArrivalTimeIntervals }: Props): void {
+		this.updateState(selectedDepartureTimeIntervals, selectedArrivalTimeIntervals);
+	}
+
+	updateState(selectedDepartureTimeIntervals: ListOfSelectedCodes, selectedArrivalTimeIntervals: ListOfSelectedCodes): void {
 		const hasSelectedDepartureTimeIntervals = !!Object.keys(selectedDepartureTimeIntervals).length;
 		const hasSelectedArrivalTimeIntervals = !!Object.keys(selectedArrivalTimeIntervals).length;
 		let chipLabel = this.label;
@@ -72,7 +82,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 			for (const interval in selectedDepartureTimeIntervals) {
 				if (selectedDepartureTimeIntervals.hasOwnProperty(interval)) {
-					parts.push(timeIntervalsLabels[interval]);
+					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`));
 				}
 			}
 
@@ -84,7 +94,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 			for (const interval in selectedArrivalTimeIntervals) {
 				if (selectedArrivalTimeIntervals.hasOwnProperty(interval)) {
-					parts.push(timeIntervalsLabels[interval]);
+					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`));
 				}
 			}
 
