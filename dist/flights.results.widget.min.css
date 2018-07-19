@@ -148,6 +148,10 @@
   background-color: #0e8bf0;
 }
 
+.filters-filter_active .filters-filter-menu {
+  color: #64b5f6;
+}
+
 .filters-filter-popover {
   margin-top: 5px;
 }
@@ -195,12 +199,6 @@
   padding: 20px 20px 5px;
 }
 
-@media only screen and (max-width: 768px) {
-  .filters-filter-popover__wrapper {
-    margin-top: 55px;
-  }
-}
-
 .filters-filter-popover__wrapper_airports .filters-filter-popover-group {
   min-width: 0;
   -webkit-box-orient: vertical;
@@ -216,6 +214,12 @@
 .filters-filter-popover__wrapper_airlines .filters-filter-popover-group {
   max-width: 150px;
   min-width: 100px;
+}
+
+@media only screen and (max-width: 768px) {
+  .filters-filter-popover__wrapper_airlines .filters-filter-popover-group {
+    max-width: 100%;
+  }
 }
 
 .filters-filter-popover__wrapper_airlines .filters-filter-popover-group__label {
@@ -709,6 +713,10 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.results-mobileFilters__filters_active {
+  color: #64b5f6;
 }
 
 .snackbar {

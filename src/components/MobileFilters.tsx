@@ -3,7 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import autobind from 'autobind-decorator';
 import { setSorting } from '../store/sorting/actions';
-import { connect, DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { SortingDirection, SortingType } from '../enums';
 import SwapVert from '@material-ui/icons/SwapVert';
 import Tune from '@material-ui/icons/Tune';
@@ -16,6 +16,7 @@ import { i18n } from '../i18n';
 import { SortingState } from '../store/sorting/reducers';
 import { RootState } from '../store/reducers';
 import SortingItem from './SortingItem';
+import { getActiveFiltersList } from '../store/selectors';
 
 interface State {
 	filterPopupOpened: boolean;
@@ -24,6 +25,7 @@ interface State {
 
 interface StateProps {
 	sotring: SortingState;
+	isOneFilterActive: boolean;
 }
 
 interface DispatchProps {
@@ -96,8 +98,10 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 	}
 
 	render(): React.ReactNode {
+		const filterClass = 'results-mobileFilters__filters' + (this.props.isOneFilterActive ? ' results-mobileFilters__filters_active' : '');
+
 		return <div className="results-mobileFilters">
-			<div onClick={this.handleFilterPopup} className="results-mobileFilters__filters" ref={ref => this.anchorFilters = ref} aria-owns={'filter-menu'}>{i18n('filters-title')}<Tune/></div>
+			<div onClick={this.handleFilterPopup} className={filterClass} ref={ref => this.anchorFilters = ref} aria-owns={'filter-menu'}>{i18n('filters-title')}<Tune/></div>
 			<div onClick={this.handleSortingPopup} className="results-mobileFilters__sorting" ref={ref => this.anchorSorting = ref} aria-owns={'sorting-menu'}>{i18n('sorting-title')}<SwapVert/></div>
 
 			{this.renderFilterPopup()}
@@ -108,7 +112,8 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
-		sotring: state.sorting
+		sotring: state.sorting,
+		isOneFilterActive: getActiveFiltersList(state)
 	};
 };
 

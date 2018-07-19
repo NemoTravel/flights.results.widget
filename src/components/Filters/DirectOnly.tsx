@@ -24,7 +24,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class DirectOnly extends Filter<Props, FilterState> {
 	protected type = FilterType.DirectOnly;
-	protected label = 'filters-directOnly-title';
+	protected label = i18n('filters-directOnly-title');
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.directOnly !== nextProps.directOnly ||

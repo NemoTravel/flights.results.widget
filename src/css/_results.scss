@@ -443,6 +443,10 @@
 			display: flex;
 			align-items: center;
 		}
+
+		&__filters_active {
+			color: #64b5f6;
+		}
 	}
 }
 

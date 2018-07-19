@@ -89,10 +89,10 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 	mobileRender(): React.ReactNode {
 		return <>
-			<MenuItem onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
+			<MenuItem className="filters-filter-menu" onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
 
 			<Dialog open={this.state.isFullScreenOpen} onClose={() => {}} fullScreen={true} TransitionComponent={Transition}>
-				<AppBar>
+				<AppBar position="static">
 					<Toolbar>
 						<IconButton color="inherit" onClick={this.fullScreenOpen} aria-label="Close">
 							<CloseIcon/>

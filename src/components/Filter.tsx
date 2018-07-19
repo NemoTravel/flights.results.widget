@@ -50,7 +50,7 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 
 	getChipProps(): ChipProps {
 		const chipProps: ChipProps = {
-			label: i18n(this.state.chipLabel)
+			label: this.state.chipLabel
 		};
 
 		if (this.state.isActive) {
@@ -71,9 +71,7 @@ abstract class Filter<P, S> extends React.Component<P, S | State> {
 				</MediaQuery>
 
 				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>
-						{i18n(this.state.chipLabel + (this.state.isActive ? '_active' : ''))}
-					</MenuItem>
+					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
 				</MediaQuery>
 			</div>
 		);

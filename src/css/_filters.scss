@@ -115,6 +115,10 @@
 					background-color: #0e8bf0;
 				}
 			}
+
+			.filters-filter-menu {
+				color: #64b5f6;
+			}
 		}
 
 		&-popover {
@@ -154,10 +158,6 @@
 			&__wrapper {
 				padding: 20px 20px 5px;
 
-				@include adaptivity('tablet') {
-					margin-top: 60px;
-				}
-
 				&_airports {
 					.filters-filter-popover-group {
 						min-width: 0;
@@ -176,6 +176,10 @@
 						&-group {
 							max-width: 150px;
 							min-width: 100px;
+
+							@include adaptivity('tablet') {
+								max-width: 100%;
+							}
 
 							&__label {
 								flex-basis: 100%;

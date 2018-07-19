@@ -30,7 +30,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class Comfortable extends Filter<Props, FilterState> {
 	protected type = FilterType.Comfortable;
-	protected label = 'filters-comfortable-title';
+	protected label = i18n('filters-comfortable-title');
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.isActive !== nextProps.isActive ||
@@ -79,9 +79,7 @@ class Comfortable extends Filter<Props, FilterState> {
 				</MediaQuery>
 
 				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>
-						{i18n('filters-comfortable-title' + (this.state.isActive ? '_active' : ''))}
-					</MenuItem>
+					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
 				</MediaQuery>
 			</div>
 		) : null;

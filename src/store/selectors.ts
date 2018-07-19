@@ -442,6 +442,29 @@ export const filtersConfig = createSelector(
 	}
 );
 
+export const getActiveFiltersList = createSelector(
+	[filtersConfig],
+	({
+		 selectedAirlines,
+		 selectedDepartureAirports,
+		 selectedArrivalAirports,
+		 selectedDepartureTimeIntervals,
+		 selectedArrivalTimeIntervals,
+		 directOnly,
+		 flightSearch,
+		 comfortable
+	}: FilterSelectors): boolean => {
+		return !!directOnly ||
+			!!flightSearch ||
+			!!comfortable ||
+			!!Object.keys(selectedDepartureAirports).length ||
+			!!Object.keys(selectedArrivalAirports).length ||
+			!!Object.keys(selectedAirlines).length ||
+			!!Object.keys(selectedDepartureTimeIntervals).length ||
+			!!Object.keys(selectedArrivalTimeIntervals).length;
+	}
+);
+
 /**
  * Get an array of flights after filtering.
  */
