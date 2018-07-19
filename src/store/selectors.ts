@@ -442,7 +442,7 @@ export const filtersConfig = createSelector(
 	}
 );
 
-export const getActiveFiltersList = createSelector(
+export const isOneFilterActive = createSelector(
 	[filtersConfig],
 	({
 		 selectedAirlines,
@@ -454,14 +454,12 @@ export const getActiveFiltersList = createSelector(
 		 flightSearch,
 		 comfortable
 	}: FilterSelectors): boolean => {
-		return !!directOnly ||
-			!!flightSearch ||
-			!!comfortable ||
-			!!Object.keys(selectedDepartureAirports).length ||
-			!!Object.keys(selectedArrivalAirports).length ||
+		return directOnly || comfortable || !!flightSearch ||
 			!!Object.keys(selectedAirlines).length ||
-			!!Object.keys(selectedDepartureTimeIntervals).length ||
-			!!Object.keys(selectedArrivalTimeIntervals).length;
+			!!Object.keys(selectedArrivalAirports).length ||
+			!!Object.keys(selectedDepartureAirports).length ||
+			!!Object.keys(selectedArrivalTimeIntervals).length ||
+			!!Object.keys(selectedDepartureTimeIntervals).length;
 	}
 );
 

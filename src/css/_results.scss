@@ -431,12 +431,24 @@
 
 	&-mobileFilters {
 		display: none;
-		justify-content: space-between;
-		font-size: 0.875rem;
-		color: #757575;
+
+		&-reset {
+			margin-top: 15px;
+
+			&__button {
+				width: 100%;
+			}
+		}
+
+		&__container {
+			display: flex;
+			justify-content: space-between;
+			font-size: 0.875rem;
+			color: #757575;
+		}
 
 		@include adaptivity('tablet') {
-			display: flex;
+			display: block;
 		}
 
 		&__filters, &__sorting {

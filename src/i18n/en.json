@@ -41,6 +41,7 @@
 	"filters-noResultsTitle": "We have not found any suitable flights :(",
 	"filters-noResultsSubTitle": "Try to tune up the filters.",
 
+	"filters-removeAll": "Clear filters",
 	"filters-airlines-title": "Airlines",
 	"filters-airlines-snackbar": "Airline «%airline%» has been added to filters",
 	"filters-airlines-snackbar-remove": "Airline «%airline%» has been removed from filters",

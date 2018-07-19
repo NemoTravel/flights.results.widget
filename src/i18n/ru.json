@@ -41,6 +41,7 @@
 	"filters-noResultsTitle": "Мы не нашли подходящих перелетов.",
 	"filters-noResultsSubTitle": "Попробуйте изменить параметры фильтрации.",
 
+	"filters-removeAll": "Сбросить фильтры",
 	"filters-airlines-title": "Авиакомпании",
 	"filters-airlines-snackbar": "Авиакомпания «%airline%» добавлена в фильтры",
 	"filters-airlines-snackbar-remove": "Авиакомпания «%airline%» удалена из фильтров",
@@ -50,10 +51,8 @@
 	"filters-airports-departureCol-title": "Аэропорты вылета",
 	"filters-airports-arrivalCol-title": "Аэропорты прилёта",
 	"filters-comfortable-title": "Удобные рейсы",
-	"filters-comfortable-title_active": "Все рейсы",
 	"filters-comfortable-tooltip": "Рейсы той же авиакомпании с вылетом из того же аэропорта",
 	"filters-directOnly-title": "Без пересадок",
-	"filters-directOnly-title_active": "С пересадками и без",
 	"filters-search-title": "Поиск",
 	"filters-search-placeholder": "Поиск по названию авиакомпании, номеру рейса, аэропортам отправления и прибытия",
 	"filters-time-title": "Время",

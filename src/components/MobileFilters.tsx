@@ -16,7 +16,9 @@ import { i18n } from '../i18n';
 import { SortingState } from '../store/sorting/reducers';
 import { RootState } from '../store/reducers';
 import SortingItem from './SortingItem';
-import { getActiveFiltersList } from '../store/selectors';
+import { isOneFilterActive } from '../store/selectors';
+import Button from '@material-ui/core/Button';
+import { removeAllFilters } from '../store/filters/actions';
 
 interface State {
 	filterPopupOpened: boolean;
@@ -30,6 +32,7 @@ interface StateProps {
 
 interface DispatchProps {
 	setSorting: typeof setSorting;
+	removeAllFilters: typeof removeAllFilters;
 }
 
 class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
@@ -40,6 +43,35 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 
 	anchorFilters: HTMLElement = null;
 	anchorSorting: HTMLElement = null;
+
+	@autobind
+	handlePopupClose(): void {
+		this.setState({
+			filterPopupOpened: false
+		});
+	}
+
+	@autobind
+	setSortingHandle(sortType: SortingType): void {
+		this.setState({ sortingPopupOpened: false });
+		this.props.setSorting(sortType, this.props.sotring.direction === SortingDirection.ASC ? SortingDirection.DESC : SortingDirection.ASC);
+	}
+
+	@autobind
+	handleFilterPopup(): void {
+		this.setState({ filterPopupOpened: true });
+	}
+
+	@autobind
+	handleSortingPopup(): void {
+		this.setState({ sortingPopupOpened: true });
+	}
+
+	renderSortingPopup(): React.ReactNode {
+		return <Menu id="sorting-menu" open={this.state.sortingPopupOpened} anchorEl={this.anchorSorting} onClose={() => { this.setState({ sortingPopupOpened: false }); }}>
+			{this.renderSortigItems()}
+		</Menu>;
+	}
 
 	renderFilterPopup(): React.ReactNode {
 		return <Menu id="filter-menu" open={this.state.filterPopupOpened} anchorEl={this.anchorFilters} onClose={() => { this.setState({ filterPopupOpened: false }); }}>
@@ -68,41 +100,21 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 		return same;
 	}
 
-	@autobind
-	handlePopupClose(): void {
-		this.setState({
-			filterPopupOpened: false
-		});
-	}
-
-	renderSortingPopup(): React.ReactNode {
-		return <Menu id="sorting-menu" open={this.state.sortingPopupOpened} anchorEl={this.anchorSorting} onClose={() => { this.setState({ sortingPopupOpened: false }); }}>
-			{this.renderSortigItems()}
-		</Menu>;
-	}
-
-	@autobind
-	setSortingHandle(sortType: SortingType): void {
-		this.setState({ sortingPopupOpened: false });
-		this.props.setSorting(sortType, this.props.sotring.direction === SortingDirection.ASC ? SortingDirection.DESC : SortingDirection.ASC);
-	}
-
-	@autobind
-	handleFilterPopup(): void {
-		this.setState({ filterPopupOpened: true });
-	}
-
-	@autobind
-	handleSortingPopup(): void {
-		this.setState({ sortingPopupOpened: true });
-	}
-
 	render(): React.ReactNode {
-		const filterClass = 'results-mobileFilters__filters' + (this.props.isOneFilterActive ? ' results-mobileFilters__filters_active' : '');
+		const filterContainerClass = 'results-mobileFilters__filters' + (this.props.isOneFilterActive ? ' results-mobileFilters__filters_active' : ''),
+			sortingContainerClass = 'results-mobileFilters__sorting';
 
 		return <div className="results-mobileFilters">
-			<div onClick={this.handleFilterPopup} className={filterClass} ref={ref => this.anchorFilters = ref} aria-owns={'filter-menu'}>{i18n('filters-title')}<Tune/></div>
-			<div onClick={this.handleSortingPopup} className="results-mobileFilters__sorting" ref={ref => this.anchorSorting = ref} aria-owns={'sorting-menu'}>{i18n('sorting-title')}<SwapVert/></div>
+			<div className="results-mobileFilters__container">
+				<div onClick={this.handleFilterPopup} className={filterContainerClass} ref={ref => this.anchorFilters = ref} aria-owns={'filter-menu'}>{i18n('filters-title')}<Tune/></div>
+				<div onClick={this.handleSortingPopup} className={sortingContainerClass} ref={ref => this.anchorSorting = ref} aria-owns={'sorting-menu'}>{i18n('sorting-title')}<SwapVert/></div>
+			</div>
+
+			{this.props.isOneFilterActive && <div className="results-mobileFilters-reset">
+				<Button variant="outlined" color="primary" className="results-mobileFilters-reset__button" onClick={this.props.removeAllFilters}>
+					{i18n('filters-removeAll')}
+				</Button>
+			</div>}
 
 			{this.renderFilterPopup()}
 			{this.renderSortingPopup()}
@@ -113,8 +125,13 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		sotring: state.sorting,
-		isOneFilterActive: getActiveFiltersList(state)
+		isOneFilterActive: isOneFilterActive(state)
 	};
 };
 
-export default connect(mapStateToProps, { setSorting })(MobileFilters);
+const mapDispatchToProps = {
+	setSorting,
+	removeAllFilters
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobileFilters);
