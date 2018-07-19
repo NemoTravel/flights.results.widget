@@ -441,8 +441,10 @@
 		}
 
 		&-flightSearch {
-			&__textField input {
-				color: #fff;
+			&__textField {
+				input {
+					color: #ffffff;
+				}
 			}
 		}
 
@@ -453,11 +455,12 @@
 			color: #757575;
 		}
 
-		@include adaptivity('tablet') {
+		@include adaptivity("tablet") {
 			display: block;
 		}
 
-		&__filters, &__sorting {
+		&__filters,
+		&__sorting {
 			display: flex;
 			align-items: center;
 		}

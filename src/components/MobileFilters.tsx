@@ -46,6 +46,8 @@ interface DispatchProps {
 	setFlightSearch: typeof setFlightSearch;
 }
 
+const AUTOFOCUS_TIMEOUT = 500;
+
 class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 	state: State = {
 		filterPopupOpened: false,
@@ -95,7 +97,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 		if (flightSearchIsActive) {
 			setTimeout(() => {
 				this.searchInputRef.focus();
-			}, 500);
+			}, AUTOFOCUS_TIMEOUT);
 		}
 	}
 
