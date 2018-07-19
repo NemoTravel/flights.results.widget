@@ -15,7 +15,7 @@ import { FiltersState } from '../../store/filters/reducers';
 import { i18n } from '../../i18n';
 import MediaQuery from 'react-responsive';
 import { ScreenMaxSize } from '../../enums';
-import MenuItem from '@material-ui/core/es/MenuItem';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const CTRL_KEY_CODE = 'Control';
 const META_KEY_CODE = 'Meta';
