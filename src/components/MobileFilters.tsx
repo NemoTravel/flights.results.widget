@@ -163,8 +163,24 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 
 		return <div className="results-mobileFilters">
 			<div className="results-mobileFilters__container">
-				<div onClick={this.handleFilterPopup} className={filterContainerClass} ref={ref => this.anchorFilters = ref} aria-owns={'filter-menu'}>{i18n('filters-title')}<Tune/></div>
-				<div onClick={this.handleSortingPopup} className={sortingContainerClass} ref={ref => this.anchorSorting = ref} aria-owns={'sorting-menu'}>{i18n('sorting-title')}<SwapVert/></div>
+				<div onClick={this.handleFilterPopup} className={filterContainerClass} ref={ref => this.anchorFilters = ref} aria-owns={'filter-menu'}>
+					<div className="results-mobileFilters__name">
+						{i18n('filters-title')}
+					</div>
+
+					<div className="results-mobileFilters__icon">
+						<Tune/>
+					</div>
+				</div>
+				<div onClick={this.handleSortingPopup} className={sortingContainerClass} ref={ref => this.anchorSorting = ref} aria-owns={'sorting-menu'}>
+					<div className="results-mobileFilters__name">
+						{i18n('sorting-title')}
+					</div>
+
+					<div className="results-mobileFilters__icon">
+						<SwapVert/>
+					</div>
+				</div>
 			</div>
 
 			{this.props.isOneFilterActive && <div className="results-mobileFilters-reset">

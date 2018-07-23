@@ -465,6 +465,24 @@
 			align-items: center;
 		}
 
+		&__filters {
+			.results-mobileFilters__icon {
+				margin-left: 3px;
+
+				&,
+				svg {
+					width: 23px;
+					height: 23px;
+				}
+			}
+		}
+
+		&__name, &__icon {
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
+
 		&__filters_active {
 			color: #64b5f6;
 		}
