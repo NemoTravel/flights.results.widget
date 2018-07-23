@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { i18n } from '../../i18n';
 import MediaQuery from 'react-responsive';
 import { ScreenMaxSize } from '../../enums';
+import Button from '@material-ui/core/Button';
 
 export interface State extends FilterState {
 	element?: HTMLElement;
@@ -41,12 +42,14 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 		this.openPopover = this.openPopover.bind(this);
 		this.closePopover = this.closePopover.bind(this);
 		this.fullScreenOpen = this.fullScreenOpen.bind(this);
+		this.dropFilter = this.dropFilter.bind(this);
 	}
 
 	abstract renderPopover(): React.ReactNode;
 
 	onPopoverOpen(): void {}
 	onPopoverClose(): void {}
+	onClear(): void {}
 
 	getElement(node: HTMLDivElement): void {
 		this.setState({
@@ -87,6 +90,11 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 		this.onPopoverClose();
 	}
 
+	dropFilter(): void {
+		this.onClear();
+		this.fullScreenOpen();
+	}
+
 	mobileRender(): React.ReactNode {
 		return <>
 			<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': this.state.isActive || this.state.isOpen })} onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
@@ -94,13 +102,17 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 			<Dialog open={this.state.isFullScreenOpen} onClose={() => {}} fullScreen={true} TransitionComponent={Transition}>
 				<AppBar position="static">
 					<Toolbar>
-						<IconButton color="inherit" onClick={this.fullScreenOpen} aria-label="Close">
+						<IconButton color="inherit" onClick={this.dropFilter} className="filters-filter-dialog__close" aria-label="Close">
 							<CloseIcon/>
 						</IconButton>
 
-						<Typography variant="title" color="inherit">
+						<Typography className="filters-filter-dialog__name" variant="title" color="inherit">
 							{i18n(`filters-${this.type}-title`)}
 						</Typography>
+
+						<Button color="inherit" onClick={this.fullScreenOpen}>
+							{i18n('filters-save')}
+						</Button>
 					</Toolbar>
 				</AppBar>
 

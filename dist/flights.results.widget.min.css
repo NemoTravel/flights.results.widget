@@ -135,6 +135,16 @@
   color: #64b5f6 !important;
 }
 
+.filters-filter-dialog__name {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.filters-filter-dialog__close {
+  margin-left: -20px !important;
+}
+
 .filters-filter_active .filters-filter-chip,
 .filters-filter_active .filters-filter-chip:hover,
 .filters-filter_active .filters-filter-chip:focus,
@@ -2483,7 +2493,7 @@
 }
 
 .sorting-item_ASC .sorting-item-arrows__up {
-  color: #cccccc;
+  color: #d0d0d0;
 }
 
 .sorting-item_ASC .sorting-item-arrows__down {
@@ -2500,7 +2510,7 @@
 }
 
 .sorting-item_DESC .sorting-item-arrows__down {
-  color: #cccccc;
+  color: #d0d0d0;
 }
 
 .sorting-item_DepartureTime {

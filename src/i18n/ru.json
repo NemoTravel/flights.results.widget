@@ -42,6 +42,7 @@
 	"filters-noResultsSubTitle": "Попробуйте изменить параметры фильтрации.",
 
 	"filters-removeAll": "Сбросить фильтры",
+	"filters-save": "Применить",
 	"filters-airlines-title": "Авиакомпании",
 	"filters-airlines-snackbar": "Авиакомпания «%airline%» добавлена в фильтры",
 	"filters-airlines-snackbar-remove": "Авиакомпания «%airline%» удалена из фильтров",

@@ -102,6 +102,16 @@
 			}
 		}
 
+		&-dialog {
+			&__name {
+				flex: 1;
+			}
+
+			&__close {
+				margin-left: -20px !important;
+			}
+		}
+
 		&_active {
 			.filters-filter-chip {
 				&,

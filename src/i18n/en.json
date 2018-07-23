@@ -42,6 +42,7 @@
 	"filters-noResultsSubTitle": "Try to tune up the filters.",
 
 	"filters-removeAll": "Clear filters",
+	"filters-save": "Save",
 	"filters-airlines-title": "Airlines",
 	"filters-airlines-snackbar": "Airline «%airline%» has been added to filters",
 	"filters-airlines-snackbar-remove": "Airline «%airline%» has been removed from filters",
