@@ -68,6 +68,30 @@
 			color: currentColor;
 		}
 
+		&-arrows {
+			width: 30px;
+			height: 30px;
+			position: relative;
+			display: none;
+
+			&__up, &__down {
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				&,
+				svg {
+					width: 14px;
+					height: 14px;
+				}
+			}
+
+			&__down {
+				top: 12px;
+				left: 5px;
+			}
+		}
+
 		&__inner {
 			position: relative;
 			display: flex;
@@ -118,6 +142,10 @@
 				display: block;
 			}
 
+			.sorting-item-arrows {
+				display: block;
+			}
+
 			@include adaptivity(tablet) {
 				color: currentColor;
 			}
@@ -127,11 +155,31 @@
 			.sorting-item__arrow {
 				transform: rotate(0deg);
 			}
+
+			.sorting-item-arrows {
+				&__up {
+					color: #cccccc;
+				}
+
+				&__down {
+					color: currentColor;
+				}
+			}
 		}
 
 		&_DESC {
 			.sorting-item__arrow {
 				transform: rotate(180deg);
+			}
+
+			.sorting-item-arrows {
+				&__up {
+					color: currentColor;
+				}
+
+				&__down {
+					color: #cccccc;
+				}
 			}
 		}
 
