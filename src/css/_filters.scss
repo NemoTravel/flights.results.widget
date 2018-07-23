@@ -97,10 +97,8 @@
 		}
 
 		&-menu {
-			display: none;
-
-			@include adaptivity("tablet") {
-				display: block;
+			&_active {
+				color: #64b5f6 !important;
 			}
 		}
 
@@ -118,10 +116,6 @@
 					color: #ffffff;
 					background-color: #0e8bf0;
 				}
-			}
-
-			.filters-filter-menu {
-				color: #64b5f6;
 			}
 		}
 

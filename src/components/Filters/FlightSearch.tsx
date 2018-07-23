@@ -137,31 +137,33 @@ class FlightSearch extends Filter<Props, FiltersState> {
 	render(): React.ReactNode {
 		const isActive = this.state.isActive;
 
-		return <div className={classnames('filters-filter', { 'filters-filter_active': isActive })}>
+		return <>
 			<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
-				<Chip
-					className="filters-filter-chip"
-					avatar={this.renderAvatar()}
-					label={this.label}
-					onClick={this.onClick}
-				/>
-
-				{isActive ? <div className="results-flightNumberSearch">
-					<Input
-						type="text"
-						onChange={this.onText}
-						fullWidth={true}
-						autoFocus={true}
-						placeholder={i18n('filters-search-placeholder')}
-						endAdornment={this.clearButton()}
+				<div className={classnames('filters-filter', { 'filters-filter_active': isActive })}>
+					<Chip
+						className="filters-filter-chip"
+						avatar={this.renderAvatar()}
+						label={this.label}
+						onClick={this.onClick}
 					/>
-				</div> : null}
+
+					{isActive ? <div className="results-flightNumberSearch">
+						<Input
+							type="text"
+							onChange={this.onText}
+							fullWidth={true}
+							autoFocus={true}
+							placeholder={i18n('filters-search-placeholder')}
+							endAdornment={this.clearButton()}
+						/>
+					</div> : null}
+				</div>
 			</MediaQuery>
 
 			<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-				<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
+				<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': isActive })} onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
 			</MediaQuery>
-		</div>;
+		</>;
 	}
 }
 

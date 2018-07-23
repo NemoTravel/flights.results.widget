@@ -71,17 +71,19 @@ class Comfortable extends Filter<Props, FilterState> {
 
 	render(): React.ReactNode {
 		return this.isVisible() ? (
-			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+			<>
 				<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
-					<Tooltip title={<span className="tooltip">{i18n('filters-comfortable-tooltip')}</span>} placement="top">
-						<Chip className="filters-filter-chip" {...this.getChipProps()}/>
-					</Tooltip>
+					<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+						<Tooltip title={<span className="tooltip">{i18n('filters-comfortable-tooltip')}</span>} placement="top">
+							<Chip className="filters-filter-chip" {...this.getChipProps()}/>
+						</Tooltip>
+					</div>
 				</MediaQuery>
 
 				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-					<MenuItem className="filters-filter-menu" onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
+					<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': this.state.isActive })} onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
 				</MediaQuery>
-			</div>
+			</>
 		) : null;
 	}
 }

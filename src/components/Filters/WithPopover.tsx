@@ -89,7 +89,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 
 	mobileRender(): React.ReactNode {
 		return <>
-			<MenuItem className="filters-filter-menu" onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
+			<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': this.state.isActive || this.state.isOpen })} onClick={this.fullScreenOpen}>{this.state.chipLabel}</MenuItem>
 
 			<Dialog open={this.state.isFullScreenOpen} onClose={() => {}} fullScreen={true} TransitionComponent={Transition}>
 				<AppBar position="static">
@@ -121,35 +121,37 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 			chipProps.onDelete = this.onClear;
 		}
 
-		return this.isVisible() ? <div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive || this.state.isOpen })} ref={this.getElement}>
+		return this.isVisible() ? <>
 			<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
-				<Chip className="filters-filter-chip" {...chipProps}/>
+				<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive || this.state.isOpen })} ref={this.getElement}>
+					<Chip className="filters-filter-chip" {...chipProps}/>
 
-				<Popover
-					className={`filters-filter-popover filters-filter-popover_${this.type}`}
-					open={this.state.isOpen}
-					onClose={this.closePopover}
-					anchorReference="anchorEl"
-					anchorEl={this.state.element}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'right'
-					}}
-					transformOrigin={{
-						vertical: 'top',
-						horizontal: 'right'
-					}}
-				>
-					<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
-						{this.renderPopover()}
-					</div>
-				</Popover>
+					<Popover
+						className={`filters-filter-popover filters-filter-popover_${this.type}`}
+						open={this.state.isOpen}
+						onClose={this.closePopover}
+						anchorReference="anchorEl"
+						anchorEl={this.state.element}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'right'
+						}}
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'right'
+						}}
+					>
+						<div className={`filters-filter-popover__wrapper filters-filter-popover__wrapper_${this.type}`}>
+							{this.renderPopover()}
+						</div>
+					</Popover>
+				</div>
 			</MediaQuery>
 
 			<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
 				{this.mobileRender()}
 			</MediaQuery>
-		</div> : null;
+		</> : null;
 	}
 }
 

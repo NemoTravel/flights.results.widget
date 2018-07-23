@@ -93,7 +93,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 	}
 
 	componentWillReceiveProps({ flightSearchIsActive }: StateProps): void {
-		// Material UI don't want to set focus via autoFocus={true} in this case
+		// Material UI doesn't want to set focus via autoFocus={true} in this case
 		if (flightSearchIsActive) {
 			setTimeout(() => {
 				this.searchInputRef.focus();
