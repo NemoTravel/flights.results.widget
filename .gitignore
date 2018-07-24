@@ -2,3 +2,5 @@ node_modules
 .idea
 /npm-debug.log
 nbproject
+dist/flights.results.widget.min.css
+dist/flights.results.widget.min.js
