@@ -1,0 +1,23 @@
+stages:
+  - lint
+  - test
+  - build
+
+before_script:
+  - npm install
+
+run-linters:
+  stage: lint
+  script:
+    - npm run sass-lint
+    - npm run tslint
+
+run-tests:
+  stage: test
+  script:
+    - npm test
+
+create-build:
+  stage: build
+  script:
+    - npm run build-production
