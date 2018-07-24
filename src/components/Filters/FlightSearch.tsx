@@ -160,7 +160,7 @@ class FlightSearch extends Filter<Props, FiltersState> {
 				</div>
 			</MediaQuery>
 
-			<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+			<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet} minDeviceWidth={ScreenMaxSize.Phone}>
 				<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': isActive })} onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
 			</MediaQuery>
 		</>;

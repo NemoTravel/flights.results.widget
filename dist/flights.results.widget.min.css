@@ -135,14 +135,15 @@
   color: #64b5f6 !important;
 }
 
+.filters-filter-menu__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .filters-filter-dialog__name {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-}
-
-.filters-filter-dialog__close {
-  margin-left: -20px !important;
 }
 
 .filters-filter_active .filters-filter-chip,
@@ -172,8 +173,18 @@
   display: flex;
 }
 
+@media only screen and (max-width: 515px) {
+  .filters-filter-popover__columns {
+    display: block;
+  }
+}
+
 .filters-filter-popover-column:not(:last-of-type) {
   margin-right: 50px;
+}
+
+.filters-filter-popover-column:not(:first-of-type) .filters-filter-popover-legend {
+  padding-top: 10px;
 }
 
 .filters-filter-popover .filters-filter-popover-group {
@@ -203,6 +214,12 @@
 
 .filters-filter-popover__wrapper {
   padding: 20px 20px 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  .filters-filter-popover__wrapper {
+    padding-left: 15px;
+  }
 }
 
 .filters-filter-popover__wrapper_airports .filters-filter-popover-group {

@@ -81,7 +81,11 @@ class Comfortable extends Filter<Props, FilterState> {
 				</MediaQuery>
 
 				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
-					<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': this.state.isActive })} onClick={this.onMobileClick}>{this.state.chipLabel}</MenuItem>
+					<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': this.state.isActive })} onClick={this.onMobileClick}>
+						<div className="filters-filter-menu__item">
+							{this.state.chipLabel}
+						</div>
+					</MenuItem>
 				</MediaQuery>
 			</>
 		) : null;

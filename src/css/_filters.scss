@@ -100,15 +100,16 @@
 			&_active {
 				color: #64b5f6 !important;
 			}
+
+			&__text {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 
 		&-dialog {
 			&__name {
 				flex: 1;
-			}
-
-			&__close {
-				margin-left: -20px !important;
 			}
 		}
 
@@ -138,11 +139,21 @@
 
 			&__columns {
 				display: flex;
+
+				@include adaptivity('phone') {
+					display: block;
+				}
 			}
 
 			&-column {
 				&:not(:last-of-type) {
 					margin-right: 50px;
+				}
+
+				&:not(:first-of-type) {
+					.filters-filter-popover-legend {
+						padding-top: 10px;
+					}
 				}
 			}
 
@@ -165,6 +176,10 @@
 
 			&__wrapper {
 				padding: 20px 20px 5px;
+
+				@include adaptivity('tablet') {
+					padding-left: 15px;
+				}
 
 				&_airports {
 					.filters-filter-popover-group {
