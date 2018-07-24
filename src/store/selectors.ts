@@ -1,7 +1,12 @@
 import { createSelector } from 'reselect';
 import Flight from '../models/Flight';
 import { getListOfSelectedCodes, ListOfSelectedCodes } from './filters/selectors';
-import { getAllFlights, getFlightsForCurrentLeg } from './flights/selectors';
+import {
+	getAllFlights,
+	getFlightsForCurrentLeg,
+	getMinPricesByLegs,
+	getMinTotalPossiblePricesByLegs
+} from './flights/selectors';
 import * as Sorting from './sorting/selectors';
 import { sortingFunctionsMap } from './sorting/selectors';
 import { FlightsRTState } from './flightsRT/reducers';
@@ -19,30 +24,26 @@ import { getFlightsRT } from './flightsRT/selectors';
 import { MAX_VISIBLE_FLIGHTS, UID_LEG_GLUE } from '../utils';
 import { Currency, Route } from '../enums';
 import { FlightsReplacement } from '../schemas/SelectedFlight';
-import { FlightsByLegsState } from './flightsByLegs/reducers';
 import { SelectedFlightsState } from './selectedFlights/reducers';
 import { FlightsState } from './flights/reducers';
 import { SortingState } from './sorting/reducers';
 import { FareFamiliesCombinationsState } from './fareFamilies/fareFamiliesCombinations/reducers';
 import { getShowAllFlights } from './showAllFlights/selectors';
 import {
-	getFilteredArrivalTimeIntervals, getFilteredDepartureTimeIntervals,
+	getFilteredArrivalTimeIntervals,
+	getFilteredDepartureTimeIntervals,
 	getTimeIntervalForDate
 } from './filters/time/selectors';
 import { RootState } from './reducers';
 import { getFilteredArrivalAirports, getFilteredDepartureAirports } from './filters/airports/selectors';
 import { getFilteredAirlines } from './filters/airlines/selectors';
-import { getFlightsIdsByLegs } from './flightsByLegs/selectors';
 import { getIsRTMode } from './fareFamilies/isRTMode/selectors';
 import { CombinationsPrices } from '../schemas/FareFamiliesCombinations';
 import { getCurrency } from './currency/selectors';
+import { PricesByLegs } from '../schemas/PricesByLegs';
 
 export interface PricesByFlights {
 	[flightId: string]: Money;
-}
-
-interface PricesByLegs {
-	[legId: number]: Money;
 }
 
 export interface FlightsVisibility {
@@ -59,96 +60,6 @@ export interface FilterSelectors {
 	flightSearch: string;
 	comfortable: boolean
 }
-
-/**
- * Get a list of min prices for each leg.
- */
-export const getMinPricesByLegs = createSelector(
-	[getAllFlights, getFlightsIdsByLegs, getCurrency],
-	(flightsPool: FlightsState, flightsByLegs: FlightsByLegsState, currency: Currency): PricesByLegs => {
-		const result: PricesByLegs = {};
-
-		for (const legId in flightsByLegs) {
-			if (flightsByLegs.hasOwnProperty(legId)) {
-				const flightsIds = flightsByLegs.hasOwnProperty(legId) ? flightsByLegs[legId] : [];
-				const flights: Flight[] = [];
-
-				flightsIds.forEach(flightId => {
-					if (flightsPool.hasOwnProperty(flightId)) {
-						flights.push(flightsPool[flightId]);
-					}
-				});
-
-				if (flights.length) {
-					let minPrice: Money = null;
-
-					flights.forEach(flight => {
-						minPrice = (minPrice === null || flight.totalPrice.amount < minPrice.amount) ? flight.totalPrice : minPrice;
-					});
-
-					result[legId] = minPrice;
-				}
-				else {
-					result[legId] = {
-						amount: 0,
-						currency: currency
-					};
-				}
-			}
-		}
-
-		return result;
-	}
-);
-
-/**
- * Get a list of min total possible prices for each leg.
- *
- * Example:
- * - leg 1 min price is $120
- * - leg 2 min price is $80
- * - leg 3 min price is $100
- *
- * Then:
- * - leg 1 min total possible price is $80 + $100 = 180$
- * - leg 2 min total possible price is $100
- * - leg 3 min total possible price is $0
- */
-export const getMinTotalPossiblePricesByLegs = createSelector(
-	[getMinPricesByLegs, getCurrency],
-	(minPricesByLegs: PricesByLegs, currency: Currency): PricesByLegs => {
-		const result: PricesByLegs = {};
-
-		for (const legId in minPricesByLegs) {
-			if (minPricesByLegs.hasOwnProperty(legId)) {
-				if (!result.hasOwnProperty(legId)) {
-					result[legId] = { amount: 0, currency: currency };
-				}
-
-				// For each leg: loop through all next legs and sum up their min prices.
-				for (const anotherLegId in minPricesByLegs) {
-					if (minPricesByLegs.hasOwnProperty(anotherLegId) && (parseInt(anotherLegId) > parseInt(legId))) {
-						result[legId].amount += minPricesByLegs[anotherLegId].amount;
-					}
-				}
-			}
-		}
-
-		return result;
-	}
-);
-
-/**
- * Check if there are any transfer flights.
- */
-export const hasAnyTransferFlights = createSelector(
-	[getFlightsForCurrentLeg],
-	(flights: Flight[]): boolean => {
-		const numOfTransferFlights = flights.filter(flight => flight.segments.length > 1).length;
-
-		return numOfTransferFlights > 1 && numOfTransferFlights !== flights.length;
-	}
-);
 
 /**
  * Calculating total price.
