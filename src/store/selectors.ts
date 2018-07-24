@@ -1,7 +1,12 @@
 import { createSelector } from 'reselect';
 import Flight from '../models/Flight';
 import { getListOfSelectedCodes, ListOfSelectedCodes } from './filters/selectors';
-import { getAllFlights, getFlightsForCurrentLeg, getMinPricesByLegs } from './flights/selectors';
+import {
+	getAllFlights,
+	getFlightsForCurrentLeg,
+	getMinPricesByLegs,
+	getMinTotalPossiblePricesByLegs
+} from './flights/selectors';
 import * as Sorting from './sorting/selectors';
 import { sortingFunctionsMap } from './sorting/selectors';
 import { FlightsRTState } from './flightsRT/reducers';
@@ -55,43 +60,6 @@ export interface FilterSelectors {
 	flightSearch: string;
 	comfortable: boolean
 }
-
-/**
- * Get a list of min total possible prices for each leg.
- *
- * Example:
- * - leg 1 min price is $120
- * - leg 2 min price is $80
- * - leg 3 min price is $100
- *
- * Then:
- * - leg 1 min total possible price is $80 + $100 = 180$
- * - leg 2 min total possible price is $100
- * - leg 3 min total possible price is $0
- */
-export const getMinTotalPossiblePricesByLegs = createSelector(
-	[getMinPricesByLegs, getCurrency],
-	(minPricesByLegs: PricesByLegs, currency: Currency): PricesByLegs => {
-		const result: PricesByLegs = {};
-
-		for (const legId in minPricesByLegs) {
-			if (minPricesByLegs.hasOwnProperty(legId)) {
-				if (!result.hasOwnProperty(legId)) {
-					result[legId] = { amount: 0, currency: currency };
-				}
-
-				// For each leg: loop through all next legs and sum up their min prices.
-				for (const anotherLegId in minPricesByLegs) {
-					if (minPricesByLegs.hasOwnProperty(anotherLegId) && (parseInt(anotherLegId) > parseInt(legId))) {
-						result[legId].amount += minPricesByLegs[anotherLegId].amount;
-					}
-				}
-			}
-		}
-
-		return result;
-	}
-);
 
 /**
  * Calculating total price.
