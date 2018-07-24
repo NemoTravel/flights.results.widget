@@ -598,6 +598,180 @@
   color: #eaeaea;
 }
 
+.results-error-priceChanged {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.results-error-priceChanged .price-amount {
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.results-error-priceChanged .price-currency {
+  margin-left: 5px;
+}
+
+.results-error-notAvailable .flight {
+  border: none;
+  border-radius: 4px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.results-error-notAvailable .flight-summary:hover {
+  background: inherit;
+}
+
+.results-error-notAvailable .flight-summary-expand {
+  display: none;
+}
+
+.results-error-notAvailable .flight-summary-logo,
+.results-error-notAvailable .flight-details-segment-logo {
+  width: 120px;
+  height: auto;
+  margin-left: 30px;
+  margin-right: 10px;
+}
+
+.results-error-notAvailable .flight-summary-logo__image,
+.results-error-notAvailable .flight-details-segment-logo__image {
+  max-width: 65px;
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+.results-error-notAvailable .flight-summary-logo__image:only-child,
+.results-error-notAvailable .flight-details-segment-logo__image:only-child {
+  max-width: 100px;
+  margin-left: 0;
+}
+
+.results-error-notAvailable .flight-summary-logo__image:not(only-child):first-child,
+.results-error-notAvailable .flight-details-segment-logo__image:not(only-child):first-child {
+  margin-left: 0;
+}
+
+.results-error-notAvailable .flight-summary-stage__time,
+.results-error-notAvailable .flight-details-segment-stage__time {
+  font-size: 1.2rem;
+}
+
+.results-error-notAvailable .flight-summary-stage__date,
+.results-error-notAvailable .flight-details-segment-stage__date {
+  font-size: 11px;
+}
+
+.results-error-notAvailable .flight-summary-stage-routeInfo,
+.results-error-notAvailable .flight-details-segment-stage-routeInfo {
+  margin: 0;
+  width: 50px;
+}
+
+.results-error-notAvailable .flight-summary-stage-routeInfo__flightTime,
+.results-error-notAvailable .flight-details-segment-stage-routeInfo__flightTime {
+  display: none;
+}
+
+.results-error-notAvailable .flight-summary-route,
+.results-error-notAvailable .flight-details-segment-route {
+  font-size: 11px;
+}
+
+.results-error-notAvailable .flight-summary__middle,
+.results-error-notAvailable .flight-details-segment__middle {
+  font-size: 13px;
+  margin-left: 20px;
+}
+
+.results-error-tooltip {
+  font-size: 13px !important;
+}
+
+.results-error__price_old {
+  color: #d0d0d0;
+  position: relative;
+  margin-right: 10px;
+}
+
+.results-error__price_old:before {
+  border-top: 2px solid #ff0000;
+  width: 100%;
+  content: "";
+  position: absolute;
+  left: 0;
+  margin-top: 8px;
+  -webkit-transform: rotate(-18deg);
+  transform: rotate(-18deg);
+}
+
+.results-error__price_new {
+  color: #78ae35;
+}
+
+.results-error__price_new:before {
+  content: "";
+  border-top: 3px solid;
+  border-left: 3px solid;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-bottom: 3px;
+  margin-right: 10px;
+}
+
+.results-error-flight {
+  border-radius: 4px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.results-error-flight:last-child {
+  margin-bottom: 20px;
+}
+
+.results-error-flight__available {
+  border: 1px solid #88c43d;
+  border-left: 5px solid #88c43d;
+}
+
+.results-error-flight__notAvailable {
+  border: 1px solid #ff6767;
+  border-left: 5px solid #ff6767;
+}
+
+.results-error-flight__notAvailable .results-error-flight__icon {
+  color: #ff6767;
+}
+
+.results-error-flight__icon {
+  position: absolute;
+  color: #88c43d;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.results-error-flight__iconContainer {
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+}
+
 .snackbar {
   bottom: 20px !important;
 }
@@ -2064,149 +2238,6 @@
     padding-left: 20px;
     padding-right: 20px;
   }
-}
-
-.fareFamilies-error-priceChanged {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 20px;
-  margin-top: 5px;
-}
-
-.fareFamilies-error-priceChanged .price-amount {
-  font-size: 27px;
-  font-weight: 500;
-}
-
-.fareFamilies-error-priceChanged .price-currency {
-  margin-left: 5px;
-}
-
-.fareFamilies-error-notAvailable .flight {
-  border: none;
-  border-radius: 4px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-.fareFamilies-error-notAvailable .flight-summary-expand {
-  display: none;
-}
-
-.fareFamilies-error-notAvailable .flight-summary-logo,
-.fareFamilies-error-notAvailable .flight-details-segment-logo {
-  max-width: 50px;
-  height: auto;
-  margin-left: 50px;
-  margin-right: 20px;
-}
-
-.fareFamilies-error-notAvailable .flight-summary-stage__time,
-.fareFamilies-error-notAvailable .flight-details-segment-stage__time {
-  font-size: 1.2rem;
-}
-
-.fareFamilies-error-notAvailable .flight-summary-stage__date,
-.fareFamilies-error-notAvailable .flight-details-segment-stage__date {
-  font-size: 11px;
-}
-
-.fareFamilies-error-notAvailable .flight-summary-stage-routeInfo,
-.fareFamilies-error-notAvailable .flight-details-segment-stage-routeInfo {
-  margin: 0;
-  width: 90px;
-}
-
-.fareFamilies-error-notAvailable .flight-summary-route,
-.fareFamilies-error-notAvailable .flight-details-segment-route {
-  font-size: 11px;
-}
-
-.fareFamilies-error-notAvailable .flight-summary__middle,
-.fareFamilies-error-notAvailable .flight-details-segment__middle {
-  font-size: 13px;
-  margin-left: 20px;
-}
-
-.fareFamilies-error__price_old {
-  color: #d0d0d0;
-  position: relative;
-  margin-right: 10px;
-}
-
-.fareFamilies-error__price_old:before {
-  border-top: 2px solid #ff0000;
-  width: 100%;
-  content: "";
-  position: absolute;
-  left: 0;
-  margin-top: 8px;
-  -webkit-transform: rotate(-18deg);
-  transform: rotate(-18deg);
-}
-
-.fareFamilies-error__price_new {
-  color: #78ae35;
-}
-
-.fareFamilies-error__price_new:before {
-  content: "";
-  border-top: 3px solid;
-  border-left: 3px solid;
-  -webkit-transform: rotate(135deg);
-  transform: rotate(135deg);
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-bottom: 3px;
-  margin-right: 10px;
-}
-
-.fareFamilies-error-flight {
-  border-radius: 4px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  position: relative;
-  margin-bottom: 10px;
-}
-
-.fareFamilies-error-flight:last-child {
-  margin-bottom: 20px;
-}
-
-.fareFamilies-error-flight__available {
-  border: 1px solid #88c43d;
-  border-left: 5px solid #88c43d;
-}
-
-.fareFamilies-error-flight__notAvailable {
-  border: 1px solid #ff6767;
-  border-left: 5px solid #ff6767;
-}
-
-.fareFamilies-error-flight__notAvailable .fareFamilies-error-flight__icon {
-  color: #ff6767;
-}
-
-.fareFamilies-error-flight__icon {
-  position: absolute;
-  color: #88c43d;
-  height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-left: 10px;
-}
-
-.fareFamilies-error-flight__iconContainer {
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  width: 26px;
-  height: 26px;
 }
 
 .sorting {

@@ -381,6 +381,170 @@
 			}
 		}
 	}
+
+	&-error {
+		&-priceChanged {
+			display: flex;
+			margin-bottom: 20px;
+			margin-top: 5px;
+
+			.price-amount {
+				font-size: 27px;
+				font-weight: 500;
+			}
+
+			.price-currency {
+				margin-left: 5px;
+			}
+		}
+
+		&-notAvailable {
+			.flight {
+				border: none;
+				border-radius: 4px;
+				box-shadow: none;
+
+				&-summary {
+					&:hover {
+						background: inherit;
+					}
+
+					&-expand {
+						display: none;
+					}
+
+					&-logo {
+						width: 120px;
+						height: auto;
+						margin-left: 30px;
+						margin-right: 10px;
+
+						&__image {
+							max-width: 65px;
+							margin-left: 10px;
+							margin-right: 0;
+
+							&:only-child {
+								max-width: 100px;
+								margin-left: 0;
+							}
+
+							&:not(only-child):first-child {
+								margin-left: 0;
+							}
+						}
+					}
+
+					&-stage {
+						&__time {
+							font-size: 1.2rem;
+						}
+
+						&__date {
+							font-size: 11px;
+						}
+
+						&-routeInfo {
+							margin: 0;
+							width: 50px;
+
+							&__flightTime {
+								display: none;
+							}
+						}
+					}
+
+					&-route {
+						font-size: 11px;
+					}
+
+					&__middle {
+						font-size: 13px;
+						margin-left: 20px;
+					}
+				}
+			}
+		}
+
+		&-tooltip {
+			font-size: 13px !important;
+		}
+
+		&__price {
+			&_old {
+				color: #d0d0d0;
+				position: relative;
+				margin-right: 10px;
+
+				&:before {
+					border-top: 2px solid #ff0000;
+					width: 100%;
+					content: "";
+					position: absolute;
+					left: 0;
+					margin-top: 8px;
+					transform: rotate(-18deg);
+				}
+			}
+
+			&_new {
+				color: #78ae35;
+
+				&:before {
+					content: "";
+					border-top: 3px solid;
+					border-left: 3px solid;
+					transform: rotate(135deg);
+					display: inline-block;
+					width: 10px;
+					height: 10px;
+					margin-bottom: 3px;
+					margin-right: 10px;
+				}
+			}
+		}
+
+		&-flight {
+			border-radius: 4px;
+			box-shadow: none;
+			position: relative;
+			margin-bottom: 10px;
+
+			&:last-child {
+				margin-bottom: 20px;
+			}
+
+			&__available {
+				border: 1px solid #88c43d;
+				border-left: 5px solid #88c43d;
+			}
+
+			&__notAvailable {
+				border: 1px solid #ff6767;
+				border-left: 5px solid #ff6767;
+
+				.results-error-flight__icon {
+					color: #ff6767;
+				}
+			}
+
+			&__icon {
+				position: absolute;
+				color: #88c43d;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				margin-left: 10px;
+			}
+
+			&__iconContainer {
+				border: 1px solid currentColor;
+				border-radius: 50%;
+				width: 26px;
+				height: 26px;
+			}
+		}
+	}
 }
 
 .snackbar {

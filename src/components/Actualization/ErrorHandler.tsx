@@ -29,19 +29,34 @@ interface DispatchProps {
 }
 
 class ErrorHandler extends React.Component<StateProps & DispatchProps> {
+	tooltipClass = {
+		tooltip: 'results-error-tooltip'
+	};
+
+	popperProps = {
+		modifiers: {
+			flip: {
+				enabled: false
+			},
+			preventOverflow: {
+				escapeWithReference: true
+			}
+		}
+	};
+
 	renderHeader(): React.ReactNode {
 		return i18n(`error-actualization-${this.props.problem}_header`);
 	}
 
 	renderFlights(): React.ReactNode {
 		return this.props.info.map((info, index) => {
-			const className = 'fareFamilies-error-flight ' + (!info.isAvailable ? 'fareFamilies-error-flight__notAvailable' : 'fareFamilies-error-flight__available'),
+			const className = 'results-error-flight ' + (!info.isAvailable ? 'results-error-flight__notAvailable' : 'results-error-flight__available'),
 				title = i18n(info.isAvailable ? 'error-actualization-Availability_flight_available' : 'error-actualization-Availability_flight_notAvailable');
 
-			return <Tooltip title={title} placement="top" key={index}>
+			return <Tooltip title={title} placement="top" key={index} classes={this.tooltipClass} PopperProps={this.popperProps}>
 				<div className={className}>
-					<div className="fareFamilies-error-flight__icon">
-						<div className="fareFamilies-error-flight__iconContainer">
+					<div className="results-error-flight__icon">
+						<div className="results-error-flight__iconContainer">
 							{info.isAvailable ? <Check/> : <Close/>}
 						</div>
 					</div>
@@ -61,7 +76,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 		switch (this.props.problem) {
 			case ActualizationProblem.Availability:
 				return <>
-					<div className="fareFamilies-error-notAvailable">
+					<div className="results-error-notAvailable">
 						{this.renderFlights()}
 					</div>
 
@@ -70,11 +85,11 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 
 			case ActualizationProblem.Price:
 				return <>
-					<div className="fareFamilies-error-priceChanged">
-						<div className="fareFamilies-error__price_old">
+					<div className="results-error-priceChanged">
+						<div className="results-error__price_old">
 							<Price price={this.props.info[0].priceInfo.oldPrice}/>
 						</div>
-						<div className="fareFamilies-error__price_new">
+						<div className="results-error__price_new">
 							<Price price={this.props.info[0].priceInfo.newPrice}/>
 						</div>
 					</div>
@@ -124,7 +139,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 
 			default:
 				return (
-					<Button className="dialog-actions__button" onClick={this.goToBooking} color="primary">
+					<Button className="dialog-actions__button" onClick={this.changeFlight} color="primary">
 						{i18n('error-actualization-Unknown-action_OK')}
 					</Button>
 				);
