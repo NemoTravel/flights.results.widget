@@ -183,8 +183,10 @@
   margin-right: 50px;
 }
 
-.filters-filter-popover-column:not(:first-of-type) .filters-filter-popover-legend {
-  padding-top: 10px;
+@media only screen and (max-width: 515px) {
+  .filters-filter-popover-column:not(:first-of-type) .filters-filter-popover-legend {
+    padding-top: 10px;
+  }
 }
 
 .filters-filter-popover .filters-filter-popover-group {

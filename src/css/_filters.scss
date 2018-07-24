@@ -150,9 +150,11 @@
 					margin-right: 50px;
 				}
 
-				&:not(:first-of-type) {
-					.filters-filter-popover-legend {
-						padding-top: 10px;
+				@include adaptivity('phone') {
+					&:not(:first-of-type) {
+						.filters-filter-popover-legend {
+							padding-top: 10px;
+						}
 					}
 				}
 			}

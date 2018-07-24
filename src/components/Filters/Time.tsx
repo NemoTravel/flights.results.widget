@@ -9,7 +9,7 @@ import { ListOfSelectedCodes } from '../../store/filters/selectors';
 import { addTimeInterval, removeAllTimeIntervals, removeTimeInterval } from '../../store/filters/time/actions';
 import { getAllTimeIntervals } from '../../store/filters/time/selectors';
 import { getSelectedArrivalTimeIntervals, getSelectedDepartureTimeIntervals } from '../../store/selectors';
-import { FlightTimeInterval, LocationType } from '../../enums';
+import { FlightTimeInterval, Language, LocationType } from '../../enums';
 import { TimeFilterState } from '../../store/filters/time/reducers';
 import { i18n } from '../../i18n';
 
@@ -22,16 +22,17 @@ interface TimeIntervalsLabels {
 }
 
 export const timeIntervalsLabels: TimeIntervalsLabels = {
-	[FlightTimeInterval.Morning]: i18n('filters-time-interval_morning'),
-	[FlightTimeInterval.Afternoon]: i18n('filters-time-interval_day'),
-	[FlightTimeInterval.Evening]: i18n('filters-time-interval_evening'),
-	[FlightTimeInterval.Night]: i18n('filters-time-interval_night')
+	[FlightTimeInterval.Morning]: 'morning',
+	[FlightTimeInterval.Afternoon]: 'day',
+	[FlightTimeInterval.Evening]: 'evening',
+	[FlightTimeInterval.Night]: 'night'
 };
 
 interface StateProps {
 	selectedDepartureTimeIntervals: ListOfSelectedCodes;
 	selectedArrivalTimeIntervals: ListOfSelectedCodes;
 	allTimeIntervals: TimeFilterState;
+	locale: Language;
 }
 
 interface DispatchProps {
@@ -51,6 +52,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 		this.onArrivalChange = this.onArrivalChange.bind(this);
 		this.onDepartureChange = this.onDepartureChange.bind(this);
+		this.updateState = this.updateState.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
@@ -82,7 +84,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 			for (const interval in selectedDepartureTimeIntervals) {
 				if (selectedDepartureTimeIntervals.hasOwnProperty(interval)) {
-					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`));
+					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`, this.props.locale));
 				}
 			}
 
@@ -94,7 +96,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 			for (const interval in selectedArrivalTimeIntervals) {
 				if (selectedArrivalTimeIntervals.hasOwnProperty(interval)) {
-					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`));
+					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`, this.props.locale));
 				}
 			}
 
@@ -173,7 +175,8 @@ const mapStateToProps = (state: RootState): StateProps => {
 	return {
 		selectedDepartureTimeIntervals: getSelectedDepartureTimeIntervals(state),
 		selectedArrivalTimeIntervals: getSelectedArrivalTimeIntervals(state),
-		allTimeIntervals: getAllTimeIntervals(state)
+		allTimeIntervals: getAllTimeIntervals(state),
+		locale: state.config.locale
 	};
 };
 
