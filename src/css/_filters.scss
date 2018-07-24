@@ -140,7 +140,7 @@
 			&__columns {
 				display: flex;
 
-				@include adaptivity('phone') {
+				@include adaptivity("phone") {
 					display: block;
 				}
 			}
@@ -150,7 +150,7 @@
 					margin-right: 50px;
 				}
 
-				@include adaptivity('phone') {
+				@include adaptivity("phone") {
 					&:not(:first-of-type) {
 						.filters-filter-popover-legend {
 							padding-top: 10px;
@@ -179,7 +179,7 @@
 			&__wrapper {
 				padding: 20px 20px 5px;
 
-				@include adaptivity('tablet') {
+				@include adaptivity("tablet") {
 					padding-left: 15px;
 				}
 

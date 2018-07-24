@@ -74,7 +74,8 @@
 			position: relative;
 			display: none;
 
-			&__up, &__down {
+			&__up,
+			&__down {
 				position: absolute;
 				top: 0;
 				left: 0;
