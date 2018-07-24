@@ -4,20 +4,20 @@ stages:
   - build
 
 before_script:
-  - npm install
+  - yarn install
 
 run-linters:
   stage: lint
   script:
-    - npm run sass-lint
-    - npm run tslint
+    - yarn run sass-lint
+    - yarn run tslint
 
 run-tests:
   stage: test
   script:
-    - npm test
+    - yarn test
 
 create-build:
   stage: build
   script:
-    - npm run build-production
+    - yarn run build-production
