@@ -9,7 +9,7 @@
 		"server": "node server.js",
 		"build": "npm run tslint && npm run sass-lint && npm test && cross-env NODE_ENV=production webpack",
 		"build-production": "cross-env NODE_ENV=production webpack",
-		"build-dev": "cross-env NODE_ENV=dev webpack",
+		"build-dev": "cross-env NODE_ENV=development webpack",
 		"dev": "run-p build-dev server",
 		"prepublishOnly": "npm run build",
 		"test": "jest",

@@ -149,10 +149,6 @@
 			.sorting-item-arrows {
 				display: block;
 			}
-
-			@include adaptivity(tablet) {
-				color: currentColor;
-			}
 		}
 
 		&_ASC {

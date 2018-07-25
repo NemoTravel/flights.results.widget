@@ -2,16 +2,16 @@ const path = require('path');
 const webpack = require('webpack');
 const Extract = require('mini-css-extract-plugin');
 const packageJSON = require('./package.json');
-const moduleName = 'flights.results.widget';
+const moduleName = 'results';
 
 // For DEV mode prepend "NODE_ENV=dev" before "webpack" command.
 // terminal: NODE_ENV=dev webpack
 /* global process */
-const isDevMode = process.env.NODE_ENV === 'dev';
+const isDevMode = process.env.NODE_ENV === 'development';
 
 // Streaming compiled styles to the separate ".css" file.
 const extractSass = new Extract({
-    filename: `${moduleName}.min.css`
+    filename: `${moduleName}.css`
 });
 
 const config = {
@@ -40,7 +40,7 @@ const config = {
     },
 
     optimization: {
-		minimize: true,
+		minimize: !isDevMode,
 		noEmitOnErrors: true
 	},
 
@@ -52,7 +52,7 @@ const config = {
         publicPath: '/dist/',
 
         // Output file name.
-        filename: `${moduleName}.min.js`,
+        filename: `${moduleName}.js`,
         library: 'FlightsResultsWidget'
     },
 

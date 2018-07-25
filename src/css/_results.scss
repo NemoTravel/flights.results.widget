@@ -431,6 +431,7 @@
 
 	&-mobileFilters {
 		display: none;
+		margin-top: 20px;
 
 		&-reset {
 			margin-top: 15px;
@@ -471,8 +472,8 @@
 
 				&,
 				svg {
-					width: 23px;
-					height: 23px;
+					width: 20px;
+					height: 20px;
 				}
 			}
 		}

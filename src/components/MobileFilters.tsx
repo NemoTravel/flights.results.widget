@@ -16,7 +16,7 @@ import { i18n } from '../i18n';
 import { SortingState } from '../store/sorting/reducers';
 import { RootState } from '../store/reducers';
 import SortingItem from './SortingItem';
-import { isOneFilterActive } from '../store/selectors';
+import { isAnyFilterApplied } from '../store/selectors';
 import Button from '@material-ui/core/Button';
 import { removeAllFilters } from '../store/filters/actions';
 import FlightSearch from './Filters/FlightSearch';
@@ -27,6 +27,7 @@ import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { setFlightSearch, toggleFlightSearch } from '../store/filters/flightSearch/actions';
+import { getCurrentSorting } from '../store/sorting/selectors';
 
 interface State {
 	filterPopupOpened: boolean;
@@ -35,7 +36,7 @@ interface State {
 
 interface StateProps {
 	sotring: SortingState;
-	isOneFilterActive: boolean;
+	isAnyFilterApplied: boolean;
 	flightSearchIsActive: boolean;
 }
 
@@ -158,7 +159,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 	}
 
 	render(): React.ReactNode {
-		const filterContainerClass = 'results-mobileFilters__filters' + (this.props.isOneFilterActive ? ' results-mobileFilters__filters_active' : ''),
+		const filterContainerClass = 'results-mobileFilters__filters' + (this.props.isAnyFilterApplied ? ' results-mobileFilters__filters_active' : ''),
 			sortingContainerClass = 'results-mobileFilters__sorting';
 
 		return <div className="results-mobileFilters">
@@ -183,7 +184,7 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 				</div>
 			</div>
 
-			{this.props.isOneFilterActive && <div className="results-mobileFilters-reset">
+			{this.props.isAnyFilterApplied && <div className="results-mobileFilters-reset">
 				<Button variant="outlined" color="primary" className="results-mobileFilters-reset__button" onClick={this.props.removeAllFilters}>
 					{i18n('filters-removeAll')}
 				</Button>
@@ -198,8 +199,8 @@ class MobileFilters extends React.Component<StateProps & DispatchProps, State> {
 
 const mapStateToProps = (state: RootState): StateProps => {
 	return {
-		sotring: state.sorting,
-		isOneFilterActive: isOneFilterActive(state),
+		sotring: getCurrentSorting(state),
+		isAnyFilterApplied: isAnyFilterApplied(state),
 		flightSearchIsActive: flightSearchIsActive(state)
 	};
 };

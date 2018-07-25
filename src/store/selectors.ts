@@ -353,7 +353,7 @@ export const filtersConfig = createSelector(
 	}
 );
 
-export const isOneFilterActive = createSelector(
+export const isAnyFilterApplied = createSelector(
 	[filtersConfig],
 	({
 		 selectedAirlines,
@@ -375,17 +375,29 @@ export const isOneFilterActive = createSelector(
 );
 
 /**
- * Get an array of flights after filtering.
+ * Get sorted list of flights on the current leg.
+ */
+export const getSortedFlights = createSelector(
+	[getFlightsForCurrentLeg, Sorting.getCurrentSorting, getRelativePrices],
+	(flights: Flight[], sorting: SortingState, prices: FlightsReplacement): Flight[] => {
+		return flights.slice().sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));
+	}
+);
+
+/**
+ * Get sorted and filtered lsit of flights on the current leg.
  */
 export const getFilteredFlights = createSelector(
 	[
-		getFlightsForCurrentLeg,
+		getSortedFlights,
 		getSelectedFlights,
+		isAnyFilterApplied,
 		filtersConfig
 	],
 	(
 		flights: Flight[],
 		selectedFlights: Flight[],
+		filtersAreActive: boolean,
 		{
 			selectedAirlines,
 			selectedDepartureAirports,
@@ -397,6 +409,11 @@ export const getFilteredFlights = createSelector(
 			comfortable
 		}: FilterSelectors
 	): Flight[] => {
+		// Skip filtering if no filters applied.
+		if (!filtersAreActive) {
+			return flights;
+		}
+
 		const
 			selectedAirlineCodes = comfortable ? getAirlinesIATA(selectedFlights) : {},
 			lastSegmentArrAirportIATA = comfortable ? selectedFlights[selectedFlights.length - 1].lastSegment.arrAirport.IATA : null;
@@ -455,13 +472,6 @@ export const getFilteredFlights = createSelector(
 
 			return true;
 		});
-	}
-);
-
-export const getSortedFlights = createSelector(
-	[getFlightsForCurrentLeg, Sorting.getCurrentSorting, getRelativePrices],
-	(flights: Flight[], sorting: SortingState, prices: FlightsReplacement): Flight[] => {
-		return flights.slice().sort((a, b) => sortingFunctionsMap[sorting.type](a, b, sorting.direction, prices));
 	}
 );
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
+import autobind from 'autobind-decorator';
 
 import FlightModel from '../models/Flight';
 import { RootState } from '../store/reducers';
@@ -10,12 +11,10 @@ import {
 	FlightsVisibility,
 	getRelativePrices, getSortedFlights,
 	getTotalPrices,
-	getVisibleFlights,
 	getVisibleFlightsMap,
 	PricesByFlights
 } from '../store/selectors';
 import { hasHiddenFlights } from '../store/selectors';
-import Button from '@material-ui/core/Button/Button';
 import { showAllFlights } from '../store/showAllFlights/actions';
 import { SnackbarProps, withSnackbar } from './Snackbar';
 import { FlightsReplacement, default as SelectedFlight } from '../schemas/SelectedFlight';
@@ -23,8 +22,6 @@ import { isRT } from '../store/legs/selectors';
 import ResultsFlight from './ResultsFlight';
 import { i18n } from '../i18n';
 import { getNemoURL } from '../store/config/selectors';
-import autobind from 'autobind-decorator';
-import { getFlightsForCurrentLeg } from '../store/flights/selectors';
 
 export interface OwnProps {
 	legId: number;
