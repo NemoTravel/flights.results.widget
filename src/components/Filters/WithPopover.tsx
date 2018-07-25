@@ -114,7 +114,7 @@ abstract class WithPopover<P, S> extends Filter<P, State | S> {
 							{i18n(`filters-${this.type}-title`)}
 						</Typography>
 
-						<Button color="inherit" onClick={this.fullScreenOpen}>
+						<Button className="filters-filter-dialog__button" color="inherit" onClick={this.fullScreenOpen}>
 							{i18n('filters-save')}
 						</Button>
 					</Toolbar>

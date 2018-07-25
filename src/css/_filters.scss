@@ -111,6 +111,14 @@
 			&__name {
 				flex: 1;
 			}
+
+			&__button {
+				margin-right: 10px !important;
+			}
+
+			&__close {
+				margin-left: 10px !important;
+			}
 		}
 
 		&_active {
@@ -180,7 +188,7 @@
 				padding: 20px 20px 5px;
 
 				@include adaptivity("tablet") {
-					padding-left: 15px;
+					padding-left: 25px;
 				}
 
 				&_airports {

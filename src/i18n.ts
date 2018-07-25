@@ -12,8 +12,8 @@ export const init = (newLocale: Language, extender?: I18nPool): void => {
 	}
 };
 
-export const i18n = (key: string, forcedLanguage: Language = null): string => {
-	if (!forcedLanguage && poolCache[key]) {
+export const i18n = (key: string): string => {
+	if (poolCache[key]) {
 		return poolCache[key];
 	}
 
@@ -22,10 +22,7 @@ export const i18n = (key: string, forcedLanguage: Language = null): string => {
 
 	if (pool[key]) {
 		result = pool[key];
-
-		if (!forcedLanguage) {
-			poolCache[key] = result;
-		}
+		poolCache[key] = result;
 	}
 
 	return result;

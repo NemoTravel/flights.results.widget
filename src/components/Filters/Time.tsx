@@ -58,6 +58,7 @@ class Time extends WithPopover<Props, FilterState> {
 	shouldComponentUpdate(nextProps: Props, nextState: FilterState): boolean {
 		return this.props.selectedDepartureTimeIntervals !== nextProps.selectedDepartureTimeIntervals ||
 			this.props.selectedArrivalTimeIntervals !== nextProps.selectedArrivalTimeIntervals ||
+			this.props.locale !== nextProps.locale ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel ||
@@ -84,7 +85,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 			for (const interval in selectedDepartureTimeIntervals) {
 				if (selectedDepartureTimeIntervals.hasOwnProperty(interval)) {
-					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`, this.props.locale));
+					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`));
 				}
 			}
 
@@ -96,7 +97,7 @@ class Time extends WithPopover<Props, FilterState> {
 
 			for (const interval in selectedArrivalTimeIntervals) {
 				if (selectedArrivalTimeIntervals.hasOwnProperty(interval)) {
-					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`, this.props.locale));
+					parts.push(i18n(`filters-time-interval_${timeIntervalsLabels[interval]}`));
 				}
 			}
 

@@ -71,7 +71,9 @@
 		&-arrows {
 			width: 20px;
 			height: 30px;
-			position: relative;
+			position: absolute;
+			right: 10px;
+			top: auto;
 			display: none;
 
 			&__up,
@@ -88,7 +90,7 @@
 			}
 
 			&__down {
-				top: 12px;
+				top: 10px;
 				left: 5px;
 			}
 		}
@@ -101,6 +103,7 @@
 
 			@include adaptivity(tablet) {
 				justify-content: left;
+				position: static;
 			}
 		}
 
@@ -111,7 +114,7 @@
 
 			@include adaptivity(tablet) {
 				border-bottom: none;
-				padding-right: 10px;
+				padding-right: 20px;
 			}
 		}
 
