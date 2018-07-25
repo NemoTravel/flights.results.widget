@@ -468,11 +468,11 @@
 						font-size: 13px;
 						margin-left: 20px;
 
-						@include adaptivity('laptop-large') {
+						@include adaptivity("laptop-large") {
 							padding-left: 0;
 						}
 
-						@include adaptivity('tablet') {
+						@include adaptivity("tablet") {
 							margin-left: 0;
 						}
 					}
@@ -557,13 +557,13 @@
 				align-items: center;
 				margin-left: 10px;
 
-				@include adaptivity('tablet') {
+				@include adaptivity("tablet") {
 					height: auto;
 					margin-top: 20px;
 					margin-left: 24px;
 				}
 
-				@include adaptivity('phone') {
+				@include adaptivity("phone") {
 					margin-left: 15px;
 				}
 			}
