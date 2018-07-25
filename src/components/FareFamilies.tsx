@@ -10,7 +10,7 @@ import { selectFamily } from '../store/fareFamilies/selectedFamilies/actions';
 import { getSelectedFlights } from '../store/selectedFlights/selectors';
 import { goToLeg } from '../store/currentLeg/actions';
 import {
-	canBeOneLegFareFamilySelected,
+	canBeOtherCombinationChoose,
 	getFareFamiliesAvailability, getFareFamiliesCombinations,
 	getFareFamiliesPrices
 } from '../store/fareFamilies/selectors';
@@ -30,7 +30,7 @@ interface StateProps {
 	selectedFlights: Flight[];
 	isLoading: boolean;
 	isLoadingActualization: boolean;
-	canBeSelectFaresInOneLeg: boolean;
+	canBeOtherCombinationChoose: boolean;
 	isRT: boolean;
 	nemoURL: string;
 	fareFamiliesPrices: FareFamiliesPrices;
@@ -56,12 +56,12 @@ class FareFamilies extends React.Component<Props> {
 			fareFamiliesPrices,
 			isLoading,
 			isLoadingActualization,
-			canBeSelectFaresInOneLeg,
+			canBeOtherCombinationChoose,
 			isRT,
 			nemoURL
 		} = this.props;
 
-		if (isLoading || (isLoadingActualization && !canBeSelectFaresInOneLeg)) {
+		if (isLoading || (isLoadingActualization && !canBeOtherCombinationChoose)) {
 			return <div className="fareFamilies-loader">
 				<LinearProgress className="fareFamilies-loader__progressBar" color="secondary" variant="query"/>
 				<Typography variant="headline">{i18n(isLoading ? 'fareFamilies-loader-title' : 'fareFamilies-actualization-loader-title')}</Typography>
@@ -93,7 +93,7 @@ class FareFamilies extends React.Component<Props> {
 				</div>
 			</div>
 
-			{(isLoadingActualization && canBeSelectFaresInOneLeg) && (
+			{(isLoadingActualization && canBeOtherCombinationChoose) && (
 				<div className="actualization">
 					<div className="actualization-loader">
 						<CircularProgress className="actualization-loader__progress" color="primary" variant="indeterminate"/>
@@ -111,7 +111,7 @@ export default connect<StateProps, DispatchProps>({
 	selectedFlights: getSelectedFlights,
 	isLoading: isLoadingFareFamilies,
 	isLoadingActualization: getIsLoadingActualization,
-	canBeSelectFaresInOneLeg: canBeOneLegFareFamilySelected,
+	canBeOtherCombinationChoose: canBeOtherCombinationChoose,
 	isRT: isRT,
 	nemoURL: getNemoURL,
 	fareFamiliesAvailability: getFareFamiliesAvailability,

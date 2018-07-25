@@ -164,7 +164,7 @@ export const getFareFamiliesAvailability = createSelector(
 	}
 );
 
-export const canBeOneLegFareFamilySelected = createSelector(
+export const canBeOtherCombinationChoose = createSelector(
 	[getFareFamiliesCombinations],
 	(fareFamiliesCombinaions: FareFamiliesCombinationsState): boolean => {
 		let isValid = false;
@@ -172,15 +172,8 @@ export const canBeOneLegFareFamilySelected = createSelector(
 		for (const legId in fareFamiliesCombinaions) {
 			if (fareFamiliesCombinaions.hasOwnProperty(legId)) {
 				const combinations = fareFamiliesCombinaions[legId].validCombinations;
-				let count = 0;
 
-				for (const combination in combinations) {
-					if (combinations.hasOwnProperty(combination)) {
-						count++;
-					}
-				}
-
-				if (count > 1) {
+				if (Object.keys(combinations).length > 1) {
 					isValid = true;
 				}
 			}

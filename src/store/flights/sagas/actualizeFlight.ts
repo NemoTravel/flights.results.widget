@@ -15,7 +15,7 @@ import { addFlights, removeFlights } from '../actions';
 import { addFlightByLeg } from '../../flightsByLegs/actions';
 import { STOP_LOADING_FARE_FAMILIES } from '../../isLoadingFareFamilies/actions';
 import { isLoadingFareFamilies } from '../../isLoadingFareFamilies/selectors';
-import { canBeOneLegFareFamilySelected, getResultingFlightIds } from '../../fareFamilies/selectors';
+import { canBeOtherCombinationChoose, getResultingFlightIds } from '../../fareFamilies/selectors';
 
 function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
 	const numOfFlights = flightIds.length;
@@ -101,10 +101,10 @@ export function* cannotChangeFamily() {
 		const isLoading = yield select(isLoadingFareFamilies);
 
 		if (!isLoading) {
-			const fareAvability = yield select(canBeOneLegFareFamilySelected);
+			const fareAvailable = yield select(canBeOtherCombinationChoose);
 			const flightIds: string[] = yield select(getResultingFlightIds);
 
-			if (!fareAvability) {
+			if (!fareAvailable) {
 				yield worker({ type: START_ACTUALIZATION, payload: { flightIds: flightIds } });
 			}
 		}
