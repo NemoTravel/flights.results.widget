@@ -22,6 +22,10 @@ import { getSelectedArrivalAirportsList, getSelectedDepartureAirportsList } from
 import { LocationType } from '../../enums';
 import { i18n } from '../../i18n';
 
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
+
 interface StateProps {
 	departureAirports: Airport[];
 	arrivalAirports: Airport[];
@@ -37,7 +41,7 @@ interface DispatchProps {
 	removeAllAirports: typeof removeAllAirports;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Airports extends WithPopover<Props, FilterState> {
 	protected type = FilterType.Airports;
@@ -58,10 +62,21 @@ class Airports extends WithPopover<Props, FilterState> {
 			this.props.selectedArrivalAirportsObject !== nextProps.selectedArrivalAirportsObject ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
-			this.state.chipLabel !== nextState.chipLabel;
+			this.state.chipLabel !== nextState.chipLabel ||
+			this.state.isFullScreenOpen !== nextState.isFullScreenOpen;
+	}
+
+	componentDidMount(): void {
+		const { selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject } = this.props;
+
+		this.updateState(selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject);
 	}
 
 	componentWillReceiveProps({ selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject }: Props): void {
+		this.updateState(selectedDepartureAirports, selectedArrivalAirports, selectedDepartureAirportsObject, selectedArrivalAirportsObject);
+	}
+
+	updateState(selectedDepartureAirports: ListOfSelectedCodes, selectedArrivalAirports: ListOfSelectedCodes, selectedDepartureAirportsObject: Airport[], selectedArrivalAirportsObject: Airport[]): void {
 		const hasSelectedDepartureAirports = !!Object.keys(selectedDepartureAirports).length;
 		const hasSelectedArrivalAirports = !!Object.keys(selectedArrivalAirports).length;
 		let chipLabel = this.label;
@@ -115,6 +130,10 @@ class Airports extends WithPopover<Props, FilterState> {
 
 	isVisible(): boolean {
 		return this.props.departureAirports.length > 1 || this.props.arrivalAirports.length > 1;
+	}
+
+	onMobileClick(): void {
+		this.props.handleMobileClick();
 	}
 
 	renderPopover(): React.ReactNode {

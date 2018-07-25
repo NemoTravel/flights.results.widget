@@ -9,6 +9,13 @@ import { RootState } from '../../store/reducers';
 import { toggleComfortable } from '../../store/filters/comfortable/actions';
 import { getIsComfortable, isComfortableFilterEnabled } from '../../store/filters/comfortable/selectors';
 import { i18n } from '../../i18n';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../../enums';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
 
 interface StateProps {
 	isActive: boolean;
@@ -19,7 +26,7 @@ interface DispatchProps {
 	toggleComfortable: typeof toggleComfortable;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Comfortable extends Filter<Props, FilterState> {
 	protected type = FilterType.Comfortable;
@@ -30,6 +37,13 @@ class Comfortable extends Filter<Props, FilterState> {
 			this.props.isEnabled !== nextProps.isEnabled ||
 			this.state.isActive !== nextState.isActive ||
 			this.state.chipLabel !== nextState.chipLabel;
+	}
+
+	componentDidMount(): void {
+		this.setState({
+			isActive: this.props.isActive,
+			chipLabel: this.label
+		});
 	}
 
 	componentWillReceiveProps(props: Props): void {
@@ -50,13 +64,30 @@ class Comfortable extends Filter<Props, FilterState> {
 		this.props.toggleComfortable();
 	}
 
+	onMobileClick(): void {
+		this.onClick();
+		this.props.handleMobileClick();
+	}
+
 	render(): React.ReactNode {
 		return this.isVisible() ? (
-			<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
-				<Tooltip title={<span className="tooltip">{i18n('filters-comfortable-tooltip')}</span>} placement="top">
-					<Chip className="filters-filter-chip" {...this.getChipProps()}/>
-				</Tooltip>
-			</div>
+			<>
+				<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+					<div className={classnames('filters-filter', { 'filters-filter_active': this.state.isActive })}>
+						<Tooltip title={<span className="tooltip">{i18n('filters-comfortable-tooltip')}</span>} placement="top">
+							<Chip className="filters-filter-chip" {...this.getChipProps()}/>
+						</Tooltip>
+					</div>
+				</MediaQuery>
+
+				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+					<MenuItem className={classnames('filters-filter-menu', { 'filters-filter-menu_active': this.state.isActive })} onClick={this.onMobileClick}>
+						<div className="filters-filter-menu__item">
+							{this.state.chipLabel}
+						</div>
+					</MenuItem>
+				</MediaQuery>
+			</>
 		) : null;
 	}
 }

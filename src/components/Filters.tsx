@@ -10,6 +10,8 @@ import ComfortableFilter from './Filters/Comfortabe';
 import FlightSearchFilter from './Filters/FlightSearch';
 import Leg from '../schemas/Leg';
 import { i18n } from '../i18n';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../enums';
 
 interface Props {
 	currentLeg: Leg;
@@ -41,16 +43,18 @@ class Filters extends React.Component<Props> {
 				</Typography>
 			</div>
 
-			<div className="filters__right">
-				<span className="filters-title">{i18n('filters-title')}</span>
+			<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+				<div className="filters__right">
+					<span className="filters-title">{i18n('filters-title')}</span>
 
-				<ComfortableFilter/>
-				<DirectOnlyFilter/>
-				<AirlineFilter/>
-				<AirportsFilter/>
-				<TimeFilter/>
-				<FlightSearchFilter/>
-			</div>
+					<ComfortableFilter/>
+					<DirectOnlyFilter/>
+					<AirlineFilter/>
+					<AirportsFilter/>
+					<TimeFilter/>
+					<FlightSearchFilter/>
+				</div>
+			</MediaQuery>
 		</section>;
 	}
 }

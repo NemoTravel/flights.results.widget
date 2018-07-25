@@ -63,17 +63,59 @@
 			flex-basis: 100%;
 		}
 
+		@include adaptivity(tablet) {
+			display: block;
+			color: currentColor;
+		}
+
+		&-arrows {
+			width: 20px;
+			height: 30px;
+			position: absolute;
+			right: 10px;
+			top: auto;
+			display: none;
+
+			&__up,
+			&__down {
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				&,
+				svg {
+					width: 14px;
+					height: 14px;
+				}
+			}
+
+			&__down {
+				top: 10px;
+				left: 5px;
+			}
+		}
+
 		&__inner {
 			position: relative;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+
+			@include adaptivity(tablet) {
+				justify-content: left;
+				position: static;
+			}
 		}
 
 		&__text {
 			cursor: pointer;
 			border-bottom: 1px dashed;
 			user-select: none;
+
+			@include adaptivity(tablet) {
+				border-bottom: none;
+				padding-right: 20px;
+			}
 		}
 
 		&__arrow {
@@ -91,6 +133,10 @@
 				width: 14px;
 				height: 14px;
 			}
+
+			@include adaptivity(tablet) {
+				right: -9px;
+			}
 		}
 
 		&_active {
@@ -99,17 +145,45 @@
 			.sorting-item__arrow {
 				display: block;
 			}
+
+			.sorting-item-arrows {
+				display: block;
+			}
+
+			@include adaptivity(tablet) {
+				color: currentColor;
+			}
 		}
 
 		&_ASC {
 			.sorting-item__arrow {
 				transform: rotate(0deg);
 			}
+
+			.sorting-item-arrows {
+				&__up {
+					color: #d0d0d0;
+				}
+
+				&__down {
+					color: currentColor;
+				}
+			}
 		}
 
 		&_DESC {
 			.sorting-item__arrow {
 				transform: rotate(180deg);
+			}
+
+			.sorting-item-arrows {
+				&__up {
+					color: currentColor;
+				}
+
+				&__down {
+					color: #d0d0d0;
+				}
 			}
 		}
 
@@ -123,6 +197,10 @@
 			@include adaptivity(laptop) {
 				width: 120px;
 			}
+
+			@include adaptivity(tablet) {
+				width: auto;
+			}
 		}
 
 		&_ArrivalTime {
@@ -135,6 +213,10 @@
 
 			@include adaptivity(phone) {
 				justify-content: center;
+			}
+
+			@include adaptivity(tablet) {
+				width: auto;
 			}
 		}
 	}

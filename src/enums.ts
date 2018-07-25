@@ -1,3 +1,10 @@
+export enum ScreenMaxSize {
+	LaptopLarge = 1440,
+	Laptop = 1100,
+	Tablet = 768,
+	Phone = 515
+}
+
 export enum Language {
 	Russian = 'ru',
 	English = 'en'

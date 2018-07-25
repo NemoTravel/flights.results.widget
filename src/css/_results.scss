@@ -428,6 +428,66 @@
 			}
 		}
 	}
+
+	&-mobileFilters {
+		display: none;
+
+		&-reset {
+			margin-top: 15px;
+
+			&__button {
+				width: 100%;
+			}
+		}
+
+		&-flightSearch {
+			&__textField {
+				input {
+					color: #ffffff;
+				}
+			}
+		}
+
+		&__container {
+			display: flex;
+			justify-content: space-between;
+			font-size: 0.875rem;
+			color: #757575;
+		}
+
+		@include adaptivity("tablet") {
+			display: block;
+		}
+
+		&__filters,
+		&__sorting {
+			display: flex;
+			align-items: center;
+		}
+
+		&__filters {
+			.results-mobileFilters__icon {
+				margin-left: 3px;
+
+				&,
+				svg {
+					width: 23px;
+					height: 23px;
+				}
+			}
+		}
+
+		&__name,
+		&__icon {
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
+
+		&__filters_active {
+			color: #64b5f6;
+		}
+	}
 }
 
 .snackbar {

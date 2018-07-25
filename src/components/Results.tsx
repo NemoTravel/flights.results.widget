@@ -14,6 +14,9 @@ import SelectedFlights from './SelectedFlights';
 import { getIsLoading } from '../store/isLoading/selectors';
 import { connect } from '../utils';
 import { i18n } from '../i18n';
+import MobileFilters from './MobileFilters';
+import MediaQuery from 'react-responsive';
+import { ScreenMaxSize } from '../enums';
 
 interface StateProps {
 	isRT: boolean;
@@ -46,6 +49,10 @@ class Results extends React.Component<StateProps> {
 				<Filters isRT={isRT} currentLeg={currentLeg} withSearch={flightSearchActive}/>
 
 				{hasAnyVisibleFlights && <Sortings/>}
+
+				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+					<MobileFilters/>
+				</MediaQuery>
 
 				<div className="results-flights">
 					<FlightsList legId={currentLeg.id}/>

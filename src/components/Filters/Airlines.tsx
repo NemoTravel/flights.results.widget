@@ -14,6 +14,10 @@ import { getAllAirlines, getSelectedAirlinesObjects } from '../../store/filters/
 import { getSelectedAirlinesList } from '../../store/selectors';
 import { i18n } from '../../i18n';
 
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
+
 interface StateProps {
 	airlines: Airline[];
 	selectedAirlines: ListOfSelectedCodes;
@@ -26,7 +30,7 @@ interface DispatchProps {
 	removeAllAirlines: typeof removeAllAirlines;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class Airlines extends WithPopover<Props, WithPopoverState> {
 	protected type = FilterType.Airlines;
@@ -44,7 +48,8 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 			this.props.selectedAirlinesObject !== nextProps.selectedAirlinesObject ||
 			this.state.isOpen !== nextState.isOpen ||
 			this.state.isActive !== nextState.isActive ||
-			this.state.chipLabel !== nextState.chipLabel;
+			this.state.chipLabel !== nextState.chipLabel ||
+			this.state.isFullScreenOpen !== nextState.isFullScreenOpen;
 	}
 
 	onChange(event: React.FormEvent<HTMLInputElement>, checked: boolean): void {
@@ -62,7 +67,17 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 		this.props.removeAllAirlines();
 	}
 
+	componentDidMount(): void {
+		const { selectedAirlines, selectedAirlinesObject } = this.props;
+
+		this.updateState(selectedAirlines, selectedAirlinesObject);
+	}
+
 	componentWillReceiveProps({ selectedAirlines, selectedAirlinesObject }: Props): void {
+		this.updateState(selectedAirlines, selectedAirlinesObject);
+	}
+
+	updateState(selectedAirlines: ListOfSelectedCodes, selectedAirlinesObject: Airline[]): void {
 		const hasSelectedAirlines = !!Object.keys(selectedAirlines).length;
 
 		this.setState({
@@ -75,28 +90,34 @@ class Airlines extends WithPopover<Props, WithPopoverState> {
 		return this.props.airlines.length > 1;
 	}
 
+	onMobileClick(): void {
+		this.props.handleMobileClick();
+	}
+
 	renderPopover(): React.ReactNode {
 		const firstColumnLength = Math.round(this.props.airlines.length / 2);
 
-		return <FormControl component="fieldset">
-			<FormLabel className="filters-filter-popover-legend" component="legend">
-				{this.label}
-			</FormLabel>
+		return <div className="filters-filter-popover__columns">
+			<FormControl component="fieldset">
+				<FormLabel className="filters-filter-popover-legend" component="legend">
+					{this.label}
+				</FormLabel>
 
-			<div className="filters-filter-popover__columns">
-				<Column
-					airlines={this.props.airlines.slice(0, firstColumnLength)}
-					selectedAirlines={this.props.selectedAirlines}
-					onChange={this.onChange}
-				/>
+				<div className="filters-filter-popover__columns">
+					<Column
+						airlines={this.props.airlines.slice(0, firstColumnLength)}
+						selectedAirlines={this.props.selectedAirlines}
+						onChange={this.onChange}
+					/>
 
-				<Column
-					airlines={this.props.airlines.slice(firstColumnLength)}
-					selectedAirlines={this.props.selectedAirlines}
-					onChange={this.onChange}
-				/>
-			</div>
-		</FormControl>;
+					<Column
+						airlines={this.props.airlines.slice(firstColumnLength)}
+						selectedAirlines={this.props.selectedAirlines}
+						onChange={this.onChange}
+					/>
+				</div>
+			</FormControl>
+		</div>;
 	}
 }
 

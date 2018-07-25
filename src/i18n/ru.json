@@ -41,6 +41,8 @@
 	"filters-noResultsTitle": "Мы не нашли подходящих перелетов.",
 	"filters-noResultsSubTitle": "Попробуйте изменить параметры фильтрации.",
 
+	"filters-removeAll": "Сбросить фильтры",
+	"filters-save": "Применить",
 	"filters-airlines-title": "Авиакомпании",
 	"filters-airlines-snackbar": "Авиакомпания «%airline%» добавлена в фильтры",
 	"filters-airlines-snackbar-remove": "Авиакомпания «%airline%» удалена из фильтров",
@@ -78,6 +80,7 @@
 	"filters-quick-time-interval_day": "Днём",
 	"filters-quick-time-interval_evening": "Вечером",
 
+	"sorting-title": "Сортировка",
 	"sorting-title_price": "Стоимость",
 	"sorting-title_departure": "Вылет",
 	"sorting-title_arrival": "Прилёт",

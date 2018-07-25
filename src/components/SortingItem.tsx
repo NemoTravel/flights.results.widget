@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import ArrowDown from '@material-ui/icons/ArrowDownward';
+import ArrowUp from '@material-ui/icons/ArrowUpward';
 
 import { setSorting } from '../store/sorting/actions';
-import { SortingDirection, SortingType } from '../enums';
+import { ScreenMaxSize, SortingDirection, SortingType } from '../enums';
 import { i18n } from '../i18n';
+import MediaQuery from 'react-responsive';
 
 interface Props {
 	isActive?: boolean;
@@ -60,9 +62,22 @@ class SortingItem extends React.Component<Props> {
 					{sortingLabels[type]}
 				</span>
 
-				<span className="sorting-item__arrow">
-					<ArrowDown/>
-				</span>
+				<MediaQuery minDeviceWidth={ScreenMaxSize.Tablet}>
+					<span className="sorting-item__arrow">
+						<ArrowDown/>
+					</span>
+				</MediaQuery>
+
+				<MediaQuery maxDeviceWidth={ScreenMaxSize.Tablet}>
+					<span className="sorting-item-arrows">
+						<div className="sorting-item-arrows__up">
+							<ArrowUp/>
+						</div>
+						<div className="sorting-item-arrows__down">
+							<ArrowDown/>
+						</div>
+					</span>
+				</MediaQuery>
 			</div>
 		</div>;
 	}
