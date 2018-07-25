@@ -2,7 +2,7 @@
 	"name": "@nemo.travel/results-widget",
 	"version": "0.0.1",
 	"description": "Flexible flights search results",
-	"main": "dist/flights.results.widget.min.js",
+	"main": "dist/results.js",
 	"scripts": {
 		"sass-lint": "sass-lint -v -c .sass-lint.yml",
 		"tslint": "tslint -p ./tslint.json",
