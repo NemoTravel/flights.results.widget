@@ -414,7 +414,7 @@
 					}
 
 					&-logo {
-						width: 120px;
+						width: 110px;
 						height: auto;
 						margin-left: 30px;
 						margin-right: 10px;
@@ -436,8 +436,10 @@
 					}
 
 					&-stage {
+						width: 60px;
+
 						&__time {
-							font-size: 1.2rem;
+							font-size: 1.1rem;
 						}
 
 						&__date {
@@ -446,7 +448,7 @@
 
 						&-routeInfo {
 							margin: 0;
-							width: 50px;
+							width: 60px;
 
 							&__arrow {
 								width: 80%;
@@ -465,6 +467,10 @@
 					&__middle {
 						font-size: 13px;
 						margin-left: 20px;
+
+						@include adaptivity('laptop-large') {
+							padding-left: 0;
+						}
 
 						@include adaptivity('tablet') {
 							margin-left: 0;
@@ -525,6 +531,13 @@
 			&__available {
 				border: 1px solid #88c43d;
 				border-left: 5px solid #88c43d;
+
+				.results-error-flight__iconContainer {
+					&,
+					svg {
+						font-size: 22px;
+					}
+				}
 			}
 
 			&__notAvailable {
@@ -560,6 +573,9 @@
 				border-radius: 50%;
 				width: 26px;
 				height: 26px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
 		}
 	}

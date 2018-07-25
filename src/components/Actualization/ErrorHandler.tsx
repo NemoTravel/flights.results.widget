@@ -84,13 +84,23 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 				</>;
 
 			case ActualizationProblem.Price:
+				const oldPrice = this.props.info[0].priceInfo.oldPrice,
+					newPrice = this.props.info[0].priceInfo.newPrice;
+
+				this.props.info.map((info, index) => {
+					if (index > 0) {
+						oldPrice.amount += info.priceInfo.oldPrice.amount;
+						newPrice.amount += info.priceInfo.newPrice.amount;
+					}
+				});
+
 				return <>
 					<div className="results-error-priceChanged">
 						<div className="results-error__price_old">
-							<Price price={this.props.info[0].priceInfo.oldPrice}/>
+							<Price price={oldPrice}/>
 						</div>
 						<div className="results-error__price_new">
-							<Price price={this.props.info[0].priceInfo.newPrice}/>
+							<Price price={newPrice}/>
 						</div>
 					</div>
 
@@ -106,6 +116,13 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 	changeFlight(): void {
 		this.props.clearActualizationProblems();
 		this.props.goToLeg(0);
+
+		setTimeout(() => {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}, 0);
 	}
 
 	@autobind
