@@ -448,6 +448,10 @@
 							margin: 0;
 							width: 50px;
 
+							&__arrow {
+								width: 80%;
+							}
+
 							&__flightTime {
 								display: none;
 							}
@@ -461,6 +465,10 @@
 					&__middle {
 						font-size: 13px;
 						margin-left: 20px;
+
+						@include adaptivity('tablet') {
+							margin-left: 0;
+						}
 					}
 				}
 			}
@@ -535,6 +543,16 @@
 				display: flex;
 				align-items: center;
 				margin-left: 10px;
+
+				@include adaptivity('tablet') {
+					height: auto;
+					margin-top: 20px;
+					margin-left: 24px;
+				}
+
+				@include adaptivity('phone') {
+					margin-left: 15px;
+				}
 			}
 
 			&__iconContainer {
