@@ -4,7 +4,7 @@ import Filter, { Type as FilterType, State as FilterState } from '../Filter';
 import { RootState } from '../../store/reducers';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
 import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
-import { hasAnyTransferFlights } from '../../store/selectors';
+import { hasAnyTransferFlights } from '../../store/filters/directOnly/selectors';
 import { i18n } from '../../i18n';
 
 interface OwnProps {

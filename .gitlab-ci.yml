@@ -1,0 +1,30 @@
+#stages:
+#  - lint
+#  - test
+#  - build
+
+before_script:
+  - yarn install
+
+run-all:
+  script:
+    - yarn run sass-lint
+    - yarn run tslint
+    - yarn test
+    - yarn run build-production
+
+#run-linters:
+#  stage: lint
+#  script:
+#    - yarn run sass-lint
+#    - yarn run tslint
+#
+#run-tests:
+#  stage: test
+#  script:
+#    - yarn test
+#
+#create-build:
+#  stage: build
+#  script:
+#    - yarn run build-production
