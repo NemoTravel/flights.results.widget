@@ -1,4 +1,5 @@
 import * as React from 'react';
+import autobind from 'autobind-decorator';
 
 import Family from './Family';
 import FareFamily from '../../schemas/FareFamily';
@@ -28,14 +29,13 @@ class Segment extends React.Component<Props, State> {
 		this.state = {
 			selectedFamilyId: props.initialCombination
 		};
-
-		this.onChange = this.onChange.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps: Props): boolean {
 		return true;
 	}
 
+	@autobind
 	onChange(familyId: string): void {
 		this.setState({
 			selectedFamilyId: familyId
@@ -50,7 +50,7 @@ class Segment extends React.Component<Props, State> {
 
 		return <form className="fareFamilies-leg-segment__families">
 			{families ? families.map((family, index) => {
-				const familyId = `F${index + 1}`;
+				const familyId = family.familyCode;
 				const replacement = baggageReplacement[familyId] && baggageReplacement[familyId][intSegmentId];
 
 				return enabledFamilies.hasOwnProperty(familyId) ? (

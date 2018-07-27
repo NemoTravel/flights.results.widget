@@ -92,7 +92,7 @@ class Leg extends React.Component<Props> {
 				families={families}
 				onChange={this.onChange}
 				prices={prices ? prices[index] : {}}
-				baggageReplacement={combinations.baggageReplacement}
+				baggageReplacement={combinations ? combinations.baggageReplacement : {}}
 			/>
 		) : (
 			<div className="fareFamilies-noFamiliesTitle">
