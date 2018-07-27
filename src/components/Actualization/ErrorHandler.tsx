@@ -50,7 +50,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 
 	renderFlights(): React.ReactNode {
 		return this.props.info.map((info, index) => {
-			const className = 'results-error-flight ' + (!info.isAvailable ? 'results-error-flight__notAvailable' : 'results-error-flight__available'),
+			const className = 'results-error-flight ' + (!info.isAvailable ? 'results-error-flight_notAvailable' : 'results-error-flight_available'),
 				title = i18n(info.isAvailable ? 'error-actualization-Availability_flight_available' : 'error-actualization-Availability_flight_notAvailable');
 
 			return <Tooltip title={title} placement="top" key={index} classes={this.tooltipClass} PopperProps={this.popperProps}>

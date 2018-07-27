@@ -405,6 +405,8 @@
 				box-shadow: none;
 
 				&-summary {
+					cursor: default;
+
 					&:hover {
 						background: inherit;
 					}
@@ -437,9 +439,11 @@
 
 					&-stage {
 						width: 60px;
+						line-height: normal;
 
 						&__time {
 							font-size: 1.1rem;
+							padding-bottom: 3px;
 						}
 
 						&__date {
@@ -468,12 +472,26 @@
 						font-size: 13px;
 						margin-left: 20px;
 
+						.flight-summary {
+							&-transfers {
+								padding-bottom: 3px;
+							}
+
+							&-route {
+								line-height: normal;
+							}
+						}
+
 						@include adaptivity("laptop-large") {
 							padding-left: 0;
 						}
 
 						@include adaptivity("tablet") {
 							margin-left: 0;
+						}
+
+						@include adaptivity("phone") {
+							padding-left: 15px;
 						}
 					}
 				}
@@ -528,7 +546,7 @@
 				margin-bottom: 20px;
 			}
 
-			&__available {
+			&_available {
 				border: 1px solid #88c43d;
 				border-left: 5px solid #88c43d;
 
@@ -540,7 +558,7 @@
 				}
 			}
 
-			&__notAvailable {
+			&_notAvailable {
 				border: 1px solid #ff6767;
 				border-left: 5px solid #ff6767;
 
