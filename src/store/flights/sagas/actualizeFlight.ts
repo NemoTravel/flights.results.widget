@@ -54,7 +54,7 @@ function* runActualizations(flightIds: string[], locale: Language, nemoURL: stri
 	if (unavailableFlights.length) {
 		return yield put(batchActions(
 			setProblemType(ActualizationProblem.Availability),
-			setInfo(unavailableFlights),
+			setInfo(result),
 			removeFlights(unavailableFlights.map(flightInfo => flightInfo.flight.id)),
 			stopLoadingActualization()
 		));
@@ -66,7 +66,7 @@ function* runActualizations(flightIds: string[], locale: Language, nemoURL: stri
 	if (modifiedFlights.length) {
 		return yield put(batchActions(
 			setProblemType(ActualizationProblem.Price),
-			setInfo(modifiedFlights),
+			setInfo(result),
 			stopLoadingActualization()
 		));
 	}
