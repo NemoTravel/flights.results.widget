@@ -1,5 +1,5 @@
 import { all, call, CallEffect, put, select, take, takeEvery } from 'redux-saga/effects';
-import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
+import { ActualizationAction, START_ACTUALIZATION, startActualization } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
 import actualization from '../../../services/requests/actualization';
@@ -105,7 +105,7 @@ export function* cannotChangeFamily() {
 			const flightIds: string[] = yield select(getResultingFlightIds);
 
 			if (!fareAvailable) {
-				yield worker({ type: START_ACTUALIZATION, payload: { flightIds: flightIds } });
+				yield put(startActualization(flightIds));
 			}
 		}
 	}
