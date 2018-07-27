@@ -80,7 +80,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 						{this.renderFlights()}
 					</div>
 
-					{i18n(`error-actualization-${this.props.problem}`)}
+					<div dangerouslySetInnerHTML={{ __html: i18n(`error-actualization-${this.props.problem}`) }}/>
 				</>;
 
 			case ActualizationProblem.Price:
@@ -96,19 +96,26 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 
 				return <>
 					<div className="results-error-priceChanged">
-						<div className="results-error__price_old">
+						<div className="results-error-priceChanged__price results-error-priceChanged__price_old">
 							<Price price={oldPrice}/>
 						</div>
-						<div className="results-error__price_new">
+
+						<div className="results-error-priceChanged__price results-error-priceChanged__price_new">
 							<Price price={newPrice}/>
 						</div>
 					</div>
 
-					{i18n(`error-actualization-${this.props.problem}`)}
+					<div className="results-error-text">
+						{i18n('error-actualization-Price-text_1')}
+					</div>
+
+					<div className="results-error-text">
+						{i18n('error-actualization-Price-text_2')}
+					</div>
 				</>;
 
 			default:
-				return i18n(`error-actualization-${this.props.problem}`);
+				return <div dangerouslySetInnerHTML={{ __html: i18n(`error-actualization-${this.props.problem}`) }}/>;
 		}
 	}
 
