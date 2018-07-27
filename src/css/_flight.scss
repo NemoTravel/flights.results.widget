@@ -746,4 +746,102 @@
 			}
 		}
 	}
+
+	&_unavailable {
+		border: none;
+		border-radius: 4px;
+		box-shadow: none;
+
+		&-summary {
+			cursor: default;
+
+			&:hover {
+				background: inherit;
+			}
+
+			&-expand {
+				display: none;
+			}
+
+			&-logo {
+				width: 110px;
+				height: auto;
+				margin-left: 30px;
+				margin-right: 10px;
+
+				&__image {
+					max-width: 65px;
+					margin-left: 10px;
+					margin-right: 0;
+
+					&:only-child {
+						max-width: 100px;
+						margin-left: 0;
+					}
+
+					&:not(only-child):first-child {
+						margin-left: 0;
+					}
+				}
+			}
+
+			&-stage {
+				width: 60px;
+				line-height: normal;
+
+				&__time {
+					font-size: 1.1rem;
+					padding-bottom: 3px;
+				}
+
+				&__date {
+					font-size: 11px;
+				}
+
+				&-routeInfo {
+					margin: 0;
+					width: 60px;
+
+					&__arrow {
+						width: 80%;
+					}
+
+					&__flightTime {
+						display: none;
+					}
+				}
+			}
+
+			&-route {
+				font-size: 11px;
+			}
+
+			&__middle {
+				font-size: 13px;
+				margin-left: 20px;
+
+				.flight-summary {
+					&-transfers {
+						padding-bottom: 3px;
+					}
+
+					&-route {
+						line-height: normal;
+					}
+				}
+
+				@include adaptivity("laptop-large") {
+					padding-left: 0;
+				}
+
+				@include adaptivity("tablet") {
+					margin-left: 0;
+				}
+
+				@include adaptivity("phone") {
+					padding-left: 15px;
+				}
+			}
+		}
+	}
 }

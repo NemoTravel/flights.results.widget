@@ -62,6 +62,7 @@ class ErrorHandler extends React.Component<StateProps & DispatchProps> {
 					</div>
 
 					<Flight
+						className="flight flight_unavailable"
 						flight={info.flight}
 						nemoURL={this.props.nemoURL}
 						key={index}
