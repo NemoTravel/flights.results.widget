@@ -14,7 +14,7 @@ import { i18n } from '../i18n';
 
 export interface Props {
 	flight: FlightModel;
-	renderActionBlock: () => React.ReactNode;
+	renderActionBlock?: () => React.ReactNode;
 	renderDetails?: () => React.ReactNode;
 	className?: string;
 	isToggleable?: boolean;
@@ -140,7 +140,7 @@ class Flight extends React.Component<Props, State> {
 				{this.state.isOpen || this.props.showOpenedSummary ? this.renderSummaryMiddleOpened() : this.renderSummaryMiddleClosed()}
 			</div>
 
-			{this.props.renderActionBlock()}
+			{this.props.renderActionBlock ? this.props.renderActionBlock() : null}
 		</div>;
 	}
 

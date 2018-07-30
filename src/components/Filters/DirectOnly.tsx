@@ -4,8 +4,12 @@ import Filter, { Type as FilterType, State as FilterState } from '../Filter';
 import { RootState } from '../../store/reducers';
 import { toggleDirectFlights } from '../../store/filters/directOnly/actions';
 import { getIsDirectOnly } from '../../store/filters/directOnly/selectors';
-import { hasAnyTransferFlights } from '../../store/selectors';
+import { hasAnyTransferFlights } from '../../store/filters/directOnly/selectors';
 import { i18n } from '../../i18n';
+
+interface OwnProps {
+	handleMobileClick?: () => void;
+}
 
 interface StateProps {
 	directOnly: boolean;
@@ -16,7 +20,7 @@ interface DispatchProps {
 	toggleDirectFlights: typeof toggleDirectFlights;
 }
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class DirectOnly extends Filter<Props, FilterState> {
 	protected type = FilterType.DirectOnly;
@@ -29,14 +33,30 @@ class DirectOnly extends Filter<Props, FilterState> {
 			this.state.chipLabel !== nextState.chipLabel;
 	}
 
-	componentWillReceiveProps(props: Props): void {
+	componentDidMount(): void {
 		this.setState({
-			isActive: props.directOnly
+			isActive: this.props.directOnly,
+			chipLabel: this.label
+		} as FilterState);
+	}
+
+	componentWillReceiveProps({ directOnly }: Props): void {
+		this.updateState(directOnly);
+	}
+
+	updateState(directOnly: boolean): void {
+		this.setState({
+			isActive: directOnly
 		} as FilterState);
 	}
 
 	onClick(): void {
 		this.props.toggleDirectFlights();
+	}
+
+	onMobileClick(): void {
+		this.onClick();
+		this.props.handleMobileClick();
 	}
 
 	onClear(): void {

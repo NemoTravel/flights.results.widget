@@ -42,6 +42,8 @@
 	"filters-noResultsTitle": "We have not found any suitable flights :(",
 	"filters-noResultsSubTitle": "Try to tune up the filters.",
 
+	"filters-removeAll": "Clear filters",
+	"filters-save": "Save",
 	"filters-airlines-title": "Airlines",
 	"filters-airlines-snackbar": "Airline «%airline%» has been added to filters",
 	"filters-airlines-snackbar-remove": "Airline «%airline%» has been removed from filters",
@@ -79,6 +81,7 @@
 	"filters-quick-time-interval_day": "Day",
 	"filters-quick-time-interval_evening": "Evening",
 
+	"sorting-title": "Sorting",
 	"sorting-title_price": "Total price",
 	"sorting-title_departure": "Departure",
 	"sorting-title_arrival": "Arrival",
@@ -95,16 +98,18 @@
 	"utils-pre-in": "in",
 	"utils-pre-from": "from",
 
-	"error-actualization-Price": "During the seats availability check we have found out, that the price of the chosen flights has changed. You can still buy those flights for the new price or choose the other ones.",
+	"error-actualization-Price": "During the seats availability check we have found out, that the price of the chosen flights has changed.<br>You can still buy those flights for the new price or choose the other ones.",
 	"error-actualization-Price_header": "The price has changed",
 	"error-actualization-Price-action_reselect": "Rechoose",
 	"error-actualization-Price-action_continue": "Proceed to booking",
 
-	"error-actualization-Availability": "Unfortunately, there are no available seats left on the chosen flights. Please, choose another flight.",
+	"error-actualization-Availability": "Unfortunately, there are no available seats left on the chosen flights.<br>Please, choose another flight.",
 	"error-actualization-Availability_header": "No available seats :(",
+	"error-actualization-Availability_flight_notAvailable": "No seats available",
+	"error-actualization-Availability_flight_available": "Seats are available",
 	"error-actualization-Availability-action_reselect": "Choose another flight",
 
-	"error-actualization-Unknown": "We can't book this flights due to internal service error. Please, try again later or choose another flight.",
+	"error-actualization-Unknown": "We can't book this flights due to internal service error.<br>Please, try again later or choose another flight.",
 	"error-actualization-Unknown_header": "Something went wrong...",
 	"error-actualization-Unknown-action_OK": "OK",
 

@@ -75,7 +75,7 @@ class Segment extends React.Component<Props> {
 					</div>
 
 					<div className="flight-details-segment__middle">
-						<div>Рейс <strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
+						<div><strong>{segment.airline.IATA}-{segment.flightNumber}</strong>, {segment.aircraft.name}</div>
 
 						<div className="flight-details-segment-route">
 							{segment.depAirport.city.name}{segment.depAirport.city.name !== segment.depAirport.name ? ', ' + segment.depAirport.name : null}

@@ -2,22 +2,19 @@
 	"name": "@nemo.travel/results-widget",
 	"version": "0.0.1",
 	"description": "Flexible flights search results",
-	"main": "dist/flights.results.widget.min.js",
+	"main": "dist/results.js",
 	"scripts": {
 		"sass-lint": "sass-lint -v -c .sass-lint.yml",
 		"tslint": "tslint -p ./tslint.json",
 		"server": "node server.js",
 		"build": "npm run tslint && npm run sass-lint && npm test && cross-env NODE_ENV=production webpack",
-		"build-dev": "cross-env NODE_ENV=dev webpack",
+		"build-production": "cross-env NODE_ENV=production webpack",
+		"build-dev": "cross-env NODE_ENV=development webpack",
 		"dev": "run-p build-dev server",
-		"prepare": "npm run build",
+		"prepublishOnly": "npm run build",
 		"test": "jest",
 		"start": "npm run server"
 	},
-	"pre-commit": [
-		"tslint",
-		"test"
-	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/NemoTravel/results.git"
@@ -30,6 +27,7 @@
 	},
 	"homepage": "https://github.com/NemoTravel/results#readme",
 	"devDependencies": {
+		"@types/react-responsive": "^3.0.1",
 		"@types/webpack": "^4.4.1",
 		"autoprefixer": "^7.2.6",
 		"compression": "^1.7.2",
@@ -83,6 +81,7 @@
 		"react": "^16.4.1",
 		"react-dom": "^16.4.1",
 		"react-redux": "^5.0.7",
+		"react-responsive": "^5.0.0",
 		"react-router-dom": "^4.3.1",
 		"redux": "^4.0.0",
 		"redux-logger": "^3.0.6",
@@ -91,6 +90,7 @@
 		"whatwg-fetch": "^2.0.4"
 	},
 	"jest": {
+		"testURL": "http://localhost",
 		"modulePaths": [
 			"/src"
 		],
