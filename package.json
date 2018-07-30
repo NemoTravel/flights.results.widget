@@ -90,6 +90,7 @@
 		"whatwg-fetch": "^2.0.4"
 	},
 	"jest": {
+		"testURL": "http://localhost",
 		"modulePaths": [
 			"/src"
 		],
