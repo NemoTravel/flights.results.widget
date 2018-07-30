@@ -1,5 +1,5 @@
-import { all, call, CallEffect, put, select, takeEvery } from 'redux-saga/effects';
-import { ActualizationAction, START_ACTUALIZATION } from '../../actions';
+import { all, call, CallEffect, put, select, take, takeEvery } from 'redux-saga/effects';
+import { ActualizationAction, START_ACTUALIZATION, startActualization } from '../../actions';
 import { getIsLoadingActualization } from '../../isLoadingActualization/selectors';
 import { startLoadingActualization, stopLoadingActualization } from '../../isLoadingActualization/actions';
 import actualization from '../../../services/requests/actualization';
@@ -13,6 +13,9 @@ import { setInfo } from '../../actualization/info/actions';
 import { clearActualizationProblems } from '../../actualization/actions';
 import { addFlights, removeFlights } from '../actions';
 import { addFlightByLeg } from '../../flightsByLegs/actions';
+import { STOP_LOADING_FARE_FAMILIES } from '../../isLoadingFareFamilies/actions';
+import { isLoadingFareFamilies } from '../../isLoadingFareFamilies/selectors';
+import { canBeOtherCombinationChoose, getResultingFlightIds } from '../../fareFamilies/selectors';
 
 function* runActualizations(flightIds: string[], locale: Language, nemoURL: string) {
 	const numOfFlights = flightIds.length;
@@ -87,6 +90,23 @@ function* worker({ payload }: ActualizationAction) {
 	}
 }
 
-export default function* actualizeFlightSaga() {
+export function* actualizeFlightSaga() {
 	yield takeEvery(START_ACTUALIZATION, worker);
+}
+
+export function* cannotChangeFamily() {
+	while (true) {
+		yield take(STOP_LOADING_FARE_FAMILIES);
+
+		const isLoading = yield select(isLoadingFareFamilies);
+
+		if (!isLoading) {
+			const fareAvailable = yield select(canBeOtherCombinationChoose);
+			const flightIds: string[] = yield select(getResultingFlightIds);
+
+			if (!fareAvailable) {
+				yield put(startActualization(flightIds));
+			}
+		}
+	}
 }

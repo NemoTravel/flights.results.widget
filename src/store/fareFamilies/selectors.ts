@@ -164,6 +164,25 @@ export const getFareFamiliesAvailability = createSelector(
 	}
 );
 
+export const canBeOtherCombinationChoose = createSelector(
+	[getFareFamiliesCombinations],
+	(fareFamiliesCombinaions: FareFamiliesCombinationsState): boolean => {
+		let isValid = false;
+
+		for (const legId in fareFamiliesCombinaions) {
+			if (fareFamiliesCombinaions.hasOwnProperty(legId)) {
+				const combinations = fareFamiliesCombinaions[legId].validCombinations;
+
+				if (Object.keys(combinations).length > 1) {
+					isValid = true;
+				}
+			}
+		}
+
+		return isValid;
+	}
+);
+
 /**
  * Get price differences for fare families.
  */
